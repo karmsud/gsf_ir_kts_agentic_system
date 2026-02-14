@@ -1,0 +1,115 @@
+﻿{
+  "context_chunks": [
+    {
+      "chunk_id": "doc_9095323_chunk_1",
+      "doc_id": "doc_9095323",
+      "content": "third\u2011party cookies** for the identity domain (temporary test).\n4. If still failing, run the ToolX built\u2011in connection test:\n   - ToolX \u2192 **Settings** \u2192 **Help** \u2192 **Run Connection Test**\n5. Validate: user can land on the Dashboard without an error dialog.\n\n## Validation\n- Confirm user can access Dashboard and open **Tickets** page.\n- Confirm the **Last login** timestamp updates.\n\n## Escalation data to capture\n- Error code: `ERR-AUTH-401`\n- `TraceId` value from dialog\n- Timestamp + environment (Prod/UAT)\n- Browser + version",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_AUTH401.md",
+      "chunk_index": 1,
+      "doc_type": "TROUBLESHOOT"
+    },
+    {
+      "chunk_id": "doc_3596903_chunk_0",
+      "doc_id": "doc_3596903",
+      "content": "SOP \u2014 Handling ToolX Login Failures (Tier 1)\nLast updated: 2026-02-14\nPurpose\nProvide a consistent Tier 1 process for resolving ToolX sign-in issues.\nProcedure\nStep 1: Collect the error code and TraceId from the user.\nStep 2: Ask the user to hard refresh (Ctrl+Shift+R).\nStep 3: If still failing, have user sign out and sign in again.\nStep 4: Check third-party cookie setting (temporary test).\nStep 5: If unresolved, capture browser version and environment and escalate to Tier 2.\nReference screenshot",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Reference\\SOP_ToolX_Login_Failures_v1.docx",
+      "chunk_index": 0,
+      "doc_type": "TROUBLESHOOT"
+    },
+    {
+      "chunk_id": "doc_2091995_chunk_0",
+      "doc_id": "doc_2091995",
+      "content": "ToolY Upload Policy \u2014 Common Failures\nHow to interpret ERR-UPL-013 and resolve it quickly\nERR-UPL-013: File type not allowed\nResolution: upload only allowed extensions (.csv .xlsx .pdf); request policy change for new types.",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolY_Upload_Policy.pptx",
+      "chunk_index": 0,
+      "doc_type": "TRAINING"
+    },
+    {
+      "chunk_id": "doc_9021677_chunk_0",
+      "doc_id": "doc_9021677",
+      "content": "# Troubleshoot: ToolX \u2014 HTTP 504 Gateway Timeout (Dashboard banner)\n\n**Last updated:** 2026-02-14  \n**Owner:** KTS Test Corpus Team  \n**Applies to:** ToolX Web UI\n\n## Symptoms\n- Banner on Dashboard shows: `HTTP 504 Gateway Timeout`\n- Widgets load partially; graphs blank.\n\n**Screenshot reference:** `Reference/images/toolx_timeout_dashboard.png`\n\n## Quick checks (2 minutes)\n1. Verify VPN is connected (if required).\n2. Open another internal site to confirm general connectivity.\n3. If behind a proxy, retry with proxy disabled (if permitted).\n\n## Resolution\n1. ToolX \u2192 **Help** \u2192 **Run Connection Test**\n2. If test fails at **API Gateway**, retry after clearing cache:\n   - Chrome: Settings \u2192 Privacy \u2192 Clear browsing data \u2192 Cached images/files\n3. If the issue is site\u2011wide, check your incident banner or status page.\n\n## Validation\n- Refresh Dashboard; confirm banner disappears.\n- Open **Jobs** and confirm list loads.\n\n## Notes\n- If timeouts occur only on one widget, capture widget name and time",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_HTTP504_Timeout.md",
+      "chunk_index": 0,
+      "doc_type": "TROUBLESHOOT"
+    },
+    {
+      "chunk_id": "doc_0151060_chunk_0",
+      "doc_id": "doc_0151060",
+      "content": "# Troubleshoot: ToolZ \u2014 ERR-PWD-007 (Password does not meet complexity)\n\n**Last updated:** 2026-02-14  \n**Owner:** KTS Test Corpus Team  \n**Applies to:** ToolZ password reset flow\n\n## Symptoms\n- User attempts reset and sees: `ERR-PWD-007: Password does not meet complexity.`\n- Requirements list is displayed.\n\n**Screenshot reference:** `Reference/images/toolz_password_policy.png`\n\n## Resolution\n1. Ensure password is **14+ characters** and includes:\n   - upper, lower, number, special\n2. Ensure password is not in last 10 passwords.\n3. If user uses a password manager, regenerate with policy options enabled.\n\n## Validation\n- User receives \"Password updated\" confirmation.\n- User can sign in again.",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+      "chunk_index": 0,
+      "doc_type": "TROUBLESHOOT"
+    }
+  ],
+  "confidence": 1.0,
+  "citations": [
+    {
+      "doc_id": "doc_9095323",
+      "doc_name": "Troubleshoot_ToolX_AUTH401.md",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_AUTH401.md",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_AUTH401.md",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    },
+    {
+      "doc_id": "doc_3596903",
+      "doc_name": "SOP_ToolX_Login_Failures_v1.docx",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Reference\\SOP_ToolX_Login_Failures_v1.docx",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Reference\\SOP_ToolX_Login_Failures_v1.docx",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    },
+    {
+      "doc_id": "doc_2091995",
+      "doc_name": "Training_ToolY_Upload_Policy.pptx",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolY_Upload_Policy.pptx",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolY_Upload_Policy.pptx",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    },
+    {
+      "doc_id": "doc_9021677",
+      "doc_name": "Troubleshoot_ToolX_HTTP504_Timeout.md",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_HTTP504_Timeout.md",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_HTTP504_Timeout.md",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    },
+    {
+      "doc_id": "doc_0151060",
+      "doc_name": "Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    }
+  ],
+  "image_notes": [],
+  "freshness": {
+    "current": 5,
+    "aging": 0,
+    "stale": 0
+  },
+  "related_topics": [],
+  "escalation": null
+}

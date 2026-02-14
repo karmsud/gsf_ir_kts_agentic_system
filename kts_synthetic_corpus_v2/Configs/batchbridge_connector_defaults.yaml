@@ -1,0 +1,9 @@
+retry:
+  strategy: exponential
+  base_seconds: 2
+  max_seconds: 60
+  jitter: true
+limits:
+  max_concurrency: 5
+tls:
+  trust_store: system

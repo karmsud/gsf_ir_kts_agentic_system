@@ -1,0 +1,12 @@
+﻿{
+  "total_documents": 9,
+  "current": 9,
+  "aging": 0,
+  "stale": 0,
+  "unknown": 0,
+  "stale_documents": [],
+  "stale_images": [],
+  "recommendations": [
+    "No immediate freshness actions required."
+  ]
+}

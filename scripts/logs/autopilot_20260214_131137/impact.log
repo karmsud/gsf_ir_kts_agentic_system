@@ -1,0 +1,12 @@
+﻿python.exe : Usage: python -m cli.main impact [OPTIONS]
+At C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\scripts\autopilot_run_al
+l.ps1:71 char:15
++ ...   $output = & .\.venv\Scripts\python.exe -m cli.main $Command.Split(" ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Usage: python -...mpact [OPTIONS] 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Try 'python -m cli.main impact --help' for help.
+
+Error: Missing option '--entity'.

@@ -1,0 +1,1109 @@
+[2026-02-14 13:16:16] [INFO] 
+[2026-02-14 13:16:16] [INFO] ================================================================================
+[2026-02-14 13:16:16] [INFO]   PHASE 0: ENVIRONMENT CHECK
+[2026-02-14 13:16:16] [INFO] ================================================================================
+[2026-02-14 13:16:16] [OK] Python: Python 3.13.5
+[2026-02-14 13:16:16] [OK] Test corpus: 14 files found
+[2026-02-14 13:16:16] [OK] CLI entrypoint: cli\main.py found
+[2026-02-14 13:16:16] [OK] Query pack: 50 queries loaded
+[2026-02-14 13:16:16] [INFO] 
+[2026-02-14 13:16:16] [INFO] ================================================================================
+[2026-02-14 13:16:16] [INFO]   PHASE 1: INGESTION PIPELINE
+[2026-02-14 13:16:16] [INFO] ================================================================================
+[2026-02-14 13:16:16] [INFO] Cleaning knowledge_base for fresh ingestion...
+[2026-02-14 13:16:16] [INFO] Knowledge base cleaned
+[2026-02-14 13:16:16] [CMD] Running: crawl --paths ".\kts_test_corpus"
+[2026-02-14 13:16:16] [OUT] {
+[2026-02-14 13:16:16] [OUT]   "changes": {
+[2026-02-14 13:16:16] [OUT]     "new_files": [],
+[2026-02-14 13:16:16] [OUT]     "modified_files": [
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Reference\\SOP_ToolX_Login_Failures_v1.docx",
+[2026-02-14 13:16:16] [OUT]         "filename": "SOP_ToolX_Login_Failures_v1.docx",
+[2026-02-14 13:16:16] [OUT]         "extension": ".docx",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 67938,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "492b76af511704dc53c53e459fa940751bafba14272953b06dcb0595a4743a05",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_4937386"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Release_Notes\\ReleaseNotes_ToolX_2026Q1.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "ReleaseNotes_ToolX_2026Q1.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 426,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "bae2eb862d502cac4eb1e66e0c1b72df523e87877c3e38a3272051eddfe8de58",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_1829528"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolX_Troubleshooting_Pack.pdf",
+[2026-02-14 13:16:16] [OUT]         "filename": "Training_ToolX_Troubleshooting_Pack.pdf",
+[2026-02-14 13:16:16] [OUT]         "extension": ".pdf",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 84668,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "c6b6a55f6722f2874f8d1e05e424caf585e38e34b98cc1d932b4f439c008f295",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_5272334"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolY_Upload_Policy.pptx",
+[2026-02-14 13:16:16] [OUT]         "filename": "Training_ToolY_Upload_Policy.pptx",
+[2026-02-14 13:16:16] [OUT]         "extension": ".pptx",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 58757,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "d4baf9bdcb56c6629d262a458219bc9f46caf4598929bac153f710cef2876a35",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_5572153"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_AUTH401.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "Troubleshoot_ToolX_AUTH401.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 1345,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "57ac0327e33df0f3194b8d488123cc195932677a7905ac7e5064098bdc0e73ea",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_2653893"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_HTTP504_Timeout.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "Troubleshoot_ToolX_HTTP504_Timeout.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 1022,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "999632fd156cdc63e27e1816a61ce965e5acd5b2daf76b978ad80841ea3ee49b",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_0660757"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 869,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "cb649f596c3b7119d541552abeefce2d69e73396f2ba73b5af14aba8ef47bb51",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_8399306"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 703,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "706cfa55ade689e1d03a3f34ae97db4d925f630f1aa48e4d25593d5a053dd921",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_8016461"
+[2026-02-14 13:16:16] [OUT]       },
+[2026-02-14 13:16:16] [OUT]       {
+[2026-02-14 13:16:16] [OUT]         "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\User_Guides\\UserGuide_ToolX_Onboarding.md",
+[2026-02-14 13:16:16] [OUT]         "filename": "UserGuide_ToolX_Onboarding.md",
+[2026-02-14 13:16:16] [OUT]         "extension": ".md",
+[2026-02-14 13:16:16] [OUT]         "size_bytes": 534,
+[2026-02-14 13:16:16] [OUT]         "modified_time": "2026-02-15T04:20:14+00:00",
+[2026-02-14 13:16:16] [OUT]         "hash": "115449db167457267889c44a17f8fd3c4578e9a3c3e250fa92ad0fd215b61221",
+[2026-02-14 13:16:16] [OUT]         "doc_id": "doc_6857361"
+[2026-02-14 13:16:16] [OUT]       }
+[2026-02-14 13:16:16] [OUT]     ],
+[2026-02-14 13:16:16] [OUT]     "deleted_files": [],
+[2026-02-14 13:16:16] [OUT]     "unchanged_files": 0,
+[2026-02-14 13:16:16] [OUT]     "errors": [],
+[2026-02-14 13:16:16] [OUT]     "warnings": []
+[2026-02-14 13:16:16] [OUT]   },
+[2026-02-14 13:16:16] [OUT]   "dry_run": false,
+[2026-02-14 13:16:16] [OUT]   "force": false
+[2026-02-14 13:16:16] [OUT] }
+[2026-02-14 13:16:16] [RESULT] Exit code: 0 | Duration: 0.1896269s
+[2026-02-14 13:16:16] [CMD] Running: ingest
+[2026-02-14 13:16:16] [OUT] {
+[2026-02-14 13:16:16] [OUT]   "ingested": [],
+[2026-02-14 13:16:16] [OUT]   "count": 0
+[2026-02-14 13:16:16] [OUT] }
+[2026-02-14 13:16:16] [RESULT] Exit code: 0 | Duration: 0.1650965s
+[2026-02-14 13:16:16] [CMD] Running: status
+[2026-02-14 13:16:16] [OUT] {
+[2026-02-14 13:16:16] [OUT]   "documents": 0,
+[2026-02-14 13:16:16] [OUT]   "manifest_files": 9,
+[2026-02-14 13:16:16] [OUT]   "graph_nodes": 0,
+[2026-02-14 13:16:16] [OUT]   "graph_edges": 0
+[2026-02-14 13:16:16] [OUT] }
+[2026-02-14 13:16:16] [RESULT] Exit code: 0 | Duration: 0.1559993s
+[2026-02-14 13:16:16] [CMD] Running: describe pending
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "documents": [],
+[2026-02-14 13:16:17] [OUT]   "count": 0
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1694872s
+[2026-02-14 13:16:17] [INFO] Ingestion metrics: 0 docs, 0 images pending
+[2026-02-14 13:16:17] [INFO] 
+[2026-02-14 13:16:17] [INFO] ================================================================================
+[2026-02-14 13:16:17] [INFO]   PHASE 2: TOP 50 QUERIES
+[2026-02-14 13:16:17] [INFO] ================================================================================
+[2026-02-14 13:16:17] [QUERY] Query Q1 : What does error AUTH401 mean for ToolX?
+[2026-02-14 13:16:17] [CMD] Running: search "What does error AUTH401 mean for ToolX?"
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:17] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:17] [OUT]   "citations": [],
+[2026-02-14 13:16:17] [OUT]   "image_notes": [],
+[2026-02-14 13:16:17] [OUT]   "freshness": {
+[2026-02-14 13:16:17] [OUT]     "current": 0,
+[2026-02-14 13:16:17] [OUT]     "aging": 0,
+[2026-02-14 13:16:17] [OUT]     "stale": 0
+[2026-02-14 13:16:17] [OUT]   },
+[2026-02-14 13:16:17] [OUT]   "related_topics": [],
+[2026-02-14 13:16:17] [OUT]   "escalation": null
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1581037s
+[2026-02-14 13:16:17] [QUERY] Query Q2 : How do I fix HTTP 504 timeout errors in ToolX?
+[2026-02-14 13:16:17] [CMD] Running: search "How do I fix HTTP 504 timeout errors in ToolX?"
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:17] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:17] [OUT]   "citations": [],
+[2026-02-14 13:16:17] [OUT]   "image_notes": [],
+[2026-02-14 13:16:17] [OUT]   "freshness": {
+[2026-02-14 13:16:17] [OUT]     "current": 0,
+[2026-02-14 13:16:17] [OUT]     "aging": 0,
+[2026-02-14 13:16:17] [OUT]     "stale": 0
+[2026-02-14 13:16:17] [OUT]   },
+[2026-02-14 13:16:17] [OUT]   "related_topics": [],
+[2026-02-14 13:16:17] [OUT]   "escalation": null
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1510198s
+[2026-02-14 13:16:17] [QUERY] Query Q3 : ToolY upload is blocked with ERR-UPL-013
+[2026-02-14 13:16:17] [CMD] Running: search "ToolY upload is blocked with ERR-UPL-013"
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:17] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:17] [OUT]   "citations": [],
+[2026-02-14 13:16:17] [OUT]   "image_notes": [],
+[2026-02-14 13:16:17] [OUT]   "freshness": {
+[2026-02-14 13:16:17] [OUT]     "current": 0,
+[2026-02-14 13:16:17] [OUT]     "aging": 0,
+[2026-02-14 13:16:17] [OUT]     "stale": 0
+[2026-02-14 13:16:17] [OUT]   },
+[2026-02-14 13:16:17] [OUT]   "related_topics": [],
+[2026-02-14 13:16:17] [OUT]   "escalation": null
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1611618s
+[2026-02-14 13:16:17] [QUERY] Query Q4 : What causes ERR-PWD-007 in ToolZ?
+[2026-02-14 13:16:17] [CMD] Running: search "What causes ERR-PWD-007 in ToolZ?"
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:17] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:17] [OUT]   "citations": [],
+[2026-02-14 13:16:17] [OUT]   "image_notes": [],
+[2026-02-14 13:16:17] [OUT]   "freshness": {
+[2026-02-14 13:16:17] [OUT]     "current": 0,
+[2026-02-14 13:16:17] [OUT]     "aging": 0,
+[2026-02-14 13:16:17] [OUT]     "stale": 0
+[2026-02-14 13:16:17] [OUT]   },
+[2026-02-14 13:16:17] [OUT]   "related_topics": [],
+[2026-02-14 13:16:17] [OUT]   "escalation": null
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1604581s
+[2026-02-14 13:16:17] [QUERY] Query Q5 : I'm getting authentication errors in ToolX
+[2026-02-14 13:16:17] [CMD] Running: search "I'm getting authentication errors in ToolX"
+[2026-02-14 13:16:17] [OUT] {
+[2026-02-14 13:16:17] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:17] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:17] [OUT]   "citations": [],
+[2026-02-14 13:16:17] [OUT]   "image_notes": [],
+[2026-02-14 13:16:17] [OUT]   "freshness": {
+[2026-02-14 13:16:17] [OUT]     "current": 0,
+[2026-02-14 13:16:17] [OUT]     "aging": 0,
+[2026-02-14 13:16:17] [OUT]     "stale": 0
+[2026-02-14 13:16:17] [OUT]   },
+[2026-02-14 13:16:17] [OUT]   "related_topics": [],
+[2026-02-14 13:16:17] [OUT]   "escalation": null
+[2026-02-14 13:16:17] [OUT] }
+[2026-02-14 13:16:17] [RESULT] Exit code: 0 | Duration: 0.1584304s
+[2026-02-14 13:16:17] [QUERY] Query Q6 : What is error code XYZ-999?
+[2026-02-14 13:16:17] [CMD] Running: search "What is error code XYZ-999?"
+[2026-02-14 13:16:18] [OUT] {
+[2026-02-14 13:16:18] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:18] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:18] [OUT]   "citations": [],
+[2026-02-14 13:16:18] [OUT]   "image_notes": [],
+[2026-02-14 13:16:18] [OUT]   "freshness": {
+[2026-02-14 13:16:18] [OUT]     "current": 0,
+[2026-02-14 13:16:18] [OUT]     "aging": 0,
+[2026-02-14 13:16:18] [OUT]     "stale": 0
+[2026-02-14 13:16:18] [OUT]   },
+[2026-02-14 13:16:18] [OUT]   "related_topics": [],
+[2026-02-14 13:16:18] [OUT]   "escalation": null
+[2026-02-14 13:16:18] [OUT] }
+[2026-02-14 13:16:18] [RESULT] Exit code: 0 | Duration: 0.1534541s
+[2026-02-14 13:16:18] [QUERY] Query Q7 : List all error codes for ToolX
+[2026-02-14 13:16:18] [CMD] Running: search "List all error codes for ToolX"
+[2026-02-14 13:16:18] [OUT] {
+[2026-02-14 13:16:18] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:18] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:18] [OUT]   "citations": [],
+[2026-02-14 13:16:18] [OUT]   "image_notes": [],
+[2026-02-14 13:16:18] [OUT]   "freshness": {
+[2026-02-14 13:16:18] [OUT]     "current": 0,
+[2026-02-14 13:16:18] [OUT]     "aging": 0,
+[2026-02-14 13:16:18] [OUT]     "stale": 0
+[2026-02-14 13:16:18] [OUT]   },
+[2026-02-14 13:16:18] [OUT]   "related_topics": [],
+[2026-02-14 13:16:18] [OUT]   "escalation": null
+[2026-02-14 13:16:18] [OUT] }
+[2026-02-14 13:16:18] [RESULT] Exit code: 0 | Duration: 0.1669181s
+[2026-02-14 13:16:18] [QUERY] Query Q8 : Why am I unable to login to ToolX?
+[2026-02-14 13:16:18] [CMD] Running: search "Why am I unable to login to ToolX?"
+[2026-02-14 13:16:18] [OUT] {
+[2026-02-14 13:16:18] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:18] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:18] [OUT]   "citations": [],
+[2026-02-14 13:16:18] [OUT]   "image_notes": [],
+[2026-02-14 13:16:18] [OUT]   "freshness": {
+[2026-02-14 13:16:18] [OUT]     "current": 0,
+[2026-02-14 13:16:18] [OUT]     "aging": 0,
+[2026-02-14 13:16:18] [OUT]     "stale": 0
+[2026-02-14 13:16:18] [OUT]   },
+[2026-02-14 13:16:18] [OUT]   "related_topics": [],
+[2026-02-14 13:16:18] [OUT]   "escalation": null
+[2026-02-14 13:16:18] [OUT] }
+[2026-02-14 13:16:18] [RESULT] Exit code: 0 | Duration: 0.1581076s
+[2026-02-14 13:16:18] [QUERY] Query Q9 : How do I configure timeout settings to prevent 504 errors?
+[2026-02-14 13:16:18] [CMD] Running: search "How do I configure timeout settings to prevent 504 errors?"
+[2026-02-14 13:16:18] [OUT] {
+[2026-02-14 13:16:18] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:18] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:18] [OUT]   "citations": [],
+[2026-02-14 13:16:18] [OUT]   "image_notes": [],
+[2026-02-14 13:16:18] [OUT]   "freshness": {
+[2026-02-14 13:16:18] [OUT]     "current": 0,
+[2026-02-14 13:16:18] [OUT]     "aging": 0,
+[2026-02-14 13:16:18] [OUT]     "stale": 0
+[2026-02-14 13:16:18] [OUT]   },
+[2026-02-14 13:16:18] [OUT]   "related_topics": [],
+[2026-02-14 13:16:18] [OUT]   "escalation": null
+[2026-02-14 13:16:18] [OUT] }
+[2026-02-14 13:16:18] [RESULT] Exit code: 0 | Duration: 0.145394s
+[2026-02-14 13:16:18] [QUERY] Query Q10 : What files are allowed for upload in ToolY?
+[2026-02-14 13:16:18] [CMD] Running: search "What files are allowed for upload in ToolY?"
+[2026-02-14 13:16:18] [OUT] {
+[2026-02-14 13:16:18] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:18] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:18] [OUT]   "citations": [],
+[2026-02-14 13:16:18] [OUT]   "image_notes": [],
+[2026-02-14 13:16:18] [OUT]   "freshness": {
+[2026-02-14 13:16:18] [OUT]     "current": 0,
+[2026-02-14 13:16:18] [OUT]     "aging": 0,
+[2026-02-14 13:16:18] [OUT]     "stale": 0
+[2026-02-14 13:16:18] [OUT]   },
+[2026-02-14 13:16:18] [OUT]   "related_topics": [],
+[2026-02-14 13:16:18] [OUT]   "escalation": null
+[2026-02-14 13:16:18] [OUT] }
+[2026-02-14 13:16:18] [RESULT] Exit code: 0 | Duration: 0.1484258s
+[2026-02-14 13:16:18] [QUERY] Query Q11 : How do I get started with ToolX?
+[2026-02-14 13:16:18] [CMD] Running: search "How do I get started with ToolX?"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.1510864s
+[2026-02-14 13:16:19] [QUERY] Query Q12 : Step-by-step instructions for logging into ToolX
+[2026-02-14 13:16:19] [CMD] Running: search "Step-by-step instructions for logging into ToolX"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.157645s
+[2026-02-14 13:16:19] [QUERY] Query Q13 : How to upload a file to ToolY
+[2026-02-14 13:16:19] [CMD] Running: search "How to upload a file to ToolY"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.157245s
+[2026-02-14 13:16:19] [QUERY] Query Q14 : How do I reset my password in ToolZ?
+[2026-02-14 13:16:19] [CMD] Running: search "How do I reset my password in ToolZ?"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.1597523s
+[2026-02-14 13:16:19] [QUERY] Query Q15 : How to configure ToolX settings
+[2026-02-14 13:16:19] [CMD] Running: search "How to configure ToolX settings"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.1581021s
+[2026-02-14 13:16:19] [QUERY] Query Q16 : How do I deploy ToolX to production?
+[2026-02-14 13:16:19] [CMD] Running: search "How do I deploy ToolX to production?"
+[2026-02-14 13:16:19] [OUT] {
+[2026-02-14 13:16:19] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:19] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:19] [OUT]   "citations": [],
+[2026-02-14 13:16:19] [OUT]   "image_notes": [],
+[2026-02-14 13:16:19] [OUT]   "freshness": {
+[2026-02-14 13:16:19] [OUT]     "current": 0,
+[2026-02-14 13:16:19] [OUT]     "aging": 0,
+[2026-02-14 13:16:19] [OUT]     "stale": 0
+[2026-02-14 13:16:19] [OUT]   },
+[2026-02-14 13:16:19] [OUT]   "related_topics": [],
+[2026-02-14 13:16:19] [OUT]   "escalation": null
+[2026-02-14 13:16:19] [OUT] }
+[2026-02-14 13:16:19] [RESULT] Exit code: 0 | Duration: 0.1577337s
+[2026-02-14 13:16:19] [QUERY] Query Q17 : What's the process for archiving old files in ToolY?
+[2026-02-14 13:16:19] [CMD] Running: search "What's the process for archiving old files in ToolY?"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:20] [RESULT] Exit code: 0 | Duration: 0.1627399s
+[2026-02-14 13:16:20] [QUERY] Query Q18 : How to backup data from ToolZ
+[2026-02-14 13:16:20] [CMD] Running: search "How to backup data from ToolZ"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:20] [RESULT] Exit code: 0 | Duration: 0.1479897s
+[2026-02-14 13:16:20] [QUERY] Query Q19 : How can I monitor ToolX performance metrics?
+[2026-02-14 13:16:20] [CMD] Running: search "How can I monitor ToolX performance metrics?"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:20] [RESULT] Exit code: 0 | Duration: 0.1662316s
+[2026-02-14 13:16:20] [QUERY] Query Q20 : What are the onboarding steps for new team members?
+[2026-02-14 13:16:20] [CMD] Running: search "What are the onboarding steps for new team members?"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:20] [RESULT] Exit code: 0 | Duration: 0.1567909s
+[2026-02-14 13:16:20] [QUERY] Query Q21 : What's new in the latest ToolX release?
+[2026-02-14 13:16:20] [CMD] Running: search "What's new in the latest ToolX release?"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:20] [RESULT] Exit code: 0 | Duration: 0.1451626s
+[2026-02-14 13:16:20] [QUERY] Query Q22 : List all features released in 2026 Q1
+[2026-02-14 13:16:20] [CMD] Running: search "List all features released in 2026 Q1"
+[2026-02-14 13:16:20] [OUT] {
+[2026-02-14 13:16:20] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:20] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:20] [OUT]   "citations": [],
+[2026-02-14 13:16:20] [OUT]   "image_notes": [],
+[2026-02-14 13:16:20] [OUT]   "freshness": {
+[2026-02-14 13:16:20] [OUT]     "current": 0,
+[2026-02-14 13:16:20] [OUT]     "aging": 0,
+[2026-02-14 13:16:20] [OUT]     "stale": 0
+[2026-02-14 13:16:20] [OUT]   },
+[2026-02-14 13:16:20] [OUT]   "related_topics": [],
+[2026-02-14 13:16:20] [OUT]   "escalation": null
+[2026-02-14 13:16:20] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.149113s
+[2026-02-14 13:16:21] [QUERY] Query Q23 : Show me version history for ToolX
+[2026-02-14 13:16:21] [CMD] Running: search "Show me version history for ToolX"
+[2026-02-14 13:16:21] [OUT] {
+[2026-02-14 13:16:21] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:21] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:21] [OUT]   "citations": [],
+[2026-02-14 13:16:21] [OUT]   "image_notes": [],
+[2026-02-14 13:16:21] [OUT]   "freshness": {
+[2026-02-14 13:16:21] [OUT]     "current": 0,
+[2026-02-14 13:16:21] [OUT]     "aging": 0,
+[2026-02-14 13:16:21] [OUT]     "stale": 0
+[2026-02-14 13:16:21] [OUT]   },
+[2026-02-14 13:16:21] [OUT]   "related_topics": [],
+[2026-02-14 13:16:21] [OUT]   "escalation": null
+[2026-02-14 13:16:21] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.1678157s
+[2026-02-14 13:16:21] [QUERY] Query Q24 : Are there any breaking changes in ToolX 2026 Q1?
+[2026-02-14 13:16:21] [CMD] Running: search "Are there any breaking changes in ToolX 2026 Q1?"
+[2026-02-14 13:16:21] [OUT] {
+[2026-02-14 13:16:21] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:21] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:21] [OUT]   "citations": [],
+[2026-02-14 13:16:21] [OUT]   "image_notes": [],
+[2026-02-14 13:16:21] [OUT]   "freshness": {
+[2026-02-14 13:16:21] [OUT]     "current": 0,
+[2026-02-14 13:16:21] [OUT]     "aging": 0,
+[2026-02-14 13:16:21] [OUT]     "stale": 0
+[2026-02-14 13:16:21] [OUT]   },
+[2026-02-14 13:16:21] [OUT]   "related_topics": [],
+[2026-02-14 13:16:21] [OUT]   "escalation": null
+[2026-02-14 13:16:21] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.1512109s
+[2026-02-14 13:16:21] [QUERY] Query Q25 : What's new in ToolY version 5.0?
+[2026-02-14 13:16:21] [CMD] Running: search "What's new in ToolY version 5.0?"
+[2026-02-14 13:16:21] [OUT] {
+[2026-02-14 13:16:21] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:21] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:21] [OUT]   "citations": [],
+[2026-02-14 13:16:21] [OUT]   "image_notes": [],
+[2026-02-14 13:16:21] [OUT]   "freshness": {
+[2026-02-14 13:16:21] [OUT]     "current": 0,
+[2026-02-14 13:16:21] [OUT]     "aging": 0,
+[2026-02-14 13:16:21] [OUT]     "stale": 0
+[2026-02-14 13:16:21] [OUT]   },
+[2026-02-14 13:16:21] [OUT]   "related_topics": [],
+[2026-02-14 13:16:21] [OUT]   "escalation": null
+[2026-02-14 13:16:21] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.1412213s
+[2026-02-14 13:16:21] [QUERY] Query Q26 : Generate a training path for learning ToolX as a beginner
+[2026-02-14 13:16:21] [CMD] Running: search "Generate a training path for learning ToolX as a beginner"
+[2026-02-14 13:16:21] [OUT] {
+[2026-02-14 13:16:21] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:21] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:21] [OUT]   "citations": [],
+[2026-02-14 13:16:21] [OUT]   "image_notes": [],
+[2026-02-14 13:16:21] [OUT]   "freshness": {
+[2026-02-14 13:16:21] [OUT]     "current": 0,
+[2026-02-14 13:16:21] [OUT]     "aging": 0,
+[2026-02-14 13:16:21] [OUT]     "stale": 0
+[2026-02-14 13:16:21] [OUT]   },
+[2026-02-14 13:16:21] [OUT]   "related_topics": [],
+[2026-02-14 13:16:21] [OUT]   "escalation": null
+[2026-02-14 13:16:21] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.159011s
+[2026-02-14 13:16:21] [QUERY] Query Q27 : I need training on troubleshooting ToolX issues
+[2026-02-14 13:16:21] [CMD] Running: search "I need training on troubleshooting ToolX issues"
+[2026-02-14 13:16:21] [OUT] {
+[2026-02-14 13:16:21] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:21] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:21] [OUT]   "citations": [],
+[2026-02-14 13:16:21] [OUT]   "image_notes": [],
+[2026-02-14 13:16:21] [OUT]   "freshness": {
+[2026-02-14 13:16:21] [OUT]     "current": 0,
+[2026-02-14 13:16:21] [OUT]     "aging": 0,
+[2026-02-14 13:16:21] [OUT]     "stale": 0
+[2026-02-14 13:16:21] [OUT]   },
+[2026-02-14 13:16:21] [OUT]   "related_topics": [],
+[2026-02-14 13:16:21] [OUT]   "escalation": null
+[2026-02-14 13:16:21] [OUT] }
+[2026-02-14 13:16:21] [RESULT] Exit code: 0 | Duration: 0.1535796s
+[2026-02-14 13:16:21] [QUERY] Query Q28 : Training path for ToolY file uploads
+[2026-02-14 13:16:21] [CMD] Running: search "Training path for ToolY file uploads"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1503137s
+[2026-02-14 13:16:22] [QUERY] Query Q29 : Learning path for ToolZ password and authentication
+[2026-02-14 13:16:22] [CMD] Running: search "Learning path for ToolZ password and authentication"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1618455s
+[2026-02-14 13:16:22] [QUERY] Query Q30 : Advanced training for ToolX power users
+[2026-02-14 13:16:22] [CMD] Running: search "Advanced training for ToolX power users"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1638052s
+[2026-02-14 13:16:22] [QUERY] Query Q31 : Training path for onboarding new team members
+[2026-02-14 13:16:22] [CMD] Running: search "Training path for onboarding new team members"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1501565s
+[2026-02-14 13:16:22] [QUERY] Query Q32 : I need to learn how to resolve common errors
+[2026-02-14 13:16:22] [CMD] Running: search "I need to learn how to resolve common errors"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1503679s
+[2026-02-14 13:16:22] [QUERY] Query Q33 : Training path for ToolX administrators
+[2026-02-14 13:16:22] [CMD] Running: search "Training path for ToolX administrators"
+[2026-02-14 13:16:22] [OUT] {
+[2026-02-14 13:16:22] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:22] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:22] [OUT]   "citations": [],
+[2026-02-14 13:16:22] [OUT]   "image_notes": [],
+[2026-02-14 13:16:22] [OUT]   "freshness": {
+[2026-02-14 13:16:22] [OUT]     "current": 0,
+[2026-02-14 13:16:22] [OUT]     "aging": 0,
+[2026-02-14 13:16:22] [OUT]     "stale": 0
+[2026-02-14 13:16:22] [OUT]   },
+[2026-02-14 13:16:22] [OUT]   "related_topics": [],
+[2026-02-14 13:16:22] [OUT]   "escalation": null
+[2026-02-14 13:16:22] [OUT] }
+[2026-02-14 13:16:22] [RESULT] Exit code: 0 | Duration: 0.1670073s
+[2026-02-14 13:16:22] [QUERY] Query Q34 : Security training for using ToolX securely
+[2026-02-14 13:16:22] [CMD] Running: search "Security training for using ToolX securely"
+[2026-02-14 13:16:23] [OUT] {
+[2026-02-14 13:16:23] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:23] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:23] [OUT]   "citations": [],
+[2026-02-14 13:16:23] [OUT]   "image_notes": [],
+[2026-02-14 13:16:23] [OUT]   "freshness": {
+[2026-02-14 13:16:23] [OUT]     "current": 0,
+[2026-02-14 13:16:23] [OUT]     "aging": 0,
+[2026-02-14 13:16:23] [OUT]     "stale": 0
+[2026-02-14 13:16:23] [OUT]   },
+[2026-02-14 13:16:23] [OUT]   "related_topics": [],
+[2026-02-14 13:16:23] [OUT]   "escalation": null
+[2026-02-14 13:16:23] [OUT] }
+[2026-02-14 13:16:23] [RESULT] Exit code: 0 | Duration: 0.1669812s
+[2026-02-14 13:16:23] [QUERY] Query Q35 : What should I learn before tackling ToolX troubleshooting?
+[2026-02-14 13:16:23] [CMD] Running: search "What should I learn before tackling ToolX troubleshooting?"
+[2026-02-14 13:16:23] [OUT] {
+[2026-02-14 13:16:23] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:23] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:23] [OUT]   "citations": [],
+[2026-02-14 13:16:23] [OUT]   "image_notes": [],
+[2026-02-14 13:16:23] [OUT]   "freshness": {
+[2026-02-14 13:16:23] [OUT]     "current": 0,
+[2026-02-14 13:16:23] [OUT]     "aging": 0,
+[2026-02-14 13:16:23] [OUT]     "stale": 0
+[2026-02-14 13:16:23] [OUT]   },
+[2026-02-14 13:16:23] [OUT]   "related_topics": [],
+[2026-02-14 13:16:23] [OUT]   "escalation": null
+[2026-02-14 13:16:23] [OUT] }
+[2026-02-14 13:16:23] [RESULT] Exit code: 0 | Duration: 0.1500606s
+[2026-02-14 13:16:23] [QUERY] Query Q36 : What documentation will be affected if ToolX login process changes?
+[2026-02-14 13:16:23] [CMD] Running: search "What documentation will be affected if ToolX login process changes?"
+[2026-02-14 13:16:23] [OUT] {
+[2026-02-14 13:16:23] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:23] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:23] [OUT]   "citations": [],
+[2026-02-14 13:16:23] [OUT]   "image_notes": [],
+[2026-02-14 13:16:23] [OUT]   "freshness": {
+[2026-02-14 13:16:23] [OUT]     "current": 0,
+[2026-02-14 13:16:23] [OUT]     "aging": 0,
+[2026-02-14 13:16:23] [OUT]     "stale": 0
+[2026-02-14 13:16:23] [OUT]   },
+[2026-02-14 13:16:23] [OUT]   "related_topics": [],
+[2026-02-14 13:16:23] [OUT]   "escalation": null
+[2026-02-14 13:16:23] [OUT] }
+[2026-02-14 13:16:23] [RESULT] Exit code: 0 | Duration: 0.1511013s
+[2026-02-14 13:16:23] [QUERY] Query Q37 : Impact of changing ToolY upload policy
+[2026-02-14 13:16:23] [CMD] Running: search "Impact of changing ToolY upload policy"
+[2026-02-14 13:16:23] [OUT] {
+[2026-02-14 13:16:23] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:23] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:23] [OUT]   "citations": [],
+[2026-02-14 13:16:23] [OUT]   "image_notes": [],
+[2026-02-14 13:16:23] [OUT]   "freshness": {
+[2026-02-14 13:16:23] [OUT]     "current": 0,
+[2026-02-14 13:16:23] [OUT]     "aging": 0,
+[2026-02-14 13:16:23] [OUT]     "stale": 0
+[2026-02-14 13:16:23] [OUT]   },
+[2026-02-14 13:16:23] [OUT]   "related_topics": [],
+[2026-02-14 13:16:23] [OUT]   "escalation": null
+[2026-02-14 13:16:23] [OUT] }
+[2026-02-14 13:16:23] [RESULT] Exit code: 0 | Duration: 0.1576017s
+[2026-02-14 13:16:23] [QUERY] Query Q38 : If ToolZ password policy changes, what docs need updating?
+[2026-02-14 13:16:23] [CMD] Running: search "If ToolZ password policy changes, what docs need updating?"
+[2026-02-14 13:16:23] [OUT] {
+[2026-02-14 13:16:23] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:23] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:23] [OUT]   "citations": [],
+[2026-02-14 13:16:23] [OUT]   "image_notes": [],
+[2026-02-14 13:16:23] [OUT]   "freshness": {
+[2026-02-14 13:16:23] [OUT]     "current": 0,
+[2026-02-14 13:16:23] [OUT]     "aging": 0,
+[2026-02-14 13:16:23] [OUT]     "stale": 0
+[2026-02-14 13:16:23] [OUT]   },
+[2026-02-14 13:16:23] [OUT]   "related_topics": [],
+[2026-02-14 13:16:23] [OUT]   "escalation": null
+[2026-02-14 13:16:23] [OUT] }
+[2026-02-14 13:16:23] [RESULT] Exit code: 0 | Duration: 0.1536059s
+[2026-02-14 13:16:23] [QUERY] Query Q39 : Impact analysis for switching to SSO authentication
+[2026-02-14 13:16:23] [CMD] Running: search "Impact analysis for switching to SSO authentication"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.1665889s
+[2026-02-14 13:16:24] [QUERY] Query Q40 : What if error code AUTH401 is deprecated?
+[2026-02-14 13:16:24] [CMD] Running: search "What if error code AUTH401 is deprecated?"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.1503182s
+[2026-02-14 13:16:24] [QUERY] Query Q41 : ToolX UI is being redesigned, what images will be outdated?
+[2026-02-14 13:16:24] [CMD] Running: search "ToolX UI is being redesigned, what images will be outdated?"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.1585918s
+[2026-02-14 13:16:24] [QUERY] Query Q42 : What's the impact of updating ToolABC?
+[2026-02-14 13:16:24] [CMD] Running: search "What's the impact of updating ToolABC?"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.1556803s
+[2026-02-14 13:16:24] [QUERY] Query Q43 : If the deployment process changes, which docs are affected?
+[2026-02-14 13:16:24] [CMD] Running: search "If the deployment process changes, which docs are affected?"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.150464s
+[2026-02-14 13:16:24] [QUERY] Query Q44 : If I update the troubleshooting training PDF, what else needs review?
+[2026-02-14 13:16:24] [CMD] Running: search "If I update the troubleshooting training PDF, what else needs review?"
+[2026-02-14 13:16:24] [OUT] {
+[2026-02-14 13:16:24] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:24] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:24] [OUT]   "citations": [],
+[2026-02-14 13:16:24] [OUT]   "image_notes": [],
+[2026-02-14 13:16:24] [OUT]   "freshness": {
+[2026-02-14 13:16:24] [OUT]     "current": 0,
+[2026-02-14 13:16:24] [OUT]     "aging": 0,
+[2026-02-14 13:16:24] [OUT]     "stale": 0
+[2026-02-14 13:16:24] [OUT]   },
+[2026-02-14 13:16:24] [OUT]   "related_topics": [],
+[2026-02-14 13:16:24] [OUT]   "escalation": null
+[2026-02-14 13:16:24] [OUT] }
+[2026-02-14 13:16:24] [RESULT] Exit code: 0 | Duration: 0.1510911s
+[2026-02-14 13:16:24] [QUERY] Query Q45 : What training materials reference the 2026 Q1 release?
+[2026-02-14 13:16:24] [CMD] Running: search "What training materials reference the 2026 Q1 release?"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:25] [OUT]   "citations": [],
+[2026-02-14 13:16:25] [OUT]   "image_notes": [],
+[2026-02-14 13:16:25] [OUT]   "freshness": {
+[2026-02-14 13:16:25] [OUT]     "current": 0,
+[2026-02-14 13:16:25] [OUT]     "aging": 0,
+[2026-02-14 13:16:25] [OUT]     "stale": 0
+[2026-02-14 13:16:25] [OUT]   },
+[2026-02-14 13:16:25] [OUT]   "related_topics": [],
+[2026-02-14 13:16:25] [OUT]   "escalation": null
+[2026-02-14 13:16:25] [OUT] }
+[2026-02-14 13:16:25] [RESULT] Exit code: 0 | Duration: 0.1498922s
+[2026-02-14 13:16:25] [QUERY] Query Q46 : Which documents haven't been updated in over 6 months?
+[2026-02-14 13:16:25] [CMD] Running: search "Which documents haven't been updated in over 6 months?"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:25] [OUT]   "citations": [],
+[2026-02-14 13:16:25] [OUT]   "image_notes": [],
+[2026-02-14 13:16:25] [OUT]   "freshness": {
+[2026-02-14 13:16:25] [OUT]     "current": 0,
+[2026-02-14 13:16:25] [OUT]     "aging": 0,
+[2026-02-14 13:16:25] [OUT]     "stale": 0
+[2026-02-14 13:16:25] [OUT]   },
+[2026-02-14 13:16:25] [OUT]   "related_topics": [],
+[2026-02-14 13:16:25] [OUT]   "escalation": null
+[2026-02-14 13:16:25] [OUT] }
+[2026-02-14 13:16:25] [RESULT] Exit code: 0 | Duration: 0.1482282s
+[2026-02-14 13:16:25] [QUERY] Query Q47 : Check freshness of all ToolX documentation
+[2026-02-14 13:16:25] [CMD] Running: search "Check freshness of all ToolX documentation"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:25] [OUT]   "citations": [],
+[2026-02-14 13:16:25] [OUT]   "image_notes": [],
+[2026-02-14 13:16:25] [OUT]   "freshness": {
+[2026-02-14 13:16:25] [OUT]     "current": 0,
+[2026-02-14 13:16:25] [OUT]     "aging": 0,
+[2026-02-14 13:16:25] [OUT]     "stale": 0
+[2026-02-14 13:16:25] [OUT]   },
+[2026-02-14 13:16:25] [OUT]   "related_topics": [],
+[2026-02-14 13:16:25] [OUT]   "escalation": null
+[2026-02-14 13:16:25] [OUT] }
+[2026-02-14 13:16:25] [RESULT] Exit code: 0 | Duration: 0.16951s
+[2026-02-14 13:16:25] [QUERY] Query Q48 : Are our training materials up to date?
+[2026-02-14 13:16:25] [CMD] Running: search "Are our training materials up to date?"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:25] [OUT]   "citations": [],
+[2026-02-14 13:16:25] [OUT]   "image_notes": [],
+[2026-02-14 13:16:25] [OUT]   "freshness": {
+[2026-02-14 13:16:25] [OUT]     "current": 0,
+[2026-02-14 13:16:25] [OUT]     "aging": 0,
+[2026-02-14 13:16:25] [OUT]     "stale": 0
+[2026-02-14 13:16:25] [OUT]   },
+[2026-02-14 13:16:25] [OUT]   "related_topics": [],
+[2026-02-14 13:16:25] [OUT]   "escalation": null
+[2026-02-14 13:16:25] [OUT] }
+[2026-02-14 13:16:25] [RESULT] Exit code: 0 | Duration: 0.1496267s
+[2026-02-14 13:16:25] [QUERY] Query Q49 : Review freshness of troubleshooting guides
+[2026-02-14 13:16:25] [CMD] Running: search "Review freshness of troubleshooting guides"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:25] [OUT]   "citations": [],
+[2026-02-14 13:16:25] [OUT]   "image_notes": [],
+[2026-02-14 13:16:25] [OUT]   "freshness": {
+[2026-02-14 13:16:25] [OUT]     "current": 0,
+[2026-02-14 13:16:25] [OUT]     "aging": 0,
+[2026-02-14 13:16:25] [OUT]     "stale": 0
+[2026-02-14 13:16:25] [OUT]   },
+[2026-02-14 13:16:25] [OUT]   "related_topics": [],
+[2026-02-14 13:16:25] [OUT]   "escalation": null
+[2026-02-14 13:16:25] [OUT] }
+[2026-02-14 13:16:25] [RESULT] Exit code: 0 | Duration: 0.1502396s
+[2026-02-14 13:16:25] [QUERY] Query Q50 : Show me STALE-rated documents that need urgent review
+[2026-02-14 13:16:25] [CMD] Running: search "Show me STALE-rated documents that need urgent review"
+[2026-02-14 13:16:25] [OUT] {
+[2026-02-14 13:16:25] [OUT]   "context_chunks": [],
+[2026-02-14 13:16:25] [OUT]   "confidence": 0.3,
+[2026-02-14 13:16:26] [OUT]   "citations": [],
+[2026-02-14 13:16:26] [OUT]   "image_notes": [],
+[2026-02-14 13:16:26] [OUT]   "freshness": {
+[2026-02-14 13:16:26] [OUT]     "current": 0,
+[2026-02-14 13:16:26] [OUT]     "aging": 0,
+[2026-02-14 13:16:26] [OUT]     "stale": 0
+[2026-02-14 13:16:26] [OUT]   },
+[2026-02-14 13:16:26] [OUT]   "related_topics": [],
+[2026-02-14 13:16:26] [OUT]   "escalation": null
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1697882s
+[2026-02-14 13:16:26] [INFO] Query metrics: 0/50 with citations
+[2026-02-14 13:16:26] [INFO] Expected doc matches: 0, Unexpected: 33
+[2026-02-14 13:16:26] [INFO] 
+[2026-02-14 13:16:26] [INFO] ================================================================================
+[2026-02-14 13:16:26] [INFO]   PHASE 3: ADVANCED AGENTS
+[2026-02-14 13:16:26] [INFO] ================================================================================
+[2026-02-14 13:16:26] [INFO] Testing Training Path agent...
+[2026-02-14 13:16:26] [CMD] Running: training --topic "ToolX authentication"
+[2026-02-14 13:16:26] [OUT] {
+[2026-02-14 13:16:26] [OUT]   "topic": "ToolX authentication",
+[2026-02-14 13:16:26] [OUT]   "level": "beginner",
+[2026-02-14 13:16:26] [OUT]   "steps": [],
+[2026-02-14 13:16:26] [OUT]   "total_time_minutes": 0,
+[2026-02-14 13:16:26] [OUT]   "coverage": 0.0
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1666867s
+[2026-02-14 13:16:26] [INFO] Testing Impact agent...
+[2026-02-14 13:16:26] [CMD] Running: impact --entity "ToolX"
+[2026-02-14 13:16:26] [OUT] {
+[2026-02-14 13:16:26] [OUT]   "entity": "ToolX",
+[2026-02-14 13:16:26] [OUT]   "entity_type": "auto",
+[2026-02-14 13:16:26] [OUT]   "direct_docs": [],
+[2026-02-14 13:16:26] [OUT]   "indirect_docs": [],
+[2026-02-14 13:16:26] [OUT]   "stale_images": [],
+[2026-02-14 13:16:26] [OUT]   "affected_processes": [],
+[2026-02-14 13:16:26] [OUT]   "affected_training": [],
+[2026-02-14 13:16:26] [OUT]   "recommended_actions": [
+[2026-02-14 13:16:26] [OUT]     "No impacted docs found; verify entity spelling and graph ingestion status."
+[2026-02-14 13:16:26] [OUT]   ],
+[2026-02-14 13:16:26] [OUT]   "severity": "low"
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1667761s
+[2026-02-14 13:16:26] [INFO] Testing Freshness agent...
+[2026-02-14 13:16:26] [CMD] Running: freshness
+[2026-02-14 13:16:26] [OUT] {
+[2026-02-14 13:16:26] [OUT]   "total_documents": 0,
+[2026-02-14 13:16:26] [OUT]   "current": 0,
+[2026-02-14 13:16:26] [OUT]   "aging": 0,
+[2026-02-14 13:16:26] [OUT]   "stale": 0,
+[2026-02-14 13:16:26] [OUT]   "unknown": 0,
+[2026-02-14 13:16:26] [OUT]   "stale_documents": [],
+[2026-02-14 13:16:26] [OUT]   "stale_images": [],
+[2026-02-14 13:16:26] [OUT]   "recommendations": [
+[2026-02-14 13:16:26] [OUT]     "No immediate freshness actions required."
+[2026-02-14 13:16:26] [OUT]   ]
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1607015s
+[2026-02-14 13:16:26] [INFO] 
+[2026-02-14 13:16:26] [INFO] ================================================================================
+[2026-02-14 13:16:26] [INFO]   PHASE 4: IDEMPOTENCY CHECK
+[2026-02-14 13:16:26] [INFO] ================================================================================
+[2026-02-14 13:16:26] [INFO] Re-running crawl and ingest to check for duplicates...
+[2026-02-14 13:16:26] [CMD] Running: status
+[2026-02-14 13:16:26] [OUT] {
+[2026-02-14 13:16:26] [OUT]   "documents": 0,
+[2026-02-14 13:16:26] [OUT]   "manifest_files": 9,
+[2026-02-14 13:16:26] [OUT]   "graph_nodes": 0,
+[2026-02-14 13:16:26] [OUT]   "graph_edges": 0
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1486066s
+[2026-02-14 13:16:26] [INFO] Documents before rerun: 0
+[2026-02-14 13:16:26] [CMD] Running: crawl --paths ".\kts_test_corpus"
+[2026-02-14 13:16:26] [OUT] {
+[2026-02-14 13:16:26] [OUT]   "changes": {
+[2026-02-14 13:16:26] [OUT]     "new_files": [],
+[2026-02-14 13:16:26] [OUT]     "modified_files": [],
+[2026-02-14 13:16:26] [OUT]     "deleted_files": [],
+[2026-02-14 13:16:26] [OUT]     "unchanged_files": 9,
+[2026-02-14 13:16:26] [OUT]     "errors": [],
+[2026-02-14 13:16:26] [OUT]     "warnings": []
+[2026-02-14 13:16:26] [OUT]   },
+[2026-02-14 13:16:26] [OUT]   "dry_run": false,
+[2026-02-14 13:16:26] [OUT]   "force": false
+[2026-02-14 13:16:26] [OUT] }
+[2026-02-14 13:16:26] [RESULT] Exit code: 0 | Duration: 0.1670999s
+[2026-02-14 13:16:26] [CMD] Running: ingest
+[2026-02-14 13:16:27] [OUT] {
+[2026-02-14 13:16:27] [OUT]   "ingested": [],
+[2026-02-14 13:16:27] [OUT]   "count": 0
+[2026-02-14 13:16:27] [OUT] }
+[2026-02-14 13:16:27] [RESULT] Exit code: 0 | Duration: 0.1503751s
+[2026-02-14 13:16:27] [CMD] Running: status
+[2026-02-14 13:16:27] [OUT] {
+[2026-02-14 13:16:27] [OUT]   "documents": 0,
+[2026-02-14 13:16:27] [OUT]   "manifest_files": 9,
+[2026-02-14 13:16:27] [OUT]   "graph_nodes": 0,
+[2026-02-14 13:16:27] [OUT]   "graph_edges": 0
+[2026-02-14 13:16:27] [OUT] }
+[2026-02-14 13:16:27] [RESULT] Exit code: 0 | Duration: 0.1708486s
+[2026-02-14 13:16:27] [INFO] Documents after rerun: 0
+[2026-02-14 13:16:27] [OK] SUCCESS: No duplicates. Count stable at 0
+[2026-02-14 13:16:27] [INFO] 
+[2026-02-14 13:16:27] [INFO] ================================================================================
+[2026-02-14 13:16:27] [INFO]   PHASE 5: PYTEST SUITE
+[2026-02-14 13:16:27] [INFO] ================================================================================
+[2026-02-14 13:16:27] [INFO] Running pytest...
+[2026-02-14 13:16:31] [PYTEST] ============================= test session starts =============================
+[2026-02-14 13:16:31] [PYTEST] platform win32 -- Python 3.13.5, pytest-9.0.2, pluggy-1.6.0 -- C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\.venv\Scripts\python.exe
+[2026-02-14 13:16:31] [PYTEST] cachedir: .pytest_cache
+[2026-02-14 13:16:31] [PYTEST] rootdir: C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system
+[2026-02-14 13:16:31] [PYTEST] plugins: anyio-4.12.1
+[2026-02-14 13:16:31] [PYTEST] collecting ... collected 46 items
+[2026-02-14 13:16:31] [PYTEST] 
+[2026-02-14 13:16:31] [PYTEST] tests/test_cli_integration.py::test_cli_end_to_end PASSED                [  2%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_crawler.py::test_crawler_detects_new_files PASSED             [  4%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_freshness.py::test_freshness_reports_counts PASSED            [  6%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_graph_training_impact.py::test_training_and_impact_use_graph_relations PASSED [  8%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_ingestion.py::test_ingestion_creates_content_and_chunks PASSED [ 10%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_advanced_agents_10x.py::test_training_impact_freshness_10_scenarios PASSED [ 13%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_cli_10x.py::test_cli_10_scenarios PASSED               [ 15%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[a\r\nb-a\nb] PASSED [ 17%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[a\n\n\n\nb-a\n\nb] PASSED [ 19%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[  spaced  -spaced] PASSED [ 21%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[-] PASSED      [ 23%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[\n\nheader\n-header] PASSED [ 26%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[line1\r\nline2\r\n-line1\nline2] PASSED [ 28%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[A\n\n\n\n\nB-A\n\nB] PASSED [ 30%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[x-x] PASSED    [ 32%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[ x y -x y] PASSED [ 34%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_clean_text_10_cases[t\n\n\n\nz-t\n\nz] PASSED [ 36%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc-50-10-2] PASSED [ 39%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabc-30-5-2] PASSED [ 41%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-25-5-4] PASSED [ 43%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[xxxxxxxxxx-10-0-1] PASSED [ 45%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[xxxxxxxxxxx-10-2-2] PASSED [ 47%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[-10-3-0] PASSED [ 50%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[samplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesamplesample-60-15-3] PASSED [ 52%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[samplesample-100-0-1] PASSED [ 54%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-50-49-6] PASSED [ 56%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_chunk_text_10_cases[aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-50-1000-6] PASSED [ 58%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_common_10x.py::test_hash_manifest_quality_gate_functions PASSED [ 60%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_crawler_10x.py::test_crawler_10_scenarios PASSED       [ 63%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_graph_retrieval_10x.py::test_graph_and_retrieval_10_scenarios PASSED [ 65%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_ingestion_10x.py::test_ingestion_10_scenarios PASSED   [ 67%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[sop_deploy.md-standard operating procedure step 1-SOP] PASSED [ 69%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[user_guide.md-how to use the tool-USER_GUIDE] PASSED [ 71%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[release_notes.md-release version changelog-RELEASE_NOTE] PASSED [ 73%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[troubleshoot.md-error fix broken fail-TROUBLESHOOT] PASSED [ 76%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[training_deck.md-training onboarding learn-TRAINING] PASSED [ 78%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[misc.md-random text-UNKNOWN] PASSED [ 80%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[procedure.md-step runbook-SOP] PASSED [ 82%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[walkthrough.md-tutorial guide-USER_GUIDE] PASSED [ 84%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[incident.md-issue troubleshoot-TROUBLESHOOT] PASSED [ 86%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_taxonomy_10_cases[course.md-course onboarding-TRAINING] PASSED [ 89%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_taxonomy_version_10x.py::test_version_10_scenarios PASSED [ 91%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_phase2_vision_10x.py::test_vision_10_scenarios PASSED         [ 93%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_retrieval.py::test_retrieval_returns_context_after_ingest PASSED [ 95%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_smoke_script.py::test_smoke_script_runs PASSED                [ 97%]
+[2026-02-14 13:16:31] [PYTEST] tests/test_taxonomy.py::test_taxonomy_classifies_troubleshoot_content PASSED [100%]
+[2026-02-14 13:16:31] [PYTEST] 
+[2026-02-14 13:16:31] [PYTEST] ============================= 46 passed in 3.90s ==============================
+[2026-02-14 13:16:31] [OK] Pytest exit code: 0
+[2026-02-14 13:16:31] [INFO] 
+[2026-02-14 13:16:31] [INFO] ================================================================================
+[2026-02-14 13:16:31] [INFO]   SUMMARY & EXIT CRITERIA
+[2026-02-14 13:16:31] [INFO] ================================================================================
+[2026-02-14 13:16:31] [INFO] 
+[2026-02-14 13:16:31] [INFO] EXIT CRITERIA EVALUATION:
+[2026-02-14 13:16:31] [INFO]   [PASS] Ingestion pipeline completed without errors
+[2026-02-14 13:16:31] [INFO]   [FAIL] All queries returned citations
+[2026-02-14 13:16:31] [INFO]   [FAIL] Query accuracy >= 90% (expected doc matches)
+[2026-02-14 13:16:31] [INFO]   [PASS] No duplicates on re-ingestion
+[2026-02-14 13:16:31] [INFO]   [PASS] Advanced agents executed without errors
+[2026-02-14 13:16:31] [INFO]   [PASS] Pytest suite passed
+[2026-02-14 13:16:31] [INFO] 
+[2026-02-14 13:16:31] [ERROR] OVERALL RESULT: FAIL
+[2026-02-14 13:16:31] [INFO] 
+[2026-02-14 13:16:31] [INFO] Saving results to:
+[2026-02-14 13:16:31] [INFO]   Console log: C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\scripts\logs\autopilot_20260214_131616\autopilot_console.log
+[2026-02-14 13:16:31] [INFO]   Results JSON: C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\scripts\logs\autopilot_20260214_131616\results.json
+[2026-02-14 13:16:31] [INFO]   Metrics JSON: C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\scripts\logs\autopilot_20260214_131616\metrics.json
+[2026-02-14 13:16:31] [INFO] 
+[2026-02-14 13:16:31] [INFO] Autopilot run complete.
+[2026-02-14 13:16:31] [INFO] Log directory: C:\Users\Karmsud\Projects\gsf_ir_kts_agentic_system\scripts\logs\autopilot_20260214_131616

@@ -1,0 +1,32 @@
+{
+  "toolx": [
+    {
+      "code": "ERR-AUTH-401",
+      "message": "Token expired after redirect",
+      "category": "Auth",
+      "severity": "medium"
+    },
+    {
+      "code": "HTTP-504",
+      "message": "Gateway Timeout on dashboard widgets",
+      "category": "Connectivity",
+      "severity": "high"
+    }
+  ],
+  "tooly": [
+    {
+      "code": "ERR-UPL-013",
+      "message": "File type not allowed",
+      "category": "Policy",
+      "severity": "low"
+    }
+  ],
+  "toolz": [
+    {
+      "code": "ERR-PWD-007",
+      "message": "Password does not meet complexity",
+      "category": "Identity",
+      "severity": "low"
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "files": {
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\README_SYNTHETIC_CORPUS.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\README_SYNTHETIC_CORPUS.md",
+      "filename": "README_SYNTHETIC_CORPUS.md",
+      "extension": ".md",
+      "size_bytes": 412,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0202383"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Architecture\\ARCH_Connector_Pipeline_Overview.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Architecture\\ARCH_Connector_Pipeline_Overview.md",
+      "filename": "ARCH_Connector_Pipeline_Overview.md",
+      "extension": ".md",
+      "size_bytes": 279,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0526598"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Incidents\\POSTMORTEM_BatchBridge_RateLimit_INC-0021.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Incidents\\POSTMORTEM_BatchBridge_RateLimit_INC-0021.md",
+      "filename": "POSTMORTEM_BatchBridge_RateLimit_INC-0021.md",
+      "extension": ".md",
+      "size_bytes": 436,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_9289354"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Reference\\error_code_catalog_v2.json": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Reference\\error_code_catalog_v2.json",
+      "filename": "error_code_catalog_v2.json",
+      "extension": ".json",
+      "size_bytes": 1518,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_5054772"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Reference\\Glossary.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Reference\\Glossary.md",
+      "filename": "Glossary.md",
+      "extension": ".md",
+      "size_bytes": 272,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0537113"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_BatchBridge_2026Q1.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_BatchBridge_2026Q1.md",
+      "filename": "ReleaseNotes_BatchBridge_2026Q1.md",
+      "extension": ".md",
+      "size_bytes": 470,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_6173388"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_DataDesk_2026Q1.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_DataDesk_2026Q1.md",
+      "filename": "ReleaseNotes_DataDesk_2026Q1.md",
+      "extension": ".md",
+      "size_bytes": 316,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_2754512"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_OpsFlow_2025Q3.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Release_Notes\\ReleaseNotes_OpsFlow_2025Q3.md",
+      "filename": "ReleaseNotes_OpsFlow_2025Q3.md",
+      "extension": ".md",
+      "size_bytes": 77,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_3399138"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Data_Staleness_v1.docx": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Data_Staleness_v1.docx",
+      "filename": "SOP_Data_Staleness_v1.docx",
+      "extension": ".docx",
+      "size_bytes": 69663,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0764555"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Proxy_Auth_Errors_v1.docx": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Proxy_Auth_Errors_v1.docx",
+      "filename": "SOP_Proxy_Auth_Errors_v1.docx",
+      "extension": ".docx",
+      "size_bytes": 75626,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_4990474"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Rate_Limit_Response_v1.docx": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\SOPs\\SOP_Rate_Limit_Response_v1.docx",
+      "filename": "SOP_Rate_Limit_Response_v1.docx",
+      "extension": ".docx",
+      "size_bytes": 72321,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_6555827"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Training\\Training_Connector_Triage_Playbook.pdf": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Training\\Training_Connector_Triage_Playbook.pdf",
+      "filename": "Training_Connector_Triage_Playbook.pdf",
+      "extension": ".pdf",
+      "size_bytes": 86904,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0535278"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Training\\Training_SecureVault_Access_MFA.pptx": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Training\\Training_SecureVault_Access_MFA.pptx",
+      "filename": "Training_SecureVault_Access_MFA.pptx",
+      "extension": ".pptx",
+      "size_bytes": 97054,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_3236181"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\LEGACY_Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA_OLD.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\LEGACY_Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA_OLD.md",
+      "filename": "LEGACY_Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA_OLD.md",
+      "extension": ".md",
+      "size_bytes": 432,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_8141759"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_BatchBridge_ERR-RATE-429_RateLimit.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_BatchBridge_ERR-RATE-429_RateLimit.md",
+      "filename": "Troubleshoot_BatchBridge_ERR-RATE-429_RateLimit.md",
+      "extension": ".md",
+      "size_bytes": 1340,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_8795864"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA.md",
+      "filename": "Troubleshoot_BatchBridge_ERR-TLS-014_UnknownCA.md",
+      "extension": ".md",
+      "size_bytes": 1329,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_2990999"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_CrossTool_HTTP_429_vs_ERR-RATE-429.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_CrossTool_HTTP_429_vs_ERR-RATE-429.md",
+      "filename": "Troubleshoot_CrossTool_HTTP_429_vs_ERR-RATE-429.md",
+      "extension": ".md",
+      "size_bytes": 1339,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_8942858"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_DataDesk_ERR-UPL-021_PayloadTooLarge.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_DataDesk_ERR-UPL-021_PayloadTooLarge.md",
+      "filename": "Troubleshoot_DataDesk_ERR-UPL-021_PayloadTooLarge.md",
+      "extension": ".md",
+      "size_bytes": 1317,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_2873159"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_DataDesk_SQLSTATE_22001_Truncation.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_DataDesk_SQLSTATE_22001_Truncation.md",
+      "filename": "Troubleshoot_DataDesk_SQLSTATE_22001_Truncation.md",
+      "extension": ".md",
+      "size_bytes": 1343,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_3881661"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_FinReport_ERR-EXP-003_TemplateMissing.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_FinReport_ERR-EXP-003_TemplateMissing.md",
+      "filename": "Troubleshoot_FinReport_ERR-EXP-003_TemplateMissing.md",
+      "extension": ".md",
+      "size_bytes": 1314,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_6226101"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_FinReport_ERR-SYNC-101_DataStale.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_FinReport_ERR-SYNC-101_DataStale.md",
+      "filename": "Troubleshoot_FinReport_ERR-SYNC-101_DataStale.md",
+      "extension": ".md",
+      "size_bytes": 1317,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_9574314"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_Generic_HTTP_5xx_Gateway.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_Generic_HTTP_5xx_Gateway.md",
+      "filename": "Troubleshoot_Generic_HTTP_5xx_Gateway.md",
+      "extension": ".md",
+      "size_bytes": 1324,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_1323970"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_OpsFlow_ERR-AUTH-407_ProxyAuth.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_OpsFlow_ERR-AUTH-407_ProxyAuth.md",
+      "filename": "Troubleshoot_OpsFlow_ERR-AUTH-407_ProxyAuth.md",
+      "extension": ".md",
+      "size_bytes": 1322,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0174144"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_OpsFlow_ERR-RUN-204_OOM.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_OpsFlow_ERR-RUN-204_OOM.md",
+      "filename": "Troubleshoot_OpsFlow_ERR-RUN-204_OOM.md",
+      "extension": ".md",
+      "size_bytes": 1319,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_6272677"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_SecureVault_ERR-ACL-002_RoleMissing.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_SecureVault_ERR-ACL-002_RoleMissing.md",
+      "filename": "Troubleshoot_SecureVault_ERR-ACL-002_RoleMissing.md",
+      "extension": ".md",
+      "size_bytes": 1322,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_2053803"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_SecureVault_ERR-MFA-009_TimeSkew.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\Troubleshooting\\Troubleshoot_SecureVault_ERR-MFA-009_TimeSkew.md",
+      "filename": "Troubleshoot_SecureVault_ERR-MFA-009_TimeSkew.md",
+      "extension": ".md",
+      "size_bytes": 1321,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_7762522"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_BatchBridge_QuickStart.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_BatchBridge_QuickStart.md",
+      "filename": "UserGuide_BatchBridge_QuickStart.md",
+      "extension": ".md",
+      "size_bytes": 445,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_6985614"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_DataDesk_QuickStart.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_DataDesk_QuickStart.md",
+      "filename": "UserGuide_DataDesk_QuickStart.md",
+      "extension": ".md",
+      "size_bytes": 436,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_9202663"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_FinReport_QuickStart.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_FinReport_QuickStart.md",
+      "filename": "UserGuide_FinReport_QuickStart.md",
+      "extension": ".md",
+      "size_bytes": 439,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_0854510"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_OpsFlow_QuickStart.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_OpsFlow_QuickStart.md",
+      "filename": "UserGuide_OpsFlow_QuickStart.md",
+      "extension": ".md",
+      "size_bytes": 433,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_5278024"
+    },
+    "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_SecureVault_QuickStart.md": {
+      "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_synthetic_corpus_v2\\User_Guides\\UserGuide_SecureVault_QuickStart.md",
+      "filename": "UserGuide_SecureVault_QuickStart.md",
+      "extension": ".md",
+      "size_bytes": 445,
+      "modified_time": "",
+      "hash": "",
+      "doc_id": "doc_1260370"
+    }
+  },
+  "updated_at": "2026-02-14T23:25:56.328795+00:00"
+}

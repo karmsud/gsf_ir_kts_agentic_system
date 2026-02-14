@@ -1,0 +1,94 @@
+﻿{
+  "changes": {
+    "new_files": [],
+    "modified_files": [
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Reference\\SOP_ToolX_Login_Failures_v1.docx",
+        "filename": "SOP_ToolX_Login_Failures_v1.docx",
+        "extension": ".docx",
+        "size_bytes": 67938,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "492b76af511704dc53c53e459fa940751bafba14272953b06dcb0595a4743a05",
+        "doc_id": "doc_3596903"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Release_Notes\\ReleaseNotes_ToolX_2026Q1.md",
+        "filename": "ReleaseNotes_ToolX_2026Q1.md",
+        "extension": ".md",
+        "size_bytes": 426,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "bae2eb862d502cac4eb1e66e0c1b72df523e87877c3e38a3272051eddfe8de58",
+        "doc_id": "doc_4349429"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolX_Troubleshooting_Pack.pdf",
+        "filename": "Training_ToolX_Troubleshooting_Pack.pdf",
+        "extension": ".pdf",
+        "size_bytes": 84668,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "c6b6a55f6722f2874f8d1e05e424caf585e38e34b98cc1d932b4f439c008f295",
+        "doc_id": "doc_8104655"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Training\\Training_ToolY_Upload_Policy.pptx",
+        "filename": "Training_ToolY_Upload_Policy.pptx",
+        "extension": ".pptx",
+        "size_bytes": 58757,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "d4baf9bdcb56c6629d262a458219bc9f46caf4598929bac153f710cef2876a35",
+        "doc_id": "doc_2091995"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_AUTH401.md",
+        "filename": "Troubleshoot_ToolX_AUTH401.md",
+        "extension": ".md",
+        "size_bytes": 1345,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "57ac0327e33df0f3194b8d488123cc195932677a7905ac7e5064098bdc0e73ea",
+        "doc_id": "doc_9095323"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolX_HTTP504_Timeout.md",
+        "filename": "Troubleshoot_ToolX_HTTP504_Timeout.md",
+        "extension": ".md",
+        "size_bytes": 1022,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "999632fd156cdc63e27e1816a61ce965e5acd5b2daf76b978ad80841ea3ee49b",
+        "doc_id": "doc_9021677"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+        "filename": "Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+        "extension": ".md",
+        "size_bytes": 869,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "cb649f596c3b7119d541552abeefce2d69e73396f2ba73b5af14aba8ef47bb51",
+        "doc_id": "doc_7630742"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+        "filename": "Troubleshoot_ToolZ_Password_ERR-PWD-007.md",
+        "extension": ".md",
+        "size_bytes": 703,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "706cfa55ade689e1d03a3f34ae97db4d925f630f1aa48e4d25593d5a053dd921",
+        "doc_id": "doc_0151060"
+      },
+      {
+        "path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\User_Guides\\UserGuide_ToolX_Onboarding.md",
+        "filename": "UserGuide_ToolX_Onboarding.md",
+        "extension": ".md",
+        "size_bytes": 534,
+        "modified_time": "2026-02-15T04:20:14+00:00",
+        "hash": "115449db167457267889c44a17f8fd3c4578e9a3c3e250fa92ad0fd215b61221",
+        "doc_id": "doc_5727944"
+      }
+    ],
+    "deleted_files": [],
+    "unchanged_files": 0,
+    "errors": [],
+    "warnings": []
+  },
+  "dry_run": false,
+  "force": false
+}

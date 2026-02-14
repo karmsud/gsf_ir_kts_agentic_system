@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+knowledge_base/documents/*
+knowledge_base/vectors/*
+knowledge_base/graph/*
+!knowledge_base/documents/.gitkeep
+!knowledge_base/vectors/.gitkeep
+!knowledge_base/graph/.gitkeep
+.pytest_cache/

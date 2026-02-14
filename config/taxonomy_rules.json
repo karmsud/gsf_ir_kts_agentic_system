@@ -1,0 +1,8 @@
+{
+  "SOP": ["procedure", "step", "runbook", "standard operating", "staleness", "sop_", "data staleness"],
+  "USER_GUIDE": ["guide", "how to", "walkthrough", "tutorial"],
+  "TROUBLESHOOT": ["error", "failure", "issue", "troubleshoot", "fix"],
+  "RELEASE_NOTE": ["release", "version", "changelog", "what's new"],
+  "TRAINING": ["training", "onboarding", "course", "learn"],
+  "REFERENCE": ["reference catalog", "error codes catalog", "error code list", "catalog", "api reference", "code dictionary", "complete list"]
+}

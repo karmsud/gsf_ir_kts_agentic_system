@@ -1,0 +1,31 @@
+﻿{
+    "Ingestion":  {
+                      "VectorsCreated":  0,
+                      "DocumentsIngested":  9,
+                      "ImagesPending":  0
+                  },
+    "Environment":  {
+                        "QueryPack":  50,
+                        "CLI":  "OK",
+                        "CorpusFiles":  14,
+                        "Python":  "Python 3.13.5"
+                    },
+    "Timestamp":  "2026-02-14T13:19:07.5501166-08:00",
+    "Queries":  {
+                    "UnexpectedResults":  2,
+                    "ExpectedDocMatches":  31,
+                    "Errors":  0,
+                    "Total":  50,
+                    "WithoutCitations":  0,
+                    "WithCitations":  50
+                },
+    "ExitCriteria":  {
+                         "NoIdempotencyDuplicates":  true,
+                         "QueriesWithCitations":  true,
+                         "IngestionComplete":  true,
+                         "QueryAccuracy":  false,
+                         "AllPass":  false,
+                         "PytestPass":  true,
+                         "AdvancedAgentsPass":  true
+                     }
+}

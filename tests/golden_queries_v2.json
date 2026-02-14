@@ -1,0 +1,1421 @@
+{
+  "corpus_id": "kts_synthetic_corpus_v2",
+  "created": "2026-02-14T12:00:00",
+  "split": {
+    "tune": 40,
+    "holdout": 10
+  },
+  "doc_type_priority_default": [
+    "TROUBLESHOOT",
+    "SOP",
+    "USER_GUIDE",
+    "TRAINING",
+    "RELEASE_NOTES",
+    "INCIDENT",
+    "REFERENCE",
+    "ARCHITECTURE",
+    "CONFIG"
+  ],
+  "queries": [
+    {
+      "query_text": "OpsFlow shows ERR-RUN-204. What does it mean and what's the fastest safe fix?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-RUN-204",
+        "OOM"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q01"
+    },
+    {
+      "query_text": "How do I troubleshoot OpsFlow ERR-AUTH-407 during SSO redirect behind a proxy?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-AUTH-407",
+        "HTTP 407"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q02"
+    },
+    {
+      "query_text": "What evidence should I capture when OpsFlow fails a run due to OOM?",
+      "split": "tune",
+      "intent": "AUDIT",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-RUN-204",
+        "RunId"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q03"
+    },
+    {
+      "query_text": "DataDesk upload failed with ERR-UPL-021. What's the limit and how do I resolve?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-UPL-021",
+        "50MB"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q04"
+    },
+    {
+      "query_text": "DataDesk Query Runner error SQLSTATE 22001: what causes string truncation and how to fix?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "SQLSTATE 22001",
+        "truncation"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q05"
+    },
+    {
+      "query_text": "How do I reduce the chance of ERR-UPL-021 when uploading PDFs?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "USER_GUIDE",
+        "SOP",
+        "TROUBLESHOOT",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "ERR-UPL-021",
+        "Compress"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q06"
+    },
+    {
+      "query_text": "SecureVault access request denied ERR-ACL-002 role missing vault.read. What should I do?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-ACL-002",
+        "vault.read"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q07"
+    },
+    {
+      "query_text": "SecureVault MFA failing with ERR-MFA-009: device time out of sync. Fix steps?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-MFA-009",
+        "sync"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q08"
+    },
+    {
+      "query_text": "If SecureVault ERR-ACL-002 keeps happening, what role do I request?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "vault.read",
+        "ERR-ACL-002"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q09"
+    },
+    {
+      "query_text": "BatchBridge connector hits HTTP 429 and ERR-RATE-429. How do I enable backoff and stop retries from amplifying load?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 429",
+        "ERR-RATE-429",
+        "backoff"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q10"
+    },
+    {
+      "query_text": "Differentiate HTTP 429 vs ERR-RATE-429: when do I treat it as connector config vs downstream rate limit?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 429",
+        "ERR-RATE-429"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q11"
+    },
+    {
+      "query_text": "BatchBridge ERR-RATE-429: what does retry-after mean and how should I respect it?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "retry-after",
+        "ERR-RATE-429"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q12"
+    },
+    {
+      "query_text": "BatchBridge TLS handshake failed ERR-TLS-014 unknown CA. What's the modern fix and what should I avoid?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-TLS-014",
+        "Unknown CA"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q13"
+    },
+    {
+      "query_text": "BatchBridge ERR-TLS-014: what is a corporate root certificate store and why does it matter?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-TLS-014",
+        "root"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q14"
+    },
+    {
+      "query_text": "FinReport export failed ERR-EXP-003 Excel template missing. Where is the template path and resolution steps?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-EXP-003",
+        "template"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q15"
+    },
+    {
+      "query_text": "FinReport dashboard says ERR-SYNC-101 data stale. How do I refresh and verify schedule?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-SYNC-101",
+        "stale"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q16"
+    },
+    {
+      "query_text": "FinReport ERR-SYNC-101: what threshold is implied and what does 'staleness' mean here?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-SYNC-101",
+        "24h"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q17"
+    },
+    {
+      "query_text": "I am seeing HTTP 504 on a dashboard. What's the generic gateway triage and what evidence should I capture?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 504",
+        "gateway"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q18"
+    },
+    {
+      "query_text": "Differentiate generic HTTP 502 vs 504 in triage steps.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 502",
+        "HTTP 504"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q19"
+    },
+    {
+      "query_text": "Find the SOP for rate limits and summarize the procedure.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-RATE-429",
+        "backoff"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q20"
+    },
+    {
+      "query_text": "Find the SOP for proxy authentication errors and list required data to collect.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-AUTH-407",
+        "TraceId"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q21"
+    },
+    {
+      "query_text": "Find the SOP for data staleness ERR-SYNC-101 and summarize.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-SYNC-101"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q22"
+    },
+    {
+      "query_text": "What changed in BatchBridge 2026 Q1 that affects ERR-TLS-014 and rate limiting behavior?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "RELEASE_NOTES",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "2026 Q1",
+        "ERR-TLS-014",
+        "ERR-RATE-429"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q23"
+    },
+    {
+      "query_text": "What does DataDesk 2026 Q1 release notes say about upload limits and SQLSTATE 22001?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "RELEASE_NOTES",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-UPL-021",
+        "SQLSTATE 22001"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q24"
+    },
+    {
+      "query_text": "I found a LEGACY BatchBridge ERR-TLS-014 doc. Is it outdated? What doc should I use instead?",
+      "split": "tune",
+      "intent": "FRESHNESS",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "SOP",
+        "INCIDENT",
+        "USER_GUIDE",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG",
+        "TRAINING"
+      ],
+      "must_include_terms": [
+        "LEGACY",
+        "DEPRECATED",
+        "ERR-TLS-014"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q25"
+    },
+    {
+      "query_text": "Which documents in this corpus look archived or outdated based on dates?",
+      "split": "tune",
+      "intent": "FRESHNESS",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "SOP",
+        "INCIDENT",
+        "USER_GUIDE",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG",
+        "TRAINING"
+      ],
+      "must_include_terms": [
+        "ARCHIVED",
+        "DEPRECATED"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q26"
+    },
+    {
+      "query_text": "Summarize incident INC-0021: what happened and what corrective actions were taken?",
+      "split": "tune",
+      "intent": "IMPACT",
+      "expected_doc_types": [
+        "INCIDENT",
+        "TROUBLESHOOT",
+        "SOP",
+        "RELEASE_NOTES",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "INC-0021",
+        "ERR-RATE-429"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q27"
+    },
+    {
+      "query_text": "From incident log CSV, list top 3 error codes by count and the most affected tool.",
+      "split": "tune",
+      "intent": "AUDIT",
+      "expected_doc_types": [
+        "INCIDENT",
+        "TROUBLESHOOT",
+        "SOP",
+        "RELEASE_NOTES",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "incident_log_sample.csv"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q28"
+    },
+    {
+      "query_text": "Where do I configure BatchBridge retry/backoff defaults? Provide the key YAML fields.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "CONFIG",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "REFERENCE",
+        "RELEASE_NOTES",
+        "TRAINING",
+        "ARCHITECTURE",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "retry",
+        "exponential",
+        "max_concurrency"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q29"
+    },
+    {
+      "query_text": "Where is the OpsFlow proxy PAC URL configured and what are timeout defaults?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "CONFIG",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "REFERENCE",
+        "RELEASE_NOTES",
+        "TRAINING",
+        "ARCHITECTURE",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "pac_url",
+        "read_seconds"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q30"
+    },
+    {
+      "query_text": "What is the max concurrency default for BatchBridge connectors?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "CONFIG",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "REFERENCE",
+        "RELEASE_NOTES",
+        "TRAINING",
+        "ARCHITECTURE",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "max_concurrency"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q31"
+    },
+    {
+      "query_text": "What are the backoff base_seconds and max_seconds defaults?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "CONFIG",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "REFERENCE",
+        "RELEASE_NOTES",
+        "TRAINING",
+        "ARCHITECTURE",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "base_seconds",
+        "max_seconds"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q32"
+    },
+    {
+      "query_text": "Explain the Connector Pipeline components and which ones relate to TLS trust store and backoff.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "ARCHITECTURE",
+        "USER_GUIDE",
+        "SOP",
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "TRAINING",
+        "CONFIG",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "TLS Trust Store",
+        "Retry/Backoff"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q33"
+    },
+    {
+      "query_text": "Find where upload gateway is mentioned in the architecture overview.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "ARCHITECTURE",
+        "USER_GUIDE",
+        "SOP",
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "TRAINING",
+        "CONFIG",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "Upload Gateway"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q34"
+    },
+    {
+      "query_text": "Create a short training path for Tier-1 support on connector triage (Auth/Rate/TLS/Limits/Data).",
+      "split": "tune",
+      "intent": "TRAINING",
+      "expected_doc_types": [
+        "TRAINING",
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "Connector Triage Playbook"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q35"
+    },
+    {
+      "query_text": "In the training deck, what are the two most common SecureVault issues covered?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TRAINING",
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-ACL-002",
+        "ERR-MFA-009"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q36"
+    },
+    {
+      "query_text": "What does the glossary define TraceId and RunId as?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "REFERENCE",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "TraceId",
+        "RunId"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q37"
+    },
+    {
+      "query_text": "In the error code catalog, what category and severity is ERR-TLS-014?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "REFERENCE",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-TLS-014",
+        "severity"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q38"
+    },
+    {
+      "query_text": "Which doc should rank lower for error-code queries: architecture overview or troubleshooting guide?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "ARCHITECTURE",
+        "USER_GUIDE",
+        "SOP",
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "TRAINING",
+        "CONFIG",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "rank lower",
+        "conceptual"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q39"
+    },
+    {
+      "query_text": "Does BatchBridge 3.1.0 deprecate the Java keystore workaround? Summarize.",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "RELEASE_NOTES",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "Deprecated",
+        "keystore"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q40"
+    },
+    {
+      "query_text": "I see SQLSTATE 22001 and ERR-UPL-021 in the same day. Are these related?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "SQLSTATE 22001",
+        "ERR-UPL-021"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q41"
+    },
+    {
+      "query_text": "Which release notes are archived and why might they still be useful?",
+      "split": "holdout",
+      "intent": "FRESHNESS",
+      "expected_doc_types": [
+        "RELEASE_NOTES",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ARCHIVED"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q42"
+    },
+    {
+      "query_text": "From the incident CSV, find incidents in the last 14 days and list their codes.",
+      "split": "holdout",
+      "intent": "AUDIT",
+      "expected_doc_types": [
+        "INCIDENT",
+        "TROUBLESHOOT",
+        "SOP",
+        "RELEASE_NOTES",
+        "USER_GUIDE",
+        "TRAINING",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "incident_log_sample.csv"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q43"
+    },
+    {
+      "query_text": "What proxy settings could cause ERR-AUTH-407 and where are they documented?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "ERR-AUTH-407",
+        "proxy"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q44"
+    },
+    {
+      "query_text": "If I must pick one doc to start for HTTP 429 issues, which should it be and why?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 429",
+        "ERR-RATE-429"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q45"
+    },
+    {
+      "query_text": "Create a training path specific to FinReport exports and staleness issues.",
+      "split": "holdout",
+      "intent": "TRAINING",
+      "expected_doc_types": [
+        "TRAINING",
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "FinReport",
+        "ERR-EXP-003",
+        "ERR-SYNC-101"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q46"
+    },
+    {
+      "query_text": "Where is the trust_store configured and what value indicates system store?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "CONFIG",
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "REFERENCE",
+        "RELEASE_NOTES",
+        "TRAINING",
+        "ARCHITECTURE",
+        "INCIDENT"
+      ],
+      "must_include_terms": [
+        "trust_store",
+        "system"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q47"
+    },
+    {
+      "query_text": "What is the recommended evidence to include when escalating a generic HTTP 5xx gateway issue?",
+      "split": "holdout",
+      "intent": "AUDIT",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "SOP",
+        "USER_GUIDE",
+        "TRAINING",
+        "RELEASE_NOTES",
+        "INCIDENT",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "HTTP 502",
+        "HTTP 504"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q48"
+    },
+    {
+      "query_text": "Does the legacy TLS guide conflict with the 2026 Q1 release notes? Explain.",
+      "split": "holdout",
+      "intent": "FRESHNESS",
+      "expected_doc_types": [
+        "TROUBLESHOOT",
+        "RELEASE_NOTES",
+        "SOP",
+        "INCIDENT",
+        "USER_GUIDE",
+        "REFERENCE",
+        "ARCHITECTURE",
+        "CONFIG",
+        "TRAINING"
+      ],
+      "must_include_terms": [
+        "LEGACY",
+        "ERR-TLS-014",
+        "2026 Q1"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q49"
+    },
+    {
+      "query_text": "Summarize the SecureVault training deck: key slides and takeaways.",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": [
+        "TRAINING",
+        "SOP",
+        "TROUBLESHOOT",
+        "USER_GUIDE",
+        "RELEASE_NOTES",
+        "REFERENCE",
+        "INCIDENT",
+        "ARCHITECTURE",
+        "CONFIG"
+      ],
+      "must_include_terms": [
+        "SecureVault",
+        "ERR-ACL-002",
+        "ERR-MFA-009"
+      ],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "notes": "",
+      "query_id": "V2-Q50"
+    }
+  ]
+}

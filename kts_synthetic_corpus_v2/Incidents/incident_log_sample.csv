@@ -1,0 +1,61 @@
+incident_id,date,tool,code,severity,summary
+INC-0001,2025-11-25,OpsFlow,ERR-RUN-204,P2,OpsFlow experienced ERR-RUN-204 during routine operations
+INC-0002,2026-01-14,DataDesk,ERR-UPL-021,P2,DataDesk experienced ERR-UPL-021 during routine operations
+INC-0003,2025-11-20,FinReport,ERR-AUTH-407,P2,FinReport experienced ERR-AUTH-407 during routine operations
+INC-0004,2026-02-10,OpsFlow,ERR-AUTH-407,P1,OpsFlow experienced ERR-AUTH-407 during routine operations
+INC-0005,2025-12-12,FinReport,ERR-RUN-204,P2,FinReport experienced ERR-RUN-204 during routine operations
+INC-0006,2025-11-15,FinReport,ERR-RATE-429,P1,FinReport experienced ERR-RATE-429 during routine operations
+INC-0007,2025-12-01,SecureVault,ERR-RUN-204,P2,SecureVault experienced ERR-RUN-204 during routine operations
+INC-0008,2026-01-25,BatchBridge,ERR-MFA-009,P1,BatchBridge experienced ERR-MFA-009 during routine operations
+INC-0009,2026-01-18,SecureVault,ERR-AUTH-407,P0,SecureVault experienced ERR-AUTH-407 during routine operations
+INC-0010,2026-02-02,SecureVault,ERR-MFA-009,P2,SecureVault experienced ERR-MFA-009 during routine operations
+INC-0011,2025-11-03,OpsFlow,HTTP 502,P1,OpsFlow experienced HTTP 502 during routine operations
+INC-0012,2026-01-30,BatchBridge,ERR-AUTH-407,P2,BatchBridge experienced ERR-AUTH-407 during routine operations
+INC-0013,2025-10-31,FinReport,ERR-MFA-009,P2,FinReport experienced ERR-MFA-009 during routine operations
+INC-0014,2025-11-16,OpsFlow,ERR-RUN-204,P2,OpsFlow experienced ERR-RUN-204 during routine operations
+INC-0015,2025-11-08,SecureVault,ERR-AUTH-407,P2,SecureVault experienced ERR-AUTH-407 during routine operations
+INC-0016,2025-10-27,OpsFlow,ERR-RATE-429,P1,OpsFlow experienced ERR-RATE-429 during routine operations
+INC-0017,2025-11-25,SecureVault,ERR-UPL-021,P1,SecureVault experienced ERR-UPL-021 during routine operations
+INC-0018,2026-01-19,SecureVault,HTTP 502,P2,SecureVault experienced HTTP 502 during routine operations
+INC-0019,2025-11-24,OpsFlow,ERR-SYNC-101,P2,OpsFlow experienced ERR-SYNC-101 during routine operations
+INC-0020,2025-12-08,DataDesk,ERR-UPL-021,P1,DataDesk experienced ERR-UPL-021 during routine operations
+INC-0021,2026-01-11,FinReport,SQLSTATE 22001,P2,FinReport experienced SQLSTATE 22001 during routine operations
+INC-0022,2025-10-30,OpsFlow,SQLSTATE 22001,P2,OpsFlow experienced SQLSTATE 22001 during routine operations
+INC-0023,2025-11-03,SecureVault,ERR-RATE-429,P1,SecureVault experienced ERR-RATE-429 during routine operations
+INC-0024,2026-01-18,FinReport,HTTP 502,P1,FinReport experienced HTTP 502 during routine operations
+INC-0025,2025-11-23,BatchBridge,ERR-RATE-429,P2,BatchBridge experienced ERR-RATE-429 during routine operations
+INC-0026,2025-11-24,BatchBridge,ERR-UPL-021,P1,BatchBridge experienced ERR-UPL-021 during routine operations
+INC-0027,2026-01-14,FinReport,ERR-EXP-003,P1,FinReport experienced ERR-EXP-003 during routine operations
+INC-0028,2025-12-02,BatchBridge,ERR-SYNC-101,P1,BatchBridge experienced ERR-SYNC-101 during routine operations
+INC-0029,2026-01-17,DataDesk,ERR-EXP-003,P1,DataDesk experienced ERR-EXP-003 during routine operations
+INC-0030,2025-11-10,OpsFlow,ERR-AUTH-407,P0,OpsFlow experienced ERR-AUTH-407 during routine operations
+INC-0031,2026-01-25,BatchBridge,ERR-SYNC-101,P0,BatchBridge experienced ERR-SYNC-101 during routine operations
+INC-0032,2025-12-28,FinReport,ERR-TLS-014,P2,FinReport experienced ERR-TLS-014 during routine operations
+INC-0033,2025-12-06,OpsFlow,HTTP 504,P2,OpsFlow experienced HTTP 504 during routine operations
+INC-0034,2025-11-19,FinReport,ERR-ACL-002,P2,FinReport experienced ERR-ACL-002 during routine operations
+INC-0035,2026-01-02,OpsFlow,ERR-ACL-002,P1,OpsFlow experienced ERR-ACL-002 during routine operations
+INC-0036,2025-12-18,OpsFlow,HTTP 502,P2,OpsFlow experienced HTTP 502 during routine operations
+INC-0037,2026-01-12,FinReport,ERR-UPL-021,P2,FinReport experienced ERR-UPL-021 during routine operations
+INC-0038,2026-02-01,SecureVault,HTTP 504,P2,SecureVault experienced HTTP 504 during routine operations
+INC-0039,2026-01-20,DataDesk,ERR-MFA-009,P2,DataDesk experienced ERR-MFA-009 during routine operations
+INC-0040,2025-12-07,FinReport,ERR-RUN-204,P2,FinReport experienced ERR-RUN-204 during routine operations
+INC-0041,2025-12-14,OpsFlow,ERR-AUTH-407,P2,OpsFlow experienced ERR-AUTH-407 during routine operations
+INC-0042,2025-10-25,SecureVault,SQLSTATE 22001,P0,SecureVault experienced SQLSTATE 22001 during routine operations
+INC-0043,2025-10-25,FinReport,ERR-AUTH-407,P0,FinReport experienced ERR-AUTH-407 during routine operations
+INC-0044,2025-12-14,OpsFlow,ERR-EXP-003,P2,OpsFlow experienced ERR-EXP-003 during routine operations
+INC-0045,2026-01-29,BatchBridge,ERR-EXP-003,P0,BatchBridge experienced ERR-EXP-003 during routine operations
+INC-0046,2025-12-09,FinReport,ERR-RATE-429,P2,FinReport experienced ERR-RATE-429 during routine operations
+INC-0047,2025-10-19,FinReport,HTTP 502,P2,FinReport experienced HTTP 502 during routine operations
+INC-0048,2025-11-15,SecureVault,ERR-RATE-429,P2,SecureVault experienced ERR-RATE-429 during routine operations
+INC-0049,2025-11-23,SecureVault,ERR-TLS-014,P2,SecureVault experienced ERR-TLS-014 during routine operations
+INC-0050,2025-12-19,OpsFlow,SQLSTATE 22001,P1,OpsFlow experienced SQLSTATE 22001 during routine operations
+INC-0051,2026-01-02,OpsFlow,ERR-SYNC-101,P2,OpsFlow experienced ERR-SYNC-101 during routine operations
+INC-0052,2025-12-01,DataDesk,ERR-RUN-204,P0,DataDesk experienced ERR-RUN-204 during routine operations
+INC-0053,2025-11-26,OpsFlow,SQLSTATE 22001,P0,OpsFlow experienced SQLSTATE 22001 during routine operations
+INC-0054,2026-02-10,SecureVault,ERR-AUTH-407,P2,SecureVault experienced ERR-AUTH-407 during routine operations
+INC-0055,2026-01-10,BatchBridge,SQLSTATE 22001,P2,BatchBridge experienced SQLSTATE 22001 during routine operations
+INC-0056,2025-11-14,FinReport,ERR-SYNC-101,P1,FinReport experienced ERR-SYNC-101 during routine operations
+INC-0057,2025-11-06,BatchBridge,ERR-RATE-429,P0,BatchBridge experienced ERR-RATE-429 during routine operations
+INC-0058,2026-02-02,BatchBridge,ERR-MFA-009,P1,BatchBridge experienced ERR-MFA-009 during routine operations
+INC-0059,2025-12-17,OpsFlow,HTTP 504,P2,OpsFlow experienced HTTP 504 during routine operations
+INC-0060,2025-11-24,OpsFlow,ERR-RUN-204,P1,OpsFlow experienced ERR-RUN-204 during routine operations

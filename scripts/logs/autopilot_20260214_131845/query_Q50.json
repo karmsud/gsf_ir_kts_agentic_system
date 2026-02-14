@@ -1,0 +1,35 @@
+﻿{
+  "context_chunks": [
+    {
+      "chunk_id": "doc_7630742_chunk_0",
+      "doc_id": "doc_7630742",
+      "content": "# Troubleshoot: ToolY \u2014 ERR-UPL-013 (File type not allowed)\n\n**Last updated:** 2026-02-14  \n**Owner:** KTS Test Corpus Team  \n**Applies to:** ToolY Upload workflow\n\n## Symptoms\n- Upload fails immediately with: `ERR-UPL-013: File type not allowed: .exe`\n- User may be trying to upload a packaged report export.\n\n**Screenshot reference:** `Reference/images/tooly_upload_blocked.png`\n\n## Cause\nUpload policy restricts executable and script file types.\n\n## Resolution\n1. Confirm the file extension is allowed: `.csv .xlsx .pdf`\n2. If user has a zipped export, **extract** and upload only the report file.\n3. If extension is blocked but business\u2011required, request policy change:\n   - Provide: business justification, file type, retention need, malware scanning approach.\n\n## Validation\n- Upload succeeds and appears in **Recent uploads** list.\n- User can open preview.",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+      "chunk_index": 0,
+      "doc_type": "TROUBLESHOOT"
+    }
+  ],
+  "confidence": 0.6,
+  "citations": [
+    {
+      "doc_id": "doc_7630742",
+      "doc_name": "Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+      "source_path": "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+      "uri": "file:///C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\kts_test_corpus\\Troubleshooting\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md",
+      "version": 1,
+      "section": null,
+      "page": null,
+      "last_updated": null,
+      "freshness_badge": "UNKNOWN",
+      "image_note": null
+    }
+  ],
+  "image_notes": [],
+  "freshness": {
+    "current": 1,
+    "aging": 0,
+    "stale": 0
+  },
+  "related_topics": [],
+  "escalation": null
+}

@@ -1,0 +1,525 @@
+﻿{
+    "ExitCriteria":  {
+                         "NoIdempotencyDuplicates":  true,
+                         "QueriesWithCitations":  false,
+                         "IngestionComplete":  true,
+                         "QueryAccuracy":  false,
+                         "AllPass":  false,
+                         "PytestPass":  true,
+                         "AdvancedAgentsPass":  true
+                     },
+    "Environment":  {
+                        "QueryPack":  50,
+                        "CLI":  "OK",
+                        "CorpusFiles":  14,
+                        "Python":  "Python 3.13.5"
+                    },
+    "Timestamp":  "2026-02-14T13:13:30.4564876-08:00",
+    "OverallPass":  false,
+    "Phases":  {
+                   "Ingestion":  {
+                                     "Commands":  [
+                                                      {
+                                                          "Output":  "{\n  \"changes\": {\n    \"new_files\": [\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Reference\\\\SOP_ToolX_Login_Failures_v1.docx\",\n        \"filename\": \"SOP_ToolX_Login_Failures_v1.docx\",\n        \"extension\": \".docx\",\n        \"size_bytes\": 67938,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"492b76af511704dc53c53e459fa940751bafba14272953b06dcb0595a4743a05\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Release_Notes\\\\ReleaseNotes_ToolX_2026Q1.md\",\n        \"filename\": \"ReleaseNotes_ToolX_2026Q1.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 426,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"bae2eb862d502cac4eb1e66e0c1b72df523e87877c3e38a3272051eddfe8de58\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Training\\\\Training_ToolX_Troubleshooting_Pack.pdf\",\n        \"filename\": \"Training_ToolX_Troubleshooting_Pack.pdf\",\n        \"extension\": \".pdf\",\n        \"size_bytes\": 84668,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"c6b6a55f6722f2874f8d1e05e424caf585e38e34b98cc1d932b4f439c008f295\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Training\\\\Training_ToolY_Upload_Policy.pptx\",\n        \"filename\": \"Training_ToolY_Upload_Policy.pptx\",\n        \"extension\": \".pptx\",\n        \"size_bytes\": 58757,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"d4baf9bdcb56c6629d262a458219bc9f46caf4598929bac153f710cef2876a35\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Troubleshooting\\\\Troubleshoot_ToolX_AUTH401.md\",\n        \"filename\": \"Troubleshoot_ToolX_AUTH401.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 1345,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"57ac0327e33df0f3194b8d488123cc195932677a7905ac7e5064098bdc0e73ea\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Troubleshooting\\\\Troubleshoot_ToolX_HTTP504_Timeout.md\",\n        \"filename\": \"Troubleshoot_ToolX_HTTP504_Timeout.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 1022,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"999632fd156cdc63e27e1816a61ce965e5acd5b2daf76b978ad80841ea3ee49b\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Troubleshooting\\\\Troubleshoot_ToolY_Upload_ERR-UPL-013.md\",\n        \"filename\": \"Troubleshoot_ToolY_Upload_ERR-UPL-013.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 869,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"cb649f596c3b7119d541552abeefce2d69e73396f2ba73b5af14aba8ef47bb51\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\Troubleshooting\\\\Troubleshoot_ToolZ_Password_ERR-PWD-007.md\",\n        \"filename\": \"Troubleshoot_ToolZ_Password_ERR-PWD-007.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 703,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"706cfa55ade689e1d03a3f34ae97db4d925f630f1aa48e4d25593d5a053dd921\",\n        \"doc_id\": null\n      },\n      {\n        \"path\": \"C:\\\\Users\\\\Karmsud\\\\Projects\\\\gsf_ir_kts_agentic_system\\\\kts_test_corpus\\\\User_Guides\\\\UserGuide_ToolX_Onboarding.md\",\n        \"filename\": \"UserGuide_ToolX_Onboarding.md\",\n        \"extension\": \".md\",\n        \"size_bytes\": 534,\n        \"modified_time\": \"2026-02-15T04:20:14+00:00\",\n        \"hash\": \"115449db167457267889c44a17f8fd3c4578e9a3c3e250fa92ad0fd215b61221\",\n        \"doc_id\": null\n      }\n    ],\n    \"modified_files\": [],\n    \"deleted_files\": [],\n    \"unchanged_files\": 0,\n    \"errors\": [],\n    \"warnings\": []\n  },\n  \"dry_run\": false,\n  \"force\": false\n}",
+                                                          "Description":  "crawl",
+                                                          "ExitCode":  0,
+                                                          "Command":  "crawl --paths \".\\kts_test_corpus\"",
+                                                          "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\crawl.log",
+                                                          "Duration":  0.1760013
+                                                      },
+                                                      {
+                                                          "Output":  "{\n  \"ingested\": [],\n  \"count\": 0\n}",
+                                                          "Description":  "ingest",
+                                                          "ExitCode":  0,
+                                                          "Command":  "ingest",
+                                                          "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\ingest.log",
+                                                          "Duration":  0.1639998
+                                                      },
+                                                      {
+                                                          "Output":  "{\n  \"documents\": 0,\n  \"manifest_files\": 9,\n  \"graph_nodes\": 0,\n  \"graph_edges\": 0\n}",
+                                                          "Description":  "status",
+                                                          "ExitCode":  0,
+                                                          "Command":  "status",
+                                                          "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\status.log",
+                                                          "Duration":  0.160002
+                                                      },
+                                                      {
+                                                          "Output":  "{\n  \"documents\": [],\n  \"count\": 0\n}",
+                                                          "Description":  "describe_pending",
+                                                          "ExitCode":  0,
+                                                          "Command":  "describe pending",
+                                                          "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\describe_pending.log",
+                                                          "Duration":  0.1589987
+                                                      }
+                                                  ],
+                                     "Pass":  true,
+                                     "Metrics":  {
+                                                     "VectorsCreated":  0,
+                                                     "DocumentsIngested":  0,
+                                                     "ImagesPending":  0
+                                                 }
+                                 },
+                   "Pytest":  {
+                                  "ExitCode":  0,
+                                  "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\pytest.log",
+                                  "Pass":  true
+                              },
+                   "Queries":  {
+                                   "Pass":  false,
+                                   "Metrics":  {
+                                                   "UnexpectedResults":  33,
+                                                   "ExpectedDocMatches":  0,
+                                                   "Errors":  0,
+                                                   "Total":  50,
+                                                   "WithoutCitations":  50,
+                                                   "WithCitations":  0
+                                               },
+                                   "Results":  [
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q1",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q1.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What does error AUTH401 mean for ToolX?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q2",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q2.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How do I fix HTTP 504 timeout errors in ToolX?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q3",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q3.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "ToolY upload is blocked with ERR-UPL-013",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q4",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q4.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What causes ERR-PWD-007 in ToolZ?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q5",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q5.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "I\u0027m getting authentication errors in ToolX",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q6",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q6.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What is error code XYZ-999?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q7",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q7.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "List all error codes for ToolX",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q8",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q8.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Why am I unable to login to ToolX?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q9",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q9.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How do I configure timeout settings to prevent 504 errors?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q10",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q10.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What files are allowed for upload in ToolY?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q11",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q11.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How do I get started with ToolX?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q12",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q12.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Step-by-step instructions for logging into ToolX",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q13",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q13.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How to upload a file to ToolY",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q14",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q14.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How do I reset my password in ToolZ?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q15",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q15.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How to configure ToolX settings",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q16",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q16.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How do I deploy ToolX to production?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q17",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q17.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What\u0027s the process for archiving old files in ToolY?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q18",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q18.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How to backup data from ToolZ",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q19",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q19.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "How can I monitor ToolX performance metrics?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q20",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q20.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What are the onboarding steps for new team members?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q21",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q21.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What\u0027s new in the latest ToolX release?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q22",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q22.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "List all features released in 2026 Q1",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q23",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q23.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Show me version history for ToolX",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q24",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q24.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Are there any breaking changes in ToolX 2026 Q1?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q25",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q25.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What\u0027s new in ToolY version 5.0?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q26",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q26.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Generate a training path for learning ToolX as a beginner",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q27",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q27.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "I need training on troubleshooting ToolX issues",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q28",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q28.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Training path for ToolY file uploads",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q29",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q29.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Learning path for ToolZ password and authentication",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q30",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q30.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Advanced training for ToolX power users",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q31",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q31.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Training path for onboarding new team members",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q32",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q32.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "I need to learn how to resolve common errors",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q33",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q33.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Training path for ToolX administrators",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q34",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q34.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Security training for using ToolX securely",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q35",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q35.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What should I learn before tackling ToolX troubleshooting?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q36",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q36.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What documentation will be affected if ToolX login process changes?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q37",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q37.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Impact of changing ToolY upload policy",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q38",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q38.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "If ToolZ password policy changes, what docs need updating?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q39",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q39.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Impact analysis for switching to SSO authentication",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q40",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q40.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What if error code AUTH401 is deprecated?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q41",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q41.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "ToolX UI is being redesigned, what images will be outdated?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q42",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q42.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What\u0027s the impact of updating ToolABC?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q43",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q43.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "If the deployment process changes, which docs are affected?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q44",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q44.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "If I update the troubleshooting training PDF, what else needs review?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q45",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q45.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "What training materials reference the 2026 Q1 release?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q46",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q46.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Which documents haven\u0027t been updated in over 6 months?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q47",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q47.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Check freshness of all ToolX documentation",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q48",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q48.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Are our training materials up to date?",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q49",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q49.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Review freshness of troubleshooting guides",
+                                                       "HasCitations":  false
+                                                   },
+                                                   {
+                                                       "ExitCode":  0,
+                                                       "QueryId":  "Q50",
+                                                       "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\query_Q50.json",
+                                                       "MatchedExpected":  false,
+                                                       "QueryText":  "Show me STALE-rated documents that need urgent review",
+                                                       "HasCitations":  false
+                                                   }
+                                               ]
+                               },
+                   "AdvancedAgents":  {
+                                          "Pass":  true,
+                                          "Results":  [
+                                                          {
+                                                              "Result":  {
+                                                                             "Output":  "{\n  \"topic\": \"ToolX authentication\",\n  \"level\": \"beginner\",\n  \"steps\": [],\n  \"total_time_minutes\": 0,\n  \"coverage\": 0.0\n}",
+                                                                             "Description":  "training_path",
+                                                                             "ExitCode":  0,
+                                                                             "Command":  "training --topic \"ToolX authentication\"",
+                                                                             "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\training_path.log",
+                                                                             "Duration":  0.1657846
+                                                                         },
+                                                              "Agent":  "Training"
+                                                          },
+                                                          {
+                                                              "Result":  {
+                                                                             "Output":  "{\n  \"entity\": \"ToolX\",\n  \"entity_type\": \"auto\",\n  \"direct_docs\": [],\n  \"indirect_docs\": [],\n  \"stale_images\": [],\n  \"affected_processes\": [],\n  \"affected_training\": [],\n  \"recommended_actions\": [\n    \"No impacted docs found; verify entity spelling and graph ingestion status.\"\n  ],\n  \"severity\": \"low\"\n}",
+                                                                             "Description":  "impact",
+                                                                             "ExitCode":  0,
+                                                                             "Command":  "impact --entity \"ToolX\"",
+                                                                             "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\impact.log",
+                                                                             "Duration":  0.1580281
+                                                                         },
+                                                              "Agent":  "Impact"
+                                                          },
+                                                          {
+                                                              "Result":  {
+                                                                             "Output":  "{\n  \"total_documents\": 0,\n  \"current\": 0,\n  \"aging\": 0,\n  \"stale\": 0,\n  \"unknown\": 0,\n  \"stale_documents\": [],\n  \"stale_images\": [],\n  \"recommendations\": [\n    \"No immediate freshness actions required.\"\n  ]\n}",
+                                                                             "Description":  "freshness",
+                                                                             "ExitCode":  0,
+                                                                             "Command":  "freshness",
+                                                                             "OutputFile":  "C:\\Users\\Karmsud\\Projects\\gsf_ir_kts_agentic_system\\scripts\\logs\\autopilot_20260214_131330\\freshness.log",
+                                                                             "Duration":  0.1700611
+                                                                         },
+                                                              "Agent":  "Freshness"
+                                                          }
+                                                      ]
+                                      },
+                   "Idempotency":  {
+                                       "DuplicatesCreated":  false,
+                                       "Pass":  true,
+                                       "BeforeCount":  0,
+                                       "AfterCount":  0
+                                   }
+               }
+}

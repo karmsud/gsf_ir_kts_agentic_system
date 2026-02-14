@@ -1,0 +1,55 @@
+{
+  "name": "gsf-ir-kts-extension",
+  "displayName": "GSF IR KTS",
+  "description": "KTS VS Code extension commands and Copilot tool bridge",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "main": "./extension.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "package:vsix": "npx @vscode/vsce package",
+    "package:vsix:no-deps": "npx @vscode/vsce package --no-dependencies"
+  },
+  "activationEvents": [
+    "onCommand:kts.crawlIngest",
+    "onCommand:kts.viewStatus",
+    "onCommand:kts.trainingPath",
+    "onCommand:kts.changeImpact",
+    "onCommand:kts.freshnessAudit",
+    "onCommand:kts.imageDescription",
+    "onCommand:kts.imageDescriptionComplete",
+    "onChatParticipant:kts.assistant"
+  ],
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "kts.assistant",
+        "name": "kts",
+        "fullName": "KTS Knowledge Assistant",
+        "description": "Retrieves enterprise knowledge context and citations from the local KTS backend.",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "search",
+            "description": "Retrieve concise context and citations"
+          },
+          {
+            "name": "deep",
+            "description": "Retrieve more context chunks for complex issues"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {"command": "kts.crawlIngest", "title": "KTS: Crawl & Ingest"},
+      {"command": "kts.viewStatus", "title": "KTS: View Status"},
+      {"command": "kts.trainingPath", "title": "KTS: Training Path"},
+      {"command": "kts.changeImpact", "title": "KTS: Change Impact"},
+      {"command": "kts.freshnessAudit", "title": "KTS: Freshness Audit"},
+      {"command": "kts.imageDescription", "title": "KTS: Image Description"},
+      {"command": "kts.imageDescriptionComplete", "title": "KTS: Complete Image Descriptions"}
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "gsf_ir_kts_agentic_system",
+  "version": "1.0.0",
+  "description": "GSF IR KTS is a localized multi-agent knowledge system for ingestion, retrieval, training, impact analysis, and freshness auditing.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

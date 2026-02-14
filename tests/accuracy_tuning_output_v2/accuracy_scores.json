@@ -1,0 +1,853 @@
+{
+  "metrics": {
+    "tune": {
+      "top1_accuracy": 100.0,
+      "top3_accuracy": 100.0,
+      "evidence_accuracy": 80.0,
+      "total_queries": 40,
+      "top1_correct": 40,
+      "top3_correct": 40,
+      "evidence_correct": 32
+    },
+    "holdout": {
+      "top1_accuracy": 100.0,
+      "top3_accuracy": 100.0,
+      "evidence_accuracy": 70.0,
+      "total_queries": 10,
+      "top1_correct": 10,
+      "top3_correct": 10,
+      "evidence_correct": 7
+    },
+    "overall": {
+      "top1_accuracy": 100.0,
+      "top3_accuracy": 100.0,
+      "evidence_accuracy": 78.0,
+      "total_queries": 50,
+      "top1_correct": 50,
+      "top3_correct": 50,
+      "evidence_correct": 39
+    }
+  },
+  "safe_targets": {
+    "tune_top1_pass": true,
+    "tune_top1_value": 100.0,
+    "holdout_top1_pass": true,
+    "holdout_top1_value": 100.0,
+    "overall_top3_pass": true,
+    "overall_top3_value": 100.0,
+    "all_targets_met": true
+  },
+  "detailed_scores": [
+    {
+      "query_id": "V2-Q01",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-RUN-204",
+        "OOM"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q02",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-AUTH-407"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q03",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-RUN-204",
+        "RunId"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q04",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [
+        "ERR-UPL-021",
+        "50MB"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q05",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "SQLSTATE 22001",
+        "truncation"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q06",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-UPL-021"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q07",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "ERR-ACL-002",
+        "vault.read"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q08",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "ERR-MFA-009",
+        "sync"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q09",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [
+        "vault.read",
+        "ERR-ACL-002"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q10",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "SOP",
+      "top3_doc_types": [
+        "SOP",
+        "SOP",
+        "SOP"
+      ],
+      "matched_terms": [
+        "HTTP 429",
+        "ERR-RATE-429",
+        "backoff"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q11",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "SOP"
+      ],
+      "matched_terms": [
+        "HTTP 429",
+        "ERR-RATE-429"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q12",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "retry-after",
+        "ERR-RATE-429"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q13",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-TLS-014",
+        "Unknown CA"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q14",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-TLS-014",
+        "root"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q15",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "ERR-EXP-003",
+        "template"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q16",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "SOP",
+      "top3_doc_types": [
+        "SOP",
+        "SOP",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "ERR-SYNC-101",
+        "stale"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q17",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "REFERENCE"
+      ],
+      "matched_terms": [
+        "ERR-SYNC-101",
+        "24h"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q18",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "gateway"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q19",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "HTTP 502"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q20",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-RATE-429",
+        "backoff"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q21",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-AUTH-407",
+        "TraceId"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q22",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "SOP",
+      "top3_doc_types": [
+        "SOP",
+        "SOP",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-SYNC-101"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q23",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "2026 Q1",
+        "ERR-TLS-014",
+        "ERR-RATE-429"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q24",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [
+        "ERR-UPL-021",
+        "SQLSTATE 22001"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q25",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "LEGACY",
+        "DEPRECATED",
+        "ERR-TLS-014"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q26",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q27",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q28",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q29",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "retry"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q30",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q31",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q32",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q33",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "TLS Trust Store",
+        "Retry/Backoff"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q34",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q35",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TRAINING",
+      "top3_doc_types": [
+        "TRAINING",
+        "TRAINING",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "Connector Triage Playbook"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q36",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q37",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [
+        "TraceId"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q38",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "REFERENCE",
+      "top3_doc_types": [
+        "REFERENCE",
+        "REFERENCE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [
+        "severity"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q39",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "rank lower",
+        "conceptual"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q40",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "Deprecated",
+        "keystore"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q41",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "REFERENCE",
+      "top3_doc_types": [
+        "REFERENCE",
+        "REFERENCE",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [
+        "SQLSTATE 22001",
+        "ERR-UPL-021"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q42",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q43",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q44",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "ERR-AUTH-407",
+        "proxy"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q45",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [
+        "HTTP 429",
+        "ERR-RATE-429"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q46",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "FinReport",
+        "ERR-EXP-003"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q47",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": false,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "USER_GUIDE"
+      ],
+      "matched_terms": [],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q48",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "TROUBLESHOOT",
+      "top3_doc_types": [
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "HTTP 502"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q49",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "RELEASE_NOTE",
+      "top3_doc_types": [
+        "RELEASE_NOTE",
+        "RELEASE_NOTE",
+        "RELEASE_NOTE"
+      ],
+      "matched_terms": [
+        "LEGACY",
+        "ERR-TLS-014",
+        "2026 Q1"
+      ],
+      "errors": []
+    },
+    {
+      "query_id": "V2-Q50",
+      "top1_match": true,
+      "top3_match": true,
+      "evidence_found": true,
+      "top1_doc_type": "USER_GUIDE",
+      "top3_doc_types": [
+        "USER_GUIDE",
+        "USER_GUIDE",
+        "TROUBLESHOOT"
+      ],
+      "matched_terms": [
+        "SecureVault",
+        "ERR-ACL-002"
+      ],
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,661 @@
+{
+  "golden_pack_version": "1.0",
+  "created": "2026-02-14",
+  "description": "Golden query pack with Tune/Holdout split for retrieval accuracy optimization. Generalizable evidence rules only - no corpus-specific hardcoding.",
+  "total_queries": 50,
+  "tune_queries": 40,
+  "holdout_queries": 10,
+  "queries": [
+    {
+      "query_id": "Q1",
+      "query_text": "What does error AUTH401 mean for ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "REFERENCE", "SOP"],
+      "must_include_terms": ["AUTH401", "ERR-AUTH-401"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Error code query should return TROUBLESHOOT doc with exact error code"
+      }
+    },
+    {
+      "query_id": "Q2",
+      "query_text": "How do I fix HTTP 504 timeout errors in ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["504", "timeout"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Error troubleshooting query should return TROUBLESHOOT doc with error details"
+      }
+    },
+    {
+      "query_id": "Q3",
+      "query_text": "ToolY upload is blocked with ERR-UPL-013",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["ERR-UPL-013", "upload"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Specific error code should return exact troubleshooting doc"
+      }
+    },
+    {
+      "query_id": "Q4",
+      "query_text": "What causes ERR-PWD-007 in ToolZ?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "REFERENCE"],
+      "must_include_terms": ["ERR-PWD-007", "password"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Error code query should find specific troubleshooting doc"
+      }
+    },
+    {
+      "query_id": "Q5",
+      "query_text": "I'm getting authentication errors in ToolX",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["auth", "login", "sign"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Generic auth error should return auth troubleshooting docs"
+      }
+    },
+    {
+      "query_id": "Q6",
+      "query_text": "What is error code XYZ-999?",
+      "split": "holdout",
+      "expected_doc_types_priority": [],
+      "must_include_terms": [],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": false,
+        "at_least_one_chunk_from_top_doc_type": false,
+        "description": "Unknown error code - any result acceptable (escalation case)"
+      },
+      "allow_any_result": true
+    },
+    {
+      "query_id": "Q7",
+      "query_text": "List all error codes for ToolX",
+      "split": "tune",
+      "expected_doc_types_priority": ["REFERENCE"],
+      "must_include_terms": ["error", "code"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "List query should return REFERENCE doc (error catalog)"
+      }
+    },
+    {
+      "query_id": "Q8",
+      "query_text": "Why am I unable to login to ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["login", "sign"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Login troubleshooting should return SOP or TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q9",
+      "query_text": "How do I configure timeout settings to prevent 504 errors?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["timeout", "504"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Configuration query should return troubleshooting doc"
+      }
+    },
+    {
+      "query_id": "Q10",
+      "query_text": "What files are allowed for upload in ToolY?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["TRAINING", "TROUBLESHOOT"],
+      "must_include_terms": ["upload", "file", "allowed"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Policy query should return TRAINING doc with upload policy"
+      }
+    },
+    {
+      "query_id": "Q11",
+      "query_text": "How do I onboard a new user to ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["USER_GUIDE", "SOP", "TRAINING"],
+      "must_include_terms": ["onboard", "user", "new"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Onboarding query should return USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q12",
+      "query_text": "What are the steps to deploy ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "USER_GUIDE"],
+      "must_include_terms": ["deploy", "step"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Procedural query should return SOP"
+      }
+    },
+    {
+      "query_id": "Q13",
+      "query_text": "Show me the troubleshooting guide for ToolX authentication",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["troubleshoot", "auth"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Explicit troubleshooting request should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q14",
+      "query_text": "What changed in the latest ToolX release?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["RELEASE_NOTE"],
+      "must_include_terms": ["release", "change", "version"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Release query should return RELEASE_NOTE"
+      }
+    },
+    {
+      "query_id": "Q15",
+      "query_text": "I need training materials for ToolX troubleshooting",
+      "split": "tune",
+      "expected_doc_types_priority": ["TRAINING", "TROUBLESHOOT"],
+      "must_include_terms": ["training", "troubleshoot"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Training request should return TRAINING doc"
+      }
+    },
+    {
+      "query_id": "Q16",
+      "query_text": "Where can I find the SOP for handling login failures?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["SOP", "login", "fail"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Explicit SOP request should return SOP doc"
+      }
+    },
+    {
+      "query_id": "Q17",
+      "query_text": "What's the procedure for escalating ToolX issues?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["escalat", "procedure"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Escalation procedure should return SOP"
+      }
+    },
+    {
+      "query_id": "Q18",
+      "query_text": "How do I validate a successful ToolX connection?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["validat", "connection", "test"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Validation query should return troubleshooting or guide"
+      }
+    },
+    {
+      "query_id": "Q19",
+      "query_text": "What are common symptoms of authentication problems?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["symptom", "auth"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Symptoms query should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q20",
+      "query_text": "Which browser is recommended for ToolX?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["USER_GUIDE", "RELEASE_NOTE"],
+      "must_include_terms": ["browser"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Recommendation query should return USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q21",
+      "query_text": "How do I capture troubleshooting data for escalation?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["capture", "escalat", "data"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Data capture procedure should return SOP"
+      }
+    },
+    {
+      "query_id": "Q22",
+      "query_text": "What does the Dashboard connection test do?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["dashboard", "connection", "test"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Feature explanation should return troubleshooting or guide"
+      }
+    },
+    {
+      "query_id": "Q23",
+      "query_text": "Why would third-party cookies cause login issues?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["cookie", "login"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Root cause question should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q24",
+      "query_text": "What file extensions are blocked in ToolY uploads?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TRAINING", "RELEASE_NOTE"],
+      "must_include_terms": ["upload", "extension", "block"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Policy details should return TRAINING"
+      }
+    },
+    {
+      "query_id": "Q25",
+      "query_text": "How do I check if my VPN is causing timeout issues?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT"],
+      "must_include_terms": ["VPN", "timeout"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Diagnostic query should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q26",
+      "query_text": "What's new in ToolX 6.3.0?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["RELEASE_NOTE"],
+      "must_include_terms": ["new", "version", "release"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Version-specific query should return RELEASE_NOTE"
+      }
+    },
+    {
+      "query_id": "Q27",
+      "query_text": "How do I clear cache to fix dashboard loading issues?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT"],
+      "must_include_terms": ["cache", "dashboard"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Fix procedure should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q28",
+      "query_text": "What is the Tier 1 process for ToolX login failures?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["Tier", "login", "fail"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Tiered procedure should return SOP"
+      }
+    },
+    {
+      "query_id": "Q29",
+      "query_text": "Where do I find the TraceId for authentication errors?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["TraceId", "auth"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Troubleshooting data location should return TROUBLESHOOT/SOP"
+      }
+    },
+    {
+      "query_id": "Q30",
+      "query_text": "How do I hard refresh the ToolX page?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "SOP", "USER_GUIDE"],
+      "must_include_terms": ["refresh", "hard"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Basic troubleshooting step should return TROUBLESHOOT/SOP"
+      }
+    },
+    {
+      "query_id": "Q31",
+      "query_text": "What should I do if Dashboard looks stale?",
+      "split": "tune",
+      "expected_doc_types_priority": ["USER_GUIDE", "TROUBLESHOOT"],
+      "must_include_terms": ["dashboard", "stale"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Issue resolution should return guide or troubleshooting"
+      }
+    },
+    {
+      "query_id": "Q32",
+      "query_text": "How do I check my last login timestamp?",
+      "split": "tune",
+      "expected_doc_types_priority": ["USER_GUIDE", "TROUBLESHOOT"],
+      "must_include_terms": ["login", "timestamp"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Feature usage should return USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q33",
+      "query_text": "What are the breaking changes in ToolX 2026 Q1?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["RELEASE_NOTE"],
+      "must_include_terms": ["breaking", "change"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Breaking changes query should return RELEASE_NOTE"
+      }
+    },
+    {
+      "query_id": "Q34",
+      "query_text": "How do I access the Tickets page in ToolX?",
+      "split": "tune",
+      "expected_doc_types_priority": ["USER_GUIDE"],
+      "must_include_terms": ["Ticket", "access", "page"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Navigation query should return USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q35",
+      "query_text": "What is the SSO retry logic improvement?",
+      "split": "tune",
+      "expected_doc_types_priority": ["RELEASE_NOTE", "TROUBLESHOOT"],
+      "must_include_terms": ["SSO", "retry"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Feature improvement should return RELEASE_NOTE"
+      }
+    },
+    {
+      "query_id": "Q36",
+      "query_text": "How do I rerun a failed batch job?",
+      "split": "tune",
+      "expected_doc_types_priority": ["USER_GUIDE"],
+      "must_include_terms": ["rerun", "job", "batch"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Job management should return USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q37",
+      "query_text": "What is a partial widget load error?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["widget", "partial", "load"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Error explanation should return TROUBLESHOOT/TRAINING"
+      }
+    },
+    {
+      "query_id": "Q38",
+      "query_text": "Which files can I preview after uploading to ToolY?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["preview", "upload"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Feature capability should return TRAINING/USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q39",
+      "query_text": "What is clock skew and how does it affect authentication?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["clock", "skew", "auth"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Technical concept should return TROUBLESHOOT/TRAINING"
+      }
+    },
+    {
+      "query_id": "Q40",
+      "query_text": "How long does the SSO session stay valid?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["SSO", "session", "valid"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Session policy should return TROUBLESHOOT /USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q41",
+      "query_text": "What do I do if upload appears in Recent uploads list?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["upload", "Recent"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Validation step should return TROUBLESHOOT/USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q42",
+      "query_text": "Why do I need to allow third-party cookies?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT"],
+      "must_include_terms": ["cookie", "third-party"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Configuration rationale should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q43",
+      "query_text": "What environment details do I need for escalation?",
+      "split": "tune",
+      "expected_doc_types_priority": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["environment", "escalat"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Escalation data requirements should return SOP"
+      }
+    },
+    {
+      "query_id": "Q44",
+      "query_text": "How do I sign out of the identity provider?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["sign out", "identity"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Sign out procedure should return TROUBLESHOOT/USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q45",
+      "query_text": "What is a Dashboard banner for connectivity issues?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["RELEASE_NOTE", "USER_GUIDE"],
+      "must_include_terms": ["Dashboard", "banner", "connectivity"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "New feature should return RELEASE_NOTE"
+      }
+    },
+    {
+      "query_id": "Q46",
+      "query_text": "How do I request a policy change for blocked file types?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "TRAINING"],
+      "must_include_terms": ["policy", "change", "request"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Policy change procedure should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q47",
+      "query_text": "What is a packaged report export?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["report", "export", "package"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Feature explanation should return TROUBLESHOOT/USER_GUIDE"
+      }
+    },
+    {
+      "query_id": "Q48",
+      "query_text": "What justification do I need for allowing executable files?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT"],
+      "must_include_terms": ["justification", "executable"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Policy exception requirements should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q49",
+      "query_text": "How do I extract a zipped export before uploading?",
+      "split": "tune",
+      "expected_doc_types_priority": ["TROUBLESHOOT"],
+      "must_include_terms": ["extract", "zip", "upload"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Workaround procedure should return TROUBLESHOOT"
+      }
+    },
+    {
+      "query_id": "Q50",
+      "query_text": "What are the known issues in ToolX 2026 Q1?",
+      "split": "holdout",
+      "expected_doc_types_priority": ["RELEASE_NOTE"],
+      "must_include_terms": ["known issue"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "at_least_one_chunk_has_terms": true,
+        "at_least_one_chunk_from_top_doc_type": true,
+        "description": "Known issues should return RELEASE_NOTE"
+      }
+    }
+  ]
+}

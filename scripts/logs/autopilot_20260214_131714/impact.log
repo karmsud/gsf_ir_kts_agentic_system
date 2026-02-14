@@ -1,0 +1,43 @@
+﻿{
+  "entity": "ToolX",
+  "entity_type": "auto",
+  "direct_docs": [
+    {
+      "id": "document:doc_2095363",
+      "title": "Troubleshoot_ToolX_HTTP504_Timeout"
+    },
+    {
+      "id": "document:doc_6342146",
+      "title": "Training_ToolX_Troubleshooting_Pack"
+    },
+    {
+      "id": "document:doc_6276315",
+      "title": "Troubleshoot_ToolX_AUTH401"
+    },
+    {
+      "id": "document:doc_1713806",
+      "title": "SOP_ToolX_Login_Failures_v1"
+    },
+    {
+      "id": "document:doc_4982239",
+      "title": "UserGuide_ToolX_Onboarding"
+    },
+    {
+      "id": "document:doc_2154260",
+      "title": "ReleaseNotes_ToolX_2026Q1"
+    }
+  ],
+  "indirect_docs": [],
+  "stale_images": [],
+  "affected_processes": [
+    {
+      "id": "process:AuthProcess",
+      "name": "AuthProcess"
+    }
+  ],
+  "affected_training": [],
+  "recommended_actions": [
+    "Review directly impacted documentation first."
+  ],
+  "severity": "high"
+}
