@@ -3,7 +3,9 @@ const { openImageDescriptionPanel } = require('../panels/image_description');
 
 module.exports = async function imageDescriptionComplete({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
-  const pending = await runCli({ workspaceRoot: root, args: ['describe', 'pending'] });
+  const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath');
+  const pending = await runCli({ workspaceRoot: root, sourcePath, args: ['describe', 'pending'] });
 
   const documents = Array.isArray(pending.documents) ? pending.documents : [];
   if (!documents.length) {
@@ -45,6 +47,7 @@ module.exports = async function imageDescriptionComplete({ vscode, outputChannel
   const descriptionsFile = pickedFiles[0].fsPath;
   const completion = await runCli({
     workspaceRoot: root,
+    sourcePath,
     args: ['describe', 'complete', '--doc-id', selectedDoc.docId, '--descriptions-file', descriptionsFile],
   });
 
@@ -52,7 +55,7 @@ module.exports = async function imageDescriptionComplete({ vscode, outputChannel
   outputChannel.appendLine(JSON.stringify(completion, null, 2));
   outputChannel.show(true);
 
-  await openImageDescriptionPanel({ vscode, workspaceRoot: root, runCli });
+  await openImageDescriptionPanel({ vscode, workspaceRoot: root, sourcePath, runCli });
 
   const indexedCount = Array.isArray(completion.newly_indexed) ? completion.newly_indexed.length : 0;
   vscode.window.showInformationMessage(`KTS: Image description completion applied. Newly indexed: ${indexedCount}.`);

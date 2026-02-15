@@ -90,7 +90,10 @@ def ingest(paths):
         for raw in paths:
             p = Path(raw)
             if p.is_dir():
-                source_paths.extend([file for file in p.rglob("*") if file.is_file()])
+                source_paths.extend([
+                    file for file in p.rglob("*")
+                    if file.is_file() and ".kts" not in file.parts
+                ])
             elif p.is_file():
                 source_paths.append(p)
 
@@ -189,10 +192,12 @@ def ingest(paths):
                 "path": str(source),
                 "chunk_count": ingest_result.data.get("chunk_count", 0),
                 "doc_type": metadata.get("doc_type", "UNKNOWN"),
+                "extracted_image_count": ingest_result.data.get("extracted_image_count", 0),
             }
         )
 
-    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary)}, indent=2))
+    total_images = sum(d.get("extracted_image_count", 0) for d in ingested_summary)
+    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary), "total_images_pending": total_images}, indent=2))
 
 
 @cli.command()
@@ -331,7 +336,7 @@ def describe_pending(doc_id):
 def describe_complete(doc_id, descriptions_file):
     config = _ctx()
     agent = VisionAgent(config)
-    payload = json.loads(Path(descriptions_file).read_text(encoding="utf-8"))
+    payload = json.loads(Path(descriptions_file).read_text(encoding="utf-8-sig"))
     result = agent.execute({"operation": "complete", "doc_id": doc_id, "descriptions": payload})
     click.echo(json.dumps(_serialize(result.data), indent=2))
 

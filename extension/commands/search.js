@@ -4,8 +4,14 @@
  */
 module.exports = async function search({ vscode, outputChannel, runCli } = {}) {
   const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath');
   const kbWorkspacePath = config.get('kbWorkspacePath');
   const backendChannel = config.get('backendChannel') || 'bundled';
+
+  if (!sourcePath) {
+    vscode.window.showWarningMessage('Please set source path first (KTS: Select Source Folder)');
+    return { error: 'No source path configured' };
+  }
 
   const query = await vscode.window.showInputBox({
     prompt: 'Enter search query',
@@ -24,6 +30,7 @@ module.exports = async function search({ vscode, outputChannel, runCli } = {}) {
     const result = await runCli({
       backendChannel,
       kbWorkspacePath,
+      sourcePath,
       args: ['search', '--query', query, '--top-k', '5'],
       timeoutMs: 60000,
     });

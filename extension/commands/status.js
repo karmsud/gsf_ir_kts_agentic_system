@@ -4,8 +4,14 @@
  */
 module.exports = async function status({ vscode, outputChannel, runCli } = {}) {
   const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath');
   const kbWorkspacePath = config.get('kbWorkspacePath');
   const backendChannel = config.get('backendChannel') || 'bundled';
+
+  if (!sourcePath) {
+    vscode.window.showWarningMessage('Please set source path first (KTS: Select Source Folder)');
+    return { error: 'No source path configured' };
+  }
 
   outputChannel.appendLine('[KTS Status] Retrieving KB status...');
   outputChannel.show(true);
@@ -14,6 +20,7 @@ module.exports = async function status({ vscode, outputChannel, runCli } = {}) {
     const result = await runCli({
       backendChannel,
       kbWorkspacePath,
+      sourcePath,
       args: ['status'],
       timeoutMs: 30000,
     });

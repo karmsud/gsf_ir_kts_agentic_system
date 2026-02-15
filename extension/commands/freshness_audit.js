@@ -3,6 +3,10 @@ const { runCliJson, getWorkspaceRoot } = require('../lib/kts_backend');
 module.exports = async function freshnessAudit({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
 
+  // Resolve source path for .kts/ KB path derivation
+  const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath');
+
   const scope = await vscode.window.showInputBox({
     prompt: 'Freshness scope (all, doc_type, or tool)',
     value: 'all',
@@ -25,7 +29,7 @@ module.exports = async function freshnessAudit({ vscode, outputChannel, workspac
     args.push('--threshold-days', String(thresholdDays));
   }
 
-  const result = await runCli({ workspaceRoot: root, args });
+  const result = await runCli({ workspaceRoot: root, sourcePath, args });
 
   outputChannel.appendLine(`[KTS] ${args.join(' ')}`);
   outputChannel.appendLine(JSON.stringify(result, null, 2));

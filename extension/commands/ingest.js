@@ -30,7 +30,10 @@ module.exports = async function ingest({ vscode, outputChannel, runCli } = {}) {
 
     outputChannel.appendLine(JSON.stringify(result, null, 2));
     
-    const ingestedCount = result.ingested_count || result.count || 0;
+    const ingestedCount = result.count
+      || (Array.isArray(result.ingested) ? result.ingested.length : 0)
+      || result.ingested_count
+      || 0;
     vscode.window.showInformationMessage(`KTS Ingest complete: ${ingestedCount} document(s) ingested.`);
     
     return result;

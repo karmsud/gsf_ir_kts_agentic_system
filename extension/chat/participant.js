@@ -1,4 +1,5 @@
 const ktsTool = require('../copilot/kts_tool');
+const { autoDescribeImages } = require('../lib/image_describer');
 
 function toMarkdown(result) {
   if (!result || result.status !== 'ok' || !result.search_result) {
@@ -15,7 +16,11 @@ function toMarkdown(result) {
 
   const summary = chunks
     .slice(0, 5)
-    .map((chunk, index) => `### Context ${index + 1}\n${chunk.content}`)
+    .map((chunk, index) => {
+      // Strip internal [EVIDENCE] metadata header before display
+      const body = (chunk.content || '').replace(/^\[EVIDENCE\][^\n]*\n?/, '').trim();
+      return `### Context ${index + 1}\n${body}`;
+    })
     .join('\n\n');
 
   const citationMd = citations
@@ -50,6 +55,90 @@ function extractMaxResults(request) {
   return 5;
 }
 
+/**
+ * Approach B: /describe_images chat command handler.
+ * Lists pending images and triggers auto-description using Copilot LM API.
+ * Semi-manual fallback when auto-describe during ingestion fails.
+ */
+async function handleDescribeImages(vscode, shared, stream, token, query) {
+  const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath') || '';
+  const backendChannel = config.get('backendChannel') || 'bundled';
+
+  if (!sourcePath) {
+    stream.markdown('No source folder configured. Run **KTS: Select Source Folder** first.');
+    return;
+  }
+
+  stream.markdown('Checking for pending image descriptions...\n\n');
+
+  // 1. Get pending images from backend
+  let pendingData;
+  try {
+    pendingData = await shared.runCli({
+      backendChannel,
+      sourcePath,
+      args: ['describe', 'pending'],
+      timeoutMs: 30000,
+    });
+  } catch (err) {
+    stream.markdown(`Failed to fetch pending images: ${err.message}`);
+    return;
+  }
+
+  const documents = Array.isArray(pendingData.documents) ? pendingData.documents : [];
+  if (!documents.length) {
+    stream.markdown('All images have been described. No pending images found.');
+    return;
+  }
+
+  // Summarize what's pending
+  let totalPending = 0;
+  const docSummary = documents.map(doc => {
+    const count = doc.pending_count || (doc.pending_images || []).length || 0;
+    totalPending += count;
+    return `- **${doc.doc_id}**: ${count} image(s)`;
+  }).join('\n');
+
+  stream.markdown(`### Pending Images\n\n${totalPending} image(s) across ${documents.length} document(s):\n\n${docSummary}\n\n`);
+
+  // 2. Auto-describe using Copilot LM API
+  stream.markdown('Starting auto-description using Copilot vision model...\n\n');
+
+  try {
+    const result = await autoDescribeImages({
+      vscode,
+      runCli: shared.runCli,
+      outputChannel: shared.outputChannel,
+      sourcePath,
+      backendChannel,
+    });
+
+    if (!result.modelAvailable) {
+      stream.markdown(
+        '**Vision model not available.** Copilot cannot describe images in this session.\n\n' +
+        'Fallback options:\n' +
+        '1. Run **KTS: Image Description** command to view pending images\n' +
+        '2. Run **KTS: Complete Image Descriptions** to submit manual descriptions\n' +
+        '3. Try again later when Copilot vision models are accessible'
+      );
+      return;
+    }
+
+    stream.markdown(
+      `### Results\n\n` +
+      `- Described: **${result.described}**\n` +
+      `- Failed: **${result.failed}**\n` +
+      `- Skipped: **${result.skipped}**\n\n` +
+      (result.described > 0
+        ? 'Descriptions have been indexed and are now searchable in KTS queries.'
+        : 'No images were successfully described. Check the KTS output channel for details.')
+    );
+  } catch (err) {
+    stream.markdown(`Auto-description failed: ${err.message}\n\nCheck the KTS output channel for details.`);
+  }
+}
+
 function registerChatParticipant(vscode, context, shared) {
   if (!vscode.chat || typeof vscode.chat.createChatParticipant !== 'function') {
     shared.outputChannel.appendLine('[KTS] chat participant API not available in this VS Code build.');
@@ -59,6 +148,12 @@ function registerChatParticipant(vscode, context, shared) {
   const participant = vscode.chat.createChatParticipant('kts.assistant', async (request, _chatContext, stream, token) => {
     try {
       const query = (request?.prompt || '').trim();
+
+      // --- Approach B: /describe_images command ---
+      if (request?.command === 'describe_images') {
+        return await handleDescribeImages(vscode, shared, stream, token, query);
+      }
+
       if (!query) {
         stream.markdown('Please provide a question for KTS.');
         return;

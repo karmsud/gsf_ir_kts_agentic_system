@@ -49,9 +49,9 @@ function buildImageDescriptionHtml(pendingData) {
 </html>`;
 }
 
-async function openImageDescriptionPanel({ vscode, workspaceRoot, runCli = runCliJson, pendingData = null } = {}) {
+async function openImageDescriptionPanel({ vscode, workspaceRoot, sourcePath, runCli = runCliJson, pendingData = null } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
-  const pending = pendingData || (await runCli({ workspaceRoot: root, args: ['describe', 'pending'] }));
+  const pending = pendingData || (await runCli({ workspaceRoot: root, sourcePath, args: ['describe', 'pending'] }));
 
   const panel = vscode.window.createWebviewPanel(
     'ktsImageDescription',

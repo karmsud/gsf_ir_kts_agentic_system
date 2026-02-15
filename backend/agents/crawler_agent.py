@@ -30,7 +30,12 @@ class CrawlerAgent(AgentBase):
                 changes.errors.append({"path": raw_path, "error": "path_not_found"})
                 continue
             
-            files = [p for p in base.rglob("*") if p.is_file() and p.suffix.lower() in self.config.supported_extensions]
+            files = [
+                p for p in base.rglob("*")
+                if p.is_file()
+                and p.suffix.lower() in self.config.supported_extensions
+                and ".kts" not in p.parts  # Skip .kts/ index directory
+            ]
             for file_path in files:
                 abs_path = str(file_path.resolve())
                 try:

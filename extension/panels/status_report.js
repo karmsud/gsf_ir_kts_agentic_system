@@ -40,9 +40,9 @@ function buildStatusReportHtml(statusData) {
 </html>`;
 }
 
-async function openStatusReportPanel({ vscode, workspaceRoot, runCli = runCliJson, statusData = null } = {}) {
+async function openStatusReportPanel({ vscode, workspaceRoot, sourcePath, runCli = runCliJson, statusData = null } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
-  const status = statusData || (await runCli({ workspaceRoot: root, args: ['status'] }));
+  const status = statusData || (await runCli({ workspaceRoot: root, sourcePath, args: ['status'] }));
 
   const panel = vscode.window.createWebviewPanel(
     'ktsStatusReport',

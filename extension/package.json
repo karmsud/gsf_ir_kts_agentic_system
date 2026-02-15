@@ -82,8 +82,10 @@
                                                                       },
                                                                       {
                                                                           "name":  "deep",
-                                                                          "description":  "Retrieve more context chunks for complex issues"
-                                                                      }
+                                                                          "description":  "Retrieve more context chunks for complex issues"                                                                      },
+                                                                      {
+                                                                          "name":  "describe_images",
+                                                                          "description":  "Describe pending images using Copilot vision (fallback for auto-describe)"                                                                      }
                                                                   ]
                                                  }
                                              ],

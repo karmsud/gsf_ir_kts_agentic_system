@@ -35,7 +35,13 @@ module.exports = async function crawl({ vscode, outputChannel, runCli } = {}) {
 
     outputChannel.appendLine(JSON.stringify(result, null, 2));
     
-    const filesFound = result.files_found || result.count || 0;
+    const changes = result.changes || {};
+    const filesFound = (changes.new_files?.length || 0)
+      + (changes.modified_files?.length || 0)
+      + (changes.unchanged_files || 0)
+      || result.files_found
+      || result.count
+      || 0;
     vscode.window.showInformationMessage(`KTS Crawl complete: ${filesFound} file(s) discovered.`);
     
     return result;

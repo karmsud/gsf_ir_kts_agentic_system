@@ -72,14 +72,35 @@ function getWorkspaceRoot(explicitRoot) {
 }
 
 /**
- * Resolve KB workspace path (where manifest/index/graph/vectors live)
+ * Resolve KB workspace path (where manifest/index/graph/vectors live).
+ * Shared mode: always uses <sourcePath>/.kts/ so the index lives alongside the source.
+ * @param {string|null} userConfigPath - Explicit KB path override (if set in settings)
+ * @param {string|null} sourcePath - Source folder; KB path derived as <sourcePath>/.kts/
  */
-function resolveKbWorkspacePath(userConfigPath) {
+function resolveKbWorkspacePath(userConfigPath, sourcePath) {
+  // 1. Explicit override from settings takes priority
   if (userConfigPath && fs.existsSync(userConfigPath)) {
     return userConfigPath;
   }
 
-  // Default to global storage
+  // 2. Derive from source path: <sourceFolder>/.kts/
+  if (sourcePath) {
+    return path.join(sourcePath, '.kts');
+  }
+
+  // 3. Try reading configured source path from VS Code settings
+  try {
+    const vscode = require('vscode');
+    const config = vscode.workspace.getConfiguration('kts');
+    const configuredSource = config.get('sourcePath');
+    if (configuredSource) {
+      return path.join(configuredSource, '.kts');
+    }
+  } catch (_) {
+    // vscode API may not be available in tests
+  }
+
+  // 4. Fallback to global storage (should not normally reach here)
   const paths = getVenvManager().getPaths();
   return paths.kbWorkspace;
 }
@@ -92,6 +113,30 @@ function parseJsonOutput(stdout) {
   try {
     return JSON.parse(trimmed);
   } catch (e) {
+    // stdout may contain progress lines before the final JSON object.
+    // Find the last top-level JSON object or array in the output.
+    const lastBrace = trimmed.lastIndexOf('{');
+    const lastBracket = trimmed.lastIndexOf('[');
+    const jsonStart = Math.max(lastBrace, lastBracket);
+    if (jsonStart > 0) {
+      const candidate = trimmed.slice(jsonStart).trim();
+      try {
+        // Walk backwards to find the outermost opening brace that forms valid JSON
+        for (let i = jsonStart; i >= 0; i--) {
+          if (trimmed[i] === '{' || trimmed[i] === '[') {
+            try {
+              const parsed = JSON.parse(trimmed.slice(i));
+              return parsed;
+            } catch (_) {
+              // keep searching
+            }
+          }
+        }
+        return JSON.parse(candidate);
+      } catch (_) {
+        // fall through
+      }
+    }
     // If not JSON, return as text
     return { output: trimmed };
   }
@@ -116,7 +161,7 @@ async function runCliJson({
   timeoutMs = 120000 
 }) {
   const runner = getBackendRunner();
-  const kbPath = resolveKbWorkspacePath(kbWorkspacePath);
+  const kbPath = resolveKbWorkspacePath(kbWorkspacePath, sourcePath);
 
   // Ensure KB workspace exists
   if (!fs.existsSync(kbPath)) {

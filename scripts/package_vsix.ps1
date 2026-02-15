@@ -1,16 +1,26 @@
 # Package VSIX with Backend Executable
 # This script packages the VS Code extension including the backend executable
 # Prerequisites: Backend executable must be built first (run build_backend_exe.ps1)
+#
+# Tiers:
+#   A2  (default) - Full: DOCX + PDF + PPTX + HTML + images
+#   A3            - Word + Images: DOCX + HTML (no PDF/PPTX)
 
 param(
     [string]$Version = "1.1.0",
+    [ValidateSet("A2", "A3")]
+    [string]$Tier = "A2",
     [switch]$IncludeExe = $true,
     [switch]$NoBackendBundle = $false
 )
 
 $ErrorActionPreference = "Stop"
 
+$TierLabels = @{ "A2" = "Full"; "A3" = "Word+Images" }
+$TierSuffix = if ($Tier -eq "A2") { "" } else { "-$($Tier.ToLower())" }
+
 Write-Host "=== KTS Extension VSIX Packager ===" -ForegroundColor Cyan
+Write-Host "Tier: $Tier - $($TierLabels[$Tier])" -ForegroundColor Yellow
 Write-Host "Version: $Version" -ForegroundColor Yellow
 Write-Host "Include Exe: $IncludeExe" -ForegroundColor Yellow
 
@@ -69,7 +79,7 @@ if ($Version -ne $CurrentVersion) {
 Write-Host "`nPackaging VSIX..." -ForegroundColor Green
 Push-Location $ExtensionRoot
 
-$OutputFile = Join-Path $DistDir "gsf-ir-kts-$Version.vsix"
+$OutputFile = Join-Path $DistDir "gsf-ir-kts-$Version$TierSuffix.vsix"
 
 # Run vsce package with proper argument passing
 & npx vsce package `
@@ -94,12 +104,13 @@ if (-not (Test-Path $OutputFile)) {
 
 $VsixSize = (Get-Item $OutputFile).Length / 1KB
 
-Write-Host "`n=== Package Complete ===" -ForegroundColor Cyan
+Write-Host "`n=== Package Complete ($Tier) ===" -ForegroundColor Cyan
+Write-Host "Tier: $Tier - $($TierLabels[$Tier])" -ForegroundColor Yellow
 Write-Host "VSIX: $OutputFile" -ForegroundColor Yellow
 Write-Host "Size: $([math]::Round($VsixSize, 2)) KB" -ForegroundColor Yellow
 
 if ($IncludeExe) {
-    Write-Host "Includes: Backend executable (Option A2) + Source (Option A1)" -ForegroundColor Gray
+    Write-Host "Includes: Backend executable (Option $Tier) + Source (Option A1)" -ForegroundColor Gray
 } else {
     Write-Host "Includes: Source only (Option A1)" -ForegroundColor Gray
 }

@@ -59,7 +59,10 @@ module.exports = async function crawlIngest({ vscode, outputChannel, runCli } = 
     });
     outputChannel.appendLine(JSON.stringify(ingestResult, null, 2));
 
-    const ingestedCount = ingestResult.ingested_count || ingestResult.count || 0;
+    const ingestedCount = ingestResult.count
+      || (Array.isArray(ingestResult.ingested) ? ingestResult.ingested.length : 0)
+      || ingestResult.ingested_count
+      || 0;
     vscode.window.showInformationMessage(`KTS crawl+ingest complete. Ingested ${ingestedCount} document(s).`);
 
     return { crawl: crawlResult, ingest: ingestResult };

@@ -2,6 +2,8 @@ const { runCliJson, getWorkspaceRoot } = require('../lib/kts_backend');
 
 module.exports = async function trainingPath({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
+  const config = vscode.workspace.getConfiguration('kts');
+  const sourcePath = config.get('sourcePath');
   const topic = await vscode.window.showInputBox({
     prompt: 'Training topic (e.g., onboarding, ToolX)',
     value: 'onboarding',
@@ -21,7 +23,7 @@ module.exports = async function trainingPath({ vscode, outputChannel, workspaceR
     return { cancelled: true };
   }
 
-  const result = await runCli({ workspaceRoot: root, args: ['training', '--topic', topic, '--level', level] });
+  const result = await runCli({ workspaceRoot: root, sourcePath, args: ['training', '--topic', topic, '--level', level] });
 
   outputChannel.appendLine(`[KTS] training --topic ${topic} --level ${level}`);
   outputChannel.appendLine(JSON.stringify(result, null, 2));

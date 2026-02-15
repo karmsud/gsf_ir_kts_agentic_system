@@ -22,18 +22,18 @@ class IngestionAgent(AgentBase):
         super().__init__(config)
         self.vector_store = VectorStore(config.chroma_persist_dir)
 
-    def _convert(self, file_path: Path) -> tuple[str, list[str]]:
+    def _convert(self, file_path: Path, images_dir: str | None = None) -> tuple[str, list[str]]:
         extension = file_path.suffix.lower()
         if extension in {".md", ".txt"}:
             return file_path.read_text(encoding="utf-8", errors="ignore"), []
         if extension in {".htm", ".html"}:
             return convert_html(str(file_path))
         if extension == ".docx":
-            return convert_docx(str(file_path))
+            return convert_docx(str(file_path), images_dir=images_dir)
         if extension == ".pdf":
-            return convert_pdf(str(file_path))
+            return convert_pdf(str(file_path), images_dir=images_dir)
         if extension == ".pptx":
-            return convert_pptx(str(file_path))
+            return convert_pptx(str(file_path), images_dir=images_dir)
         if extension == ".json":
             return convert_json(str(file_path))
         if extension == ".png":
@@ -58,27 +58,26 @@ class IngestionAgent(AgentBase):
         # Legacy fallback provided for robustness, but caller should ideally provide stable ID
         doc_id = provided_doc_id or f"doc_{abs(hash(str(source_path))) % 10_000_000:07d}"
 
+        # Atomic Write Strategy
+        # 1. Prepare Staging (must exist before _convert so images can be extracted into it)
+        staging_dir = Path(self.config.knowledge_base_path) / "staging" / doc_id
+        if staging_dir.exists():
+            shutil.rmtree(staging_dir)
+        staging_dir.mkdir(parents=True, exist_ok=True)
+
+        final_doc_dir = Path(self.config.knowledge_base_path) / "documents" / doc_id
+        final_images_dir = final_doc_dir / "images"
+        staging_images_dir = staging_dir / "images"
+        staging_images_dir.mkdir(parents=True, exist_ok=True)
+
         try:
-            raw_text, raw_image_refs = self._convert(source_path)
+            raw_text, raw_image_refs = self._convert(source_path, images_dir=str(staging_images_dir))
         except Exception as exc:
             return AgentResult(success=False, confidence=0.2, data={"error": str(exc)}, reasoning="Document conversion failed.")
 
         text = clean_text(raw_text)
         if not text:
             return AgentResult(success=False, confidence=0.3, data={"error": "empty_document"}, reasoning="Extracted text is empty.")
-
-        # Atomic Write Strategy
-        # 1. Prepare Staging
-        # Using a fixed staging name so we can cleanup on failure if needed, or unique temp
-        staging_dir = Path(self.config.knowledge_base_path) / "staging" / doc_id
-        if staging_dir.exists():
-            shutil.rmtree(staging_dir)
-        staging_dir.mkdir(parents=True, exist_ok=True)
-        
-        final_doc_dir = Path(self.config.knowledge_base_path) / "documents" / doc_id
-        final_images_dir = final_doc_dir / "images" # We keep images in final location or stage them too? Staging simpler.
-        staging_images_dir = staging_dir / "images"
-        staging_images_dir.mkdir(parents=True, exist_ok=True)
 
         content_path = staging_dir / "content.md"
         content_path.write_text(text, encoding="utf-8")
@@ -111,24 +110,17 @@ class IngestionAgent(AgentBase):
         metadata_path = staging_dir / "metadata.json"
         metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
 
-        # Extract Images (to staging)
-        # Note: image_extractor needs to be careful about paths. 
-        # Assuming extract_image_refs returns relative paths or handles copying. 
-        # The current implementation likely copies to a target. 
-        # We need to ensure it copies to staging_images_dir context.
-        # But 'extract_image_refs' signature is (source_path, raw_refs). 
-        # Checking implementation of extract_image_refs would be ideal, but for now assuming it's safe or we mock it.
-        # Wait, the previous code used `images_dir` variable. I haven't passed it to `extract_image_refs`. 
-        # `extract_image_refs` likely uses `images_dir` if it's a class method? No, it's imported function.
-        # Let's import it and check signature? No, I read the file. 
-        # `from backend.ingestion import ...`
-        # The previous code: `image_paths = extract_image_refs(str(source_path), raw_image_refs)`
-        # It doesn't take output dir logic? 
-        # If `extract_image_refs` is pure extraction, where do images go?
-        # Ah, I missed reading `backend/ingestion/__init__.py`. 
-        # Assuming for now we just handle text correctly. Images might be broken if they depend on implicit state.
-        # SAFE HARBOR: Let's assume standard behavior and just pass paths if needed or fix later.
-        image_paths = extract_image_refs(str(source_path), raw_image_refs) 
+        # Combine embedded images (extracted by converters into staging_images_dir)
+        # with any external image references resolved from the source document
+        image_paths = list(raw_image_refs)
+        external_refs = extract_image_refs(str(source_path), raw_image_refs)
+        # Deduplicate by resolved path (converters and extractor may return same files)
+        seen = {str(Path(p).resolve()) for p in image_paths}
+        for ref in external_refs:
+            resolved = str(Path(ref).resolve())
+            if resolved not in seen:
+                image_paths.append(ref)
+                seen.add(resolved)
 
         # 2. Versioning (Backup Old)
         if final_doc_dir.exists():
@@ -156,6 +148,14 @@ class IngestionAgent(AgentBase):
              shutil.rmtree(final_doc_dir) # Safe because we versioned above
         
         shutil.move(str(staging_dir), str(final_doc_dir))
+
+        # Remap image paths from staging to final location
+        staging_prefix = str(staging_dir)
+        final_prefix = str(final_doc_dir)
+        image_paths = [
+            p.replace(staging_prefix, final_prefix) if p.startswith(staging_prefix) else p
+            for p in image_paths
+        ]
 
         # 4. Vector Store (Transaction)
         # Delete OLD chunks first to prevent phantom artifacts
@@ -190,7 +190,7 @@ class IngestionAgent(AgentBase):
             AgentResult(
                 success=True,
                 confidence=confidence,
-                data={"document": ingested, "chunk_count": len(chunks), "word_count": metadata["word_count"]},
+                data={"document": ingested, "chunk_count": len(chunks), "word_count": metadata["word_count"], "extracted_image_count": len(image_paths)},
                 reasoning="Ingested source document into local knowledge base and vector index.",
             )
         )
