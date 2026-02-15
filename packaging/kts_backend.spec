@@ -44,19 +44,15 @@ backend_hidden_imports = [
     'config.settings',
 ]
 
-# Add common dependencies
+# Add common dependencies (only packages actually imported by the code)
 common_hidden_imports = [
-    'numpy',
-    'sentence_transformers',
-    'transformers',
-    'torch',
-    'PIL',
     'docx',
-    'PyPDF2',
-    'markdown',
-    'networkx',
-    'sklearn',
-    'tiktoken',
+    'pptx',
+    'fitz',
+    'bs4',
+    'yaml',
+    'click',
+    'tqdm',
 ]
 
 # Collect data files
@@ -84,7 +80,18 @@ a = Analysis(
         'scipy',
         'pytest',
         'IPython',
-        'pandas',  # Exclude unless you actually use it
+        'pandas',
+        'numpy',
+        'torch',
+        'transformers',
+        'sentence_transformers',
+        'sklearn',
+        'scikit-learn',
+        'tiktoken',
+        'networkx',
+        'chromadb',
+        'PIL',
+        'Pillow',
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
