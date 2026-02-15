@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -9,7 +10,21 @@ from pathlib import Path
 class KTSConfig:
     source_paths: list[str] = field(default_factory=list)
     supported_extensions: list[str] = field(
-        default_factory=lambda: [".docx", ".pdf", ".pptx", ".htm", ".html", ".md", ".txt", ".json"]
+        default_factory=lambda: [
+            ".docx",
+            ".pdf",
+            ".pptx",
+            ".htm",
+            ".html",
+            ".md",
+            ".txt",
+            ".json",
+            ".png",
+            ".yaml",
+            ".yml",
+            ".ini",
+            ".csv",
+        ]
     )
     knowledge_base_path: str = "knowledge_base"
     chroma_persist_dir: str = "knowledge_base/vectors/chroma"
@@ -32,5 +47,15 @@ def _read_json(path: Path) -> dict:
 def load_config(root_dir: str | Path | None = None) -> KTSConfig:
     root = Path(root_dir or Path.cwd())
     paths_data = _read_json(root / "config" / "file_share_paths.json")
-    cfg = KTSConfig(source_paths=paths_data.get("paths", []))
+    
+    # Allow override for testing isolation
+    kb_path = os.environ.get("KTS_KB_PATH", "knowledge_base")
+    
+    cfg = KTSConfig(
+        source_paths=paths_data.get("paths", []),
+        knowledge_base_path=kb_path,
+        chroma_persist_dir=f"{kb_path}/vectors/chroma",
+        graph_path=f"{kb_path}/graph/knowledge_graph.json",
+        manifest_path=f"{kb_path}/manifest.json"
+    )
     return cfg

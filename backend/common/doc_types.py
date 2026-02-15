@@ -19,6 +19,7 @@ REFERENCE: Final[str] = "REFERENCE"
 INCIDENT: Final[str] = "INCIDENT"
 ARCHITECTURE: Final[str] = "ARCHITECTURE"
 CONFIG: Final[str] = "CONFIG"
+ASSET_IMAGE: Final[str] = "ASSET_IMAGE"
 UNKNOWN: Final[str] = "UNKNOWN"
 
 # All recognized canonical types
@@ -32,6 +33,7 @@ CANONICAL_TYPES: Final[set[str]] = {
     INCIDENT,
     ARCHITECTURE,
     CONFIG,
+    ASSET_IMAGE,
     UNKNOWN,
 }
 
@@ -110,6 +112,13 @@ ALIASES: Final[dict[str, str]] = {
     "CONFIGURATIONS": CONFIG,
     "CONFIG_FILE": CONFIG,
     "CONFIG_FILES": CONFIG,
+    
+    # Asset variants
+    "ASSET_IMAGE": ASSET_IMAGE,  # Identity
+    "ASSET": ASSET_IMAGE,
+    "IMAGE": ASSET_IMAGE,
+    "PNG": ASSET_IMAGE,
+    "SCREENSHOT": ASSET_IMAGE,
     
     # Unknown variants
     "UNKNOWN": UNKNOWN,  # Identity

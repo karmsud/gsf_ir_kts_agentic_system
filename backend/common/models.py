@@ -45,6 +45,11 @@ class FileInfo:
     modified_time: str
     hash: str
     doc_id: str | None = None
+    status: str = "active"  # active, missing, error, deleted
+    last_seen: str | None = None
+    retry_count: int = 0
+    source_id: str | None = None  # Stable ID based on content hash
+    versions: list[dict] = field(default_factory=list)  # History of {version, hash, date}
 
 
 @dataclass

@@ -36,6 +36,23 @@ class VectorStore:
             existing[chunk.chunk_id] = asdict(chunk)
         self._save(list(existing.values()))
 
+    def delete_doc_chunks(self, doc_id: str) -> None:
+        """Removes all chunks associated with a specific doc_id.
+        Crucial for preventing 'phantom chunks' when a document shrinks.
+        """
+        rows = self._load()
+        filtered = [row for row in rows if row.get("doc_id") != doc_id]
+        self._save(filtered)
+
+    def prune_orphans(self, active_doc_ids: set[str]) -> int:
+        """Removes chunks where doc_id is NOT in the active set."""
+        rows = self._load()
+        original_count = len(rows)
+        filtered = [row for row in rows if row.get("doc_id") in active_doc_ids]
+        if len(filtered) < original_count:
+            self._save(filtered)
+        return original_count - len(filtered)
+
     def update_doc_metadata(self, doc_id: str, doc_type: str | None = None, tags: list[str] | None = None) -> None:
         rows = self._load()
         for row in rows:

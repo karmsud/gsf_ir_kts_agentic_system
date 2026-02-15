@@ -23,19 +23,83 @@ class TaxonomyAgent(AgentBase):
         best_score = 0.0
         tags: list[str] = []
         matched_rules: list[str] = []
+        filename_stem = Path(filename).stem if filename else ""
 
+        # PHASE 0: Extension-based deterministic classification
+        extension = Path(filename).suffix.lower()
+        ext_map = {
+            ".yaml": "CONFIG",
+            ".yml": "CONFIG",
+            ".ini": "CONFIG",
+            ".csv": "INCIDENT",
+            ".png": "ASSET_IMAGE",
+        }
+        if extension in ext_map:
+            best_label = ext_map[extension]
+            best_score = 1.0
+            matched_rules.append(f"extension_match:{best_label}:{extension}")
+            # Skip subsequent phases if extension match found
+            # But allow prefix rules to potentially override or add tags if needed?
+            # User requirement: "Deterministic... minimal"
+            # It's safer to return early or ensure score reflects high confidence.
+    
+        # PHASE 1: Filename prefix pattern matching (highest priority)
+        # Only run if not already confidently classified by extension
+        # if best_score < 1.0:
+        #    filename_stem = Path(filename).stem if filename else ""
+        prefix_rules = {
+            "ARCH_": "ARCHITECTURE",
+            "POSTMORTEM_": "INCIDENT",
+            "INC-": "INCIDENT",
+            "REF_": "REFERENCE",
+            "LEGACY_": "TROUBLESHOOT",
+            "DEPRECATED_": "RELEASE_NOTE",
+        }
+        
+        for prefix, label in prefix_rules.items():
+            if filename_stem.upper().startswith(prefix):
+                best_label = label
+                best_score = 1.0  # High confidence for prefix match
+                matched_rules.append(f"filename_prefix:{label}:{prefix}")
+                
+                # Add ARCHIVED tag for LEGACY/DEPRECATED
+                if prefix in ["LEGACY_", "DEPRECATED_"]:
+                    tags.append("ARCHIVED")
+                break
+        
+        # PHASE 2: Filename contains pattern matching (medium priority)
+        if best_score < 1.0:
+            contains_rules = {
+                "glossary": "REFERENCE",
+                "catalog": "REFERENCE",
+                "_archived": "RELEASE_NOTE",
+                "_old": "TROUBLESHOOT",
+            }
+            
+            for pattern, label in contains_rules.items():
+                if pattern in filename_stem:
+                    best_label = label
+                    best_score = 0.8  # Medium confidence for contains match
+                    matched_rules.append(f"filename_contains:{label}:{pattern}")
+                    
+                    if pattern in ["_archived", "_old"]:
+                        tags.append("ARCHIVED")
+                    break
+
+        # PHASE 3: Content-based keyword matching (original logic, lower priority)
         for label, keywords in self.rules.items():
             score = 0.0
             for keyword in keywords:
                 keyword_lower = keyword.lower()
                 if keyword_lower in filename:
                     score += 0.3
-                    matched_rules.append(f"filename:{label}:{keyword_lower}")
+                    matched_rules.append(f"filename_keyword:{label}:{keyword_lower}")
                 if keyword_lower in text:
                     score += 0.15
                     tags.append(keyword)
                     matched_rules.append(f"content:{label}:{keyword_lower}")
 
+            # Only override if no prefix/contains match or content match is stronger
             if score > best_score:
                 best_score = score
                 best_label = label
@@ -53,6 +117,6 @@ class TaxonomyAgent(AgentBase):
                     "needs_review": needs_review,
                     "reasoning": "No rules matched" if best_label == "UNKNOWN" else f"Matched {len(matched_rules)} rule(s)",
                 },
-                reasoning="Filename and keyword-based taxonomy classification.",
+                reasoning="Filename pattern and content-based taxonomy classification.",
             )
         )

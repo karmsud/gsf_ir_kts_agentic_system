@@ -12,20 +12,20 @@
     "holdout": {
       "top1_accuracy": 100.0,
       "top3_accuracy": 100.0,
-      "evidence_accuracy": 70.0,
+      "evidence_accuracy": 80.0,
       "total_queries": 10,
       "top1_correct": 10,
       "top3_correct": 10,
-      "evidence_correct": 7
+      "evidence_correct": 8
     },
     "overall": {
       "top1_accuracy": 100.0,
       "top3_accuracy": 100.0,
-      "evidence_accuracy": 78.0,
+      "evidence_accuracy": 80.0,
       "total_queries": 50,
       "top1_correct": 50,
       "top3_correct": 50,
-      "evidence_correct": 39
+      "evidence_correct": 40
     }
   },
   "safe_targets": {
@@ -64,7 +64,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-AUTH-407"
@@ -96,8 +96,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "RELEASE_NOTE"
+        "RELEASE_NOTE",
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-UPL-021",
@@ -114,7 +114,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "RELEASE_NOTE"
       ],
       "matched_terms": [
         "SQLSTATE 22001",
@@ -146,8 +146,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "REFERENCE"
+        "REFERENCE",
+        "TRAINING"
       ],
       "matched_terms": [
         "ERR-ACL-002",
@@ -163,8 +163,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "REFERENCE"
+        "REFERENCE",
+        "TRAINING"
       ],
       "matched_terms": [
         "ERR-MFA-009",
@@ -180,8 +180,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "USER_GUIDE"
+        "USER_GUIDE",
+        "REFERENCE"
       ],
       "matched_terms": [
         "vault.read",
@@ -197,8 +197,8 @@
       "top1_doc_type": "SOP",
       "top3_doc_types": [
         "SOP",
-        "SOP",
-        "SOP"
+        "RELEASE_NOTE",
+        "INCIDENT"
       ],
       "matched_terms": [
         "HTTP 429",
@@ -215,8 +215,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "SOP"
+        "SOP",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "HTTP 429",
@@ -232,8 +232,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "REFERENCE"
+        "REFERENCE",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "retry-after",
@@ -250,7 +250,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-TLS-014",
@@ -266,8 +266,8 @@
       "top1_doc_type": "RELEASE_NOTE",
       "top3_doc_types": [
         "RELEASE_NOTE",
-        "RELEASE_NOTE",
-        "TROUBLESHOOT"
+        "TROUBLESHOOT",
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-TLS-014",
@@ -283,8 +283,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "REFERENCE"
+        "REFERENCE",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "ERR-EXP-003",
@@ -300,8 +300,8 @@
       "top1_doc_type": "SOP",
       "top3_doc_types": [
         "SOP",
-        "SOP",
-        "REFERENCE"
+        "REFERENCE",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "ERR-SYNC-101",
@@ -317,8 +317,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "REFERENCE"
+        "REFERENCE",
+        "SOP"
       ],
       "matched_terms": [
         "ERR-SYNC-101",
@@ -338,6 +338,7 @@
         "TROUBLESHOOT"
       ],
       "matched_terms": [
+        "HTTP 504",
         "gateway"
       ],
       "errors": []
@@ -351,7 +352,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "SOP"
       ],
       "matched_terms": [
         "HTTP 502"
@@ -400,8 +401,8 @@
       "top1_doc_type": "SOP",
       "top3_doc_types": [
         "SOP",
-        "SOP",
-        "TROUBLESHOOT"
+        "TROUBLESHOOT",
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-SYNC-101"
@@ -416,8 +417,8 @@
       "top1_doc_type": "RELEASE_NOTE",
       "top3_doc_types": [
         "RELEASE_NOTE",
-        "RELEASE_NOTE",
-        "TROUBLESHOOT"
+        "TROUBLESHOOT",
+        "RELEASE_NOTE"
       ],
       "matched_terms": [
         "2026 Q1",
@@ -452,7 +453,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "RELEASE_NOTE"
       ],
       "matched_terms": [
         "LEGACY",
@@ -511,7 +512,7 @@
       "top1_doc_type": "USER_GUIDE",
       "top3_doc_types": [
         "USER_GUIDE",
-        "USER_GUIDE",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [
@@ -527,7 +528,7 @@
       "top1_doc_type": "USER_GUIDE",
       "top3_doc_types": [
         "USER_GUIDE",
-        "USER_GUIDE",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [],
@@ -566,9 +567,9 @@
       "top1_match": true,
       "top3_match": true,
       "evidence_found": true,
-      "top1_doc_type": "TROUBLESHOOT",
+      "top1_doc_type": "ARCHITECTURE",
       "top3_doc_types": [
-        "TROUBLESHOOT",
+        "ARCHITECTURE",
         "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
@@ -600,7 +601,7 @@
       "top1_doc_type": "TRAINING",
       "top3_doc_types": [
         "TRAINING",
-        "TRAINING",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [
@@ -650,6 +651,7 @@
         "USER_GUIDE"
       ],
       "matched_terms": [
+        "ERR-TLS-014",
         "severity"
       ],
       "errors": []
@@ -659,9 +661,9 @@
       "top1_match": true,
       "top3_match": true,
       "evidence_found": true,
-      "top1_doc_type": "TROUBLESHOOT",
+      "top1_doc_type": "ARCHITECTURE",
       "top3_doc_types": [
-        "TROUBLESHOOT",
+        "ARCHITECTURE",
         "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
@@ -679,7 +681,7 @@
       "top1_doc_type": "RELEASE_NOTE",
       "top3_doc_types": [
         "RELEASE_NOTE",
-        "RELEASE_NOTE",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [
@@ -696,8 +698,8 @@
       "top1_doc_type": "REFERENCE",
       "top3_doc_types": [
         "REFERENCE",
-        "REFERENCE",
-        "RELEASE_NOTE"
+        "RELEASE_NOTE",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "SQLSTATE 22001",
@@ -709,14 +711,16 @@
       "query_id": "V2-Q42",
       "top1_match": true,
       "top3_match": true,
-      "evidence_found": false,
+      "evidence_found": true,
       "top1_doc_type": "RELEASE_NOTE",
       "top3_doc_types": [
         "RELEASE_NOTE",
         "RELEASE_NOTE",
         "RELEASE_NOTE"
       ],
-      "matched_terms": [],
+      "matched_terms": [
+        "ARCHIVED"
+      ],
       "errors": []
     },
     {
@@ -724,11 +728,11 @@
       "top1_match": true,
       "top3_match": true,
       "evidence_found": false,
-      "top1_doc_type": "USER_GUIDE",
+      "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
-        "USER_GUIDE",
-        "USER_GUIDE",
-        "USER_GUIDE"
+        "TROUBLESHOOT",
+        "TROUBLESHOOT",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [],
       "errors": []
@@ -742,7 +746,7 @@
       "top3_doc_types": [
         "TROUBLESHOOT",
         "TROUBLESHOOT",
-        "TROUBLESHOOT"
+        "REFERENCE"
       ],
       "matched_terms": [
         "ERR-AUTH-407",
@@ -758,8 +762,8 @@
       "top1_doc_type": "TROUBLESHOOT",
       "top3_doc_types": [
         "TROUBLESHOOT",
-        "TROUBLESHOOT",
-        "RELEASE_NOTE"
+        "RELEASE_NOTE",
+        "TROUBLESHOOT"
       ],
       "matched_terms": [
         "HTTP 429",
@@ -775,12 +779,13 @@
       "top1_doc_type": "USER_GUIDE",
       "top3_doc_types": [
         "USER_GUIDE",
-        "USER_GUIDE",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [
         "FinReport",
-        "ERR-EXP-003"
+        "ERR-EXP-003",
+        "ERR-SYNC-101"
       ],
       "errors": []
     },
@@ -840,7 +845,7 @@
       "top1_doc_type": "USER_GUIDE",
       "top3_doc_types": [
         "USER_GUIDE",
-        "USER_GUIDE",
+        "TROUBLESHOOT",
         "TROUBLESHOOT"
       ],
       "matched_terms": [

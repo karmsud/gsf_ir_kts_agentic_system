@@ -1,10 +1,61 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 .venv/
-knowledge_base/documents/*
-knowledge_base/vectors/*
-knowledge_base/graph/*
-!knowledge_base/documents/.gitkeep
-!knowledge_base/vectors/.gitkeep
-!knowledge_base/graph/.gitkeep
-.pytest_cache/
+venv/
+*.log
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build Artifacts (Root)
+dist/
+build/
+*.spec
+!packaging/*.spec
+
+# Build Artifacts (Extension)
+extension/dist/
+extension/bin/
+extension/backend_bundle/
+extension/out/
+*.vsix
+*.exe
+
+# Intermediate build files
+extension/server/
+extension/webview-ui/build/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+
+# Project Specific Output
+knowledge_base*/
+audit_artifacts/*
+!audit_artifacts/.gitkeep
+data/*
+!data/.gitkeep
+accuracy_tuning_output*/
+autopilot_run_*/
+search_results_*.json
+accuracy_scores_*.json
+evidence_ledger_*.json
+scripts/logs/
+Incidents/logs/
+
+# Misc
+.DS_Store
+Thumbs.db
+*.zip
+*.tar.gz
+
+kts_synthetic_corpus_v2/
+kts_test_corpus/
+

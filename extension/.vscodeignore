@@ -1,0 +1,33 @@
+# .vscodeignore - Controls what gets packaged into the VSIX
+# Exclude development and test files
+.vscode/**
+.vscode-test/**
+node_modules/**
+tests/**
+*.test.js
+.gitignore
+.eslintrc.json
+
+# Exclude scripts (only needed for build, not runtime)
+scripts/**
+
+# Include backend_bundle (required for Option A1)
+!backend_bundle/**
+
+# Include bin/ (required for Option A2 - PyInstaller exe)
+!bin/**
+
+# Exclude Python cache and dev files from backend_bundle
+backend_bundle/**/__pycache__/**
+backend_bundle/**/*.pyc
+backend_bundle/**/.pytest_cache/**
+backend_bundle/**/tests/**
+
+# Exclude editor files
+*.swp
+*.swo
+*~
+
+# Exclude git files
+.git/**
+.gitattributes
