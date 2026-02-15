@@ -90,8 +90,7 @@ a = Analysis(
         'tiktoken',
         'networkx',
         'chromadb',
-        'PIL',
-        'Pillow',
+        # NOTE: PIL/Pillow must NOT be excluded — python-pptx depends on it
     ],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,

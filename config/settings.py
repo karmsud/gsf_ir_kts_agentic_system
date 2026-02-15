@@ -2,8 +2,22 @@ from __future__ import annotations
 
 import json
 import os
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+
+
+def get_bundle_root() -> Path:
+    """Return the root directory for bundled data files.
+
+    When running inside a PyInstaller frozen exe this is ``sys._MEIPASS``
+    (the distribution directory for --onedir builds).  Otherwise it is the
+    repository root inferred from this file's location (config/ is one
+    level below the repo root).
+    """
+    if getattr(sys, "frozen", False):
+        return Path(sys._MEIPASS)  # type: ignore[attr-defined]
+    return Path(__file__).resolve().parent.parent
 
 
 @dataclass
@@ -46,7 +60,9 @@ def _read_json(path: Path) -> dict:
 
 def load_config(root_dir: str | Path | None = None) -> KTSConfig:
     root = Path(root_dir or Path.cwd())
-    paths_data = _read_json(root / "config" / "file_share_paths.json")
+    # Config data files ship inside the bundle; resolve them from there
+    bundle = get_bundle_root()
+    paths_data = _read_json(bundle / "config" / "file_share_paths.json")
     
     # Allow override for testing isolation
     kb_path = os.environ.get("KTS_KB_PATH", "knowledge_base")

@@ -5,6 +5,7 @@ from pathlib import Path
 
 from backend.common.models import AgentResult
 from backend.common.doc_types import normalize_doc_type
+from config.settings import get_bundle_root
 from .base_agent import AgentBase
 
 
@@ -13,7 +14,7 @@ class TaxonomyAgent(AgentBase):
 
     def __init__(self, config):
         super().__init__(config)
-        rules_path = Path("config") / "taxonomy_rules.json"
+        rules_path = get_bundle_root() / "config" / "taxonomy_rules.json"
         self.rules = json.loads(rules_path.read_text(encoding="utf-8")) if rules_path.exists() else {}
 
     def execute(self, request: dict) -> AgentResult:
@@ -54,6 +55,11 @@ class TaxonomyAgent(AgentBase):
             "REF_": "REFERENCE",
             "LEGACY_": "TROUBLESHOOT",
             "DEPRECATED_": "RELEASE_NOTE",
+            "SOP_": "SOP",
+            "TROUBLESHOOT_": "TROUBLESHOOT",
+            "RELEASENOTES_": "RELEASE_NOTE",
+            "USERGUIDE_": "USER_GUIDE",
+            "TRAINING_": "TRAINING",
         }
         
         for prefix, label in prefix_rules.items():
