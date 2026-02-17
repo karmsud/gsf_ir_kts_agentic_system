@@ -16,6 +16,7 @@ python-pptx>=0.6.21          # PPTX (import pptx)
 beautifulsoup4>=4.10.0       # HTML (import bs4)
 Pillow>=9.0.0                # Image processing (transitive dep)
 lxml>=4.9.0                  # XML parsing for Office docs (transitive dep)
+olefile>=0.47                # Legacy .doc (OLE2 binary Word) parsing
 
 # ── Build & Packaging (dev only) ─────────────────────────────
 pyinstaller>=5.0

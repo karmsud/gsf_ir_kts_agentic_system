@@ -58,6 +58,7 @@ common_hidden_imports = [
     'lxml.etree',
     'fitz',           # PDF parsing (PyMuPDF)
     'pymupdf',        # PyMuPDF alternative import
+    'olefile',        # Legacy .doc (OLE2 binary) parsing
     
     # NLP - spaCy for NER
     'spacy',          # spaCy NER

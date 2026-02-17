@@ -144,9 +144,10 @@ def load_config(root_dir: str | Path | None = None) -> KTSConfig:
     cfg.min_provenance_coverage = _env_float("KTS_MIN_PROVENANCE_COVERAGE", cfg.min_provenance_coverage)
     cfg.regime_classifier_enabled = _env_bool("KTS_REGIME_CLASSIFIER_ENABLED", cfg.regime_classifier_enabled)
     cfg.defined_term_extraction_enabled = _env_bool("KTS_DEFINED_TERM_EXTRACTION_ENABLED", cfg.defined_term_extraction_enabled)
-    # NER: auto-enable if model path is provided
+    # NER: auto-enable if model path is provided OR if running as bundled exe
     cfg.spacy_model_path = os.environ.get("KTS_SPACY_MODEL_PATH", cfg.spacy_model_path)
-    cfg.ner_enabled = _env_bool("KTS_NER_ENABLED", bool(cfg.spacy_model_path))
+    ner_bundled = getattr(sys, 'frozen', False)  # spaCy model is bundled in PyInstaller build
+    cfg.ner_enabled = _env_bool("KTS_NER_ENABLED", bool(cfg.spacy_model_path) or ner_bundled)
     cfg.acronym_resolver_enabled = _env_bool("KTS_ACRONYM_RESOLVER_ENABLED", cfg.acronym_resolver_enabled)
     cfg.query_expansion_enabled = _env_bool("KTS_QUERY_EXPANSION_ENABLED", cfg.query_expansion_enabled)
     cfg.learned_synonyms_enabled = _env_bool("KTS_LEARNED_SYNONYMS_ENABLED", cfg.learned_synonyms_enabled)

@@ -9,14 +9,14 @@ from pathlib import Path
 
 from backend.common.models import AgentResult, IngestedDocument
 from backend.common.text_utils import clean_text
-# Import only core converters (no external dependencies)
+# All converters are bundled in the self-contained build
 from backend.ingestion import (
-    convert_html, convert_json, 
+    convert_html, convert_json,
     extract_json_metadata, extract_image_refs,
-    convert_yaml, convert_ini, convert_csv
+    convert_yaml, convert_ini, convert_csv,
+    convert_doc, convert_docx, convert_pdf, convert_pptx, convert_png,
+    extract_entities_and_keyphrases,
 )
-# Optional processors: docx, pptx, pdf, png require processor extensions
-# NER extractor requires nlp processor extension
 from backend.vector import VectorStore, chunk_document
 from .base_agent import AgentBase
 
@@ -29,87 +29,22 @@ class IngestionAgent(AgentBase):
     def __init__(self, config):
         super().__init__(config)
         self.vector_store = VectorStore(config.chroma_persist_dir)
-        
-        # Check processor availability
-        self._office_available = os.environ.get('KTS_OFFICE_PROCESSOR_PATH') is not None
-        self._pdf_available = os.environ.get('KTS_PDF_PROCESSOR_PATH') is not None
-        self._nlp_available = os.environ.get('KTS_NLP_PROCESSOR_PATH') is not None and \
-                             os.environ.get('KTS_SPACY_MODEL_PATH') is not None
-    
-    def _load_office_converter(self, doc_type: str):
-        """Dynamically load converter from office processor extension."""
-        office_path = os.environ.get('KTS_OFFICE_PROCESSOR_PATH')
-        if not office_path:
-            return None
-        
-        # Add processor path to sys.path if not already there
-        if office_path not in sys.path:
-            sys.path.insert(0, office_path)
-        
-        try:
-            if doc_type == 'docx':
-                from converters.docx_converter import convert_docx
-                return convert_docx
-            elif doc_type == 'pptx':
-                from converters.pptx_converter import convert_pptx
-                return convert_pptx
-        except ImportError as e:
-            logger.error(f"Failed to load office converter: {e}")
-            return None
-    
-    def _load_pdf_converter(self):
-        """Dynamically load converter from PDF processor extension."""
-        pdf_path = os.environ.get('KTS_PDF_PROCESSOR_PATH')
-        if not pdf_path:
-            return None
-        
-        if pdf_path not in sys.path:
-            sys.path.insert(0, pdf_path)
-        
-        try:
-            from converters.pdf_converter import convert_pdf
-            return convert_pdf
-        except ImportError as e:
-            logger.error(f"Failed to load PDF converter: {e}")
-            return None
-    
-    def _load_image_converter(self):
-        """Dynamically load image converter (PNG) from office processor."""
-        # Image processing uses PIL which is bundled with office processor
-        office_path = os.environ.get('KTS_OFFICE_PROCESSOR_PATH')
-        if not office_path:
-            return None
-        
-        if office_path not in sys.path:
-            sys.path.insert(0, office_path)
-        
-        try:
-            from converters.png_converter import convert_png
-            return convert_png
-        except ImportError as e:
-            logger.error(f"Failed to load image converter: {e}")
-            return None
-    
+
+    # ------------------------------------------------------------------
+    # NER helper – uses bundled extract_entities_and_keyphrases directly
+    # ------------------------------------------------------------------
     def _extract_ner(self, text: str, max_keyphrases: int = None):
-        """Extract entities and keyphrases using NLP processor if available."""
-        if not self._nlp_available:
-            return None
-        
-        nlp_path = os.environ.get('KTS_NLP_PROCESSOR_PATH')
-        if nlp_path not in sys.path:
-            sys.path.insert(0, nlp_path)
-        
+        """Extract entities and keyphrases using bundled spaCy model."""
         try:
-            from extractors.ner_extractor import extract_entities_and_keyphrases
             return extract_entities_and_keyphrases(text, max_keyphrases=max_keyphrases)
-        except ImportError as e:
-            logger.error(f"Failed to load NER extractor: {e}")
+        except Exception as e:
+            logger.debug(f"NER extraction skipped: {e}")
             return None
 
     def _convert(self, file_path: Path, images_dir: str | None = None) -> tuple[str, list[str]]:
         extension = file_path.suffix.lower()
-        
-        # Built-in converters (always available)
+
+        # Plain-text / markup converters (always available)
         if extension in {".md", ".txt"}:
             return file_path.read_text(encoding="utf-8", errors="ignore"), []
         if extension in {".htm", ".html"}:
@@ -122,58 +57,27 @@ class IngestionAgent(AgentBase):
             return convert_ini(str(file_path))
         if extension == ".csv":
             return convert_csv(str(file_path))
-        
-        # Office processor converters (optional)
-        if extension in {".docx", ".doc"}:
-            if not self._office_available:
-                logger.warning(
-                    f"Cannot process {extension} files - Office processor not installed. "
-                    "Install 'kts-processors-office' extension to enable DOCX/PPTX support."
-                )
-                raise ValueError(f"Office processor required for {extension} files")
-            converter = self._load_office_converter('docx')
-            if not converter:
-                raise ValueError(f"Failed to load DOCX converter")
-            return converter(str(file_path), images_dir=images_dir)
-        
+
+        # DOCX (OOXML) — python-docx
+        if extension == ".docx":
+            return convert_docx(str(file_path), images_dir=images_dir)
+
+        # DOC (legacy binary Word / OLE2) — custom parser via olefile
+        if extension == ".doc":
+            return convert_doc(str(file_path), images_dir=images_dir)
+
+        # PPTX — python-pptx
         if extension == ".pptx":
-            if not self._office_available:
-                logger.warning(
-                    "Cannot process PPTX files - Office processor not installed. "
-                    "Install 'kts-processors-office' extension."
-                )
-                raise ValueError("Office processor required for PPTX files")
-            converter = self._load_office_converter('pptx')
-            if not converter:
-                raise ValueError("Failed to load PPTX converter")
-            return converter(str(file_path), images_dir=images_dir)
-        
-        # PDF processor converter (optional)
+            return convert_pptx(str(file_path), images_dir=images_dir)
+
+        # PDF — PyMuPDF
         if extension == ".pdf":
-            if not self._pdf_available:
-                logger.warning(
-                    "Cannot process PDF files - PDF processor not installed. "
-                    "Install 'kts-processors-pdf' extension to enable PDF support."
-                )
-                raise ValueError("PDF processor required for PDF files")
-            converter = self._load_pdf_converter()
-            if not converter:
-                raise ValueError("Failed to load PDF converter")
-            return converter(str(file_path), images_dir=images_dir)
-        
-        # Image converter (uses PIL from office processor)
+            return convert_pdf(str(file_path), images_dir=images_dir)
+
+        # PNG — asset metadata (no OCR)
         if extension == ".png":
-            if not self._office_available:
-                logger.warning(
-                    "Cannot process PNG files - Office processor not installed. "
-                    "Install 'kts-processors-office' extension (provides PIL/Pillow)."
-                )
-                raise ValueError("Office processor required for PNG files")
-            converter = self._load_image_converter()
-            if not converter:
-                raise ValueError("Failed to load image converter")
-            return converter(str(file_path))
-        
+            return convert_png(str(file_path))
+
         raise ValueError(f"Unsupported extension: {extension}")
 
     def execute(self, request: dict) -> AgentResult:
@@ -217,9 +121,9 @@ class IngestionAgent(AgentBase):
         if source_path.suffix.lower() == ".json":
             json_metadata = extract_json_metadata(str(source_path))
         
-        # NER & Keyphrase Extraction (if NLP processor available)
+        # NER & Keyphrase Extraction (bundled spaCy model)
         ner_result = None
-        if getattr(self.config, 'ner_enabled', False) and self._nlp_available:
+        if getattr(self.config, 'ner_enabled', True):
             ner_result = self._extract_ner(text)
 
         metadata = {
@@ -313,8 +217,8 @@ class IngestionAgent(AgentBase):
             chunk_overlap=self.config.chunk_overlap,
         )
         
-        # Extract entities/keyphrases per-chunk if NER enabled and NLP processor available
-        if getattr(self.config, 'ner_enabled', False) and self._nlp_available:
+        # Extract entities/keyphrases per-chunk if NER enabled
+        if getattr(self.config, 'ner_enabled', True):
             logger.info(f"Extracting entities/keyphrases for {len(chunks)} chunks...")
             for chunk in chunks:
                 ner_result = self._extract_ner(chunk.content, max_keyphrases=5)

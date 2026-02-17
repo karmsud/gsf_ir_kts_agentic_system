@@ -1,3 +1,4 @@
+from .doc_converter import convert_doc
 from .docx_converter import convert_docx
 from .pdf_converter import convert_pdf
 from .pptx_converter import convert_pptx
@@ -10,6 +11,7 @@ from .csv_converter import convert_csv
 from .ner_extractor import extract_entities_and_keyphrases, NERResult
 
 __all__ = [
+    "convert_doc",
     "convert_docx",
     "convert_pdf",
     "convert_pptx",
