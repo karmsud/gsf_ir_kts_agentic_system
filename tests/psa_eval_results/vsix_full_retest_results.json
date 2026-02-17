@@ -1,0 +1,370 @@
+{
+  "source_1": {
+    "folder": "source_1",
+    "crawl_count": 1,
+    "ingest_count": 1,
+    "corpus_regime": "GOVERNING_DOC_LEGAL",
+    "doc_regime_stored": true,
+    "content_date_found": false,
+    "defterm_count": 103,
+    "graph_corpus_regime": "GOVERNING_DOC_LEGAL",
+    "keyphrase_count": 788,
+    "entity_count": 558,
+    "hit_rate": 100.0,
+    "search_results": [
+      {
+        "query_id": "PSA-Q01",
+        "query": "What are the Master Servicer's obligations?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6759101748466492,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q02",
+        "query": "Who is the Trustee and what are their duties?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6251535415649414,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q03",
+        "query": "What happens when a mortgage loan becomes delinquent?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.5808156132698059,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q04",
+        "query": "How are distributions calculated and paid to Certificateholders?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.5523831844329834,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q05",
+        "query": "What is the role of the Securities Administrator?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.45710861682891846,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q06",
+        "query": "When can the Master Servicer be removed or replaced?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6416028738021851,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q07",
+        "query": "What representations and warranties are made about the mortgage loans?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6318551898002625,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q08",
+        "query": "How are prepayments handled?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.4629000425338745,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q09",
+        "query": "What triggers an Event of Default under the agreement?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.5848945379257202,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q10",
+        "query": "What are the fees paid to the Master Servicer?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6256415247917175,
+        "term_resolution": false
+      }
+    ],
+    "acronym_expansion_effective": true
+  },
+  "source_2": {
+    "folder": "source_2",
+    "crawl_count": 1,
+    "ingest_count": 1,
+    "corpus_regime": "GOVERNING_DOC_LEGAL",
+    "doc_regime_stored": true,
+    "content_date_found": false,
+    "defterm_count": 4401,
+    "graph_corpus_regime": "GOVERNING_DOC_LEGAL",
+    "keyphrase_count": 909,
+    "entity_count": 338,
+    "hit_rate": 100.0,
+    "search_results": [
+      {
+        "query_id": "PSA-Q01",
+        "query": "What are the Master Servicer's obligations?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.7273586988449097,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q02",
+        "query": "Who is the Trustee and what are their duties?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6157453656196594,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q03",
+        "query": "What happens when a mortgage loan becomes delinquent?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.5874664783477783,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q04",
+        "query": "How are distributions calculated and paid to Certificateholders?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6143589019775391,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q05",
+        "query": "What is the role of the Securities Administrator?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.4598062038421631,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q06",
+        "query": "When can the Master Servicer be removed or replaced?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6778679490089417,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q07",
+        "query": "What representations and warranties are made about the mortgage loans?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.679717481136322,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q08",
+        "query": "How are prepayments handled?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.45800578594207764,
+        "term_resolution": false
+      },
+      {
+        "query_id": "PSA-Q09",
+        "query": "What triggers an Event of Default under the agreement?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.5762026309967041,
+        "term_resolution": true
+      },
+      {
+        "query_id": "PSA-Q10",
+        "query": "What are the fees paid to the Master Servicer?",
+        "hit": true,
+        "chunks": 1,
+        "confidence": 0.6285200119018555,
+        "term_resolution": true
+      }
+    ],
+    "acronym_expansion_effective": true
+  },
+  "knowledge_base_test": {
+    "folder": "knowledge_base_test",
+    "crawl_count": 58,
+    "ingest_count": 58,
+    "corpus_regime": "GENERIC_GUIDE",
+    "doc_regime_stored": true,
+    "content_date_found": true,
+    "defterm_count": 131,
+    "graph_corpus_regime": "GENERIC_GUIDE",
+    "keyphrase_count": 676,
+    "entity_count": 285,
+    "hit_rate": 100.0,
+    "search_results": [
+      {
+        "query_id": "Q1",
+        "query": "What does error AUTH401 mean for ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.8841531991958618,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q2",
+        "query": "How do I fix HTTP 504 timeout errors in ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.8872270703315734,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q3",
+        "query": "ToolY upload is blocked with ERR-UPL-013",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.8497032642364502,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q4",
+        "query": "What causes ERR-PWD-007 in ToolZ?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.7988470315933227,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q5",
+        "query": "I'm getting authentication errors in ToolX",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.8957845091819763,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q6",
+        "query": "What is error code XYZ-999?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.49160654544830323,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q7",
+        "query": "List all error codes for ToolX",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.7938794612884521,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q8",
+        "query": "Why am I unable to login to ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.9394084930419921,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q9",
+        "query": "How do I configure timeout settings to prevent 504 errors?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.6904714822769165,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q10",
+        "query": "What files are allowed for upload in ToolY?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.7984095335006713,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q11",
+        "query": "How do I onboard a new user to ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.7823304057121276,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q12",
+        "query": "What are the steps to deploy ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.5408851623535156,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q13",
+        "query": "Show me the troubleshooting guide for ToolX authentication",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.9210749983787536,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q14",
+        "query": "What changed in the latest ToolX release?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.6647055268287658,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q15",
+        "query": "I need training materials for ToolX troubleshooting",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.6588817358016967,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q16",
+        "query": "Where can I find the SOP for handling login failures?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.7760874152183532,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q17",
+        "query": "What's the procedure for escalating ToolX issues?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.6691383838653564,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q18",
+        "query": "How do I validate a successful ToolX connection?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.6974540472030639,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q19",
+        "query": "What are common symptoms of authentication problems?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.5574497699737548,
+        "term_resolution": false
+      },
+      {
+        "query_id": "Q20",
+        "query": "Which browser is recommended for ToolX?",
+        "hit": true,
+        "chunks": 5,
+        "confidence": 0.5525350689888,
+        "term_resolution": false
+      }
+    ],
+    "version_auto_increment": true
+  }
+}

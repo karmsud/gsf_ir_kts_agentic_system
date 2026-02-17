@@ -7,6 +7,7 @@ import networkx as nx
 
 from backend.common.models import IngestedDocument
 from .persistence import GraphStore
+from .defined_term_extractor import DefinedTermExtractor
 from .schema import (
     SCHEMA_VERSION,
     NODE_TYPES,
@@ -78,14 +79,31 @@ class GraphBuilder:
         }
         G.add_node(doc_node_id, **doc_attrs)
 
-        # 2. Extract terms from body text (Strategy 1 — basic regex)
+        # 2. Extract defined terms using full 4-strategy extractor (TD §5.4–§5.6)
+        extractor = DefinedTermExtractor()
+        defined_terms = extractor.extract(doc.extracted_text, filename=metadata.get("title", ""))
+        for dt in defined_terms:
+            term_id = f"defterm:{dt.surface_form.lower().replace(' ', '_')}"
+            G.add_node(
+                term_id,
+                type="DEFINED_TERM",
+                name=dt.surface_form,
+                surface_form=dt.surface_form,
+                defined_text=dt.definition_text[:500],
+                confidence=dt.confidence,
+                extraction_strategy=dt.extraction_strategy,
+                section_id=dt.source_section_id,
+            )
+            self._ensure_edge(G, doc_node_id, term_id, "DEFINES")
+
+        # Legacy fallback: also run inline regex for lines not caught by strategies 2-4
+        extracted_surfaces = {dt.surface_form.lower() for dt in defined_terms}
         for line in doc.extracted_text.split("\n"):
             line = line.strip()
             if not line:
                 continue
-
             term = extract_defined_term(line)
-            if term and len(term) > 2:
+            if term and len(term) > 2 and term.lower() not in extracted_surfaces:
                 term_id = f"defterm:{term.lower().replace(' ', '_')}"
                 G.add_node(
                     term_id,

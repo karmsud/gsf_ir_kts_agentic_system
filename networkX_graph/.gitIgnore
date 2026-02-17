@@ -1,0 +1,60 @@
+# Byte-compiled Python files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Editor and IDE files
+.vscode/
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Build and distribution files
+build/
+dist/
+*.egg-info/
+*.egg
+*.whl
+
+# Test and coverage files
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Installer logs and temporary files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Database files (adjust as needed for your project)
+*.log
+local_settings.py
+db.sqlite3
+instance/
+.webassets-cache
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Other common files
+*.so
+*.mo
+*.pot
+celerybeat-schedule
+.python-version
+*exe

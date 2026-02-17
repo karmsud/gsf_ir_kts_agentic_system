@@ -25,6 +25,9 @@ module.exports = async function ktsTool(query, options = {}) {
   }
 
   const args = ['search', query, '--max-results', String(maxResults)];
+  if (options.deepMode) {
+    args.push('--deep');
+  }
   if (options.docType) {
     args.push('--doc-type', String(options.docType));
   }
@@ -38,6 +41,7 @@ module.exports = async function ktsTool(query, options = {}) {
       tool: '@kts',
       status: 'ok',
       query,
+      deep_mode: !!options.deepMode,
       search_result: searchResult,
     };
   } catch (error) {

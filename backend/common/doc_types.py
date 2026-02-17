@@ -20,6 +20,7 @@ INCIDENT: Final[str] = "INCIDENT"
 ARCHITECTURE: Final[str] = "ARCHITECTURE"
 CONFIG: Final[str] = "CONFIG"
 ASSET_IMAGE: Final[str] = "ASSET_IMAGE"
+GOVERNING_DOC: Final[str] = "GOVERNING_DOC"
 UNKNOWN: Final[str] = "UNKNOWN"
 
 # All recognized canonical types
@@ -34,6 +35,7 @@ CANONICAL_TYPES: Final[set[str]] = {
     ARCHITECTURE,
     CONFIG,
     ASSET_IMAGE,
+    GOVERNING_DOC,
     UNKNOWN,
 }
 
@@ -119,6 +121,21 @@ ALIASES: Final[dict[str, str]] = {
     "IMAGE": ASSET_IMAGE,
     "PNG": ASSET_IMAGE,
     "SCREENSHOT": ASSET_IMAGE,
+    
+    # Governing document / legal variants
+    "GOVERNING_DOC": GOVERNING_DOC,  # Identity
+    "GOVERNING_DOCS": GOVERNING_DOC,
+    "GOVERNING_DOCUMENT": GOVERNING_DOC,
+    "GOVERNING_DOCUMENTS": GOVERNING_DOC,
+    "LEGAL": GOVERNING_DOC,
+    "LEGAL_DOC": GOVERNING_DOC,
+    "AGREEMENT": GOVERNING_DOC,
+    "AGREEMENTS": GOVERNING_DOC,
+    "CONTRACT": GOVERNING_DOC,
+    "CONTRACTS": GOVERNING_DOC,
+    "INDENTURE": GOVERNING_DOC,
+    "PSA": GOVERNING_DOC,
+    "TRUST_AGREEMENT": GOVERNING_DOC,
     
     # Unknown variants
     "UNKNOWN": UNKNOWN,  # Identity

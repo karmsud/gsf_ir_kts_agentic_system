@@ -1,0 +1,208 @@
+{
+  "test_run": "vsix_bundled_exe_psa",
+  "queries_tested": 10,
+  "hits": 10,
+  "avg_keyphrase_recall": 0.433,
+  "avg_entity_recall": 0.8,
+  "results": [
+    {
+      "query_id": "PSA-Q01",
+      "query_text": "What are the Master Servicer's obligations?",
+      "hit": true,
+      "keyphrase_recall": 0.67,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "obligations",
+        "responsibilities"
+      ],
+      "keyphrases_missing": [
+        "duties"
+      ],
+      "entities_found": [
+        "Master Servicer"
+      ],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nSubservicers. \nThe Master Servicer shall perform all of its servicing responsibilities hereunder or may cau"
+    },
+    {
+      "query_id": "PSA-Q02",
+      "query_text": "Who is the Trustee and what are their duties?",
+      "hit": true,
+      "keyphrase_recall": 0.33,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "trustee"
+      ],
+      "keyphrases_missing": [
+        "duties",
+        "responsibilities"
+      ],
+      "entities_found": [
+        "Trustee"
+      ],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nAny separate trustee or co-trustee may, at any time, constitute the Trustee its agent or attorney-in-fact, "
+    },
+    {
+      "query_id": "PSA-Q03",
+      "query_text": "What happens when a mortgage loan becomes delinquent?",
+      "hit": true,
+      "keyphrase_recall": 0.33,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "delinquent"
+      ],
+      "keyphrases_missing": [
+        "default",
+        "collection procedures"
+      ],
+      "entities_found": [],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nDefinitive Certificates: As defined in Section 6.06.\nDeleted Mortgage Loan: A Mortgage Loan replaced or to "
+    },
+    {
+      "query_id": "PSA-Q04",
+      "query_text": "How are distributions calculated and paid to Certificateholders?",
+      "hit": true,
+      "keyphrase_recall": 0.0,
+      "entity_recall": 0.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [],
+      "keyphrases_missing": [
+        "distributions",
+        "payments",
+        "calculation"
+      ],
+      "entities_found": [],
+      "entities_missing": [
+        "Certificateholders"
+      ],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nCertificate Owner: With respect to a Book-Entry Certificate, the Person that is the beneficial owner of suc"
+    },
+    {
+      "query_id": "PSA-Q05",
+      "query_text": "What is the role of the Securities Administrator?",
+      "hit": true,
+      "keyphrase_recall": 0.33,
+      "entity_recall": 0.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "administrator"
+      ],
+      "keyphrases_missing": [
+        "role",
+        "responsibilities"
+      ],
+      "entities_found": [],
+      "entities_missing": [
+        "Securities Administrator"
+      ],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nDepository Participant: A broker, dealer, bank or other financial institution or other Person for whom from"
+    },
+    {
+      "query_id": "PSA-Q06",
+      "query_text": "When can the Master Servicer be removed or replaced?",
+      "hit": true,
+      "keyphrase_recall": 0.33,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "termination"
+      ],
+      "keyphrases_missing": [
+        "removal",
+        "replacement"
+      ],
+      "entities_found": [
+        "Master Servicer"
+      ],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nAt the cost and expense of the Master Servicer, without any right of reimbursement from its Protected Accou"
+    },
+    {
+      "query_id": "PSA-Q07",
+      "query_text": "What representations and warranties are made about the mortgage loans?",
+      "hit": true,
+      "keyphrase_recall": 1.0,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "representations",
+        "warranties",
+        "mortgage loans"
+      ],
+      "keyphrases_missing": [],
+      "entities_found": [],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nWith respect to the representations and warranties with respect to the Mortgage Loans that are made to the "
+    },
+    {
+      "query_id": "PSA-Q08",
+      "query_text": "How are prepayments handled?",
+      "hit": true,
+      "keyphrase_recall": 0.0,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [],
+      "keyphrases_missing": [
+        "prepayments",
+        "principal prepayments",
+        "voluntary prepayments"
+      ],
+      "entities_found": [],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nPerson: Any individual, corporation, partnership, joint venture, association, joint-stock company, limited "
+    },
+    {
+      "query_id": "PSA-Q09",
+      "query_text": "What triggers an Event of Default under the agreement?",
+      "hit": true,
+      "keyphrase_recall": 0.67,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "event of default",
+        "default"
+      ],
+      "keyphrases_missing": [
+        "breach"
+      ],
+      "entities_found": [],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nDEFAULT; TERMINATION OF MASTER SERVICER\nEvents of Default. \n\u201cEvent of Default,\u201d wherever used herein, means"
+    },
+    {
+      "query_id": "PSA-Q10",
+      "query_text": "What are the fees paid to the Master Servicer?",
+      "hit": true,
+      "keyphrase_recall": 0.67,
+      "entity_recall": 1.0,
+      "chunk_count": 1,
+      "top_doc_type": "TROUBLESHOOT",
+      "keyphrases_found": [
+        "servicing fee",
+        "fees"
+      ],
+      "keyphrases_missing": [
+        "compensation"
+      ],
+      "entities_found": [
+        "Master Servicer"
+      ],
+      "entities_missing": [],
+      "evidence_preview": "[EVIDENCE] title=Pooling and Servicing Agreement Bear Stearns 2006-HE2 - Full | tool=Pooling\nSubservicers. \nThe Master Servicer shall perform all of its servicing responsibilities hereunder or may cau"
+    }
+  ]
+}

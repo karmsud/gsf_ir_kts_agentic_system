@@ -142,6 +142,62 @@ class VectorStore:
                 })
         
         return hits
+    
+    def get_chunks_by_indices(
+        self, 
+        doc_id: str, 
+        start_index: int, 
+        end_index: int
+    ) -> List[dict]:
+        """
+        Retrieve chunks by document ID and index range.
+        
+        Used for context expansion: retrieve chunks before/after a hit chunk.
+        
+        Args:
+            doc_id: Document identifier
+            start_index: Starting chunk index (inclusive)
+            end_index: Ending chunk index (inclusive)
+        
+        Returns:
+            List of chunk dictionaries with content, metadata, chunk_index
+        """
+        if start_index < 0:
+            start_index = 0
+        
+        # ChromaDB doesn't have native range queries on metadata,
+        # so we need to get all chunks for doc and filter
+        try:
+            results = self.collection.get(
+                where={"doc_id": doc_id},
+                include=["documents", "metadatas"]
+            )
+            
+            if not results or not results["ids"]:
+                return []
+            
+            # Filter by chunk_index range
+            chunks = []
+            for i, chunk_id in enumerate(results["ids"]):
+                meta = results["metadatas"][i]
+                chunk_idx = int(meta.get("chunk_index", -1))
+                
+                if start_index <= chunk_idx <= end_index:
+                    chunks.append({
+                        "chunk_id": chunk_id,
+                        "content": results["documents"][i],
+                        **meta,
+                        "chunk_index": chunk_idx,
+                        "score": 0.0  # No score for direct retrieval
+                    })
+            
+            # Sort by chunk_index to maintain document order
+            chunks.sort(key=lambda x: x["chunk_index"])
+            return chunks
+            
+        except Exception as e:
+            logger.warning(f"Failed to retrieve chunks by indices for {doc_id}: {e}")
+            return []
         
     def delete_document(self, doc_id: str) -> None:
         """Remove all chunks for a specific document"""

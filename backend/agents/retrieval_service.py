@@ -20,6 +20,8 @@ from backend.retrieval.term_resolver import (
     extract_title_case_phrases,
     should_activate_resolver,
 )
+from backend.retrieval.query_expander import QueryExpander
+from backend.retrieval.acronym_resolver import AcronymResolver
 from backend.vector import VectorStore
 from backend.retrieval.cross_encoder import rerank as cross_encoder_rerank
 from .base_agent import AgentBase
@@ -79,6 +81,12 @@ class RetrievalService(AgentBase):
             return ("explicit_release", ["RELEASE_NOTE"])
         if re.search(r'\buser\s+guide', query_lower):
             return ("explicit_user_guide", ["USER_GUIDE"])
+        
+        # Legal/governing document queries (high priority)
+        if re.search(r'\b(agreement|pooling|servicing|trust|indenture|psa|certificate\s*holder|trustee|obligor|servicer|depositor|beneficiary)\b', query_lower):
+            return ("governing_doc", ["GOVERNING_DOC"])
+        if re.search(r'\b(reporting\s+requirement|distribution\s+date|payment\s+date|record\s+date|remittance\s+report|statement\s+to\s+certificate)', query_lower):
+            return ("governing_doc_detail", ["GOVERNING_DOC"])
         
         # List/reference queries (VERY HIGH priority, overrides error keywords)
         if re.search(r'\b(list|show)\s+(all|every)\s+\w+\s+codes?\b|\bcatalog\b|\ball\s+error\s+codes?\b', query_lower):
@@ -378,6 +386,255 @@ class RetrievalService(AgentBase):
         # Cache result
         setattr(self, cache_key, keyphrases)
         return keyphrases
+    
+    # =========================================================================
+    # Smart Context Expansion - Industry Standard RAG Techniques
+    # =========================================================================
+    
+    def _has_continuation_signal(self, text: str) -> bool:
+        """
+        Detect if chunk content likely continues in the next chunk.
+        
+        Checks for:
+          - Mid-sentence endings (commas, semicolons, conjunctions)
+          - List continuations (enumeration starts)
+          - Incomplete clauses (colon introducing list/explanation)
+        
+        Returns:
+            True if content appears incomplete and likely continues
+        """
+        if not text or len(text) < 50:
+            return False
+        
+        # Check last 150 characters for continuation signals
+        ending = text.strip()[-150:]
+        
+        # Strong continuation signals
+        strong_signals = [
+            ending.endswith(':'),      # List introduction
+            ending.endswith(';'),      # Clause continuation
+            ending.endswith(','),      # Mid-sentence
+            ending.endswith(' and'),   # Conjunction
+            ending.endswith(' or'),    # Alternative
+            ending.endswith(' but'),   # Contrast
+            ending.endswith(' which'), # Relative clause
+            ending.endswith(' that'),  # Relative clause
+        ]
+        
+        if any(strong_signals):
+            return True
+        
+        # Enumeration patterns (list starts but may continue)
+        enum_patterns = [
+            r'\([a-z]\)\s*[^.]{0,50}$',  # (a) at end
+            r'\([ivxlc]+\)\s*[^.]{0,50}$',  # (i) at end
+            r'\(\d+\)\s*[^.]{0,50}$',    # (1) at end
+            r'\b\d+\.\s+[^.]{0,50}$',    # 1. at end
+        ]
+        
+        for pattern in enum_patterns:
+            if re.search(pattern, ending, re.IGNORECASE):
+                return True
+        
+        # Multi-word phrase incomplete (no period for 50+ chars)
+        if not ending.endswith('.') and not ending.endswith('?') and not ending.endswith('!'):
+            # Check if there's a sentence-like structure (3+ words without period)
+            words = ending.split()
+            if len(words) >= 3:
+                return True
+        
+        return False
+    
+    def _same_section_context(self, chunk1: dict, chunk2: dict) -> bool:
+        """
+        Check if two chunks are from the same legal section based on metadata.
+        
+        Uses the [LEGAL_SECTION] headers added by LegalChunker to determine
+        if chunks are semantically related (same ARTICLE, Section, etc.)
+        
+        Args:
+            chunk1: First chunk dictionary
+            chunk2: Second chunk dictionary
+        
+        Returns:
+            True if chunks appear to be from the same section
+        """
+        # Must be from same document
+        if chunk1.get("doc_id") != chunk2.get("doc_id"):
+            return False
+        
+        # Extract section headers from content
+        content1 = chunk1.get("content", "")
+        content2 = chunk2.get("content", "")
+        
+        # Look for [LEGAL_SECTION] markers
+        section_pattern = r'\[LEGAL_SECTION\]\s*(ARTICLE|SECTION|SUBSECTION)\s+([^\n]+)'
+        
+        match1 = re.search(section_pattern, content1)
+        match2 = re.search(section_pattern, content2)
+        
+        if not match1 or not match2:
+            # No section markers, assume might be related
+            return True
+        
+        level1, section1 = match1.groups()
+        level2, section2 = match2.groups()
+        
+        # Same level and same section? Definitely related
+        if level1 == level2 and section1.strip() == section2.strip():
+            return True
+        
+        # Subsection following section? Related
+        # Example: "Section 2.03" followed by "Subsection (a)"
+        if level1 == "SECTION" and level2 == "SUBSECTION":
+            return True
+        if level1 == "SUBSECTION" and level2 == "SECTION":
+            # Subsection before section might be end of previous section
+            return False
+        
+        # Same ARTICLE? Consider related (e.g., Section 2.03 and Section 2.04)
+        article_num_pattern = r'(\d+)\.'
+        art_match1 = re.search(article_num_pattern, section1)
+        art_match2 = re.search(article_num_pattern, section2)
+        
+        if art_match1 and art_match2:
+            if art_match1.group(1) == art_match2.group(1):
+                return True
+        
+        return False
+    
+    def _expand_context_window(
+        self,
+        hit_chunks: List[dict],
+        base_window: int = 1,
+        min_confidence: float = 0.0,
+    ) -> List[dict]:
+        """
+        Expand context window around hit chunks with intelligent strategies.
+        
+        Implements multiple industry-standard RAG expansion techniques:
+          1. Fixed window expansion (±N chunks)
+          2. Adaptive expansion based on confidence scores
+          3. Continuation-based expansion (detect incomplete content)
+          4. Metadata-guided expansion (same section boundaries)
+        
+        Args:
+            hit_chunks: Initial retrieval results
+            base_window: Base number of chunks to retrieve before/after (±N)
+            min_confidence: Minimum confidence score from initial retrieval
+        
+        Returns:
+            Expanded list of chunks with deduplication
+        """
+        if not hit_chunks:
+            return hit_chunks
+        
+        # Check config flags
+        expansion_enabled = getattr(self.config, 'context_expansion_enabled', True)
+        if not expansion_enabled:
+            return hit_chunks
+        
+        adaptive_enabled = getattr(self.config, 'adaptive_expansion_enabled', True)
+        continuation_enabled = getattr(self.config, 'continuation_detection_enabled', True)
+        metadata_guided = getattr(self.config, 'metadata_guided_expansion', True)
+        
+        # Determine window size (adaptive or fixed)
+        window_size = base_window
+        
+        if adaptive_enabled and min_confidence > 0:
+            # Adaptive window based on confidence score
+            # High confidence (>0.85): narrow window (0 = just the hit)
+            # Medium confidence (0.70-0.85): base window (1 = ±1)
+            # Low confidence (<0.70): expanded window (2 = ±2)
+            if min_confidence > 0.85:
+                window_size = 0  # High confidence, precise result
+                logger.debug(f"Adaptive expansion: high confidence ({min_confidence:.2f}) → window=0")
+            elif min_confidence > 0.70:
+                window_size = base_window  # Medium confidence, normal window
+                logger.debug(f"Adaptive expansion: medium confidence ({min_confidence:.2f}) → window={base_window}")
+            else:
+                window_size = base_window + 1  # Low confidence, expand more
+                logger.debug(f"Adaptive expansion: low confidence ({min_confidence:.2f}) → window={base_window + 1}")
+        
+        expanded_chunks = []
+        processed_chunk_ids = set()
+        
+        for hit in hit_chunks:
+            doc_id = hit.get("doc_id")
+            chunk_idx = int(hit.get("chunk_index", 0))
+            
+            # Add the hit chunk itself
+            if hit["chunk_id"] not in processed_chunk_ids:
+                expanded_chunks.append(hit)
+                processed_chunk_ids.add(hit["chunk_id"])
+            
+            # Skip expansion if window is 0
+            if window_size == 0:
+                continue
+            
+            # Strategy 1: Fixed Window Expansion
+            # Retrieve ±window_size chunks from vector store
+            start_idx = chunk_idx - window_size
+            end_idx = chunk_idx + window_size
+            
+            neighbor_chunks = self.vector_store.get_chunks_by_indices(
+                doc_id=doc_id,
+                start_index=start_idx,
+                end_index=end_idx
+            )
+            
+            for neighbor in neighbor_chunks:
+                if neighbor["chunk_id"] not in processed_chunk_ids:
+                    # Mark as expanded chunk (lower priority than direct hits)
+                    neighbor["_is_expanded"] = True
+                    expanded_chunks.append(neighbor)
+                    processed_chunk_ids.add(neighbor["chunk_id"])
+            
+            # Strategy 2: Continuation-Based Expansion
+            if continuation_enabled:
+                # Check if hit chunk has continuation signal
+                if self._has_continuation_signal(hit.get("content", "")):
+                    # Retrieve next chunk beyond window
+                    next_idx = chunk_idx + window_size + 1
+                    next_chunks = self.vector_store.get_chunks_by_indices(
+                        doc_id=doc_id,
+                        start_index=next_idx,
+                        end_index=next_idx
+                    )
+                    
+                    for next_chunk in next_chunks:
+                        if next_chunk["chunk_id"] not in processed_chunk_ids:
+                            # Check metadata guidance
+                            if metadata_guided and not self._same_section_context(hit, next_chunk):
+                                logger.debug(f"Continuation detected but different section → skip")
+                                break
+                            
+                            next_chunk["_is_expanded"] = True
+                            next_chunk["_expansion_reason"] = "continuation"
+                            expanded_chunks.append(next_chunk)
+                            processed_chunk_ids.add(next_chunk["chunk_id"])
+                            logger.debug(f"Continuation expansion: added chunk {next_idx}")
+                            
+                            # Recursive check: does the next chunk also continue?
+                            if self._has_continuation_signal(next_chunk.get("content", "")):
+                                next_idx += 1
+                                more_chunks = self.vector_store.get_chunks_by_indices(
+                                    doc_id=doc_id,
+                                    start_index=next_idx,
+                                    end_index=next_idx
+                                )
+                                for more in more_chunks:
+                                    if more["chunk_id"] not in processed_chunk_ids:
+                                        if metadata_guided and not self._same_section_context(hit, more):
+                                            break
+                                        more["_is_expanded"] = True
+                                        more["_expansion_reason"] = "continuation_recursive"
+                                        expanded_chunks.append(more)
+                                        processed_chunk_ids.add(more["chunk_id"])
+                                        logger.debug(f"Recursive continuation: added chunk {next_idx}")
+        
+        logger.debug(f"Context expansion: {len(hit_chunks)} hits → {len(expanded_chunks)} total ({len(expanded_chunks) - len(hit_chunks)} added)")
+        return expanded_chunks
 
     def execute(self, request: dict) -> AgentResult:
         query = request["query"]
@@ -392,16 +649,106 @@ class RetrievalService(AgentBase):
 
         # Apply configurable graph boost cap (TD §6.5, default 0.7)
         self._graph_boost_cap = getattr(self.config, 'graph_boost_cap', 0.7)
+
+        # ── Phase 4: Acronym Resolution (TD §6.2) ──────────────────
+        if getattr(self.config, 'acronym_resolver_enabled', True):
+            try:
+                acronym_resolver = AcronymResolver()
+                query = acronym_resolver.expand(query)
+            except Exception as exc:
+                logger.debug("Acronym resolution skipped: %s", exc)
+
+        # ── Phase 4: Query Expansion (TD §6.3) ─────────────────────
+        # Two modes:
+        # 1. Simple expansion: append synonyms to query (traditional)
+        # 2. Multi-query: generate variations + RRF fusion (advanced)
+        query_variations = [query]  # Start with original
+        use_multi_query = False
         
-        # 1. Vector Search (Retrieval) - Get Top 20 Candidates
-        rows = self.vector_store.search(
-            query=query, 
-            top_k=max_results * 4, 
-            doc_type_filter=doc_type_filter
-        )
+        if getattr(self.config, 'query_expansion_enabled', True):
+            try:
+                kb_path = getattr(self.config, 'knowledge_base_path', '.kts')
+                expander = QueryExpander(kb_path=kb_path)
+                
+                # Check if multi-query mode is enabled
+                query_expansion_count = getattr(self.config, 'query_expansion_count', 1)
+                
+                if query_expansion_count > 1:
+                    # Multi-query mode: generate variations for RRF fusion
+                    use_multi_query = True
+                    query_variations = expander.generate_query_variations(
+                        query,
+                        max_variations=query_expansion_count,
+                        doc_type=doc_type_filter,
+                    )
+                    logger.debug(f"Multi-query retrieval: generated {len(query_variations)} variations")
+                else:
+                    # Traditional mode: expand with synonyms
+                    query = expander.expand(
+                        query,
+                        doc_type=doc_type_filter,
+                        use_ner_entities=getattr(self.config, 'ner_enabled', False),
+                    )
+                    query_variations = [query]
+            except Exception as exc:
+                logger.debug("Query expansion skipped: %s", exc)
+
+        # 1. Vector Search (Retrieval) - With Multi-Query support
+        max_per_doc = int(request.get("max_chunks_per_doc", getattr(self.config, 'max_chunks_per_doc', 3)))
+        top_k_multiplier = 6 if request.get("deep_mode") else 4
+        
+        if use_multi_query and len(query_variations) > 1:
+            # Multi-query retrieval: search with each variation
+            all_result_lists = []
+            for q_var in query_variations:
+                variant_results = self.vector_store.search(
+                    query=q_var,
+                    top_k=max_results * max_per_doc * top_k_multiplier,
+                    doc_type_filter=doc_type_filter
+                )
+                all_result_lists.append(variant_results)
+            
+            # Merge results using Reciprocal Rank Fusion
+            from backend.retrieval.query_expander import reciprocal_rank_fusion
+            rows = reciprocal_rank_fusion(
+                all_result_lists,
+                k=60,
+                chunk_id_key="chunk_id",
+                score_key="score"
+            )
+            
+            # Limit to reasonable pool size after fusion
+            rows = rows[:max_results * max_per_doc * top_k_multiplier]
+            logger.debug(f"RRF fusion: merged {len(all_result_lists)} result lists → {len(rows)} final candidates")
+        else:
+            # Single query retrieval (traditional)
+            rows = self.vector_store.search(
+                query=query_variations[0], 
+                top_k=max_results * max_per_doc * top_k_multiplier, 
+                doc_type_filter=doc_type_filter
+            )
         
         # Load Graph (now an nx.DiGraph) for boosting
         graph_data: nx.DiGraph = self.graph_store.load()
+        
+        # 1a. Smart Context Expansion (Industry-Standard RAG Technique)
+        # Expand context window around initial hits with intelligent strategies:
+        #   - Adaptive windowing based on confidence
+        #   - Continuation detection (mid-sentence, lists, etc.)
+        #   - Metadata-guided expansion (same section boundaries)
+        if rows:
+            # Determine window size from config
+            base_window_size = getattr(self.config, 'context_window_size', 1)
+            
+            # Calculate initial confidence for adaptive expansion
+            top_score = rows[0].get("score", 0.0) if rows else 0.0
+            
+            # Expand context
+            rows = self._expand_context_window(
+                hit_chunks=rows,
+                base_window=base_window_size,
+                min_confidence=top_score,
+            )
 
         # 1b. Cross-Encoder Re-ranking (if model available)
         cross_encoder_active = getattr(self.config, 'cross_encoder_enabled', False)
@@ -418,6 +765,9 @@ class RetrievalService(AgentBase):
             
             # Compute all textual features (keyword matches, etc.)
             features = self._compute_feature_scores(query, row, disable_intent=disable_auto_filter)
+            
+            # Store features on row for multi-signal confidence computation
+            row["_features"] = features
             
             # Compute Graph Relevance
             graph_boost = 0.0 if disable_graph_boost else self._compute_graph_score(query, doc_id, graph_data)
@@ -461,24 +811,45 @@ class RetrievalService(AgentBase):
             intent, _ = self._detect_query_intent(query)
             if intent == "file_capability" and row.get("doc_type") == "TROUBLESHOOT":
                 final_score *= 0.6
+
+            # Protect GOVERNING_DOC from intent-based de-boosting:
+            # General/educational/troubleshooting intents should NOT penalize
+            # legal docs since their content naturally contains words like
+            # "error", "failure", "issue" in governance contexts.
+            row_doc_type = row.get("doc_type", "UNKNOWN")
+            if row_doc_type == "GOVERNING_DOC":
+                # Neutral intent handling: don't let troubleshoot-intent boost
+                # hurt legal docs, and give a mild boost when query mentions
+                # legal-specific terms
+                legal_terms = {"agreement", "pooling", "servicing", "trust",
+                               "certificate", "trustee", "indenture", "mortgage",
+                               "obligor", "servicer", "depositor", "beneficiary",
+                               "reporting", "statement", "distribution"}
+                query_words = set(query.lower().split())
+                if query_words & legal_terms:
+                    final_score *= 1.3  # boost for legal-term queries
+            
+            # Store final rerank score on row for confidence computation
+            row["_rerank_score"] = final_score
                 
             return final_score
 
         # Sort by fused score
         rows.sort(key=rerank_scorer, reverse=True)
         
-        # Deduplicate by doc_id (keep highest-scored chunk per document)
-        seen_docs = set()
+        # Deduplicate by doc_id (keep top N chunks per document, not just 1)
+        max_per_doc = int(request.get("max_chunks_per_doc", getattr(self.config, 'max_chunks_per_doc', 3)))
+        doc_counts: dict[str, int] = {}
         deduped_rows = []
         for row in rows:
             doc_id = row.get("doc_id")
-            if doc_id not in seen_docs:
+            doc_counts[doc_id] = doc_counts.get(doc_id, 0) + 1
+            if doc_counts[doc_id] <= max_per_doc:
                 deduped_rows.append(row)
-                seen_docs.add(doc_id)
-            if len(deduped_rows) >= max_results:
+            if len(deduped_rows) >= max_results * max_per_doc:
                 break
         
-        rows = deduped_rows[:max_results]
+        rows = deduped_rows[:max_results * max_per_doc]
 
         chunks: list[TextChunk] = []
         citations: list[Citation] = []
@@ -521,10 +892,65 @@ class RetrievalService(AgentBase):
             related_topics = sorted({tag for doc in docs for tag in doc.get("tags", []) if tag})
 
         if chunks and rows:
-            top_similarity = float(rows[0].get("score", 0.0))
-            confidence = min(1.0, max(0.3, top_similarity + (0.05 * (len(chunks) - 1))))
+            # Multi-signal confidence formula: combines vector similarity,
+            # cross-encoder score, graph boost, entity overlap, keyword match,
+            # intent match, error code match, and chunk diversity.
+            top_row = rows[0]
+            top_similarity = float(top_row.get("score", 0.0))
+            features = top_row.get("_features", {})
+            
+            # Signal weights (sum to ~1.0 for base signals)
+            w_vector = 0.30       # raw cosine similarity
+            w_rerank = 0.25       # fused rerank score (incorporates graph, CE, etc.)
+            w_keyword = 0.15      # query keyword density in content
+            w_intent = 0.10       # intent-doc_type alignment
+            w_entity = 0.10       # entity/keyphrase overlap
+            w_error = 0.10        # error code exact match
+            
+            # Normalize rerank score to 0-1 (rerank scores can exceed 1.0)
+            rerank_score = float(top_row.get("_rerank_score", top_similarity))
+            rerank_norm = min(1.0, rerank_score)
+            
+            # Cross-encoder signal (if available, already blended into rerank)
+            ce_score = top_row.get("cross_encoder_score")
+            if ce_score is not None:
+                import math
+                ce_norm = 1.0 / (1.0 + math.exp(-ce_score))
+                # Replace vector weight partially with CE
+                w_vector = 0.15
+                w_ce = 0.15
+                base_confidence = (
+                    w_vector * top_similarity
+                    + w_ce * ce_norm
+                    + w_rerank * rerank_norm
+                    + w_keyword * features.get("query_keyword_match", 0.0)
+                    + w_intent * features.get("intent_doc_type_match", 0.0)
+                    + w_entity * max(features.get("entity_overlap", 0.0), features.get("entity_keyphrase_match", 0.0))
+                    + w_error * features.get("error_code_exact_match", 0.0)
+                )
+            else:
+                base_confidence = (
+                    w_vector * top_similarity
+                    + w_rerank * rerank_norm
+                    + w_keyword * features.get("query_keyword_match", 0.0)
+                    + w_intent * features.get("intent_doc_type_match", 0.0)
+                    + w_entity * max(features.get("entity_overlap", 0.0), features.get("entity_keyphrase_match", 0.0))
+                    + w_error * features.get("error_code_exact_match", 0.0)
+                )
+            
+            # Chunk diversity bonus: more relevant chunks = higher confidence
+            chunk_bonus = min(0.10, 0.02 * (len(chunks) - 1))
+            
+            # Score spread penalty: if top scores are very close, less confident
+            if len(rows) >= 2:
+                score_gap = float(rows[0].get("_rerank_score", 0)) - float(rows[-1].get("_rerank_score", 0))
+                spread_bonus = min(0.05, score_gap * 0.1)
+            else:
+                spread_bonus = 0.0
+            
+            confidence = min(1.0, max(0.15, base_confidence + chunk_bonus + spread_bonus))
         else:
-            confidence = 0.3
+            confidence = 0.15
         result_obj = SearchResult(
             context_chunks=chunks,
             confidence=confidence,
@@ -541,10 +967,13 @@ class RetrievalService(AgentBase):
             and getattr(self.config, 'term_resolution_enabled', False)
             and not disable_term_resolution
         ):
-            # Compute corpus regime
-            corpus_regime = getattr(self.config, 'corpus_regime_override', '') or 'GENERIC_GUIDE'
-            if not corpus_regime or corpus_regime == '':
-                corpus_regime = 'GENERIC_GUIDE'
+            # Compute corpus regime — auto-detect from graph metadata or config
+            corpus_regime = getattr(self.config, 'corpus_regime_override', '') or ''
+            if not corpus_regime:
+                # Auto-detect from persisted corpus regime in graph
+                corpus_regime = graph_data.graph.get('corpus_regime', '') if graph_data else ''
+            if not corpus_regime:
+                corpus_regime = 'MIXED'  # Default to MIXED so term resolution can activate
 
             intent, _ = self._detect_query_intent(query)
             activate, reason = should_activate_resolver(

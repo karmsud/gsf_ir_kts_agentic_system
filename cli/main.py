@@ -79,6 +79,10 @@ def ingest(paths):
     from backend.retrieval.term_registry import TermRegistry
     term_registry = TermRegistry(config.knowledge_base_path)
 
+    # Regime classifier for corpus-level regime detection
+    from backend.ingestion.regime_classifier import RegimeClassifier
+    regime_results = []  # collect per-doc regime results for corpus vote
+
     source_paths: list[Path] = []
     
     # If no paths provided, ingest all pending files from manifest (doc_id is not set OR explicit request)
@@ -169,6 +173,20 @@ def ingest(paths):
             metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
             metadata["doc_type"] = classify_result.data.get("doc_type", "UNKNOWN")
             metadata["tags"] = classify_result.data.get("tags", [])
+
+            # Collect regime result from ingestion agent's classification
+            doc_regime = metadata.get("doc_regime", "UNKNOWN")
+            if doc_regime and doc_regime != "UNKNOWN":
+                regime_results.append(doc_regime)
+
+            # Regime→taxonomy override: if RegimeClassifier identified a legal
+            # governing document but taxonomy missed it, override doc_type.
+            # The regime classifier uses 6 weighted signals and is more reliable
+            # for legal docs than keyword counting which misclassifies PSAs as TROUBLESHOOT.
+            if doc_regime == "GOVERNING_DOC_LEGAL" and metadata["doc_type"] not in ("GOVERNING_DOC",):
+                logger.info("Regime override: %s → GOVERNING_DOC (regime=%s, taxonomy=%s)",
+                            source.name, doc_regime, metadata["doc_type"])
+                metadata["doc_type"] = "GOVERNING_DOC"
             
             # Simple keyword extraction (fallback)
             lowered = document.extracted_text.lower()
@@ -211,7 +229,18 @@ def ingest(paths):
     # Rebuild learned synonym clusters after ingestion batch
     synonym_summary = term_registry.rebuild_synonyms()
 
-    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary), "total_images_pending": total_images, "synonym_clusters": synonym_summary}, indent=2))
+    # Compute and persist corpus regime in graph for retrieval auto-detection
+    corpus_regime = RegimeClassifier.corpus_regime(regime_results) if regime_results else "GENERIC_GUIDE"
+    try:
+        from backend.graph import GraphStore
+        gs = GraphStore(config.graph_path)
+        G = gs.load()
+        G.graph["corpus_regime"] = corpus_regime
+        gs.save(G)
+    except Exception:
+        pass  # graph persistence is best-effort
+
+    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary), "total_images_pending": total_images, "synonym_clusters": synonym_summary, "corpus_regime": corpus_regime}, indent=2))
 
 
 @cli.command()
@@ -290,11 +319,12 @@ def vacuum(dry_run):
 @click.option("--provenance-detail", is_flag=True, default=False, help="Include full provenance ledger in output.")
 @click.option("--section-filter", default=None, help="Restrict results to a specific section heading.")
 @click.option("--graph-only", is_flag=True, default=False, help="Use graph-based retrieval only (no vector search).")
+@click.option("--deep", is_flag=True, default=False, help="Deep retrieval mode: more chunks per document, wider candidate pool.")
 @click.option("--answer-text", default=None, help="Optional generated answer text to validate provenance against.")
 def search(query, max_results, doc_type, tool_filter, strict, no_graph_boost, no_auto_filter,
            no_term_resolution, no_query_expansion, no_acronym_resolution,
            regime_override, debug_level, explain, provenance_detail,
-           section_filter, graph_only, answer_text):
+           section_filter, graph_only, deep, answer_text):
     config = _ctx()
 
     # Apply CLI overrides to config
@@ -308,10 +338,16 @@ def search(query, max_results, doc_type, tool_filter, strict, no_graph_boost, no
         config.acronym_resolver_enabled = False
 
     retrieval = RetrievalService(config)
+    
+    # Deep mode: increase per-doc chunk limit and candidate pool
+    chunks_per_doc = config.deep_max_chunks_per_doc if deep else config.max_chunks_per_doc
+    
     result = retrieval.execute(
         {
             "query": query,
             "max_results": max_results,
+            "max_chunks_per_doc": chunks_per_doc,
+            "deep_mode": deep,
             "doc_type_filter": doc_type,
             "tool_filter": tool_filter,
             "strict": strict,

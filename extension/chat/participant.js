@@ -9,13 +9,15 @@ function toMarkdown(result) {
   const search = result.search_result;
   const chunks = Array.isArray(search.context_chunks) ? search.context_chunks : [];
   const citations = Array.isArray(search.citations) ? search.citations : [];
+  const isDeep = result.deep_mode || false;
+  const displayLimit = isDeep ? 10 : 5;
 
   if (!chunks.length) {
     return 'No matching KTS context was found for this query. Try adding product/tool names or error codes.';
   }
 
   const summary = chunks
-    .slice(0, 5)
+    .slice(0, displayLimit)
     .map((chunk, index) => {
       // Strip internal [EVIDENCE] metadata header before display
       const body = (chunk.content || '').replace(/^\[EVIDENCE\][^\n]*\n?/, '').trim();
@@ -33,6 +35,32 @@ function toMarkdown(result) {
     .join('\n');
 
   const confidence = typeof search.confidence === 'number' ? search.confidence.toFixed(2) : 'n/a';
+
+  // Term resolution (Gap 5)
+  let termResMd = '';
+  const termRes = result.search_result?.term_resolution;
+  if (termRes && termRes.activated && Array.isArray(termRes.resolutions) && termRes.resolutions.length > 0) {
+    const items = termRes.resolutions.map(r => {
+      const closure = (r.closure || []).join(' → ');
+      return `- **${r.root_term}**: ${closure}`;
+    }).join('\n');
+    termResMd = `\n\n### Defined-Term Resolution\n${items}`;
+  }
+
+  // Freshness (Gap 5)
+  let freshnessMd = '';
+  const freshness = search.freshness;
+  if (freshness && (freshness.aging > 0 || freshness.stale > 0)) {
+    freshnessMd = `\n\n> **Freshness**: ${freshness.current} current, ${freshness.aging} aging, ${freshness.stale} stale`;
+  }
+
+  // Related topics (Gap 5)
+  let topicsMd = '';
+  const topics = Array.isArray(search.related_topics) ? search.related_topics : [];
+  if (topics.length > 0) {
+    topicsMd = `\n\n**Related topics**: ${topics.join(', ')}`;
+  }
+
   return [
     `KTS retrieved context (confidence: ${confidence}).`,
     '',
@@ -40,19 +68,22 @@ function toMarkdown(result) {
     '',
     '### Citations',
     citationMd || 'No citations returned.',
-  ].join('\n');
+    termResMd,
+    freshnessMd,
+    topicsMd,
+  ].filter(Boolean).join('\n');
 }
 
 function extractMaxResults(request) {
   const command = request?.command;
   if (!command || typeof command !== 'string') {
-    return 5;
+    return { maxResults: 5, deepMode: false };
   }
 
   if (command === 'deep') {
-    return 8;
+    return { maxResults: 10, deepMode: true };
   }
-  return 5;
+  return { maxResults: 5, deepMode: false };
 }
 
 /**
@@ -159,10 +190,11 @@ function registerChatParticipant(vscode, context, shared) {
         return;
       }
 
-      const maxResults = extractMaxResults(request);
+      const { maxResults, deepMode } = extractMaxResults(request);
       const result = await ktsTool(query, {
         workspaceRoot: shared.workspaceRoot,
         maxResults,
+        deepMode,
       });
 
       stream.markdown(toMarkdown(result));

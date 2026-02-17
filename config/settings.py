@@ -94,17 +94,33 @@ class KTSConfig:
     ner_enabled: bool = False                   # auto-enabled when KTS_SPACY_MODEL_PATH set
     spacy_model_path: str = ""                  # set by core extension from addon registry
 
+    # ── Chunk sizing for legal/governing documents ───────────────
+    legal_chunk_size: int = 3000                # Fallback char-based chunk size for legal docs
+    legal_chunk_overlap: int = 500              # Fallback overlap for legal docs
+    legal_min_chunk_size: int = 500             # Min section size for semantic chunking
+    legal_max_chunk_size: int = 5000            # Max section size for semantic chunking
+
     # ── Retrieval Pipeline (Epic 3 — TD §6) ───────────────────────
+    max_chunks_per_doc: int = 3                 # dedup keeps top N chunks per document
+    deep_max_chunks_per_doc: int = 5            # /deep mode keeps more chunks per document
+    query_expansion_enabled: bool = True        # Multi-query retrieval with LLM expansion
+    query_expansion_count: int = 3              # Number of query variations to generate
     acronym_resolver_enabled: bool = True
-    query_expansion_enabled: bool = True
     learned_synonyms_enabled: bool = True       # use auto-learned synonyms at retrieval
     term_resolution_enabled: bool = True
+    
+    # ── Context Expansion (Smart Retrieval) ───────────────────────
+    context_expansion_enabled: bool = True      # Expand context window around hit chunks
+    context_window_size: int = 1                # Chunks to retrieve before/after hit (±N)
+    adaptive_expansion_enabled: bool = True     # Adjust window based on confidence
+    continuation_detection_enabled: bool = True # Detect mid-sentence/list continuations
+    metadata_guided_expansion: bool = True      # Use section headers to guide expansion
     cross_encoder_enabled: bool = False         # auto-enabled when KTS_CROSSENCODER_MODEL_PATH set
     cross_encoder_model_path: str = ""          # set by core extension from addon registry
     pagerank_enabled: bool = False              # deferred to Phase 4.1
     context_expansion_enabled: bool = False     # ChunkExpander — deferred
     multi_hop_enabled: bool = True
-    section_aware_chunking_enabled: bool = False  # LegalChunker — deferred
+    section_aware_chunking_enabled: bool = True # LegalChunker — semantic section-aware chunking
 
     # ── Graph Scoring (TD §6.5) ───────────────────────────────────
     graph_boost_cap: float = 0.7
@@ -149,7 +165,14 @@ def load_config(root_dir: str | Path | None = None) -> KTSConfig:
     ner_bundled = getattr(sys, 'frozen', False)  # spaCy model is bundled in PyInstaller build
     cfg.ner_enabled = _env_bool("KTS_NER_ENABLED", bool(cfg.spacy_model_path) or ner_bundled)
     cfg.acronym_resolver_enabled = _env_bool("KTS_ACRONYM_RESOLVER_ENABLED", cfg.acronym_resolver_enabled)
+    cfg.max_chunks_per_doc = _env_int("KTS_MAX_CHUNKS_PER_DOC", cfg.max_chunks_per_doc)
+    cfg.deep_max_chunks_per_doc = _env_int("KTS_DEEP_MAX_CHUNKS_PER_DOC", cfg.deep_max_chunks_per_doc)
+    cfg.legal_chunk_size = _env_int("KTS_LEGAL_CHUNK_SIZE", cfg.legal_chunk_size)
+    cfg.legal_chunk_overlap = _env_int("KTS_LEGAL_CHUNK_OVERLAP", cfg.legal_chunk_overlap)
+    cfg.legal_min_chunk_size = _env_int("KTS_LEGAL_MIN_CHUNK_SIZE", cfg.legal_min_chunk_size)
+    cfg.legal_max_chunk_size = _env_int("KTS_LEGAL_MAX_CHUNK_SIZE", cfg.legal_max_chunk_size)
     cfg.query_expansion_enabled = _env_bool("KTS_QUERY_EXPANSION_ENABLED", cfg.query_expansion_enabled)
+    cfg.query_expansion_count = _env_int("KTS_QUERY_EXPANSION_COUNT", cfg.query_expansion_count)
     cfg.learned_synonyms_enabled = _env_bool("KTS_LEARNED_SYNONYMS_ENABLED", cfg.learned_synonyms_enabled)
     cfg.term_resolution_enabled = _env_bool("KTS_TERM_RESOLUTION_ENABLED", cfg.term_resolution_enabled)
     # Cross-encoder: auto-enable if model path is provided
@@ -157,6 +180,10 @@ def load_config(root_dir: str | Path | None = None) -> KTSConfig:
     cfg.cross_encoder_enabled = _env_bool("KTS_CROSS_ENCODER_ENABLED", bool(cfg.cross_encoder_model_path))
     cfg.pagerank_enabled = _env_bool("KTS_PAGERANK_ENABLED", cfg.pagerank_enabled)
     cfg.context_expansion_enabled = _env_bool("KTS_CONTEXT_EXPANSION_ENABLED", cfg.context_expansion_enabled)
+    cfg.context_window_size = _env_int("KTS_CONTEXT_WINDOW_SIZE", cfg.context_window_size)
+    cfg.adaptive_expansion_enabled = _env_bool("KTS_ADAPTIVE_EXPANSION_ENABLED", cfg.adaptive_expansion_enabled)
+    cfg.continuation_detection_enabled = _env_bool("KTS_CONTINUATION_DETECTION_ENABLED", cfg.continuation_detection_enabled)
+    cfg.metadata_guided_expansion = _env_bool("KTS_METADATA_GUIDED_EXPANSION", cfg.metadata_guided_expansion)
     cfg.multi_hop_enabled = _env_bool("KTS_MULTI_HOP_ENABLED", cfg.multi_hop_enabled)
     cfg.section_aware_chunking_enabled = _env_bool("KTS_SECTION_AWARE_CHUNKING_ENABLED", cfg.section_aware_chunking_enabled)
     cfg.graph_boost_cap = _env_float("KTS_GRAPH_BOOST_CAP", cfg.graph_boost_cap)

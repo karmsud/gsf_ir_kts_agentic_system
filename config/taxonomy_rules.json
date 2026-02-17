@@ -1,4 +1,5 @@
 {
+  "GOVERNING_DOC": ["agreement", "pooling", "servicing", "trust", "indenture", "covenant", "certificate", "trustee", "mortgage", "securities", "prospectus", "supplement", "collateral", "obligor", "servicer", "depositor", "beneficiary"],
   "SOP": ["procedure", "step", "runbook", "standard operating", "staleness", "sop_", "data staleness"],
   "USER_GUIDE": ["guide", "how to", "walkthrough", "tutorial"],
   "TROUBLESHOOT": ["error", "failure", "issue", "troubleshoot", "fix"],

@@ -41,9 +41,16 @@ def _load_model(model_path: Optional[str] = None) -> object:
     
     # Priority 2: Check for bundled model in PyInstaller
     if not model_path and getattr(sys, 'frozen', False):
-        bundled_model = Path(sys._MEIPASS) / 'spacy_models' / 'en_core_web_sm'
-        if bundled_model.exists():
-            model_path = str(bundled_model)
+        bundled_base = Path(sys._MEIPASS) / 'spacy_models' / 'en_core_web_sm'
+        if bundled_base.exists():
+            # The actual model lives inside a versioned sub-directory
+            # (e.g. en_core_web_sm-3.8.0/) which contains config.cfg.
+            versioned = [d for d in bundled_base.iterdir()
+                         if d.is_dir() and (d / 'config.cfg').exists()]
+            if versioned:
+                model_path = str(versioned[0])
+            else:
+                model_path = str(bundled_base)
             logger.info("Using bundled spaCy model from PyInstaller")
     
     if not model_path:
@@ -52,7 +59,6 @@ def _load_model(model_path: Optional[str] = None) -> object:
 
     try:
         import spacy  # noqa: E402  — intentionally lazy
-        import sys  # Ensure sys is imported for frozen check
 
         if Path(model_path).is_dir():
             _nlp = spacy.load(model_path)

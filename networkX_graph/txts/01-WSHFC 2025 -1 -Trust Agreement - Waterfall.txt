@@ -1,0 +1,253 @@
+ARTICLE IV
+ACCOUNTS; DISTRIBUTIONS;
+CERTAIN DUTIES OF TRUSTEE
+Section 4.01. Accounts.
+(a) On or prior to the Closing Date, the Trustee shall establish a segregated
+account, the “Distribution Account,” and three segregated sub-accounts therein, the “Note
+Interest Sub-Account,” the “Note Premium Sub-Account” and the “Note Principal Sub-
+Account,” for the benefit of the Holders and Beneficial Owners.
+27
+4135-7643-8109
+(b) The Trustee shall deposit all Note Payments, P&I Advances, amounts
+transferred by the Escrow Custodian from the Escrow Account, together with all proceeds
+from the sale or disposition of the Notes or any other moneys it receives, in all cases to the
+extent such moneys are designated or attributable to interest pursuant to the terms of a
+Note, in the Note Interest Sub-Account of the Distribution Account.
+(c) The Trustee shall deposit all Note Payments, together with all proceeds
+from the sale or disposition of the Notes or any other moneys it receives, in all cases to the
+extent such moneys are designated or attributable to premium payable by a Borrower
+pursuant to the terms of the related Note, in the Note Premium Sub-Account of the
+Distribution Account.
+(d) The Trustee shall deposit all Note Payments, P&I Advances, amounts
+transferred by the Escrow Custodian from the Escrow Account, together with all proceeds
+from the sale or disposition of the Notes or any other moneys it receives, in all cases to the
+extent such moneys are designated or attributable to principal pursuant to the terms of a
+Note, in the Note Principal Sub-Account of the Distribution Account.
+(e) All amounts in the Distribution Account and the earnings on the investment
+of such amounts shall be invested by the Trustee, at the written direction of the Issuer, only
+in Permitted Investments, so that such Permitted Investments may be liquidated to make
+the payments to be made on each Distribution Date. Absent such written direction, such
+amounts shall be held uninvested. Earnings on amounts on deposit in the Distribution
+Account shall be treated and distributed as if such earnings were Note Interest.
+(f) Upon receipt of Note Payments from the Master Servicer, the Trustee shall:
+(i) determine if the amount representing Note Interest on deposit in the
+Distribution Account, together with the amount set forth in any related Advances
+Report, is sufficient to pay the Administrative Fees as set forth in Section 4.02 and
+to make all Distributions to the Class A Holders as set forth in Section 4.03(a)(i)
+and, if the amount so determined is insufficient for such purposes, direct the Escrow
+Custodian in writing to transfer to the Trustee from and to the extent of funds on
+deposit in the Escrow Account the amounts sufficient to make the payments set
+forth in Section 4.03(a)(i) and deposit such amounts in the Note Interest Sub-
+Account of the Distribution Account; and
+(ii) determine if a Principal Shortfall Amount will still exist after
+reducing the Certificate Balance of the Class B Certificate to zero pursuant to
+Section 4.03(b)(ii)(A) and, if so, direct the Escrow Custodian in writing to transfer
+to the Trustee from and to the extent of funds on deposit in the Escrow Account the
+amounts sufficient to make the payments set forth in Section 4.03(b)(ii)(B)(2) and
+4.03(b)(ii)(B)(3) and deposit such amounts the Note Principal Sub-Account of the
+Distribution Account.
+28
+4135-7643-8109
+Section 4.02. Administrative Fees.
+On each Distribution Date, the Trustee shall pay, from the amounts on deposit in
+the Note Interest Sub-Account of the Distribution Account, the Administrative Fees, in
+arrears, in the following order of priority, each priority being fully paid before proceeds
+are used to pay any lower priority and no payment being made on any priority if the
+proceeds have been exhausted in the payment of higher priorities:
+(i) to the Trustee, the Trustee Fee;
+(ii) to the Escrow Custodian, the Escrow Custodian Fee;
+(iii) to the Issuer, the Issuer Fee;
+(iv) to the Dissemination Agent, the Dissemination Agent Fee; and
+(v) to CREFC®, the CREFC® Royalty Fee.
+Each of the above fees will be paid monthly and will be calculated on a Loan by
+Loan basis as the product of (i) the unpaid principal balance of each Note as of the first day
+of the immediately preceding calendar month, (ii) the applicable rate per annum, and (iii)
+the accrual basis for the respective Note.
+Section 4.03. Distributions.
+(a) Distributions of Note Interest. On each Distribution Date, after paying the
+Administrative Fees set forth in Section 4.02, the Trustee shall apply amounts on deposit
+in the Note Interest Sub-Account of the Distribution Account and any earnings thereon, in
+the order of priority listed, as follows:
+(i) to the Class A Certificateholders, on a pari passu basis between
+Classes of the Class A Certificates, Distributions on the Certificate Balance of the
+Class A Certificates at the applicable Class A Rate, determined by reference to the
+Class Factor calculated by the Trustee as set forth in subsection (f) below; provided,
+however, that if, as a result of any default or delinquency on one or more of the
+Loans, the Available Note Interest is insufficient to make such Distributions on the
+Class A Certificates, then the Trustee shall, to the extent of the funds available:
+(A) make Distributions in respect of Note Interest on the
+Certificate Balance of the Class A-1 Certificates at the Class A-1 Rate
+determined by reference to the Class Factor calculated by the Trustee as set
+forth in subsection (f) below, first, from Available Note Interest and, if such
+Available Note Interest is insufficient, then from amounts withdrawn from
+the Common Sub-Account as set forth in Section 4.01(f)(i); and then
+(B) make Distributions in respect of Note Interest on the
+Certificate Balance of the Class A-2 Certificates at the Class A-2 Rate
+determined by reference to the Class Factor calculated by the Trustee as set
+29
+4135-7643-8109
+forth in subsection (f) below, first, from Available Note Interest and, if such
+Available Note Interest is insufficient, then from amounts withdrawn from
+the Class A-2 Sub-Account as set forth in Section 4.01(f)(i) and then from
+amounts withdrawn from the Common Sub-Account as set forth in Section
+4.01(f)(i).
+(ii) to Escrow Custodian, to the extent funds have previously been
+withdrawn from the Escrow Account and have not been reimbursed or repaid:
+(A) an amount equal to the amounts withdrawn from the
+Common Sub-Account for deposit to the Common Sub-Account; and
+(B) an amount equal to the amounts withdrawn from the Class
+A-2 Sub-Account for deposit to the Class A-2 Sub-Account.
+(iii) to the Class B Certificateholders, Distributions on the Certificate
+Balance of the Class B Certificates at the Class B Rate, determined by reference to
+the Class Factor calculated by the Trustee as set forth in subsection (f); and
+(iv) to the Class B Certificateholders, all amounts remaining.
+(b) Distributions of Scheduled Note Principal Payments.
+(i) On each Distribution Date, the Trustee shall apply Available Note
+Principal to make payments of the Certificate Balance of the Class A Certificates,
+on a pro rata basis between Classes of the Class A Certificates, until the Certificate
+Balance of the Class A Certificates is reduced to zero, and, after the Certificate
+Balance of the Class A Certificates is reduced to zero, to make payments of the
+Certificate Balance of the Class B Certificates.
+(ii) If a Principal Shortfall Amount exists, then the Trustee shall:
+(A) reduce the Certificate Balance of the Class B Certificates,
+without any payment therefore, by an amount equal to the Principal
+Shortfall Amount until the Certificate Balance of the Class B Certificates is
+reduced to zero and then reduce the Principal Shortfall Amount by an
+amount equal to such reduction in the Certificate Balance of the Class B
+Certificates;
+(B) if, after taking the actions in clause (A) above, a Principal
+Shortfall Amount still exists, then the Trustee shall:
+(1) calculate the sum of the amount on deposit in the
+Note Principal Sub-Account of the Distribution Account
+(“Available Note Principal”) and the Principal Shortfall Amount and
+then allocate such sum to the Class A-1 Certificates and the Class
+A-2 Certificates, on a pro rata basis according to the respective
+Certificate Balances (the amount so allocated to the Class A-1
+30
+4135-7643-8109
+Certificates, the “Class A-1 Principal Due” and the amount so
+allocated to the Class A-2 Certificates, the “Class A-2 Principal
+Due”); then
+(2) pay to the Class A-1 Certificateholders the Class A-
+1 Principal Due, first from Available Note Principal and, if such
+Available Note Principal is insufficient, then from amounts
+withdrawn from the Common Sub-Account as set forth in Section
+4.01(f)(ii) (and reduce the Principal Amount Shortfall by the
+amounts withdrawn from the Escrow Account); and then
+(3) pay to the Class A-2 Certificateholders the Class A-
+2 Principal Due, first from Available Note Principal remaining after
+taking the actions in clause (2) above and, if such Available Note
+Principal is insufficient, then from amounts withdrawn from the
+Class A-2 Sub-Account as set forth in Section 4.01(f)(ii) and then
+from amounts withdrawn from the Common Sub-Account as set
+forth in Section 4.01(f)(ii) (and reduce the Principal Amount
+Shortfall by the amounts withdrawn from the Escrow Account); and
+then
+(4) to the extent a Principal Shortfall Amount still exists,
+reduce the Certificate Balance of the Class A-2 Certificates by an
+amount equal to the remaining Principal Shortfall Amount (and
+reduce the Principal Shortfall Amount by the amount of the
+reduction of Certificate Balance of the Class A-2 Certificates) until
+the Certificate Balance of the Class A-2 Certificates is reduced to
+zero; and then
+(5) to the extent a Principal Shortfall Amount still exists,
+reduce the Certificate Balance of the Class A-1 Certificates by an
+amount equal to the remaining Principal Shortfall Amount until the
+Certificate Balance of the Class A-2 Certificates is reduced to zero.
+(iii) Notwithstanding any other provision of Section 4.03(b)(ii), in no
+event shall the Trustee distribute any amounts on deposit in the Note Principal Sub-
+Account of the Distribution Account representing amounts transferred from the
+Class A-2 Sub-Account of the Escrow Account to the Class A-2 Certificateholder
+if doing so would reduce the Certificate Balance of the Class A-2 Certificates to
+zero and the Certificate Balance of the Class A-1 Certificates has not already or
+concurrently been reduced to zero.
+(c) Distributions of Unscheduled Note Payments. The Trustee shall, from
+amounts on deposit in the applicable sub-account of the Distribution Account, (i) apply
+any portion of an Unscheduled Note Payment constituting Note Interest to make a
+Distribution of Note Interest in accordance with Section 4.03(a) on the next Distribution
+Date, (ii) apply any portion of an Unscheduled Note Payment constituting Note Principal
+31
+4135-7643-8109
+(A) to make payments of the Certificate Balance of the Class A Certificates, on a pro rata
+basis between Classes of the Class A Certificates, until the Certificate Balance of the Class
+A Certificates is reduced to zero, and (B) after the Certificate Balance of the Class A
+Certificates is reduced to zero, to make payments of the Certificate Balance of the Class B
+Certificates, and (iii) apply any portion of a Unscheduled Note Payment constituting Note
+Premium to make payments to the Class A Certificateholders and the Class B
+Certificateholders in accordance with Section 4.03(d).
+(d) Distributions of Note Premium. On each Distribution Date, for each Loan
+in respect of which Note Premium was received by the Trustee and deposited to the Note
+Premium Sub-Account of the Distribution Account by such Distribution Date, provided
+the Trustee has received an Officer’s Certificate of the Master Servicer or the Special
+Servicer with respect thereto, which shall include the total amount of Note Premium
+received and the discount rate set forth in the related Note, the Trustee shall pay such Note
+Premium to the Certificateholders as follows:
+(i) to the Class A Certificateholders, on a pro rata basis between Classes
+of the Class A Certificates, a portion of the Note Premium equal to (A) the amount
+of the Note Premium received by the Determination Date, multiplied by (B) the
+quotient of (1) the amount of Note Principal distributed to Class A
+Certificateholders, over (2) the total amount of Note Principal distributed to Class
+A Certificateholders and the Class B Certificateholders; and
+(ii) to the Class B Certificateholders, a portion of the Note Premium
+equal to (A) the amount of the Note Premium received by the Determination Date,
+multiplied by (B) the quotient of (1) the amount of Note Principal distributed to
+Class B Certificateholders, over (2) the total amount of Note Principal distributed
+to Class A Certificateholders and the Class B Certificateholders.
+(e) Distributions of Delinquent Note Payments. The Trustee shall, from
+amounts on deposit in the applicable sub-account of the Distribution Account, (i) apply
+any portion of a Note Payment constituting Note Interest and received after the applicable
+Determination Date to make a Distribution of Note Interest in accordance with Section
+4.03(a) on the next Distribution Date, and (ii) apply any portion of a Note Payment
+constituting Note Principal and received after the applicable Determination Date (A) to
+make payments of the Certificate Balance of the Class A Certificates, on a pro rata basis
+between Classes of the Class A Certificates, until the Certificate Balance of the Class A
+Certificates is reduced to zero, and (B) after the Certificate Balance of the Class A
+Certificates is reduced to zero, to make payments of the Certificate Balance of the Class B
+Certificates, and (iii) apply any portion of a Note Payment constituting Note Premium and
+received after the applicable Determination Date to make payments to the Class A
+Certificateholders and the Class B Certificateholders in accordance with Section 4.03(d).
+(f) Class Factors. On each Distribution Date, the Trustee shall make
+Distributions on the Certificates based upon the Class Factor determined on the prior
+Distribution Date or, with respect to the first Distribution Date following the Closing Date,
+the initial Class Factor. After distributing all Available Note Principal and amounts
+32
+4135-7643-8109
+withdrawn from the Escrow Account, the Trustee will calculate the Class Factors which
+will be in effect from the next following Business Day to and including the following
+Distribution Date. The Class Factors so calculated will be made available to Bloomberg
+via the Trustee’s Reporting Website on the Business Day following such Distribution Date.
+(g) Additional Provisions with Respect to Distributions.
+(i) Distributions of Note Interest on the Certificates will be calculated
+on a 30/360 basis (i.e., assuming that a year consists of 12 months of 30 days each).
+(ii) Distributions of Scheduled Note Principal Payments pursuant to
+Section 4.03(b) shall be in $0.01 increments.
+(iii) Notwithstanding anything herein to the contrary, the Trustee shall
+not make any Distributions to a Certificateholder if, by doing so, it would reduce
+the Certificateholder’s Capital Account below zero, except for any final
+Distributions of the Portfolio Assets pursuant to Section 9.03 in connection with a
+Termination Event.
+(iv) A Holder is not required to present its Certificate to the Trustee to
+receive any Distribution, other than in connection with the final payment of such
+Certificate. Any Class A Certificate or Class B Certificate receiving payment in
+full of its Certificate Balance and its Distribution in respect of Note Interest
+pursuant to this Section shall be cancelled upon receipt of such payment and shall
+no longer be outstanding.
+(v) The Trustee shall, to the extent amounts are needed and available
+from the Escrow Account and the Escrow Custodian has not transferred such
+amounts in accordance with the Escrow Account Agreement, direct the Escrow
+Custodian to make such transfer in the amount and by the time required to make
+the Distributions hereunder.
+(vi) The Trustee shall notify the Servicer of all amounts withdrawn from
+the Escrow Account.
+Section 4.04. Compliance with Withholding Requirements. All cash payments to the
+Holders hereunder shall be made without deduction for any taxes, charges, levies or withholdings,
+except to the extent, if any, that such amounts are required to be withheld under the laws, rules and
+regulations of the United States of America and any other applicable taxing authority.
+Notwithstanding any other provision of this Trust Agreement, the Trustee shall comply with all
+U.S. federal income tax withholding requirements with respect to Distributions. The consent of
+the Holder shall not be required for any such withholding, except that no withholding shall be
+made to the extent that a Holder presents to the Trustee a form evidencing the entitlement to
+elimination or reduction of such withholding. In the event the Trustee withholds any amount from
+a Beneficial Owner pursuant to withholding requirements, the amount so withheld shall be treated
+as having been distributed to such Beneficial Owner for all purposes of this Trust Agreement and
+the Trustee shall provide such Beneficial Owner with IRS-required withholding reports when due.

@@ -17,7 +17,9 @@ from backend.ingestion import (
     convert_doc, convert_docx, convert_pdf, convert_pptx, convert_png,
     extract_entities_and_keyphrases,
 )
+from backend.ingestion.regime_classifier import RegimeClassifier
 from backend.vector import VectorStore, chunk_document
+from backend.vector.legal_chunker import chunk_legal_document
 from .base_agent import AgentBase
 
 logger = logging.getLogger(__name__)
@@ -126,6 +128,37 @@ class IngestionAgent(AgentBase):
         if getattr(self.config, 'ner_enabled', True):
             ner_result = self._extract_ner(text)
 
+        # ── Regime Classification (TD §2) ─────────────────────────
+        doc_regime = "UNKNOWN"
+        if getattr(self.config, 'regime_classifier_enabled', True):
+            try:
+                regime_result = RegimeClassifier.classify(text, filename=source_path.name)
+                doc_regime = regime_result.regime
+                logger.info("Regime classified: %s (score=%d) for %s", doc_regime, regime_result.score, source_path.name)
+            except Exception as exc:
+                logger.debug("Regime classification failed: %s", exc)
+
+        # ── Content-level date extraction (Gap 6) ──────────────────
+        content_date = None
+        try:
+            import re as _re
+            date_patterns = [
+                r'(?:Last\s+Updated|Updated|Effective\s+Date|Date|Revision)[:\s]*'
+                r'((?:January|February|March|April|May|June|July|August|September|October|November|December)'
+                r'\s+\d{1,2},?\s+\d{4})',
+                r'(?:Last\s+Updated|Updated|Effective\s+Date|Date|Revision)[:\s]*'
+                r'(\d{4}-\d{2}-\d{2})',
+                r'(?:Last\s+Updated|Updated|Effective\s+Date|Date|Revision)[:\s]*'
+                r'(\d{1,2}/\d{1,2}/\d{4})',
+            ]
+            for pattern in date_patterns:
+                m = _re.search(pattern, text[:5000], _re.IGNORECASE)
+                if m:
+                    content_date = m.group(1).strip()
+                    break
+        except Exception:
+            pass
+
         metadata = {
             "doc_id": doc_id,
             "title": source_path.stem,
@@ -133,7 +166,9 @@ class IngestionAgent(AgentBase):
             "extension": source_path.suffix.lower(),
             "created_at": datetime.now(timezone.utc).isoformat(),
             "modified_at": datetime.fromtimestamp(source_path.stat().st_mtime, tz=timezone.utc).isoformat(),
+            "content_date": content_date,
             "doc_type": json_metadata.get("doc_type", "UNKNOWN"),
+            "doc_regime": doc_regime,
             "tags": [],
             "tools": json_metadata.get("tool_names", []),
             "topics": [],
@@ -170,13 +205,13 @@ class IngestionAgent(AgentBase):
                 image_paths.append(ref)
                 seen.add(resolved)
 
-        # 2. Versioning (Backup Old)
+        # 2. Versioning (Backup Old) — auto-increment version number
         if final_doc_dir.exists():
             current_version = 0
             try:
                 old_meta = json.loads((final_doc_dir / "metadata.json").read_text(encoding="utf-8"))
-                current_version = old_meta.get("version", 0)
-            except:
+                current_version = int(old_meta.get("version", 0))
+            except Exception:
                 pass
             
             version_backup_dir = Path(self.config.knowledge_base_path) / "versions" / doc_id / f"v{current_version}"
@@ -186,6 +221,11 @@ class IngestionAgent(AgentBase):
             for f in final_doc_dir.glob("*"):
                 if f.is_file():
                     shutil.copy2(f, version_backup_dir)
+            
+            # Auto-increment version for the new document
+            metadata["version"] = current_version + 1
+            # Re-write metadata to staging with updated version
+            metadata_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
         
         # 3. Swap (Commit Storage)
         final_doc_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -209,13 +249,48 @@ class IngestionAgent(AgentBase):
         # Delete OLD chunks first to prevent phantom artifacts
         self.vector_store.delete_doc_chunks(doc_id)
         
-        chunks = chunk_document(
-            doc_id=doc_id,
-            source_path=str(source_path),
-            text=text,
-            chunk_size=self.config.chunk_size,
-            chunk_overlap=self.config.chunk_overlap,
+        # ── Intelligent Chunking Strategy ──────────────────────────
+        # For legal/governing documents: use section-aware semantic chunking
+        # to preserve document structure and reduce over-fragmentation.
+        # For other documents: use traditional character-based chunking.
+        
+        use_legal_chunking = (
+            doc_regime == "GOVERNING_DOC_LEGAL" and 
+            getattr(self.config, 'section_aware_chunking_enabled', True)
         )
+        
+        if use_legal_chunking:
+            # Semantic section-aware chunking for legal documents
+            logger.info("Using legal semantic chunking for %s", source_path.name)
+            chunks = chunk_legal_document(
+                doc_id=doc_id,
+                source_path=str(source_path),
+                text=text,
+                min_chunk_size=getattr(self.config, 'legal_min_chunk_size', 500),
+                max_chunk_size=getattr(self.config, 'legal_max_chunk_size', 5000),
+            )
+        else:
+            # Traditional character-based chunking
+            # Regime-adaptive chunk sizing: legal docs use larger chunks even in fallback
+            effective_chunk_size = self.config.chunk_size
+            effective_chunk_overlap = self.config.chunk_overlap
+            if doc_regime == "GOVERNING_DOC_LEGAL":
+                effective_chunk_size = getattr(self.config, 'legal_chunk_size', 3000)
+                effective_chunk_overlap = getattr(self.config, 'legal_chunk_overlap', 500)
+                logger.info("Using legal chunk sizing: %d/%d for %s",
+                            effective_chunk_size, effective_chunk_overlap, source_path.name)
+
+            chunks = chunk_document(
+                doc_id=doc_id,
+                source_path=str(source_path),
+                text=text,
+                chunk_size=effective_chunk_size,
+                chunk_overlap=effective_chunk_overlap,
+            )
+        
+        logger.info("Generated %d chunks for %s (method=%s)", 
+                    len(chunks), source_path.name, 
+                    "semantic-legal" if use_legal_chunking else "character-based")
         
         # Extract entities/keyphrases per-chunk if NER enabled
         if getattr(self.config, 'ner_enabled', True):

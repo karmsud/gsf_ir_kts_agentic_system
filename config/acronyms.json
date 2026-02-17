@@ -48,7 +48,6 @@
   "IO": "Interest Only",
   "PO": "Principal Only",
   "CPR": "Constant Prepayment Rate",
-  "PSA": "Public Securities Association (prepayment model)",
   "DQ": "Delinquency",
   "UPB": "Unpaid Principal Balance",
   "SBA": "Small Business Administration",

@@ -76,12 +76,20 @@ class GraphStore:
         for src, tgt, attrs in G.edges(data=True):
             edges.append({"source": src, "target": tgt, **attrs})
 
-        return {"nodes": nodes, "edges": edges}
+        result: dict = {"nodes": nodes, "edges": edges}
+        # Persist graph-level attributes (e.g. corpus_regime)
+        if G.graph:
+            result["graph"] = dict(G.graph)
+        return result
 
     @staticmethod
     def _dict_to_nx(raw: dict) -> nx.DiGraph:
         """Convert the canonical JSON dict back into an ``nx.DiGraph``."""
         G = nx.DiGraph()
+
+        # Restore graph-level attributes (e.g. corpus_regime)
+        for k, v in raw.get("graph", {}).items():
+            G.graph[k] = v
 
         for node_id, attrs in raw.get("nodes", {}).items():
             clean = {k: v for k, v in attrs.items() if k != "id"}

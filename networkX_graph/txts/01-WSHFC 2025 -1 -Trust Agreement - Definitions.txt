@@ -1,0 +1,549 @@
+IN TRUST, NEVERTHELESS, upon the terms set forth in this Trust Agreement, except
+as herein provided, for the equal and proportionate benefit and protection of all Beneficial Owners
+of the Certificates without privilege, priority or distinction as to the lien or otherwise of any of the
+Certificates over any other of the Certificates, except as otherwise provided herein or with respect
+to moneys otherwise held to pay particular Certificates hereunder.
+IT IS HEREBY EXPRESSLY ACKNOWLEDGED that the Issuer has entered into this
+Trust Agreement and issued (or will issue) the Certificates to further advance its purposes and such
+issuance will provide a benefit within the State, and the Trustee hereby accepts such trust and
+covenants to enforce the provisions of this Trust Agreement.
+IT IS HEREBY EXPRESSLY DECLARED that all Certificates issued hereunder are to be
+issued, authenticated and delivered, and all said property, rights, interests, and revenues and funds
+held hereunder are to be dealt with and disposed of under, upon and subject to the terms,
+conditions, stipulations, covenants, agreements, trusts, uses and purposes as hereinafter expressed,
+and the Issuer and the Trustee have each agreed and covenanted for the benefit of the Beneficial
+Owners from time to time of the Certificates issued hereunder as follows:
+ARTICLE I
+DEFINITIONS
+Section 1.01. Definitions. Whenever used herein the following words and phrases have
+the meanings set forth in this Section 1.01. Any capitalized terms used but not defined in this
+Section 1.01 which are defined in the Servicing Agreement or in a Loan Document shall have the
+meaning provided in the Servicing Agreement or such Loan Document, as appropriate.
+“Accrual Period” means, with respect to any Distribution Date, the calendar month prior
+to the calendar month in which such Distribution Date occurs.
+“Adjusted Base Price” means, as of any date other than the Closing Date, the price
+expressed as a percentage: (i) in the case of a Note with an Initial Base Price in excess of 100%,
+by amortizing the Note Premium on a constant yield-to-maturity basis (compounding at the end of
+each interest period) over the remaining term, or, if the Note is prepayable, to an earlier date and
+price that minimizes the Holder’s yield on the Note, all in accordance with the provisions of
+Section 171 of the Code; (ii) in the case of a Note issued with original issue discount, by accruing
+the original issue discount on a constant yield-to-maturity basis (as reduced by any acquisition
+premium), all in accordance with the provisions of Sections 1271 through 1288 of the Code; and
+(iii) in the case of a Note with an Initial Base Price of less than 100%, by accruing the market
+discount portion, if any, of the acquisition discount on a straight-line basis, all in accordance with
+the provisions of Sections 1271 through 1288 of the Code.
+“Adjusted Capital Account Deficit” means, with respect to any Class A/B Arrangement
+Beneficial Owner, the deficit balance, if any, in such Beneficial Owner’s Capital Account as of
+the end of the relevant Fiscal Year, after giving effect to the following adjustments:
+3
+4135-7643-8109
+(a) credit to such Capital Account any amounts that such Class A/B
+Arrangement Beneficial Owner is obligated to restore or is deemed to be obligated to
+restore pursuant to the penultimate sentences of Sections 1.704-2(g)(1) and 1.704-2(i)(5)
+of the Regulations; and
+(b) debit from such Capital Account the items described in
+Sections 1.704-1(b)(2)(ii)(d)(4), (5) and (6) of the Regulations.
+“Administrative Fee Rate” means 0.04010% per annum.
+“Administrative Fees” means the ongoing expenses related to the Certificates consisting of
+the Issuer Fee, the Trustee Fee, the Escrow Custodian Fee, the Dissemination Agent Fee and the
+CREFC® Royalty Fee.
+“Advance” has the meaning set forth in the Servicing Agreement.
+“Advances Report” means the report sent by the Master Servicer pursuant to Section
+4.01(a) of the Servicing Agreement and relating to Specially Serviced Loans (as such term is
+defined in the Servicing Agreement).
+“Adverse Tax Event” means any action or the failure to take action required herein that
+would cause the Class A/B Arrangement or the Portfolio to be characterized as an association or
+publicly traded partnership taxable as a corporation for U.S. federal income tax purposes.
+“Affiliates” means, with respect to any specified Person, (a) any Person directly or
+indirectly Controlling, Controlled by or under common Control with the specified Person and shall
+include any director, officer or trustee of the specified Person; and (b) any Person directly,
+indirectly or beneficially owning or Controlling more than 50% of any class of voting securities
+of the specified Person.
+“Appraisal” has the meaning set forth in the Servicing Agreement.
+“Authorized Denominations” means (i) with respect to any Class A-1 Certificate, $5,000
+and increments of $1.00 in excess thereof upon initial delivery, and $0.01 in excess thereof
+thereafter, (ii) with respect to any Class A-2 Certificate, $100,000 and increments of $1.00 in
+excess thereof upon initial delivery, and $0.01 in excess thereof thereafter, and (ii) with respect to
+any Class B Certificate, $250,000 and increments of $1.00 in excess thereof upon initial delivery,
+and $0.01 in excess thereof thereafter.
+“Available Note Interest” means, with respect to any Distribution Date, the amounts on
+deposit in the Note Interest Sub-Account of the Distribution Account consisting of Note Interest,
+the amounts set forth in any related Advances Report and any earnings thereon.
+“Available Note Principal” means, with respect to any Distribution Date, the amounts on
+deposit in the Note Principal Sub-Account of the Distribution Account consisting of Note Interest,
+the amounts set forth in any related Advances Report and any earnings thereon.
+4
+4135-7643-8109
+“BBA” means Subchapter C of Chapter 63 of the Code (Sections 6221 through 6241 of the
+Code), as enacted by the Bipartisan Budget Act of 2015, Pub. L. No. 114-74, as amended from
+time to time, and the Treasury Regulations thereunder (whether proposed, temporary or final),
+including any subsequent amendments, successor provisions or other official guidance thereunder
+(including the proposed regulations), and any equivalent provisions for state or local tax purposes.
+“Beneficial Interest” means the interest of a Beneficial Owner in a Certificate.
+“Beneficial Owner” means (a) with respect to a Certificate registered in the name of
+Cede & Co., as nominee of DTC, the Person who is the beneficial owner of such Certificate as
+reflected on the books of DTC, or on the books of a DTC Participant or an indirect participant,
+(b) if the Certificates are not book-entry, the owner of a Certificate as set forth in the Register, and
+(c) for U.S. federal income tax purposes, the Person who is the beneficial owner of such Certificate
+as determined under the Code.
+“Borrower” means, with respect to each Note, the Person or Persons identified as such on
+Schedule I.
+“Business Day” means any day other than (a) a Saturday, (b) a Sunday or (c) any day on
+which (i) banking institutions in the City and State of New York, the Commonwealth of
+Massachusetts, the Commonwealth of Virginia or the cities in which the principal offices of the
+Master Servicer or the Special Servicer or the Issuer or the Trustee are located, are authorized or
+obligated by law, executive order or governmental decree to remain closed, or (ii) the New York
+Stock Exchange is authorized or obligated by law or executive order to be closed.
+“Capital Account” means the account established and maintained for the Class A/B
+Arrangement Beneficial Owner pursuant to Section 8.01.
+“Capital Account Balance” means the balance of the Capital Account for the Class A/B
+Arrangement Beneficial Owner adjusted pursuant to Article VIII for all events having occurred
+immediately prior to the time of determination.
+“Capital Contribution” means the amount of money, and the fair market value of any
+property other than money, contributed or deemed contributed to the Class A/B Arrangement by a
+Class A/B Arrangement Beneficial Owner. Any amounts paid on the Closing Date by the
+purchaser of a Class A Certificate or a Class B Certificate shall be deemed to have been contributed
+to the Class A/B Arrangement.
+“Cede & Co.” means Cede & Co., the nominee for DTC, and any successor nominee of
+DTC.
+“Certificate Balance” means, on the Closing Date (i) with respect to the Class A-1
+Certificates, $213,718,000, (ii) with respect to the Class A-2 Certificates, $41,301,000, and (iii)
+with respect to the Class B Certificates, $7,212,022, and thereafter in each case as adjusted from
+time to time as provided herein.
+5
+4135-7643-8109
+“Certificate Purchase Agreement” means the Certificate Purchase Agreement by and
+between the Issuer and BofA Securities, Inc., as representative of the underwriters named therein,
+dated August 26, 2025.
+“Certificates” means, collectively or individually, as the context may require, the Class A
+Certificates and the Class B Certificates.
+“Chair of the Issuer” means the duly appointed chair of the Washington State Housing
+Finance Commission or his or her authorized signatory.
+“Class” means a Class of the Certificates.
+“Class A/B Arrangement” means the tax partnership with respect to the Class A and Class
+B Beneficial Owners that is created and established pursuant to this Trust Agreement.
+“Class A Beneficial Owner” means a Beneficial Owner of a Class A Certificate.
+“Class A Certificates” means, collectively or individually, as the context may require, the
+Class A-1 Certificates and the Class A-2 Certificates.
+“Class A Original Market Discount” means the Class A-1 Original Market Discount or the
+Class A-2 Original Market Discount, as applicable.
+“Class A Rate” means, collectively or individually, as the context may require, the Class
+A-1 Rate or the Class A-2 Rate.
+“Class A-1 Certificates” means one of the Class A-1 Certificates, which are being issued
+in the initial Certificate Balance of $213,718,000 and bearing CUSIP Number 93978UDT0.
+“Class A-1 Majority Owners” means the Holders who own a majority of the voting rights
+of the Class A-1 Certificates, as determined as set forth in Section 3.06.
+“Class A-1 Original Market Discount” means $17,603,951.66.
+“Class A-1 Rate” means the Net Note WAC, initially 4.078%.
+“Class A-2 Certificates” means one of the Class A-2 Certificates, which are being issued
+in the initial Certificate Balance of $41,301,000 and bearing CUSIP Number 93978UDU7.
+“Class A-2 Majority Owners” means the Holders who own a majority of the voting rights
+of the Class A-2 Certificates, as determined as set forth in Section 3.06.
+“Class A-2 Original Market Discount” means $4,645,123.47.
+“Class A-2 Rate” means the Net Note WAC, initially 4.078%.
+6
+4135-7643-8109
+“Class A-2 Sub-Account” means the sub-account of the Escrow Account established
+pursuant to the Escrow Account Agreement and held by the Escrow Custodian for the benefit of
+the Class A-2 Certificates.
+“Class A/B Arrangement” means the tax partnership with respect to the Class A and Class
+B Beneficial Owners that is created and established pursuant to this Trust Agreement with respect
+to the Portfolio.
+“Class A/B Arrangement Beneficial Owner” means a Beneficial Owner of a Class A
+Certificate or a Class B Certificate and any other Person treated as a partner in the Class A/B
+Arrangement for federal income tax purposes.
+“Class B Certificate” means one of the Class B Certificates, which are being issued in the
+initial Certificate Balance of $7,212,022 and bearing CUSIP Number 93978UDV5.
+“Class B Majority Owners” means the Holders who own a majority of the voting rights of
+all Class B Certificates, as determined as set forth in Section 3.06.
+“Class B Rate” means the Net Note WAC, initially 4.078%.
+“Class Factor” means, with respect to each Class, the outstanding Certificate Balance of
+such Class divided by the Certificate Balance of such Class on the Closing Date, carried to nine
+decimal places, as determined as set forth in Section 4.03(f). The initial Class Factor is
+1.000000000.
+“Closing Date” means August 29, 2025, 2025.
+“Code” means the U.S. Internal Revenue Code of 1986, as the same may be amended from
+time to time (or any successor statute thereto).
+“Common Sub-Account” means the sub-account of the Escrow Account established
+pursuant to the Escrow Account Agreement and held by the Escrow Custodian for the benefit of
+the Class A Certificates.
+“Continuing Disclosure Agreement” means the Continuing Disclosure Agreement dated
+the Closing Date, between the Issuer and the Dissemination Agent, as the same may be amended,
+restated, replaced, supplemented or otherwise modified from time to time.
+“Control” (and the correlative terms “Controlling,” “Controlled by” and “under common
+Control with”) means the possession, directly or indirectly, of the power to direct or cause the
+direction of the management and policies of a Person, whether through the ownership of
+outstanding securities, equity or other beneficial ownership interests, by contract or otherwise.
+“CREFC®” means the Commercial Real Estate Finance Council, or any successor or
+assignee thereof.
+“CREFC® Royalty Fee” means the monthly fee paid by the Trustee to CREFC® for the use
+of its forms and documents in an amount equal to the product of (i) the unpaid principal balance
+7
+4135-7643-8109
+of each Note as of the first day of the immediately preceding calendar month, (ii) the rate of
+0.00050% per annum, and (iii) the accrual basis for the respective Note.
+“Determination Date” means the fourth (4th) Business Day preceding each Distribution
+Date.
+“Disposition” means, with respect to a Note, any sale, repayment, payment at maturity,
+redemption or other disposition of such Note, including any such action that results in the
+realization of gain or loss under applicable Code provisions.
+“Disposition Gain” means (i) with respect to the Disposition of a Note, the excess (if any)
+of the amount realized from such Disposition over the product of the unpaid balance of the Note
+and its Adjusted Base Price, (ii) with respect to a partial payment of Note Principal, the product of
+(A) the amount of such Note Principal payment and (B) the sum of 100% less its Adjusted Base
+Price, provided, if (B) is a negative number, the Disposition Gain shall be zero, or (iii) with respect
+to a payment of Note Principal, in whole or in part, the amount of Note Premium, if any, paid by
+the Borrower.
+“Disposition Loss” means, with respect to the Disposition of a Note, the excess (if any) of
+(i) the product of the unpaid balance of the Note and its Adjusted Base Price over (ii) the amount
+realized from such Disposition as determined under the Code.
+“Dissemination Agent” means BLX Group, LLC, solely in its capacity as Dissemination
+Agent under the Continuing Disclosure Agreement and the Dissemination Agent Agreement, or
+any successor thereto.
+“Dissemination Agent Agreement” means the Dissemination Agent Agreement, dated the
+Closing Date, between the Issuer and the Dissemination Agent, as the same may be amended,
+restated, replaced, supplemented or otherwise modified from time to time.
+“Dissemination Agent Fee” means the fee payable to the Dissemination Agent on each
+Distribution Date, in arrears for the prior calendar month, in an amount equal to the product of (i)
+the unpaid principal balance of each Note as of the first day of the immediately preceding calendar
+month, (ii) the rate of 0.00380% per annum, and (iii) the accrual basis for the respective Note.
+“Distribution” means any and all distributions on the Certificates, including Note Interest,
+Note Principal, Note Premium and any other amounts paid to the Certificateholders, as set forth in
+Section 4.03.
+“Distribution Account” means the segregated trust account and the sub-accounts therein
+established by the Trustee for the benefit of the Holders and Beneficial Owners as set forth in
+Section 4.01(a).
+“Distribution Date” means the twentieth (20th) day of each month or, if such twentieth
+(20th) day is not a Business Day, then the next succeeding Business Day, beginning on the First
+Distribution Date.
+“Distribution Date Statement” has the meaning set forth in Section 4.05.
+8
+4135-7643-8109
+“Document Custodian” means U.S. Bank National Association, in its capacity as document
+custodian under the Servicing Agreement.
+“DTC” means The Depository Trust Company or its successors.
+“DTC Letter of Representations” means the Blanket Letter of Representations from the
+Issuer to DTC.
+“DTC Participant” means a member of, or participant in, DTC as provided in the rules and
+regulations of DTC.
+“Electing Manager” means the manager or advisor of a RIC which is the Beneficial Owner
+of Class A Certificates or Class B Certificates and which has elected under Section 8.04 of
+Revenue Procedure 2003-84 to be responsible for collecting, retaining and providing the
+information as required thereunder.
+“Escrow Account” means the account established pursuant to the Escrow Account
+Agreement and held by the Escrow Custodian for the benefit of the Class A Certificates.
+“Escrow Account Agreement” means the Escrow Account Agreement, dated the Closing
+Date, among the Issuer, the Seller and the Escrow Custodian, relating to the Class A Certificates.
+“Escrow Custodian” means U.S. Bank Trust Company, National Association, in its
+capacity as escrow custodian under the Escrow Account Agreement.
+“Escrow Custodian Fee” means the annual fee payable to the Escrow Custodian pursuant
+to the Escrow Account Agreement, in an amount equal to the product of (i) the unpaid principal
+balance of each Note as of the first day of the immediately preceding calendar month, (ii) the rate
+of 0.00230% per annum, and (iii) the accrual basis for the respective Note.
+“Event of Default” has the meaning set forth in the Servicing Agreement.
+“Exchange Act” means the Securities Exchange Act of 1934, as amended.
+“Final Recovery Determination” means a determination by the Special Servicer with
+respect to any defaulted Loan or any REO Property that there has been a recovery of all insurance
+and condemnation proceeds, liquidation proceeds and other payments or recoveries that, in the
+Special Servicer’s reasonable good faith judgment, will ultimately be recoverable, as evidenced
+by the notice from the Special Servicer pursuant to the Servicing Agreement.
+“First Distribution Date” means September 20, 2025.
+“Fiscal Year” means the fiscal year of the Class A/B Arrangement for financial accounting
+purposes and for federal, state and local income tax purposes or such shorter period for which
+income tax returns must be prepared. Such Fiscal Year shall be the calendar year, unless a different
+Fiscal Year is required by Section 706(b) of the Code.
+9
+4135-7643-8109
+“Fixed Expense Rate” means 0.09010% or the sum of the Loan Servicing Fee Rate and the
+Administrative Fee Rate. Each of the fees included in the Fixed Expense Rate are calculated as
+the product of (i) the unpaid principal balance of each Note as of the first day of the immediately
+preceding calendar month, (ii) the respective fee per annum, and (iii) the accrual basis for the
+respective Note.
+“Holder” or “Certificateholder” means the Person in whose name a Certificate is registered
+as set forth in the Register, which for all book-entry Certificates shall be Cede & Co.
+“Indemnification Agreement” means that certain indemnification agreement, dated the
+Closing Date, by and between Citibank, N.A., as the Indemnitor thereunder, and the Trustee.
+“Indemnitor” shall mean Citibank, N.A., solely in its capacity as Indemnitor under the
+Indemnification Agreement.
+“Initial Base Price” means with respect to each Note, as of the Closing Date, the price set
+forth as a percentage of the principal amount for such Note and designated “Initial Base Price” on
+Schedule I, which is the price paid for such Note by the Issuer.
+“Investment Company Act” means the Investment Company Act of 1940, as amended.
+“IRS” means the U.S. Internal Revenue Service, including any successors thereto.
+“Issuer” means the Washington State Housing Finance Commission, a public body
+corporate and politic and an instrumentality of the State of Washington, and its successors and
+assigns.
+“Issuer Documents” means this Trust Agreement, the Escrow Account Agreement, the
+Portfolio Purchase Agreement, the Certificate Purchase Agreement, the Continuing Disclosure
+Agreement, the Servicing Advisor Agreement, the Resolution and any other agreement, certificate,
+contract, or instrument to be executed by the Issuer in connection with the issuance of the
+Certificates.
+“Issuer Fee” means the annual fee payable to the Issuer pursuant to Section 4.02(iii) hereof,
+in an amount equal to the product of (i) the unpaid principal balance of each Note as of the first
+day of the immediately preceding calendar month, (ii) the rate of 0.01000% per annum, and (iii)
+the accrual basis for the respective Note.
+“Issuer Indemnified Party” or “Issuer Indemnified Parties” means the Issuer, the State, any
+political subdivision thereof, and each of their past, present and future directors, officers,
+employees, counsel, advisors, contractors, consultants and agents, individually and collectively.
+“Issuer Unassigned Rights” means the rights of the Issuer to (a) inspect books and records,
+(b) give or receive notices, approvals, consents, requests, and other communications, (c) receive
+payment or reimbursement for costs and expenses, (d) receive payment of any fees, including
+payment or reimbursement of attorneys’ fees and expenses, (e) the benefit of all provisions
+providing the Issuer immunity from and limitation of liability, (f) indemnification of the
+Indemnified Parties from liability by the Master Servicer and the Special Servicer, (g) enforce
+10
+4135-7643-8109
+venue provisions and (h) the indemnification (including the right to reimbursement) provided by
+each Borrower to the Issuer, in its capacity as lender or bondholder under the Loan Documents, in
+connection with the “Provided Information” (as defined in the Loan Documents).
+“Loan” or “Loans” means the loan or loans, including the Participation Interests in the
+Participated Loans, made to the Borrowers acquired and thereafter funded by a governmental
+lender with the proceeds of a loan originally made by the Seller to such governmental lender,
+which were entered into simultaneously as a single transaction and which have been purchased by
+the Issuer pursuant to the Portfolio Purchase Agreement.
+“Loan Documents” means the trust agreements, trust indentures, loan agreements,
+resolutions or other documents pursuant to which the Notes were issued, and all documents
+securing repayment of the Loans including all deeds of trust, mortgages, security agreements and
+financing statements, together with all documents and agreements related thereto.
+“Loan Servicing Fee Rate” means 0.05000% per annum.
+“Loss” has the meaning included in the definition of “Profits” below.
+“Majority Owners” means, first, the Class B Majority Owners, until all Class B Certificates
+are no longer outstanding, then, the Class A-2 Majority Owners, until all Class A-2 Certificates
+are no longer outstanding, and then, the Class A-1 Majority Owners.
+“Master Servicer” means, initially, Berkadia Commercial Mortgage LLC, solely in its
+capacity as Master Servicer under this Trust Agreement and the Servicing Agreement, or any
+successor servicer thereto as set forth in Section 5.01.
+“Material Breach” means a Breach that, in the reasonable judgment of the Issuer, materially
+and adversely affects the interests of the Issuer in the Portfolio Assets.
+“Material Defect” means a Defect that, in the reasonable judgment of the Issuer, materially
+and adversely affects the interests of the Issuer in the Portfolio Assets.
+“Monthly Closing Election” has the meaning set forth in Section 7.02(a)(i).
+“Net Note WAC” means, for any Distribution Date, the rate equal to (i) the quotient of (x)
+the aggregate amount of interest which has accrued on all of the Loans during the calendar month
+immediately preceding the calendar month in which such Distribution Date occurs less the
+aggregate amount of expenses which have accrued during the calendar month immediately
+preceding the calendar month in which such Distribution Date occurs over (y) the aggregate unpaid
+principal balance of all of the Notes as of the first day of such immediately preceding calendar
+month, multiplied by (ii) 12. Net Note WAC will be calculated using the accrual basis for each
+Note. With respect to the Participation Interests, the Net Note WAC will be calculated based on
+the amounts paid on each participation interest and the product of the Participant’s Share (as defined
+in the related Participation Agreement) and the unpaid principal balance of the related Note. The
+Note Interest due will be calculated as required by the related Note at the Note Rates set forth in the
+Loan Documents, without regard to any modification, waiver or amendment of the terms of the
+11
+4135-7643-8109
+Notes or Loan Documents, whether agreed to by the Master Servicer, the Special Servicer or
+resulting from a bankruptcy, insolvency or similar proceeding involving the Borrower, or otherwise.
+“Nonrecoverable Advance” has the meaning set forth in the Servicing Agreement.
+“Note” or “Notes” means the notes, promissory notes, bonds, or other securities executed
+in connection with the Loans and which the Seller has sold and transferred (or caused to be sold
+or transferred) to the Issuer as set forth on Schedule I.
+“Note Interest” means that portion of any Note Payment designated or attributable to
+interest pursuant to the terms of the related Note, whether received on the date of a scheduled Note
+Payment, upon sale of a Note or otherwise.
+“Note Interest Sub-Account” means the sub-account of the Distribution Account
+established by the Trustee for the benefit of the Holders and Beneficial Owners as set forth in
+Section 4.01(a).
+“Note Payments” means all payments paid by the Borrowers pursuant to the Notes,
+including payment of Note Principal, Note Interest and Note Premium, if any, and any other
+payments made with respect to the Loans.
+“Note Premium” means any amount of premium payable by the Borrower under a Note or
+the related Loan Documents in the event the Borrower prepays such Note prior to the yield
+maintenance end date set forth in such Note.
+“Note Premium Sub-Account” means the sub-account of the Distribution Account
+established by the Trustee for the benefit of the Holders and Beneficial Owners as set forth in
+Section 4.01(a).
+“Note Principal” means that portion of any Note Payment designated or attributable to
+principal pursuant to the terms of the related Note, whether received on the date of a scheduled
+Note Payment, upon sale of a Note or otherwise.
+“Note Principal Sub-Account” means the sub-account of the Distribution Account
+established by the Trustee for the benefit of the Holders and Beneficial Owners as set forth in
+Section 4.01(a).
+“Note Rate” means the interest rate payable on a Note identified as such on Schedule I.
+“Notice Party” and “Notice Parties” means the Issuer, the Trustee, the Holders, the
+Servicing Advisor, the Dissemination Agent, the Master Servicer and the Special Servicer.
+“Officer’s Certificate” means a certificate signed by (i) a Servicing Officer of the Master
+Servicer or of the Special Servicer, as the case may be, or (ii) the President of the Issuer, or his or
+her successor thereto, or any other then-authorized officer of the Issuer.
+12
+4135-7643-8109
+“Opinion of Counsel” means a written opinion of counsel, who may be counsel for the
+Issuer, a Holder, a Beneficial Owner, Master Servicer or the Trustee, which opinion is addressed
+to the Issuer and the Trustee and is reasonably acceptable in form and substance to the Issuer.
+“P&I Advance” has the meaning set forth in the Servicing Agreement.
+“Participated Loan” means each whole loan which is the subject of a Participation Agreement
+and refers to one of the following: Farm by Vintage Apartments, Polaris at Eastgate Apartments, Quinn by
+Vintage (Tranche A), Capella at Esterra Park 4% Apartments, Auburn Court Apartments, Polaris at
+Together Center Apartments and Quinn by Vintage (Tranche B).
+“Participated Loans” means, collectively, Farm by Vintage Apartments, Polaris at
+Eastgate Apartments, Quinn by Vintage (Tranche A), Capella at Esterra Park 4% Apartments,
+Auburn Court Apartments, Polaris at Together Center Apartments and Quinn by Vintage (Tranche
+B).
+“Participation Agreement” means any of the three (3) Participation Agreements, dated as
+of September 30, 2024, and August 28, 2025, and August 29, 2025, respectively, and entered into
+with respect to the Participated Loans.
+“Participation Interest” means an interest in one of the Participated Loans issued pursuant
+to the related Participation Agreement entitling the holder to a percentage of the principal, interest
+and premium paid on the related Participated Loan.
+“Paying Agent” means the Person or Persons identified as such on Schedule I as the paying
+agent, fiscal agent or trustee for the related Note or any successor or assign thereof.
+“Permitted Investments” means any one or more of the following dollar-denominated
+investments which are exempt from both U.S. federal income taxation and state income taxation:
+(i) commercial paper having a rating of no less than “A-1+”/“P-1”, and (ii) money market funds
+having a rating of no less than “A-1+”. To the extent that the Trustee is instructed in this Trust
+Agreement to invest amounts in Permitted Investments, and in the absence of direction with respect
+to which Permitted Investments such amounts are to be invested, such amounts shall remain
+uninvested.
+“Person” means any individual, partnership, joint venture, corporation, trust, limited
+liability company, or unincorporated association, any other entity and any government or any
+department or agency thereof, whether acting in an individual, fiduciary or other capacity.
+“Portfolio” means the discrete pool of assets, consisting of the Loans which the Seller or
+its affiliates have made to municipalities and agencies and the Notes evidencing the same and
+identified on Schedule I.
+“Portfolio Assets” means, collectively, (i) the rights, title and interests of the Issuer under
+the Loan Documents, including the Notes; (ii) the rights, title and interests of the Issuer, if any, in
+any Project; (iii) the Issuer’s rights under the Portfolio Purchase Agreement; (iv) the Priority
+Transfer Right; and (v) all funds and accounts created in this Trust Agreement.
+13
+4135-7643-8109
+“Portfolio Purchase Agreement” means the Portfolio Purchase Agreement, between the
+Issuer, as purchaser, and the Seller dated the Closing Date.
+“Principal Shortfall Amount” means, upon a Final Recovery Determination, the difference
+between the unpaid principal balance of a defaulted Loan and the actual Note Principal received
+by the Trustee with respect to such defaulted Loan.
+“Priority Transfer Right” means the right of the Trustee (assigned to it by the Issuer for the
+benefit of the Class A Certificateholders) to receive from the Escrow Custodian amounts
+transferred from the Escrow Account for deposit to the Distribution Account.
+“Profits” and “Losses” means, for each Fiscal Year or other period, an amount equal to the
+applicable Class A/B Arrangement’s taxable income or loss for such Fiscal Year or period
+determined by the Servicing Advisor in accordance with Section 703(a) of the Code, which, for
+this purpose, shall include all items of income, gain, loss or deduction required to be stated
+separately pursuant to Section 703(a)(1) of the Code, with the following adjustments:
+(a) any income from the Portfolio Assets that is exempt from federal income
+tax and not otherwise taken into account in computing Profits or Losses pursuant to this
+definition shall be added to such taxable income or loss;
+(b) any expenditures of the Class A/B Arrangement described in
+Section 705(a)(2)(B) of the Code or treated as such Section 705(a)(2)(B) expenditures
+pursuant to Section 1.704-1(b)(2)(iv)(i) of the Regulations and not otherwise taken into
+account in computing Profits or Losses pursuant to this definition shall be subtracted from
+such taxable income or loss;
+(c) Disposition Gains and Disposition Losses shall be excluded in computing
+Profits or Losses; and
+(d) any items of income and expense that are specially allocated pursuant to
+Section 8.02 shall be excluded from the calculation of Profits and Losses.
+“Project” means the real estate or housing investment financed by the issuance of a Note.
+“Property Protection Advance” has the meaning set forth in the Servicing Agreement.
+“Rating Agency” shall mean S&P.
+“Record Date” means, for each Distribution Date, the close of business on the last Business
+Day of the prior calendar month.
+“Register” means the registration books maintained by the Trustee pursuant to
+Section 3.02.
+“Regulations” or “Treasury Regulations” means the Treasury Regulations promulgated
+under the Code.
+14
+4135-7643-8109
+“Regulatory Allocations” shall have the meaning set forth in Section 8.02(f).
+“Remittance Date” means, with respect to a Distribution Date, the Business Day
+immediately preceding the Distribution Date.
+“REO Property” has the meaning set forth in the Servicing Agreement.
+“Resolution” means Resolution No. 25-68 approved by the Issuer on July 24, 2025.
+“Responsible Officer” means, (a) when used with respect to the Trustee or Escrow
+Custodian performing in its respective capacity as trustee or escrow custodian, any officer within
+the corporate trust department of the Trustee or the Escrow Custodian, including any managing
+director, vice president, assistant vice president, assistant secretary, assistant treasurer, trust officer
+or any other officer of the Trustee or the Escrow Custodian who customarily performs functions
+similar to those performed by Persons who at the time shall be such officers, respectively, or to
+whom any corporate trust matter is referred because of such person’s knowledge of and familiarity
+with the particular subject and in each case who shall have direct responsibility for the
+administration of this Trust Agreement; and (b) when used with respect to the Document Custodian
+performing in its capacity as document custodian, any officer within the document custody
+department of the Document Custodian, including any managing director, vice president, assistant
+vice president, assistant secretary, assistant treasurer, trust officer or any other officer of the
+Document Custodian who customarily performs functions similar to those performed by Persons
+who at the time shall be such officers, respectively, or to whom any document custody matter is
+referred because of such person’s knowledge of and familiarity with the particular subject and in
+each case who shall have direct responsibility for the administration of this Trust Agreement.
+“Revenue Procedure 2003-84” means Revenue Procedure 2003-84, 2003-2 C.B. 1159,
+including any successor guidance.
+“RIC” means an investment company registered under the Investment Company Act.
+“S&P” shall mean S&P Global Ratings, a business unit of Standard & Poor’s Financial
+Services LLC, its successors and assigns. References herein to “applicable rating category” (other
+than such references to “highest applicable rating category”) shall, in the case of S&P, be deemed
+to refer to such applicable rating category of S&P, without regard to any plus or minus or other
+comparable rating qualification.
+“Scheduled Note Principal Payment” means a Note Payment of scheduled amortizing Note
+Principal.
+“Securities Act” means the Securities Act of 1933, as amended.
+“Seller” means Citi Affordable Depositor LLC.
+“Servicing Advisor” means Citibank, N.A., its successors and assigns.
+15
+4135-7643-8109
+“Servicing Advisor Agreement” means the Servicing Advisor Agreement, dated the
+Closing Date, between the Issuer and the Servicing Advisor, as the same may be amended, restated,
+replaced, supplemented or otherwise modified from time to time.
+“Servicing Agreement” means the Servicing Agreement, dated the Closing Date, among
+the Issuer, the Trustee, the Document Custodian, the Master Servicer and the Special Servicer in
+which the Master Servicer and the Special Servicer agree to provide the services as provided
+therein and herein, as the same may be amended, restated, replaced, supplemented or otherwise
+modified from time to time.
+“Servicing Officer” means any officer/and or employee of the Master Servicer or the
+Special Servicer involved in, or responsible for, the administration and servicing of Loans, whose
+name and specimen signature appear on a list of servicing officers furnished by the Master Servicer
+or the Special Servicer, as the case may be, to the Trustee and the Issuer on the Closing Date, as
+such list may be amended from time to time thereafter.
+“Special Servicer” means Berkadia Commercial Mortgage LLC, solely in its capacity as
+Special Servicer under this Trust Agreement and under the Servicing Agreement, or any successor
+servicer thereto.
+“State” means the State of Washington.
+“Termination Date” means (a) the date on which the Trustee distributes the final amounts
+due with respect to the Notes or (b) the date determined as set forth in Section 9.03.
+“Termination Event” has the meaning set forth in Section 9.02.
+“Trust Agreement” means this Trust Agreement.
+“Trust Documents” means this Trust Agreement, the Certificates, the Certificate Purchase
+Agreement, the Portfolio Purchase Agreement, the Escrow Account Agreement, the Servicing
+Agreement, the Continuing Disclosure Agreement, the Servicing Advisor Agreement, closing
+certificates, account agreements and other documents, agreements, instruments and certificates
+relating to any of the foregoing.
+“Trustee” means U.S. Bank Trust Company, National Association, not in its individual
+capacity but acting solely in its capacity as trustee hereunder, including its successors in interest.
+“Trustee Fee” means the fee payable to the Trustee on each Distribution Date, in arrears
+for the prior calendar month, in an amount equal to the product of (i) the unpaid principal balance
+of each Note as of the first day of the immediately preceding calendar month, (ii) the rate of
+0.02350% per annum, and (iii) the accrual basis for the respective Note. Any fees payable to the
+Document Custodian for its services under the Trust Agreement and the Servicing Agreement, are
+included in the Trustee Fee.
+“Trustee Fee Letter” shall mean that certain fee letter dated June 23, 2025.
+16
+4135-7643-8109
+“Trustee’s Reporting Website” means an internet website maintained by the Trustee,
+initially located at https://pivot.usbank.com/abs.
+“Unscheduled Note Payment” means a Note Payment of Note Principal and Note Interest
+and Note Premium, if any, in excess of any scheduled amortization payment or an amount
+representing insurance proceeds or a condemnation award with respect to a Project.
+Section 1.02. Rules of Construction.
+(a) Accounting terms used, but not defined (or only partly defined), herein or
+in any certificate or other document made or delivered pursuant to this Trust Agreement
+shall have the respective meanings given to them under generally accepted accounting
+principles.
+(b) The definitions contained in this Trust Agreement are applicable to the
+singular as well as the plural, the past, the present, the future, the active and the passive
+forms of such terms and to the masculine as well as the feminine and neuter genders of
+such terms.
+(c) Any agreement, instrument or statute defined or referred to herein or in any
+instrument or certificate delivered in connection herewith means such agreement,
+instrument or statute as from time to time amended, modified or supplemented and includes
+(in the case of agreements or instruments) references to all attachments thereto and
+instruments incorporated therein; references to a Person are also to its permitted successors
+and assigns.
+(d) The terms “herein,” “hereby,” “hereof” or “hereunder,” unless otherwise
+modified by more specific reference, shall refer to this Trust Agreement in its entirety as
+amended from time to time. Unless otherwise indicated in context, the terms “Article,”
+“Section,” “Schedule” or “Exhibit” shall refer to an Article or Section of, or Schedule or
+Exhibit to, this Trust Agreement. The headings of sections and paragraphs and the table
+of contents contained herein are provided for convenience only. They form no part of this
+Trust Agreement and shall not affect its construction or interpretation.
+(e) All references to a particular time of day shall be to New York, New York
+time.
+(f) If any action, notice, event or payment is to take place on any day, and such
+day is not a Business Day, then notwithstanding any other provision herein, such action,
+notice, event or payment shall take place on the next following Business Day.

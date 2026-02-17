@@ -40,6 +40,9 @@ MAX_TERM_WORDS = 6                  # ignore overly long phrases
 
 def _cosine_similarity(a: List[float], b: List[float]) -> float:
     """Cosine similarity between two vectors (pure Python)."""
+    # Defensive: ensure values are float (may be str after JSON round-trip)
+    a = [float(x) for x in a]
+    b = [float(x) for x in b]
     dot = sum(x * y for x, y in zip(a, b))
     norm_a = math.sqrt(sum(x * x for x in a))
     norm_b = math.sqrt(sum(x * x for x in b))
@@ -192,7 +195,7 @@ class TermRegistry:
                 embeddings = self._embed(texts)
                 if embeddings:
                     for k, emb in zip(terms_needing_embed, embeddings):
-                        self._registry[k]["embedding"] = emb
+                        self._registry[k]["embedding"] = [float(v) for v in emb]
 
             # Build entries with embeddings
             entries = [
