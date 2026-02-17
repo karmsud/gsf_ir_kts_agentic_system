@@ -1,33 +1,86 @@
-# .vscodeignore - Controls what gets packaged into the VSIX
-# Exclude development and test files
+# .vscodeignore - Single VSIX Build (v0.0.1)
+# Controls what gets packaged into the VSIX for GitHub release
+
+# ============================================================================
+# INCLUDE: Core extension files (explicitly allowed)
+# ============================================================================
+!extension.js
+!package.json
+!LICENSE
+!chat/**
+!commands/**
+!copilot/**
+!lib/**
+!panels/**
+
+# ============================================================================
+# INCLUDE: Bundled backend (~350MB - required for offline operation)
+# ============================================================================
+!bin/win-x64/kts-backend/**
+
+# ============================================================================
+# EXCLUDE: Development & Build files
+# ============================================================================
 .vscode/**
 .vscode-test/**
-node_modules/**
-tests/**
-*.test.js
+tsconfig*.json
+jsconfig.json
 .gitignore
+.gitattributes
 .eslintrc.json
 
-# Exclude scripts (only needed for build, not runtime)
-scripts/**
+# ============================================================================
+# EXCLUDE: Node.js
+# ============================================================================
+node_modules/**
 
-# Include backend_bundle (required for Option A1)
-!backend_bundle/**
+# ============================================================================
+# EXCLUDE: Python source code (bundled as exe only)
+# ============================================================================
+../backend/**
+../cli/**
+../config/**
+../packaging/**
+../scripts/**
+../tests/**
 
-# Include bin/ (required for Option A2 - PyInstaller exe)
-!bin/**
+# ============================================================================
+# EXCLUDE: Build artifacts
+# ============================================================================
+**/dist/**
+**/build/**
+**/.venv*/**
+**/__pycache__/**
+**/*.pyc
+**/*.pyo
+**/*.egg-info/**
+**/.pytest_cache/**
+**/.coverage
+**/coverage/**
 
-# Exclude Python cache and dev files from backend_bundle
-backend_bundle/**/__pycache__/**
-backend_bundle/**/*.pyc
-backend_bundle/**/.pytest_cache/**
-backend_bundle/**/tests/**
+# ============================================================================
+# EXCLUDE: Documentation (available on GitHub)
+# ============================================================================
+../docs/**
+../README.md
 
-# Exclude editor files
+# ============================================================================
+# EXCLUDE: Git & IDE files
+# ============================================================================
+.git/**
+.github/**
+.idea/**
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ============================================================================
+# EXCLUDE: OS & Editor files
+# ============================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
 *.swp
 *.swo
 *~
-
-# Exclude git files
-.git/**
-.gitattributes

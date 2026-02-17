@@ -1,157 +1,157 @@
 {
-    "name":  "gsf-ir-kts-extension",
-    "displayName":  "GSF IR KTS",
-    "description":  "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-    "version":  "0.0.1",
-    "publisher":  "karmsud",
-    "repository":  {
-                       "type":  "git",
-                       "url":  "https://github.com/karmsud/gsf_ir_kts_agentic_system"
-                   },
-    "engines":  {
-                    "vscode":  "^1.95.0"
-                },
-    "main":  "./extension.js",
-    "scripts":  {
-                    "test":  "node --test tests/*.test.js",
-                    "bundle:backend":  "powershell -ExecutionPolicy Bypass -File ./scripts/bundle_backend.ps1",
-                    "package:vsix":  "npm run bundle:backend \u0026\u0026 npx @vscode/vsce package",
-                    "package:vsix:no-deps":  "npm run bundle:backend \u0026\u0026 npx @vscode/vsce package --no-dependencies"
-                },
-    "activationEvents":  [
-                             "onStartupFinished"
-                         ],
-    "contributes":  {
-                        "configuration":  {
-                                              "title":  "KTS Agentic System",
-                                              "properties":  {
-                                                                 "kts.sourcePath":  {
-                                                                                        "type":  "string",
-                                                                                        "default":  "",
-                                                                                        "description":  "Network or local folder containing raw knowledge base documents (source files to crawl)"
-                                                                                    },
-                                                                 "kts.kbWorkspacePath":  {
-                                                                                             "type":  "string",
-                                                                                             "default":  "",
-                                                                                             "description":  "Local workspace for manifest/index/graph/vectors. Leave empty to use extension global storage."
-                                                                                         },
-                                                                 "kts.pythonPath":  {
-                                                                                        "type":  "string",
-                                                                                        "default":  "",
-                                                                                        "description":  "Optional path to Python executable. Leave empty for auto-detection (py -3 or python)."
-                                                                                    },
-                                                                 "kts.backendChannel":  {
-                                                                                            "type":  "string",
-                                                                                            "default":  "bundled",
-                                                                                            "enum":  [
-                                                                                                         "bundled",
-                                                                                                         "workspace"
-                                                                                                     ],
-                                                                                            "description":  "Backend source: \u0027bundled\u0027 (self-contained) or \u0027workspace\u0027 (dev mode, open repo)."
-                                                                                        },
-                                                                 "kts.backendMode":  {
-                                                                                         "type":  "string",
-                                                                                         "default":  "auto",
-                                                                                         "enum":  [
-                                                                                                      "auto",
-                                                                                                      "venv",
-                                                                                                      "exe"
-                                                                                                  ],
-                                                                                         "description":  "Backend execution mode: \u0027auto\u0027 (prefer exe if available, fallback to venv), \u0027venv\u0027 (force managed Python venv), or \u0027exe\u0027 (force PyInstaller executable)."
-                                                                                     },
-                                                                 "kts.logLevel":  {
-                                                                                      "type":  "string",
-                                                                                      "default":  "INFO",
-                                                                                      "enum":  [
-                                                                                                   "DEBUG",
-                                                                                                   "INFO",
-                                                                                                   "WARNING",
-                                                                                                   "ERROR"
-                                                                                               ],
-                                                                                      "description":  "Log verbosity level for KTS operations."
-                                                                                  }
-                                                             }
-                                          },
-                        "chatParticipants":  [
-                                                 {
-                                                     "id":  "kts.assistant",
-                                                     "name":  "kts",
-                                                     "fullName":  "KTS Knowledge Assistant",
-                                                     "description":  "Retrieves enterprise knowledge context and citations from the local KTS backend.",
-                                                     "isSticky":  true,
-                                                     "commands":  [
-                                                                      {
-                                                                          "name":  "search",
-                                                                          "description":  "Retrieve concise context and citations"
-                                                                      },
-                                                                      {
-                                                                          "name":  "deep",
-                                                                          "description":  "Retrieve more context chunks for complex issues"
-                                                                      },
-                                                                      {
-                                                                          "name":  "describe_images",
-                                                                          "description":  "Describe pending images using Copilot vision (fallback for auto-describe)"
-                                                                      }
-                                                                  ]
-                                                 }
-                                             ],
-                        "commands":  [
-                                         {
-                                             "command":  "kts.selectSource",
-                                             "title":  "KTS: Select Source Folder"
-                                         },
-                                         {
-                                             "command":  "kts.crawl",
-                                             "title":  "KTS: Crawl"
-                                         },
-                                         {
-                                             "command":  "kts.ingest",
-                                             "title":  "KTS: Ingest"
-                                         },
-                                         {
-                                             "command":  "kts.crawlIngest",
-                                             "title":  "KTS: Crawl \u0026 Ingest"
-                                         },
-                                         {
-                                             "command":  "kts.status",
-                                             "title":  "KTS: Status"
-                                         },
-                                         {
-                                             "command":  "kts.search",
-                                             "title":  "KTS: Search"
-                                         },
-                                         {
-                                             "command":  "kts.doctor",
-                                             "title":  "KTS: Doctor (Diagnostics)"
-                                         },
-                                         {
-                                             "command":  "kts.openLogs",
-                                             "title":  "KTS: Open Logs"
-                                         },
-                                         {
-                                             "command":  "kts.viewStatus",
-                                             "title":  "KTS: View Status"
-                                         },
-                                         {
-                                             "command":  "kts.trainingPath",
-                                             "title":  "KTS: Training Path"
-                                         },
-                                         {
-                                             "command":  "kts.changeImpact",
-                                             "title":  "KTS: Change Impact"
-                                         },
-                                         {
-                                             "command":  "kts.freshnessAudit",
-                                             "title":  "KTS: Freshness Audit"
-                                         },
-                                         {
-                                             "command":  "kts.imageDescription",
-                                             "title":  "KTS: Image Description"
-                                         },
-                                         {
-                                             "command":  "kts.imageDescriptionComplete",
-                                             "title":  "KTS: Complete Image Descriptions"
-                                         }
-                                     ]
-                    }
+  "name": "gsf-ir-kts-extension",
+  "displayName": "GSF IR KTS",
+  "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
+  "version": "0.0.1",
+  "publisher": "karmsud",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karmsud/gsf_ir_kts_agentic_system"
+  },
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "main": "./extension.js",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "bundle:backend": "powershell -ExecutionPolicy Bypass -File ./scripts/bundle_backend.ps1",
+    "package:vsix": "npm run bundle:backend && npx @vscode/vsce package",
+    "package:vsix:no-deps": "npm run bundle:backend && npx @vscode/vsce package --no-dependencies"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "configuration": {
+      "title": "KTS Agentic System",
+      "properties": {
+        "kts.sourcePath": {
+          "type": "string",
+          "default": "",
+          "description": "Network or local folder containing raw knowledge base documents (source files to crawl)"
+        },
+        "kts.kbWorkspacePath": {
+          "type": "string",
+          "default": "",
+          "description": "Local workspace for manifest/index/graph/vectors. Leave empty to use extension global storage."
+        },
+        "kts.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to Python executable. Leave empty for auto-detection (py -3 or python)."
+        },
+        "kts.backendChannel": {
+          "type": "string",
+          "default": "bundled",
+          "enum": [
+            "bundled",
+            "workspace"
+          ],
+          "description": "Backend source: 'bundled' (self-contained) or 'workspace' (dev mode, open repo)."
+        },
+        "kts.backendMode": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "venv",
+            "exe"
+          ],
+          "description": "Backend execution mode: 'auto' (prefer exe if available, fallback to venv), 'venv' (force managed Python venv), or 'exe' (force PyInstaller executable)."
+        },
+        "kts.logLevel": {
+          "type": "string",
+          "default": "INFO",
+          "enum": [
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR"
+          ],
+          "description": "Log verbosity level for KTS operations."
+        }
+      }
+    },
+    "chatParticipants": [
+      {
+        "id": "kts.assistant",
+        "name": "kts",
+        "fullName": "KTS Knowledge Assistant",
+        "description": "Retrieves enterprise knowledge context and citations from the local KTS backend.",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "search",
+            "description": "Retrieve concise context and citations"
+          },
+          {
+            "name": "deep",
+            "description": "Retrieve more context chunks for complex issues"
+          },
+          {
+            "name": "describe_images",
+            "description": "Describe pending images using Copilot vision (fallback for auto-describe)"
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "kts.selectSource",
+        "title": "KTS: Select Source Folder"
+      },
+      {
+        "command": "kts.crawl",
+        "title": "KTS: Crawl"
+      },
+      {
+        "command": "kts.ingest",
+        "title": "KTS: Ingest"
+      },
+      {
+        "command": "kts.crawlIngest",
+        "title": "KTS: Crawl & Ingest"
+      },
+      {
+        "command": "kts.status",
+        "title": "KTS: Status"
+      },
+      {
+        "command": "kts.search",
+        "title": "KTS: Search"
+      },
+      {
+        "command": "kts.doctor",
+        "title": "KTS: Doctor (Diagnostics)"
+      },
+      {
+        "command": "kts.openLogs",
+        "title": "KTS: Open Logs"
+      },
+      {
+        "command": "kts.viewStatus",
+        "title": "KTS: View Status"
+      },
+      {
+        "command": "kts.trainingPath",
+        "title": "KTS: Training Path"
+      },
+      {
+        "command": "kts.changeImpact",
+        "title": "KTS: Change Impact"
+      },
+      {
+        "command": "kts.freshnessAudit",
+        "title": "KTS: Freshness Audit"
+      },
+      {
+        "command": "kts.imageDescription",
+        "title": "KTS: Image Description"
+      },
+      {
+        "command": "kts.imageDescriptionComplete",
+        "title": "KTS: Complete Image Descriptions"
+      }
+    ]
+  }
 }

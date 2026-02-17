@@ -31,12 +31,18 @@ class VectorStore:
         
         # Set ChromaDB model cache to bundled location if running in PyInstaller
         if getattr(sys, 'frozen', False):
-            # Running in PyInstaller bundle
+            # Running in PyInstaller bundle — redirect ChromaDB ONNX model path
+            # to the bundled location inside _MEIPASS.
             bundle_dir = Path(sys._MEIPASS)
-            model_cache = bundle_dir / 'chroma_models'
+            model_cache = bundle_dir / 'chroma_models' / 'all-MiniLM-L6-v2'
             if model_cache.exists():
-                os.environ['CHROMA_MODEL_CACHE_DIR'] = str(model_cache)
+                # Monkey-patch the class-level DOWNLOAD_PATH so the model/tokenizer
+                # properties load from the bundled directory instead of ~/.cache/
+                from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
+                ONNXMiniLM_L6_V2.DOWNLOAD_PATH = model_cache
                 logger.info(f"Using bundled ChromaDB model from: {model_cache}")
+            else:
+                logger.warning(f"Bundled ChromaDB model not found at: {model_cache}")
         
         # Disable ChromaDB telemetry — avoids posthog import errors in
         # PyInstaller bundles and prevents phoning home from offline installs.

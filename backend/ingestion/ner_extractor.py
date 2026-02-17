@@ -35,13 +35,23 @@ def _load_model(model_path: Optional[str] = None) -> object:
     if _nlp is not None:
         return _nlp
 
+    # Priority 1: Explicit model path from environment or parameter
     model_path = model_path or os.environ.get("KTS_SPACY_MODEL_PATH")
+    
+    # Priority 2: Check for bundled model in PyInstaller
+    if not model_path and getattr(sys, 'frozen', False):
+        bundled_model = Path(sys._MEIPASS) / 'spacy_models' / 'en_core_web_sm'
+        if bundled_model.exists():
+            model_path = str(bundled_model)
+            logger.info("Using bundled spaCy model from PyInstaller")
+    
     if not model_path:
-        logger.debug("NER disabled — KTS_SPACY_MODEL_PATH not set.")
+        logger.debug("NER disabled — KTS_SPACY_MODEL_PATH not set and no bundled model found.")
         return None
 
     try:
         import spacy  # noqa: E402  — intentionally lazy
+        import sys  # Ensure sys is imported for frozen check
 
         if Path(model_path).is_dir():
             _nlp = spacy.load(model_path)
