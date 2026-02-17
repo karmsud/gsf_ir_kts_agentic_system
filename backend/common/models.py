@@ -86,6 +86,8 @@ class TextChunk:
     source_path: str
     chunk_index: int
     doc_type: str = "UNKNOWN"
+    entities: list[dict] = field(default_factory=list)  # [{"text": str, "label": str}, ...]
+    keyphrases: list[dict] = field(default_factory=list)  # [{"text": str, "score": float}, ...]
 
 
 @dataclass

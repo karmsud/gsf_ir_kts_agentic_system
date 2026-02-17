@@ -1,0 +1,147 @@
+{
+  "corpus_id": "psa_2006_he1_he2",
+  "created": "2026-02-16",
+  "document_context": "Pooling and Servicing Agreements for mortgage-backed securities",
+  "queries": [
+    {
+      "query_id": "PSA-Q01",
+      "query_text": "What are the Master Servicer's obligations?",
+      "intent": "DEFINITION",
+      "expected_entities": ["Master Servicer"],
+      "expected_keyphrases": ["obligations", "duties", "responsibilities"]
+    },
+    {
+      "query_id": "PSA-Q02",
+      "query_text": "Who is the Trustee and what are their duties?",
+      "intent": "DEFINITION",
+      "expected_entities": ["Trustee"],
+      "expected_keyphrases": ["trustee", "duties", "responsibilities"]
+    },
+    {
+      "query_id": "PSA-Q03",
+      "query_text": "What happens when a mortgage loan becomes delinquent?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["delinquent", "default", "collection procedures"]
+    },
+    {
+      "query_id": "PSA-Q04",
+      "query_text": "How are distributions calculated and paid to Certificateholders?",
+      "intent": "PROCEDURE",
+      "expected_entities": ["Certificateholders"],
+      "expected_keyphrases": ["distributions", "payments", "calculation"]
+    },
+    {
+      "query_id": "PSA-Q05",
+      "query_text": "What is the role of the Securities Administrator?",
+      "intent": "DEFINITION",
+      "expected_entities": ["Securities Administrator"],
+      "expected_keyphrases": ["role", "responsibilities", "administrator"]
+    },
+    {
+      "query_id": "PSA-Q06",
+      "query_text": "When can the Master Servicer be removed or replaced?",
+      "intent": "PROCEDURE",
+      "expected_entities": ["Master Servicer"],
+      "expected_keyphrases": ["removal", "replacement", "termination"]
+    },
+    {
+      "query_id": "PSA-Q07",
+      "query_text": "What representations and warranties are made about the mortgage loans?",
+      "intent": "DEFINITION",
+      "expected_entities": [],
+      "expected_keyphrases": ["representations", "warranties", "mortgage loans"]
+    },
+    {
+      "query_id": "PSA-Q08",
+      "query_text": "How are prepayments handled?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["prepayments", "principal prepayments", "voluntary prepayments"]
+    },
+    {
+      "query_id": "PSA-Q09",
+      "query_text": "What triggers an Event of Default under the agreement?",
+      "intent": "DEFINITION",
+      "expected_entities": [],
+      "expected_keyphrases": ["event of default", "default", "breach"]
+    },
+    {
+      "query_id": "PSA-Q10",
+      "query_text": "What are the fees paid to the Master Servicer?",
+      "intent": "DEFINITION",
+      "expected_entities": ["Master Servicer"],
+      "expected_keyphrases": ["servicing fee", "compensation", "fees"]
+    },
+    {
+      "query_id": "PSA-Q11",
+      "query_text": "How is the Pooling and Servicing Agreement governed and what law applies?",
+      "intent": "REFERENCE",
+      "expected_entities": [],
+      "expected_keyphrases": ["governing law", "jurisdiction", "applicable law"]
+    },
+    {
+      "query_id": "PSA-Q12",
+      "query_text": "What reports must the Master Servicer provide to Certificateholders?",
+      "intent": "PROCEDURE",
+      "expected_entities": ["Master Servicer", "Certificateholders"],
+      "expected_keyphrases": ["reports", "reporting requirements", "statements"]
+    },
+    {
+      "query_id": "PSA-Q13",
+      "query_text": "How are losses allocated among Certificate classes?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["losses", "allocation", "certificate classes", "subordination"]
+    },
+    {
+      "query_id": "PSA-Q14",
+      "query_text": "What are the Depositor's responsibilities in the transaction?",
+      "intent": "DEFINITION",
+      "expected_entities": ["Depositor"],
+      "expected_keyphrases": ["depositor", "responsibilities", "duties"]
+    },
+    {
+      "query_id": "PSA-Q15",
+      "query_text": "What insurance requirements apply to the mortgage properties?",
+      "intent": "REQUIREMENT",
+      "expected_entities": [],
+      "expected_keyphrases": ["insurance", "hazard insurance", "property insurance"]
+    },
+    {
+      "query_id": "PSA-Q16",
+      "query_text": "How are tax payments on mortgage properties handled?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["taxes", "property taxes", "tax payments"]
+    },
+    {
+      "query_id": "PSA-Q17",
+      "query_text": "What is the Distribution Date and when do payments occur?",
+      "intent": "DEFINITION",
+      "expected_entities": [],
+      "expected_keyphrases": ["distribution date", "payment date", "monthly"]
+    },
+    {
+      "query_id": "PSA-Q18",
+      "query_text": "Can the Pooling and Servicing Agreement be amended?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["amendment", "modification", "consent"]
+    },
+    {
+      "query_id": "PSA-Q19",
+      "query_text": "What are the definitions of Principal Balance and Interest Rate?",
+      "intent": "DEFINITION",
+      "expected_entities": [],
+      "expected_keyphrases": ["principal balance", "interest rate", "definitions"]
+    },
+    {
+      "query_id": "PSA-Q20",
+      "query_text": "How are foreclosure proceeds applied?",
+      "intent": "PROCEDURE",
+      "expected_entities": [],
+      "expected_keyphrases": ["foreclosure", "proceeds", "application", "liquidation"]
+    }
+  ]
+}

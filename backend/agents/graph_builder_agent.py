@@ -20,7 +20,7 @@ class GraphBuilderAgent(AgentBase):
             AgentResult(
                 success=True,
                 confidence=0.95,
-                data={"graph_nodes": len(graph.get("nodes", {})), "graph_edges": len(graph.get("edges", []))},
+                data={"graph_nodes": graph.number_of_nodes(), "graph_edges": graph.number_of_edges()},
                 reasoning="Upserted document nodes and relationships in knowledge graph.",
             )
         )

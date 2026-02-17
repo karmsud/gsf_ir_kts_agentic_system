@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -12,14 +13,13 @@ if str(ROOT) not in sys.path:
 
 
 @pytest.fixture(autouse=True)
-def _clean_runtime_dirs():
-    kb = ROOT / "knowledge_base"
-    if kb.exists():
-        for child in [kb / "documents", kb / "vectors", kb / "graph"]:
-            if child.exists():
-                shutil.rmtree(child)
-            child.mkdir(parents=True, exist_ok=True)
-        manifest = kb / "manifest.json"
-        if manifest.exists():
-            manifest.unlink()
+def _clean_runtime_dirs(monkeypatch):
+    runtime_dir = Path(tempfile.mkdtemp(prefix="kts_test_runtime_", dir=str(ROOT)))
+    monkeypatch.setenv("KTS_KB_PATH", str(runtime_dir))
+
+    for child in [runtime_dir / "documents", runtime_dir / "vectors", runtime_dir / "graph", runtime_dir / "logs"]:
+        child.mkdir(parents=True, exist_ok=True)
+
     yield
+
+    shutil.rmtree(runtime_dir, ignore_errors=True)

@@ -1,7 +1,13 @@
+
 # ── Core CLI & Utilities ──────────────────────────────────────
 click>=8.0.0
 tqdm>=4.65.0
 PyYAML>=6.0
+networkx>=3.0.0              # Graph Analysis
+
+# ── Retrieval & Vector Store ─────────────────────────────────
+chromadb>=0.4.0              # Local Vector DB + Embeddings
+onnxruntime>=1.14.0          # Runtime for default embeddings
 
 # ── Document Converters ──────────────────────────────────────
 PyMuPDF>=1.20.0              # PDF  (import fitz)
@@ -12,6 +18,10 @@ beautifulsoup4>=4.10.0       # HTML (import bs4)
 # ── Build & Packaging (dev only) ─────────────────────────────
 pyinstaller>=5.0
 setuptools>=65.0
+
+# ── Phase 4: Advanced RAG Intelligence ──────────────────────
+spacy>=3.7.0                 # NER + noun-chunk keyphrase extraction
+tokenizers>=0.15.0           # ONNX cross-encoder tokenization
 
 # ── Development & Testing ────────────────────────────────────
 pytest>=7.0.0

@@ -1,0 +1,18 @@
+{
+  "conflicts": [
+    {
+      "term": "Trustee",
+      "doc_a": {
+        "doc_id": "PSA_2006",
+        "definition": "Wells Fargo Bank acts as Trustee.",
+        "precedence": 50
+      },
+      "doc_b": {
+        "doc_id": "Indenture_2006",
+        "definition": "The Bank of New York acts as Trustee.",
+        "precedence": 40
+      },
+      "expected_controlling": "PSA_2006"
+    }
+  ]
+}

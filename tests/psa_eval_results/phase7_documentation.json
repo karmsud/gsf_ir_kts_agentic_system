@@ -1,0 +1,39 @@
+{
+  "total_tests": 8,
+  "passed": 5,
+  "pass_rate_pct": 62.5,
+  "results": [
+    {
+      "test": "Documentation Structure",
+      "passed": true
+    },
+    {
+      "test": "README Content",
+      "passed": false
+    },
+    {
+      "test": "Model Paths",
+      "passed": false
+    },
+    {
+      "test": "Tier System",
+      "passed": true
+    },
+    {
+      "test": "Installation Steps",
+      "passed": true
+    },
+    {
+      "test": "Error Documentation",
+      "passed": true
+    },
+    {
+      "test": "Internal Links",
+      "passed": false
+    },
+    {
+      "test": "Code Examples",
+      "passed": true
+    }
+  ]
+}

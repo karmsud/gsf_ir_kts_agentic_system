@@ -75,6 +75,10 @@ def ingest(paths):
     vision = VisionAgent(config)
     manifest = ManifestStore(config.manifest_path)
 
+    # Term registry for learned synonym generation
+    from backend.retrieval.term_registry import TermRegistry
+    term_registry = TermRegistry(config.knowledge_base_path)
+
     source_paths: list[Path] = []
     
     # If no paths provided, ingest all pending files from manifest (doc_id is not set OR explicit request)
@@ -111,7 +115,7 @@ def ingest(paths):
         existing_info = manifest_data.get("files", {}).get(s_abs)
         target_doc_id = existing_info.get("doc_id") if existing_info else None
         
-        click.echo(f"Ingesting {source.name}... (Target ID: {target_doc_id or 'Auto'})")
+        click.echo(f"Ingesting {source.name}... (Target ID: {target_doc_id or 'Auto'})", err=True)
         
         # Call Ingestion Agent
         ingest_result = ingestion.execute({"path": str(source), "doc_id": target_doc_id})
@@ -183,6 +187,12 @@ def ingest(paths):
             # Graph Builder
             graph_builder.execute({"document": document, "metadata": metadata})
 
+            # Register keyphrases for learned synonym generation
+            keyphrases = metadata.get("keyphrases", [])
+            if keyphrases:
+                term_texts = [kp["text"] for kp in keyphrases]
+                term_registry.register_terms(term_texts, document.doc_id, metadata.get("doc_type", "UNKNOWN"))
+
         # Vision
         vision.execute({"operation": "initialize", "doc_id": document.doc_id, "image_paths": document.image_paths, "descriptions": {}})
 
@@ -197,7 +207,11 @@ def ingest(paths):
         )
 
     total_images = sum(d.get("extracted_image_count", 0) for d in ingested_summary)
-    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary), "total_images_pending": total_images}, indent=2))
+
+    # Rebuild learned synonym clusters after ingestion batch
+    synonym_summary = term_registry.rebuild_synonyms()
+
+    click.echo(json.dumps({"ingested": ingested_summary, "count": len(ingested_summary), "total_images_pending": total_images, "synonym_clusters": synonym_summary}, indent=2))
 
 
 @cli.command()
@@ -264,11 +278,67 @@ def vacuum(dry_run):
 @click.option("--max-results", default=5, show_default=True)
 @click.option("--doc-type", default=None)
 @click.option("--tool-filter", default=None)
-def search(query, max_results, doc_type, tool_filter):
+@click.option("--strict", is_flag=True, default=False, help="Enforce strict provenance (100% cited claims).")
+@click.option("--no-graph-boost", is_flag=True, default=False)
+@click.option("--no-auto-filter", is_flag=True, default=False)
+@click.option("--no-term-resolution", is_flag=True, default=False, help="Disable term resolution pipeline.")
+@click.option("--no-query-expansion", is_flag=True, default=False, help="Disable query expansion via synonyms.")
+@click.option("--no-acronym-resolution", is_flag=True, default=False, help="Disable acronym expansion.")
+@click.option("--regime-override", default=None, help="Force corpus regime (GOVERNING_DOC_LEGAL, GENERIC_GUIDE, MIXED).")
+@click.option("--debug-level", type=click.IntRange(0, 2), default=None, help="Debug verbosity: 0=off, 1=summary, 2=verbose.")
+@click.option("--explain", is_flag=True, default=False, help="Show scoring explanation per result.")
+@click.option("--provenance-detail", is_flag=True, default=False, help="Include full provenance ledger in output.")
+@click.option("--section-filter", default=None, help="Restrict results to a specific section heading.")
+@click.option("--graph-only", is_flag=True, default=False, help="Use graph-based retrieval only (no vector search).")
+@click.option("--answer-text", default=None, help="Optional generated answer text to validate provenance against.")
+def search(query, max_results, doc_type, tool_filter, strict, no_graph_boost, no_auto_filter,
+           no_term_resolution, no_query_expansion, no_acronym_resolution,
+           regime_override, debug_level, explain, provenance_detail,
+           section_filter, graph_only, answer_text):
     config = _ctx()
+
+    # Apply CLI overrides to config
+    if regime_override:
+        config.corpus_regime_override = regime_override
+    if debug_level is not None:
+        config.debug_level = debug_level
+    if no_query_expansion:
+        config.query_expansion_enabled = False
+    if no_acronym_resolution:
+        config.acronym_resolver_enabled = False
+
     retrieval = RetrievalService(config)
-    result = retrieval.execute({"query": query, "max_results": max_results, "doc_type_filter": doc_type, "tool_filter": tool_filter})
-    click.echo(json.dumps(_serialize(result.data["search_result"]), indent=2))
+    result = retrieval.execute(
+        {
+            "query": query,
+            "max_results": max_results,
+            "doc_type_filter": doc_type,
+            "tool_filter": tool_filter,
+            "strict": strict,
+            "no_graph_boost": no_graph_boost,
+            "no_auto_filter": no_auto_filter,
+            "no_term_resolution": no_term_resolution,
+            "generated_answer": answer_text,
+            "explain": explain,
+            "section_filter": section_filter,
+            "graph_only": graph_only,
+        }
+    )
+    if not result.success and result.data.get("provenance", {}).get("error"):
+        click.echo(json.dumps(result.data["provenance"]["error"], indent=2))
+        raise SystemExit(1)
+
+    output = _serialize(result.data["search_result"])
+
+    if provenance_detail and "provenance" in result.data:
+        output = {"search_result": output, "provenance": _serialize(result.data["provenance"])}
+    if result.data.get("term_resolution"):
+        if isinstance(output, dict) and "search_result" in output:
+            output["term_resolution"] = result.data["term_resolution"]
+        else:
+            output = {"search_result": output, "term_resolution": result.data["term_resolution"]}
+
+    click.echo(json.dumps(output, indent=2))
 
 
 @cli.command()
@@ -354,15 +424,15 @@ def describe_status(doc_id):
 def status_cmd():
     config = _ctx()
     manifest = ManifestStore(config.manifest_path).load()
-    graph_stats = GraphBuilderAgent(config).builder.store.load()
+    graph = GraphBuilderAgent(config).builder.store.load()
     documents_count = len([item for item in (Path(config.knowledge_base_path) / "documents").glob("*") if item.is_dir()])
     click.echo(
         json.dumps(
             {
                 "documents": documents_count,
                 "manifest_files": len(manifest.get("files", {})),
-                "graph_nodes": len(graph_stats.get("nodes", {})),
-                "graph_edges": len(graph_stats.get("edges", [])),
+                "graph_nodes": graph.number_of_nodes(),
+                "graph_edges": graph.number_of_edges(),
             },
             indent=2,
         )

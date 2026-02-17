@@ -1,0 +1,1902 @@
+[
+  {
+    "test_id": "A01",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Certificateholder mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificateholder", "Person", "Certificate Register"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificateholder"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Core defined term. Definition references Person and Certificate Register — must appear in evidence."
+  },
+  {
+    "test_id": "A02",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is the definition of Master Servicer in the PSA?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Master Servicer", "EMC Mortgage Corporation"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Master Servicer"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Named party defined term. EMC Mortgage Corporation is the Master Servicer per preamble and Section 1.01."
+  },
+  {
+    "test_id": "A03",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Trustee under this agreement.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Trustee", "LaSalle Bank National Association"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Trustee"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Named party. LaSalle Bank National Association is the Trustee per preamble."
+  },
+  {
+    "test_id": "A04",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Distribution Date mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Distribution Date", "25th"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Distribution Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "High-frequency term. Distribution Date is the 25th of each month (or next Business Day). References Business Day."
+  },
+  {
+    "test_id": "A05",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is a Mortgage Loan as defined in Section 1.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Mortgage Loan", "Mortgage Note", "Mortgage"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Mortgage Loan"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Core asset term. Definition references Mortgage Note and Mortgage — chain resolution needed."
+  },
+  {
+    "test_id": "A06",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is the definition of Person in the PSA?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Person", "individual", "corporation", "partnership"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Person"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Foundational term referenced by Certificateholder, Depositor, etc. Verifies base-case resolution."
+  },
+  {
+    "test_id": "A07",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Realized Loss mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Realized Loss", "Liquidation Proceeds", "Stated Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Realized Loss"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Financial calculation term. References Liquidation Proceeds and Stated Principal Balance — multi-hop chain."
+  },
+  {
+    "test_id": "A08",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Certificate Principal Balance.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificate Principal Balance", "Initial Certificate Principal Balance", "Realized Loss"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificate Principal Balance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Recursive: depends on Initial Certificate Principal Balance, Applied Realized Loss Amounts, Subsequent Recoveries."
+  },
+  {
+    "test_id": "A09",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Trust Fund mean in the PSA?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Trust Fund", "Mortgage Loan", "Certificate"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Trust Fund"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Aggregate term: Trust Fund includes all conveyed assets. Tests broad definition resolution."
+  },
+  {
+    "test_id": "A10",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is REMIC as defined in this agreement?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["REMIC", "Real Estate Mortgage Investment Conduit", "Code"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "REMIC"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Acronym-style term. Definition references Code (Internal Revenue Code). Tests acronym + term resolution."
+  },
+  {
+    "test_id": "A11",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is the definition of Eligible Account?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Eligible Account", "Rating Agency"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Eligible Account"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "References Rating Agency — tests 1-hop term chain."
+  },
+  {
+    "test_id": "A12",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Closing Date.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Closing Date", "January 26, 2006"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Closing Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Date-specific term. Must return exact date January 26, 2006."
+  },
+  {
+    "test_id": "A13",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Cut-off Date mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Cut-off Date", "January 1, 2006"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Cut-off Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Date term with exact value. Must cite the correct date."
+  },
+  {
+    "test_id": "A14",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is a Business Day per the PSA?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Business Day", "New York"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Business Day"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Referenced by Distribution Date — tests term cross-reference chain."
+  },
+  {
+    "test_id": "A15",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is a Subservicer?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 3.03"],
+    "expected_must_include_terms": ["Subservicer", "Master Servicer"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Subservicer"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Operational term referencing Master Servicer. Tests cross-section reference (§3.03)."
+  },
+  {
+    "test_id": "A16",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Depositor mean in this agreement?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Depositor", "Bear Stearns Asset Backed Securities I LLC"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Depositor"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Named party term from preamble."
+  },
+  {
+    "test_id": "A17",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Event of Default mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 8.01"],
+    "expected_must_include_terms": ["Event of Default", "Section 8.01"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 8.01",
+      "term_present": "Event of Default"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Cross-section reference: Section 1.01 definition points to Section 8.01 for full enumeration."
+  },
+  {
+    "test_id": "A18",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is REO Property?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["REO Property", "Mortgaged Property", "foreclosure"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "REO Property"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "References Mortgaged Property — tests 1-hop chain."
+  },
+  {
+    "test_id": "A19",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Principal Distribution Amount.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Principal Distribution Amount", "Stated Principal Balance", "Mortgage Loan"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Principal Distribution Amount"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Central waterfall term. Multi-hop: depends on Stated Principal Balance and Mortgage Loan."
+  },
+  {
+    "test_id": "A20",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is Stated Principal Balance?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Stated Principal Balance", "Mortgage Loan", "Cut-off Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Stated Principal Balance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Financial balance term. References Mortgage Loan, Cut-off Date — multi-hop."
+  },
+  {
+    "test_id": "A21",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Mortgage File mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Mortgage File", "Mortgage Note", "Mortgage"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Mortgage File"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Document custody term. Multi-hop: File contains Note, Note references Mortgage."
+  },
+  {
+    "test_id": "A22",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is Due Period?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Due Period", "Distribution Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Due Period"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Calendar term referencing Distribution Date — bidirectional cross-reference."
+  },
+  {
+    "test_id": "A23",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Resolve the term chain: Certificateholder → Person → individual/corporation.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificateholder", "Person", "Certificate Register", "individual", "corporation"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificateholder"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Explicit 2-hop chain test: Certificateholder → Person → base definitions. Closure must contain all."
+  },
+  {
+    "test_id": "A24",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Advance as used in the PSA.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 5.01"],
+    "expected_must_include_terms": ["Advance", "Master Servicer", "Mortgage Loan"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Advance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Key operational term. Definition in §1.01 with mechanics in §5.01. Cross-section reference expected."
+  },
+  {
+    "test_id": "A25",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What does Swap Provider mean?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Swap Provider", "Swap Agreement"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Swap Provider"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Derivative-related defined term. References Swap Agreement."
+  },
+  {
+    "test_id": "A26",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is a Prepayment Period?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Prepayment Period"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Prepayment Period"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Calendar term. Tests simple definition retrieval with no deep chain."
+  },
+  {
+    "test_id": "A27",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is the definition of Outstanding?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Outstanding", "Certificate"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Outstanding"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Status term for certificates. Tests simple retrieval."
+  },
+  {
+    "test_id": "A28",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Resolve Realized Loss → Liquidation Proceeds → Stated Principal Balance chain.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Realized Loss", "Liquidation Proceeds", "Stated Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Realized Loss"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "3-hop chain test. Loss → Proceeds → Balance. Verifies deep closure."
+  },
+  {
+    "test_id": "A29",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "What is the depth limit when resolving Certificate Principal Balance recursively?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificate Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificate Principal Balance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Stop-condition test. Certificate Principal Balance has many dependencies — must stop at max_depth and set truncated=true if exceeded."
+  },
+  {
+    "test_id": "A30",
+    "bucket": "A",
+    "bucket_name": "Defined Terms & Recursive Resolution",
+    "query": "Define Certificateholder or Holder.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificateholder", "Holder", "Certificate Register"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificateholder"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Alias test. 'Certificateholder or Holder' in PSA defines two terms — resolver must handle alias."
+  },
+  {
+    "test_id": "B01",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "If the PSA and an amendment both define Trustee differently, which definition controls?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "AMENDMENT", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 11.01"],
+    "expected_must_include_terms": ["Trustee", "amendment", "superseded"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 11.01",
+      "term_present": "amendment"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Tests amendment precedence. §11.01 governs amendments. Later amendment should have higher precedence."
+  },
+  {
+    "test_id": "B02",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "What happens when Master Servicer is defined differently in the PSA vs a Prospectus Supplement?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "PROSUP", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Master Servicer", "conflict"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Master Servicer"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Collision test. PSA (precedence=50) should control over ProSupp (precedence=30). Conflict marker expected."
+  },
+  {
+    "test_id": "B03",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "How does Section 11.01 handle amendments to terms in Section 1.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 11.01", "Section 1.01"],
+    "expected_must_include_terms": ["amendment", "Certificateholder", "consent"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 11.01",
+      "term_present": "amendment"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Amendment mechanics. §11.01 allows amendment without consent to cure ambiguity; with consent for material changes."
+  },
+  {
+    "test_id": "B04",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "If an amendment redefines Distribution Date to the 28th, which definition is returned?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["AMENDMENT", "PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Distribution Date", "conflict", "amendment"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Distribution Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Synthetic collision scenario. Amendment should override, prior definition preserved with superseded_by marker."
+  },
+  {
+    "test_id": "B05",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "When two documents define Eligible Account differently, how are both shown to the user?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Eligible Account", "conflict"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Eligible Account"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Conflict UI test. Both definitions must be returned with ⚠ CONFLICT marker and provenance for each."
+  },
+  {
+    "test_id": "B06",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "What is the precedence order for definitions across PSA, Indenture, and Prospectus Supplement?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "INDENTURE", "PROSUP"],
+    "expected_sections": ["Section 1.01"],
+    "expected_must_include_terms": ["precedence", "controlling"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "precedence"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Precedence order test. PSA (50) > Indenture (40) > ProSupp (30) per precedence policy."
+  },
+  {
+    "test_id": "B07",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "Does the PSA have any side letters that modify Section 1.01 definitions?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 1.01", "Section 11.01"],
+    "expected_must_include_terms": ["amendment", "Section 11.01"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 11.01",
+      "term_present": "amendment"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Amendment discovery. System should reference §11.01 amendment provisions even if no side letter is indexed."
+  },
+  {
+    "test_id": "B08",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "If Closing Date conflicts between two deal documents in the corpus, which is controlling?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 1.01"],
+    "expected_must_include_terms": ["Closing Date", "January 26, 2006"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Closing Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Deal-scoped collision. PSA 2006-HE1 Closing Date is January 26, 2006 — must scope to correct deal."
+  },
+  {
+    "test_id": "B09",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "Can the PSA be amended to change the Pass-Through Rate without Certificateholder consent?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 11.01", "Section 1.01"],
+    "expected_must_include_terms": ["amendment", "consent", "Pass-Through Rate"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 11.01",
+      "term_present": "amendment"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Amendment + consent test. Material changes to economic terms require Certificateholder consent per §11.01."
+  },
+  {
+    "test_id": "B10",
+    "bucket": "B",
+    "bucket_name": "Precedence, Collision, Amendments",
+    "query": "What is the effective date of the PSA and does any amendment supersede it?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 1.01"],
+    "expected_must_include_terms": ["January 1, 2006", "Closing Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "January 1, 2006"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Effective date extraction test. PSA dated January 1, 2006. Tests DocEffectiveDateExtractor."
+  },
+  {
+    "test_id": "C01",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the payment waterfall for Group I interest distributions?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE V", "Section 5.04"],
+    "expected_must_include_terms": ["Interest Funds", "Class I-A", "Class I-M", "Distribution Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Distribution"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Core waterfall query. Section 5.04(a) is the primary interest waterfall for Group I."
+  },
+  {
+    "test_id": "C02",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How are principal payments distributed in priority order under Section 5.04?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE V", "Section 5.04"],
+    "expected_must_include_terms": ["Principal Distribution Amount", "Class I-A", "Class I-M"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Principal Distribution Amount"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Principal waterfall. Class A first, then M-1 through M-8 in sequential priority."
+  },
+  {
+    "test_id": "C03",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What happens to Subsequent Recoveries under the waterfall?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.04"],
+    "expected_must_include_terms": ["Subsequent Recoveries", "Certificate Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Subsequent Recoveries"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Recovery allocation under §5.04(c)."
+  },
+  {
+    "test_id": "C04",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How are Realized Losses allocated across certificate classes?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE V", "Section 5.05"],
+    "expected_must_include_terms": ["Realized Loss", "Certificate Principal Balance", "Class I-M"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.05",
+      "term_present": "Realized Loss"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Loss allocation in reverse seniority per §5.05."
+  },
+  {
+    "test_id": "C05",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Group I Overcollateralization Amount and how does it affect distributions?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 5.04"],
+    "expected_must_include_terms": ["Overcollateralization", "Group I"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Overcollateralization"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "OC mechanics interacting with waterfall."
+  },
+  {
+    "test_id": "C06",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Class I-A Principal Distribution Amount formula?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Class I-A Principal Distribution Amount", "47.70%"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Class I-A Principal Distribution Amount"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Numerical formula test. Must return specific percentage 47.70%."
+  },
+  {
+    "test_id": "C07",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "In what order are Class M certificates paid principal?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.04"],
+    "expected_must_include_terms": ["Class I-M-1", "Class I-M-2", "Principal Distribution Amount"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Class I-M"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Sequential payment order: M-1 → M-2 → ... → M-8 in strict seniority."
+  },
+  {
+    "test_id": "C08",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the interest rate paid on Class I-A-1 Certificates?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Pass-Through Rate", "Class I-A-1", "LIBOR"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Pass-Through Rate"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Rate lookup. Class I-A-1 has a variable Pass-Through Rate related to LIBOR."
+  },
+  {
+    "test_id": "C09",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How does the Group I Reserve Fund interact with the waterfall?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.21", "Section 5.04"],
+    "expected_must_include_terms": ["Reserve Fund", "Group I", "Distribution Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.21",
+      "term_present": "Reserve Fund"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Reserve fund mechanics per §3.21. Must cite both §3.21 and its interaction with §5.04."
+  },
+  {
+    "test_id": "C10",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Basis Risk Shortfall Carry Forward Amount?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Basis Risk Shortfall Carry Forward Amount", "Certificate"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Basis Risk Shortfall"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Complex waterfall term. Tests retrieval of long-name defined term."
+  },
+  {
+    "test_id": "C11",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What are the REMIC distribution mechanics under Section 5.07?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.07"],
+    "expected_must_include_terms": ["REMIC", "Regular Interest", "Distribution"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.07",
+      "term_present": "REMIC"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "REMIC tax election waterfall."
+  },
+  {
+    "test_id": "C12",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How are Compensating Interest Payments calculated?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.02"],
+    "expected_must_include_terms": ["Compensating Interest", "Master Servicer"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.02",
+      "term_present": "Compensating Interest"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Shortfall mechanics per §5.02."
+  },
+  {
+    "test_id": "C13",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What distributions are made from the Distribution Account?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 4.04", "Section 4.05", "Section 5.04"],
+    "expected_must_include_terms": ["Distribution Account", "Distribution Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 4.04",
+      "term_present": "Distribution Account"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Account-to-waterfall linkage. §4.04-4.05 govern the account; §5.04 governs distributions."
+  },
+  {
+    "test_id": "C14",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Group II interest distribution waterfall?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.04"],
+    "expected_must_include_terms": ["Group II", "Interest Funds", "Class II-A"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Group II"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Parallel Group II waterfall. Tests retrieval of correct group-specific section."
+  },
+  {
+    "test_id": "C15",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Class I-CE Distribution Amount?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Class I-CE Distribution Amount", "Current Interest", "Overcollateralization"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Class I-CE Distribution Amount"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Credit enhancement distribution term. Multi-component formula."
+  },
+  {
+    "test_id": "C16",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How is interest allocated to the Class I-A Certificates before lower-priority classes?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.04"],
+    "expected_must_include_terms": ["Interest Funds", "Class I-A", "Current Interest"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.04",
+      "term_present": "Class I-A"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Priority allocation. Class A has highest priority in interest waterfall."
+  },
+  {
+    "test_id": "C17",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is the Swap Agreement's role in the distribution waterfall?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.21", "Section 5.04"],
+    "expected_must_include_terms": ["Swap Agreement", "Swap Provider", "Distribution"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.21",
+      "term_present": "Swap"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Derivative waterfall interaction. Swap payments feed into §5.04 distributions."
+  },
+  {
+    "test_id": "C18",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What withdrawals are permitted from the Protected Account?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 4.01", "Section 4.02"],
+    "expected_must_include_terms": ["Protected Account", "Permitted Withdrawals"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 4.02",
+      "term_present": "Protected Account"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Account mechanics. §4.02 lists permitted withdrawals from the Protected Account."
+  },
+  {
+    "test_id": "C19",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "What is Current Interest for the Class I-A Certificates?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Current Interest", "Pass-Through Rate", "Certificate Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Current Interest"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Interest accrual formula. Depends on Pass-Through Rate and Certificate Principal Balance."
+  },
+  {
+    "test_id": "C20",
+    "bucket": "C",
+    "bucket_name": "Waterfall / Payment Priority Retrieval",
+    "query": "How does the loss allocation affect the Class I-M-8 Certificate holders?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.05"],
+    "expected_must_include_terms": ["Realized Loss", "Class I-M-8", "Certificate Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.05",
+      "term_present": "Class I-M-8"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Reverse seniority loss allocation. Class M-8 absorbs losses first (most junior)."
+  },
+  {
+    "test_id": "D01",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What are the Master Servicer's advancing obligations under Section 5.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.01"],
+    "expected_must_include_terms": ["Advance", "Master Servicer", "Mortgage Loan"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.01",
+      "term_present": "Advance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Core servicing obligation. Master Servicer must advance delinquent payments."
+  },
+  {
+    "test_id": "D02",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "Under what conditions can the Master Servicer exercise the optional purchase under Section 3.19?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.19"],
+    "expected_must_include_terms": ["Optional Purchase", "90 days", "delinquent", "REO Property"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.19",
+      "term_present": "Optional Purchase"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Clean-up call. 90+ day delinquent or REO Property eligible for optional purchase."
+  },
+  {
+    "test_id": "D03",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "How are defaulted mortgage loans realized upon under Section 3.09?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.09"],
+    "expected_must_include_terms": ["Defaulted Mortgage Loan", "Liquidation Proceeds", "Realized Loss"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.09",
+      "term_present": "Defaulted"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Default handling mechanics per §3.09."
+  },
+  {
+    "test_id": "D04",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What triggers the appointment of a Special Servicer under Section 3.25?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.25"],
+    "expected_must_include_terms": ["Special Servicer", "Master Servicer", "downgraded", "rating"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.25",
+      "term_present": "Special Servicer"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Special servicer trigger: rating downgrade of Master Servicer."
+  },
+  {
+    "test_id": "D05",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What is the Advancing Facility described in Section 3.24?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.24"],
+    "expected_must_include_terms": ["Advancing Facility", "Master Servicer", "Trustee"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.24",
+      "term_present": "Advancing Facility"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Advancing facility mechanics per §3.24."
+  },
+  {
+    "test_id": "D06",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What constitutes an Event of Default under Section 8.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 8.01", "ARTICLE VIII"],
+    "expected_must_include_terms": ["Event of Default", "Master Servicer", "failure"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 8.01",
+      "term_present": "Event of Default"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Default enumeration. §8.01 lists specific default triggers."
+  },
+  {
+    "test_id": "D07",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "How is the Trust terminated under Section 10.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 10.01", "ARTICLE X"],
+    "expected_must_include_terms": ["Termination", "Mortgage Loan", "Liquidation"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 10.01",
+      "term_present": "Termination"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Trust termination mechanics per §10.01."
+  },
+  {
+    "test_id": "D08",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What servicing compensation is the Master Servicer entitled to under Section 3.10?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.10"],
+    "expected_must_include_terms": ["Servicing Compensation", "Master Servicer"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.10",
+      "term_present": "Servicing"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Fee calculation per §3.10."
+  },
+  {
+    "test_id": "D09",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What are the representations and warranties of the Sponsor under Section 2.03?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 2.03", "ARTICLE II"],
+    "expected_must_include_terms": ["Sponsor", "representations", "warranties", "Mortgage Loan"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 2.03",
+      "term_present": "Sponsor"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "R&W section. Critical for repurchase triggers."
+  },
+  {
+    "test_id": "D10",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What annual compliance statements are required under Section 3.13?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.13"],
+    "expected_must_include_terms": ["Annual Statement", "Compliance", "Master Servicer"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.13",
+      "term_present": "Compliance"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Compliance reporting under §3.13."
+  },
+  {
+    "test_id": "D11",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What reports must be filed with the SEC under Section 3.16?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.16"],
+    "expected_must_include_terms": ["Securities and Exchange Commission", "Form 10-D", "Form 10-K"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.16",
+      "term_present": "Commission"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "SEC reporting obligations per §3.16."
+  },
+  {
+    "test_id": "D12",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What information is included in the Monthly Statement to Certificateholders?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 5.06"],
+    "expected_must_include_terms": ["Monthly Statement", "Certificateholder", "Distribution Date"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 5.06",
+      "term_present": "Monthly Statement"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Investor reporting per §5.06."
+  },
+  {
+    "test_id": "D13",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What duties does the Trustee have under Section 9.01?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 9.01", "ARTICLE IX"],
+    "expected_must_include_terms": ["Trustee", "duties"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 9.01",
+      "term_present": "Trustee"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Trustee duties per §9.01."
+  },
+  {
+    "test_id": "D14",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "Who can replace the Trustee and under what conditions per Section 9.08?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 9.08"],
+    "expected_must_include_terms": ["Trustee", "resignation", "removal"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 9.08",
+      "term_present": "Trustee"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Trustee replacement provisions per §9.08."
+  },
+  {
+    "test_id": "D15",
+    "bucket": "D",
+    "bucket_name": "Servicing / Advancing / Repurchase / Optional Purchase",
+    "query": "What are the Regulation AB compliance requirements under Section 3.14?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 3.14"],
+    "expected_must_include_terms": ["Regulation AB", "Compliance", "Attestation"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 3.14",
+      "term_present": "Regulation AB"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": false,
+    "rationale": "Reg AB compliance assessment per §3.14."
+  },
+  {
+    "test_id": "E01",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is Release Window in the troubleshooting guide?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TROUBLESHOOT", "USER_GUIDE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TROUBLESHOOT",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Negative control: 'Release Window' is Title Case but NOT a defined term. Resolver must NOT activate."
+  },
+  {
+    "test_id": "E02",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "How do I configure Ticket Status in the admin panel?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["USER_GUIDE", "SOP"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "USER_GUIDE",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Title Case phrase in generic context. Resolver stays off."
+  },
+  {
+    "test_id": "E03",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is the best practice for Error Handling in Node.js applications?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TRAINING", "USER_GUIDE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TRAINING",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Generic tech question. Title Case 'Error Handling' is not a PSA defined term."
+  },
+  {
+    "test_id": "E04",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "How to troubleshoot PSA errors?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TROUBLESHOOT",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "'PSA' as acronym in troubleshooting context. Intent is troubleshoot, not definition — resolver must stay off."
+  },
+  {
+    "test_id": "E05",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "List all error codes for BatchBridge.",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["REFERENCE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "REFERENCE",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Reference catalog query. No term resolution needed."
+  },
+  {
+    "test_id": "E06",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "Navigate to the Settings page in DataDesk.",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["USER_GUIDE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "USER_GUIDE",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "UI navigation query. No legal term resolution possible."
+  },
+  {
+    "test_id": "E07",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What does the primary key mean in database design?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TRAINING", "USER_GUIDE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TRAINING",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Quoted emphasis 'primary key' is NOT a legal defined term. Must not trigger defterm extraction."
+  },
+  {
+    "test_id": "E08",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is a REMIC in general terms, not in this specific PSA?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TRAINING", "USER_GUIDE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TRAINING",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Explicit generic intent. Even though REMIC is a PSA term, the query asks for general definition."
+  },
+  {
+    "test_id": "E09",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "Explain V2.0 release changes for the connector.",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["RELEASE_NOTE"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "RELEASE_NOTE",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Release notes query. No term resolution needed."
+  },
+  {
+    "test_id": "E10",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is the meaning of life?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": [],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": null,
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "no_relevant_results",
+    "strict_mode_required": false,
+    "rationale": "Out-of-domain query. Must return empty or low-confidence results. No resolver activation."
+  },
+  {
+    "test_id": "E11",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "Define Certificateholder in strict mode.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificateholder", "Person", "Certificate Register"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificateholder"
+    },
+    "expected_failure_mode": "strict_refusal_if_uncited",
+    "strict_mode_required": true,
+    "rationale": "Strict mode hallucination test. If any sentence in explanation lacks citation, must return E_INCOMPLETE_PROVENANCE."
+  },
+  {
+    "test_id": "E12",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What does Nonexistent Custodial Term mean in the PSA?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "term_not_found",
+    "strict_mode_required": true,
+    "rationale": "Invented term. Resolver should activate (legal intent) but return empty closure with 'not found' explanation."
+  },
+  {
+    "test_id": "E13",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is the quarterly revenue of Bear Stearns?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": [],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": null,
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "out_of_scope",
+    "strict_mode_required": false,
+    "rationale": "Financial question outside PSA scope. Bear Stearns is a party but revenue is not covered."
+  },
+  {
+    "test_id": "E14",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "How do I fix the OpsFlow connector timeout?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TROUBLESHOOT", "SOP"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TROUBLESHOOT",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "Pure troubleshooting query. No PSA terms involved."
+  },
+  {
+    "test_id": "E15",
+    "bucket": "E",
+    "bucket_name": "Negative Controls / False Activations",
+    "query": "What is Due Diligence in the context of onboarding new documents?",
+    "expected_regime": "GENERIC_GUIDE",
+    "expected_resolver_activation": false,
+    "expected_doc_types_priority": ["TRAINING", "SOP"],
+    "expected_sections": [],
+    "expected_must_include_terms": [],
+    "expected_top1_constraints": {
+      "doc_type": "TRAINING",
+      "section_mention": null,
+      "term_present": null
+    },
+    "expected_failure_mode": "resolver_must_not_activate",
+    "strict_mode_required": false,
+    "rationale": "'Due Diligence' is Title Case but used in generic onboarding context. Not a PSA Section 1.01 term."
+  },
+  {
+    "test_id": "F01",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "What does Certificateholder mean? (provenance test)",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Certificateholder", "Person", "Certificate Register"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Certificateholder"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "TG1 test: Every sentence in the resolution must have a citation marker [§X.Y]. Coverage must be ≥95%."
+  },
+  {
+    "test_id": "F02",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "Define Distribution Date with full provenance.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Distribution Date", "25th", "Business Day"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Distribution Date"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "TG1: Citation for each sentence. Must cite §1.01 for Distribution Date and Business Day definitions."
+  },
+  {
+    "test_id": "F03",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "What is a Realized Loss? Validate evidence found.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Realized Loss", "Liquidation Proceeds", "Stated Principal Balance"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Realized Loss"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Evidence found test: terms Liquidation Proceeds and Stated Principal Balance must appear in retrieved chunk text."
+  },
+  {
+    "test_id": "F04",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "Resolve Master Servicer with sentence-level citations.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Master Servicer", "EMC Mortgage Corporation"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Master Servicer"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "TG1: Each sentence of stitched_explanation must have [§1.01, p.X] citation. 100% coverage in strict mode."
+  },
+  {
+    "test_id": "F05",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "What does Trust Fund mean? Verify all citations exist in the graph.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Trust Fund"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Trust Fund"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Citation validation: All section_ids in citations must exist as nodes in the knowledge graph."
+  },
+  {
+    "test_id": "F06",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "Define Advance. In strict mode, refuse if any claim is uncited.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 5.01"],
+    "expected_must_include_terms": ["Advance", "Master Servicer"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Advance"
+    },
+    "expected_failure_mode": "strict_refusal_if_uncited",
+    "strict_mode_required": true,
+    "rationale": "Strict mode contract: 0 uncited claims or return E_INCOMPLETE_PROVENANCE."
+  },
+  {
+    "test_id": "F07",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "What is the provenance coverage for the term Event of Default?",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["Section 8.01"],
+    "expected_must_include_terms": ["Event of Default", "Section 8.01"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 8.01",
+      "term_present": "Event of Default"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "TG1: Measure provenance_coverage. Must be ≥0.95 in production, 1.0 in strict mode."
+  },
+  {
+    "test_id": "F08",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "Verify evidence matching for the term Mortgage Loan using R1 through R5 rules.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Mortgage Loan", "Mortgage Note"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Mortgage Loan"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Evidence matcher test: Cited text must match chunk content via R1 (exact), R2 (casefolded), R3 (token), R4 (numeric), or R5 (code)."
+  },
+  {
+    "test_id": "F09",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "Define Protected Account. Validate chunk_id exists in ChromaDB.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01", "Section 4.01"],
+    "expected_must_include_terms": ["Protected Account", "Eligible Account"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Protected Account"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Citation validation: chunk_ids in citations must exist in ChromaDB. Cross-validates storage integrity."
+  },
+  {
+    "test_id": "F10",
+    "bucket": "F",
+    "bucket_name": "Evidence & Provenance Trust Gates",
+    "query": "What does Swap LIBOR mean? Log to provenance ledger.",
+    "expected_regime": "GOVERNING_DOC_LEGAL",
+    "expected_resolver_activation": true,
+    "expected_doc_types_priority": ["PSA", "GOVERNING_DOC_LEGAL"],
+    "expected_sections": ["ARTICLE I", "Section 1.01"],
+    "expected_must_include_terms": ["Swap LIBOR", "LIBOR"],
+    "expected_top1_constraints": {
+      "doc_type": "PSA",
+      "section_mention": "Section 1.01",
+      "term_present": "Swap LIBOR"
+    },
+    "expected_failure_mode": null,
+    "strict_mode_required": true,
+    "rationale": "Provenance ledger test: Query must be logged to .kts/logs/provenance_ledger.jsonl with full schema."
+  }
+]

@@ -10,10 +10,23 @@ class QualityGate:
         self.config = config
 
     def apply(self, result: AgentResult) -> AgentResult:
-        if result.confidence >= self.config.confidence_high:
+        high = getattr(self.config, "confidence_high", 0.90)
+        medium = getattr(self.config, "confidence_medium", 0.66)
+
+        try:
+            high = float(high)
+        except (TypeError, ValueError):
+            high = 0.90
+
+        try:
+            medium = float(medium)
+        except (TypeError, ValueError):
+            medium = 0.66
+
+        if result.confidence >= high:
             return result
 
-        if result.confidence >= self.config.confidence_medium:
+        if result.confidence >= medium:
             if result.reasoning:
                 result.reasoning += " | Confidence medium; review recommended."
             else:

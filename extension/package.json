@@ -2,8 +2,12 @@
     "name":  "gsf-ir-kts-extension",
     "displayName":  "GSF IR KTS",
     "description":  "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-    "version":  "1.1.0",
-    "publisher":  "gsf-ir",
+    "version":  "0.0.1",
+    "publisher":  "karmsud",
+    "repository":  {
+                       "type":  "git",
+                       "url":  "https://github.com/karmsud/gsf_ir_kts_agentic_system"
+                   },
     "engines":  {
                     "vscode":  "^1.95.0"
                 },
@@ -82,10 +86,12 @@
                                                                       },
                                                                       {
                                                                           "name":  "deep",
-                                                                          "description":  "Retrieve more context chunks for complex issues"                                                                      },
+                                                                          "description":  "Retrieve more context chunks for complex issues"
+                                                                      },
                                                                       {
                                                                           "name":  "describe_images",
-                                                                          "description":  "Describe pending images using Copilot vision (fallback for auto-describe)"                                                                      }
+                                                                          "description":  "Describe pending images using Copilot vision (fallback for auto-describe)"
+                                                                      }
                                                                   ]
                                                  }
                                              ],

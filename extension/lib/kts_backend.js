@@ -177,6 +177,20 @@ async function runCliJson({
     env.KTS_SOURCE_PATH = sourcePath;
   }
 
+  // Inject model paths from addon registry (set by model extensions)
+  try {
+    const core = require('../extension');
+    const addons = core.getAddonRegistry();
+    if (addons.spacy && addons.spacy.modelPath) {
+      env.KTS_SPACY_MODEL_PATH = addons.spacy.modelPath;
+    }
+    if (addons.crossencoder && addons.crossencoder.modelPath) {
+      env.KTS_CROSSENCODER_MODEL_PATH = addons.crossencoder.modelPath;
+    }
+  } catch (_) {
+    // Core module not available (e.g. unit tests) — skip addon injection
+  }
+
   // Delegate to BackendRunner
   const result = await runner.runCli(args, { env, timeoutMs });
   

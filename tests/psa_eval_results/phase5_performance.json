@@ -1,0 +1,37 @@
+{
+  "baseline": {
+    "baseline_mb": 22.5546875
+  },
+  "config_loading": {
+    "load_time_ms": 15.589475631713867,
+    "memory_mb": 24.74609375
+  },
+  "service_init": {
+    "init_time_ms": 1262.06374168396,
+    "memory_increase_mb": 78.87890625,
+    "total_memory_mb": 103.625
+  },
+  "spacy_loading": {
+    "skipped": true,
+    "reason": "spaCy not installed"
+  },
+  "query_performance": {
+    "avg_latency_ms": 175.0023365020752,
+    "min_latency_ms": 142.4858570098877,
+    "max_latency_ms": 255.80096244812012,
+    "avg_cpu_pct": 1.2000000000000002,
+    "samples": 5
+  },
+  "ingestion": {
+    "skipped": true,
+    "reason": "ingestion modules not loaded"
+  },
+  "peak_memory_load": {
+    "queries": 15,
+    "time_ms": 2450.2313137054443,
+    "start_mem_mb": 167.5625,
+    "peak_mem_mb": 270.984375,
+    "end_mem_mb": 215.94140625,
+    "peak_delta_mb": 103.421875
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "filename": "Pooling_Agreement.pdf",
+    "expected_regime": "GOVERNING_DOC_LEGAL"
+  },
+  {
+    "filename": "User_Guide_BatchBridge.md",
+    "expected_regime": "GENERIC_GUIDE"
+  },
+  {
+    "filename": "ReleaseNotes_DataDesk_2026Q1.md",
+    "expected_regime": "GENERIC_GUIDE"
+  },
+  {
+    "filename": "Indenture_Amendment_No1.pdf",
+    "expected_regime": "GOVERNING_DOC_LEGAL"
+  }
+]

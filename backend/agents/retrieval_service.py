@@ -1,14 +1,30 @@
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from typing import Dict, List, Tuple
 
+import networkx as nx
+
 from backend.common.models import AgentResult, Citation, SearchResult, TextChunk
 from backend.common.doc_types import normalize_doc_type
 from backend.graph import GraphQueries, GraphStore
+from backend.retrieval.evidence_matcher import (
+    EvidenceMatcher,
+    ProvenanceError,
+    enforce_provenance_contract,
+)
+from backend.retrieval.term_resolver import (
+    TermResolver,
+    extract_title_case_phrases,
+    should_activate_resolver,
+)
 from backend.vector import VectorStore
+from backend.retrieval.cross_encoder import rerank as cross_encoder_rerank
 from .base_agent import AgentBase
+
+logger = logging.getLogger(__name__)
 
 
 class RetrievalService(AgentBase):
@@ -122,7 +138,7 @@ class RetrievalService(AgentBase):
         # Default: general query
         return ("general", ["USER_GUIDE", "TROUBLESHOOT"])
     
-    def _compute_feature_scores(self, query: str, row: dict) -> Dict[str, float]:
+    def _compute_feature_scores(self, query: str, row: dict, disable_intent: bool = False) -> Dict[str, float]:
         """Compute feature-based scores for a search result"""
         features = {}
         query_lower = query.lower()
@@ -134,6 +150,9 @@ class RetrievalService(AgentBase):
         query_error_codes = self._extract_error_codes(query)
         doc_error_codes = self._extract_error_codes(content + " " + doc_name)
         
+        # Feature 0: Entity overlap (NER-aware scoring)
+        features["entity_overlap"] = self._compute_entity_overlap(query, row)
+        
         # Feature 1: Exact error code match
         if query_error_codes:
             exact_match = any(code in doc_error_codes for code in query_error_codes)
@@ -142,20 +161,19 @@ class RetrievalService(AgentBase):
             features["error_code_exact_match"] = 0.0
         
         # Feature 2: Intent-based doc_type match
-        intent, expected_doc_types = self._detect_query_intent(query)
-        if row_type in expected_doc_types:
-            # Rank priority: first expected type = highest boost
-            rank = expected_doc_types.index(row_type)
-            base_feature = 1.0 / (rank + 1)  # 1.0, 0.5, 0.33...
-            
-            # High-confidence intents get extra boost (Q7, Q34, Q38 fix)
-            high_confidence_intents = ["reference_catalog", "ui_page_access", "file_capability"]
-            if intent in high_confidence_intents:
-                base_feature *= 1.5  # 1.0 → 1.5 (total 2.55x), 0.5 → 0.75, etc.
-            
-            features["intent_doc_type_match"] = base_feature
-        else:
+        if disable_intent:
             features["intent_doc_type_match"] = 0.0
+        else:
+            intent, expected_doc_types = self._detect_query_intent(query)
+            if row_type in expected_doc_types:
+                rank = expected_doc_types.index(row_type)
+                base_feature = 1.0 / (rank + 1)
+                high_confidence_intents = ["reference_catalog", "ui_page_access", "file_capability"]
+                if intent in high_confidence_intents:
+                    base_feature *= 1.5
+                features["intent_doc_type_match"] = base_feature
+            else:
+                features["intent_doc_type_match"] = 0.0
         
         # Feature 3: Title/doc_name term matching
         # Extract significant terms from query (length >= 3, not stopwords)
@@ -169,63 +187,285 @@ class RetrievalService(AgentBase):
         # Feature 4: Query keyword density in content
         content_lower = content.lower()
         content_matches = sum(1 for term in query_terms[:5] if term in content_lower)  # Top 5 terms
-        features["query_keyword_match"] = min(content_matches / min(len(query_terms), 5), 1.0)
+        features["query_keyword_match"] = min(content_matches / max(min(len(query_terms), 5), 1), 1.0)
         
         # Feature 5: Image description penalty
         features["image_penalty"] = 1.0 if row.get("is_image_desc") else 0.0
         
+        # Feature 6: Entity-based keyphrases (semantic match)
+        features["entity_keyphrase_match"] = self._compute_keyphrase_overlap(query, row)
+        
         return features
+
+    def _compute_graph_score(self, query: str, doc_id: str, G: nx.DiGraph) -> float:
+        """Compute graph-based relevance boost using NetworkX O(1) look-ups.
+
+        Walks the graph to find concept / tool / error nodes whose *name*
+        appears in the query, then checks whether *doc_id* is connected to
+        those nodes via a typed edge.
+        """
+        if G is None or G.number_of_nodes() == 0:
+            return 0.0
+
+        score = 0.0
+        query_lower = query.lower()
+        doc_node_id = f"doc:{doc_id}"
+
+        if doc_node_id not in G:
+            return 0.0
+
+        # 1. Identify query-relevant concept nodes
+        relevant_nodes: list[str] = []
+        for node_id, attrs in G.nodes(data=True):
+            if attrs.get("type") in ("DEFINED_TERM", "TERM", "TOOL", "ERROR_CODE", "TOPIC", "CONCEPT"):
+                name = attrs.get("name", attrs.get("surface_form", "")).lower()
+                if name and name in query_lower:
+                    relevant_nodes.append(node_id)
+
+        # 2. Score connections (O(1) per edge via nx adjacency)
+        edge_weights = {
+            "DEFINES": 0.3,
+            "ADDRESSES": 0.25,
+            "COVERS": 0.15,
+            "MENTIONS": 0.1,
+        }
+
+        for concept in relevant_nodes:
+            # doc → concept edge
+            if G.has_edge(doc_node_id, concept):
+                etype = G[doc_node_id][concept].get("type", "")
+                score += edge_weights.get(etype, 0.05)
+            # concept → doc edge (reverse)
+            if G.has_edge(concept, doc_node_id):
+                etype = G[concept][doc_node_id].get("type", "")
+                score += edge_weights.get(etype, 0.05)
+
+        return min(score, getattr(self, '_graph_boost_cap', 0.7))  # Cap per TD §6.5
+
+    def _compute_entity_overlap(self, query: str, row: dict) -> float:
+        """Compute entity overlap between query and chunk metadata.
+        
+        Uses NER-extracted entities from both query and chunk to compute
+        semantic overlap score. Returns 0.0 if NER not enabled.
+        """
+        if not getattr(self.config, 'ner_enabled', False):
+            return 0.0
+        
+        # Extract entities from query (cached per query)
+        query_entities = self._extract_query_entities(query)
+        if not query_entities:
+            return 0.0
+        
+        # Get chunk entities from row (entities/keyphrases are top-level keys after VectorStore.search() unpacks metadata)
+        chunk_entities_raw = row.get("entities", [])
+        
+        # Deserialize if stored as JSON string
+        if isinstance(chunk_entities_raw, str):
+            import json
+            try:
+                chunk_entities = json.loads(chunk_entities_raw)
+            except (json.JSONDecodeError, ValueError):
+                chunk_entities = []
+        else:
+            chunk_entities = chunk_entities_raw
+        
+        if not chunk_entities:
+            return 0.0
+        
+        # Normalize entity text (lowercase, strip leading "the", remove possessive 's)
+        def normalize_entity(text: str) -> str:
+            normalized = text.lower().strip()
+            # Remove leading "the "
+            if normalized.startswith("the "):
+                normalized = normalized[4:]
+            # Remove possessive 's
+            if normalized.endswith("'s"):
+                normalized = normalized[:-2]
+            elif normalized.endswith("s'"):
+                normalized = normalized[:-2]
+            return normalized.strip()
+        
+        # Extract and normalize entity text
+        query_entity_texts = {normalize_entity(e["text"]) for e in query_entities if isinstance(e, dict)}
+        chunk_entity_texts = {normalize_entity(e["text"]) for e in chunk_entities if isinstance(e, dict)}
+        
+        # Compute Jaccard overlap
+        if not query_entity_texts or not chunk_entity_texts:
+            return 0.0
+        
+        intersection = len(query_entity_texts & chunk_entity_texts)
+        union = len(query_entity_texts | chunk_entity_texts)
+        overlap = intersection / union if union > 0 else 0.0
+        
+        return overlap
+    
+    def _compute_keyphrase_overlap(self, query: str, row: dict) -> float:
+        """Compute keyphrase overlap between query and chunk.
+        
+        Uses NER-extracted keyphrases from both query and chunk.
+        Returns 0.0 if NER not enabled.
+        """
+        if not getattr(self.config, 'ner_enabled', False):
+            return 0.0
+        
+        # Extract keyphrases from query
+        query_keyphrases = self._extract_query_keyphrases(query)
+        if not query_keyphrases:
+            return 0.0
+        
+        # Get chunk keyphrases from row (keyphrases are top-level keys after VectorStore.search() unpacks metadata)
+        chunk_keyphrases_raw = row.get("keyphrases", [])
+        
+        # Deserialize if stored as JSON string
+        if isinstance(chunk_keyphrases_raw, str):
+            import json
+            try:
+                chunk_keyphrases = json.loads(chunk_keyphrases_raw)
+            except (json.JSONDecodeError, ValueError):
+                chunk_keyphrases = []
+        else:
+            chunk_keyphrases = chunk_keyphrases_raw
+        
+        if not chunk_keyphrases:
+            return 0.0
+        
+        # Extract keyphrase text (lowercase)
+        query_kp_texts = {kp["text"].lower() for kp in query_keyphrases if isinstance(kp, dict)}
+        chunk_kp_texts = {kp["text"].lower() for kp in chunk_keyphrases if isinstance(kp, dict)}
+        
+        # Check for partial matches (e.g., "master servicer" in "master servicer obligations")
+        matches = 0
+        for q_kp in query_kp_texts:
+            for c_kp in chunk_kp_texts:
+                if q_kp in c_kp or c_kp in q_kp:
+                    matches += 1
+                    break
+        
+        return min(matches / len(query_kp_texts), 1.0) if query_kp_texts else 0.0
+    
+    def _extract_query_entities(self, query: str) -> List[Dict[str, Any]]:
+        """Extract entities from query using NER (cached)."""
+        # Check cache
+        cache_key = f"_query_entities_{hash(query)}"
+        if hasattr(self, cache_key):
+            return getattr(self, cache_key)
+        
+        # Extract entities
+        from backend.ingestion.ner_extractor import extract_entities_and_keyphrases
+        result = extract_entities_and_keyphrases(query, max_keyphrases=10)
+        
+        # Convert to dicts for JSON compatibility
+        entities = [{"text": e.text, "label": e.label} for e in result.entities]
+        
+        # Cache result
+        setattr(self, cache_key, entities)
+        return entities
+    
+    def _extract_query_keyphrases(self, query: str) -> List[Dict[str, Any]]:
+        """Extract keyphrases from query using NER (cached)."""
+        # Check cache
+        cache_key = f"_query_keyphrases_{hash(query)}"
+        if hasattr(self, cache_key):
+            return getattr(self, cache_key)
+        
+        # Extract keyphrases
+        from backend.ingestion.ner_extractor import extract_entities_and_keyphrases
+        result = extract_entities_and_keyphrases(query, max_keyphrases=10)
+        
+        # Convert to dicts
+        keyphrases = [{"text": kp.text, "score": kp.score} for kp in result.keyphrases]
+        
+        # Cache result
+        setattr(self, cache_key, keyphrases)
+        return keyphrases
 
     def execute(self, request: dict) -> AgentResult:
         query = request["query"]
         max_results = int(request.get("max_results", 5))
         doc_type_filter = request.get("doc_type_filter")
         tool_filter = request.get("tool_filter")
+        disable_graph_boost = bool(request.get("no_graph_boost", False))
+        disable_auto_filter = bool(request.get("no_auto_filter", False))
+        strict_mode = bool(request.get("strict", False))
+        generated_answer = request.get("generated_answer")
+        disable_term_resolution = bool(request.get("no_term_resolution", False))
 
-        rows = self.vector_store.search(query=query, max_results=max_results * 3, doc_type_filter=doc_type_filter)
+        # Apply configurable graph boost cap (TD §6.5, default 0.7)
+        self._graph_boost_cap = getattr(self.config, 'graph_boost_cap', 0.7)
+        
+        # 1. Vector Search (Retrieval) - Get Top 20 Candidates
+        rows = self.vector_store.search(
+            query=query, 
+            top_k=max_results * 4, 
+            doc_type_filter=doc_type_filter
+        )
+        
+        # Load Graph (now an nx.DiGraph) for boosting
+        graph_data: nx.DiGraph = self.graph_store.load()
 
-        def rerank(row: dict) -> float:
-            """Feature-based reranking with configurable weights"""
-            base_score = float(row.get("similarity", 0.0))
+        # 1b. Cross-Encoder Re-ranking (if model available)
+        cross_encoder_active = getattr(self.config, 'cross_encoder_enabled', False)
+        if cross_encoder_active and rows:
+            rows = cross_encoder_rerank(query, rows, content_key="content")
+
+        # 2. RAG Fusion & Re-ranking
+        def rerank_scorer(row: dict) -> float:
+            """
+            Hybrid Score = Vector Similarity * (1 + Graph Boost + Feature Boosts)
+            """
+            base_score = float(row.get("score", 0.0)) # Chroma returns 'score' (similarity)
+            doc_id = row.get("doc_id")
             
-            # Compute all features
-            features = self._compute_feature_scores(query, row)
+            # Compute all textual features (keyword matches, etc.)
+            features = self._compute_feature_scores(query, row, disable_intent=disable_auto_filter)
             
-            # Apply multiplicative boosts
-            score = base_score
+            # Compute Graph Relevance
+            graph_boost = 0.0 if disable_graph_boost else self._compute_graph_score(query, doc_id, graph_data)
             
-            # Error code exact match (strongest boost)
+            # Start with Vector Score
+            final_score = base_score
+            
+            # Apply Graph Boost (Additive to base, then multiplicative overall?)
+            # Let's use multiplicative boost: Score * (1 + GraphScore)
+            final_score *= (1.0 + graph_boost)
+
+            # Apply Cross-Encoder score (blend with vector similarity)
+            ce_score = row.get("cross_encoder_score")
+            if ce_score is not None:
+                # Normalize CE score to 0-1 range via sigmoid
+                import math
+                ce_norm = 1.0 / (1.0 + math.exp(-ce_score))
+                # Blend: 60% cross-encoder + 40% vector similarity * boosts
+                final_score = 0.6 * ce_norm + 0.4 * final_score
+
+            # Apply existing Heuristic Boosts
             if features["error_code_exact_match"] > 0:
-                score *= self.weights["error_code_exact_match"]
+                final_score *= 1.5 # 50% boost for error code
             
             # Intent-based doc_type boost
             if features["intent_doc_type_match"] > 0:
-                boost = 1.0 + (self.weights["intent_doc_type_match"] - 1.0) * features["intent_doc_type_match"]
-                score *= boost
+                 # intent_doc_type_match returns a float 0.0-1.0 from rank
+                 final_score *= (1.0 + features["intent_doc_type_match"]) 
+            
+            # Entity overlap boost (NER-aware scoring)
+            if features.get("entity_overlap", 0.0) > 0:
+                # Strong boost for entity matches (domain-specific terms)
+                final_score *= (1.0 + 0.5 * features["entity_overlap"])
+            
+            # Keyphrase overlap boost
+            if features.get("entity_keyphrase_match", 0.0) > 0:
+                # Moderate boost for keyphrase matches (semantic relevance)
+                final_score *= (1.0 + 0.3 * features["entity_keyphrase_match"])
             
             # Q38 fix: De-boost TROUBLESHOOT for capability queries
             intent, _ = self._detect_query_intent(query)
             if intent == "file_capability" and row.get("doc_type") == "TROUBLESHOOT":
-                score *= 0.6  # Strong de-boost (40% penalty)
-            
-            # Title term match boost
-            if features["title_term_match"] > 0:
-                boost = 1.0 + (self.weights["title_term_match"] - 1.0) * features["title_term_match"]
-                score *= boost
-            
-            # Query keyword match boost
-            if features["query_keyword_match"] > 0:
-                boost = 1.0 + (self.weights["query_keyword_match"] - 1.0) * features["query_keyword_match"]
-                score *= boost
-            
-            # Image penalty
-            if features["image_penalty"] > 0:
-                score *= self.weights["image_penalty"]
-            
-            return score
+                final_score *= 0.6
+                
+            return final_score
 
-        # Rerank all results
-        rows = sorted(rows, key=rerank, reverse=True)
+        # Sort by fused score
+        rows.sort(key=rerank_scorer, reverse=True)
         
         # Deduplicate by doc_id (keep highest-scored chunk per document)
         seen_docs = set()
@@ -271,17 +511,20 @@ class RetrievalService(AgentBase):
             if row.get("is_image_desc"):
                 image_notes.append(f"Image context available for {row.get('image_id')} in {Path(source_path).name}")
 
-        graph = self.graph_store.load()
-        related_topics = []
+        related_topics: list[str] = []
         if tool_filter:
-            docs = GraphQueries.find_docs_for_tool(graph, tool_filter)
-            allowed_sources = {doc.get("source_path") for doc in docs}
+            docs = GraphQueries.find_docs_for_tool(graph_data, tool_filter)
+            allowed_sources = {doc.get("path") for doc in docs}
             filtered_pairs = [(chunk, citation) for chunk, citation in zip(chunks, citations) if chunk.source_path in allowed_sources]
             chunks = [chunk for chunk, _ in filtered_pairs]
             citations = [citation for _, citation in filtered_pairs]
-            related_topics = sorted({tag for doc in docs for tag in doc.get("tags", [])})
+            related_topics = sorted({tag for doc in docs for tag in doc.get("tags", []) if tag})
 
-        confidence = min(1.0, 0.5 + (0.1 * len(chunks))) if chunks else 0.3
+        if chunks and rows:
+            top_similarity = float(rows[0].get("score", 0.0))
+            confidence = min(1.0, max(0.3, top_similarity + (0.05 * (len(chunks) - 1))))
+        else:
+            confidence = 0.3
         result_obj = SearchResult(
             context_chunks=chunks,
             confidence=confidence,
@@ -291,11 +534,106 @@ class RetrievalService(AgentBase):
             related_topics=related_topics,
         )
 
+        # ── Phase 4: Term Resolution (TD §6.8–§6.9) ────────────────
+        term_resolution_payload = None
+        if (
+            getattr(self.config, 'phase4_enabled', False)
+            and getattr(self.config, 'term_resolution_enabled', False)
+            and not disable_term_resolution
+        ):
+            # Compute corpus regime
+            corpus_regime = getattr(self.config, 'corpus_regime_override', '') or 'GENERIC_GUIDE'
+            if not corpus_regime or corpus_regime == '':
+                corpus_regime = 'GENERIC_GUIDE'
+
+            intent, _ = self._detect_query_intent(query)
+            activate, reason = should_activate_resolver(
+                query=query,
+                intent=intent,
+                corpus_regime=corpus_regime,
+                initial_results=rows,
+                term_graph=graph_data,
+            )
+            if activate:
+                resolver = TermResolver(
+                    max_depth=5,
+                    max_token_budget=2000,
+                )
+                phrases = extract_title_case_phrases(query)
+                resolutions = []
+                for phrase in phrases[:5]:  # cap to 5 phrases
+                    resolution = resolver.resolve_term(phrase, graph_data)
+                    if resolution.closure:
+                        resolutions.append({
+                            "root_term": resolution.root_term,
+                            "closure": resolution.closure,
+                            "explanation": resolution.stitched_explanation,
+                            "depth": resolution.depth_reached,
+                            "truncated": resolution.truncated,
+                            "cycles": resolution.cycles_detected,
+                        })
+                if resolutions:
+                    term_resolution_payload = {
+                        "activated": True,
+                        "reason": reason,
+                        "resolutions": resolutions,
+                    }
+
+        payload = {
+            "search_result": result_obj,
+            "feature_flags": {
+                "no_graph_boost": disable_graph_boost,
+                "no_auto_filter": disable_auto_filter,
+                "no_term_resolution": disable_term_resolution,
+                "strict": strict_mode,
+            },
+        }
+        if term_resolution_payload:
+            payload["term_resolution"] = term_resolution_payload
+
+        if strict_mode or generated_answer:
+            matcher = EvidenceMatcher(
+                casefolding_enabled=self.config.evidence_casefolding,
+                numeric_tolerance=self.config.evidence_numeric_tolerance,
+                code_normalization=self.config.evidence_code_normalization,
+            )
+            answer_text = generated_answer or " ".join(chunk.content for chunk in chunks[:2])
+            ledger = matcher.match_claims_to_chunks(answer_text, chunks, query=query)
+
+            ledger_path = Path(self.config.knowledge_base_path) / "logs" / "provenance_ledger.jsonl"
+            matcher.append_ledger(ledger_path, ledger)
+
+            try:
+                validation = enforce_provenance_contract(
+                    ledger,
+                    strict_mode=strict_mode or self.config.strict_provenance_mode,
+                    production_threshold=self.config.min_provenance_coverage,
+                )
+                ledger.strict_mode_passed = validation.passed
+                payload["provenance"] = {
+                    "ledger": ledger,
+                    "validation": validation,
+                }
+            except ProvenanceError as exc:
+                payload["provenance"] = {
+                    "ledger": ledger,
+                    "error": exc.to_error_payload(),
+                }
+                return self.quality_check(
+                    AgentResult(
+                        success=False,
+                        confidence=0.0,
+                        data=payload,
+                        citations=citations,
+                        reasoning="Strict provenance validation failed.",
+                    )
+                )
+
         return self.quality_check(
             AgentResult(
                 success=True,
                 confidence=confidence,
-                data={"search_result": result_obj},
+                data=payload,
                 citations=citations,
                 reasoning="Retrieved relevant context chunks and citations for Copilot.",
             )

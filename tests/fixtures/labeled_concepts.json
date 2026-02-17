@@ -1,0 +1,17 @@
+[
+  {
+    "doc": "User_Guide_BatchBridge.md",
+    "concept": "upload workflow",
+    "label": "PROCESS"
+  },
+  {
+    "doc": "Troubleshoot_ToolX_AUTH401.md",
+    "concept": "AUTH401",
+    "label": "ERROR_CODE"
+  },
+  {
+    "doc": "ReleaseNotes_DataDesk_2026Q1.md",
+    "concept": "retry logic",
+    "label": "FEATURE"
+  }
+]

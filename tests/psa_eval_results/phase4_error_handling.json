@@ -1,0 +1,27 @@
+{
+  "total_tests": 5,
+  "passed": 5,
+  "pass_rate_pct": 100.0,
+  "results": [
+    {
+      "test": "test_missing_model_graceful_degradation",
+      "passed": true
+    },
+    {
+      "test": "test_empty_kb_handling",
+      "passed": true
+    },
+    {
+      "test": "test_malformed_queries",
+      "passed": true
+    },
+    {
+      "test": "test_very_long_query",
+      "passed": true
+    },
+    {
+      "test": "test_concurrent_queries",
+      "passed": true
+    }
+  ]
+}

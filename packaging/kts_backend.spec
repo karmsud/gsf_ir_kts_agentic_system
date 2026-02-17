@@ -40,31 +40,81 @@ backend_hidden_imports = [
     'backend.vector.chunker',
     'backend.vector.embedder',
     'backend.vector.store',
+    'backend.retrieval',
+    'backend.retrieval.query_expander',
+    'backend.retrieval.cross_encoder',
+    'backend.retrieval.term_registry',
+    'backend.ingestion.ner_extractor',
     'config',
     'config.settings',
 ]
 
 # Add common dependencies (only packages actually imported by the code)
+# NOTE: Processor-specific packages are excluded and bundled in separate extensions
 common_hidden_imports = [
-    'docx',
-    'pptx',
-    'fitz',
-    'bs4',
-    'yaml',
-    'click',
-    'tqdm',
+    # Base converters (included in core)
+    'bs4',            # Core: HTML parsing
+    'yaml',           # Core: YAML/INI config parsing
+    # NOTE: json, csv are stdlib - no import needed
+    
+    # Core functionality
+    'click',          # Core: CLI framework
+    'tqdm',           # Core: progress bars
+    'networkx',       # Core: graph operations
+    
+    # Vector database and embeddings — collect chromadb submodules selectively
+    # to avoid dynamic-import failures while keeping bundle size reasonable.
+    # Excludes: test, server, async, fastapi, grpc modules (not needed locally).
+    *[m for m in collect_submodules('chromadb')
+      if not any(x in m for x in ('test', 'server', 'async', 'fastapi', 'cli.cli'))],
+    'posthog',                                # posthog SDK (chromadb dependency)
+    'onnxruntime',    # Core: ONNX runtime for embeddings
+    'tokenizers',     # Core: tokenization
+    
+    # EXCLUDED - in processor extensions:
+    # 'docx',   # → office processor extension
+    # 'pptx',   # → office processor extension
+    # 'fitz',   # → pdf processor extension
+    # 'spacy',  # → nlp processor extension
 ]
 
 # Collect data files
 datas = [
     (os.path.join(repo_root, 'config', 'taxonomy_rules.json'), 'config'),
     (os.path.join(repo_root, 'config', 'file_share_paths.json'), 'config'),
+    (os.path.join(repo_root, 'config', 'acronyms.json'), 'config'),
 ]
 
 # Try to include prompts if they exist
 prompts_dir = os.path.join(repo_root, 'prompts')
 if os.path.exists(prompts_dir):
     datas.append((prompts_dir, 'prompts'))
+
+# Bundle ChromaDB embedding model for offline operation
+# Check common cache locations
+model_cache_paths = []
+if sys.platform == "win32":
+    localappdata = os.environ.get('LOCALAPPDATA')
+    if localappdata:
+        model_cache_paths.append(os.path.join(localappdata, 'chroma', 'onnx_models'))
+
+# Also check user home
+home = os.path.expanduser('~')
+model_cache_paths.extend([
+    os.path.join(home, '.cache', 'chroma', 'onnx_models'),
+    os.path.join(home, '.chroma', 'onnx_models'),
+])
+
+# Find and bundle the model cache
+for model_cache in model_cache_paths:
+    if os.path.exists(model_cache) and os.listdir(model_cache):
+        datas.append((model_cache, 'chroma_models'))
+        print(f"[BUILD] Bundling ChromaDB model from: {model_cache}")
+        break
+else:
+    print("[BUILD WARNING] ChromaDB model cache not found!")
+    print("[BUILD WARNING] Run: python scripts/download_chromadb_model.py")
+    print("[BUILD WARNING] System will require internet on first run.")
 
 a = Analysis(
     ['backend_cli_entry.py'],
@@ -81,15 +131,26 @@ a = Analysis(
         'pytest',
         'IPython',
         'pandas',
-        'numpy',
+        # 'numpy',  # DO NOT EXCLUDE - required by chromadb, onnxruntime
         'torch',
         'transformers',
         'sentence_transformers',
         'sklearn',
         'scikit-learn',
+        'keybert',
+        'nltk',
         'tiktoken',
-        'networkx',
-        'chromadb',
+        # Processor-specific packages (bundled in separate extensions):
+        'docx',           # → office processor
+        'pptx',           # → office processor
+        'PIL',            # → office processor (Pillow)
+        'Pillow',         # → office processor
+        'lxml',           # → office processor (XML for docx/pptx)
+        'fitz',           # → pdf processor (PyMuPDF)
+        'pymupdf',        # → pdf processor
+        'spacy',          # → nlp processor
+        'blis',           # → nlp processor (spaCy dependency)
+        'thinc',          # → nlp processor (spaCy dependency)
         # NOTE: PIL/Pillow must NOT be excluded — python-pptx depends on it
     ],
     win_no_prefer_redirects=False,

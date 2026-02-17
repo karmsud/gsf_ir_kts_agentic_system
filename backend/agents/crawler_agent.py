@@ -16,6 +16,7 @@ class CrawlerAgent(AgentBase):
         dry_run = bool(request.get("dry_run", False))
         force = bool(request.get("force", False))
         max_file_size_mb = int(request.get("max_file_size_mb", 100))
+        missing_grace_scans = int(request.get("missing_grace_scans", 0))
         paths = request.get("paths") or self.config.source_paths
         manifest = ManifestStore(self.config.manifest_path)
         known = manifest.load().get("files", {})
@@ -30,11 +31,14 @@ class CrawlerAgent(AgentBase):
                 changes.errors.append({"path": raw_path, "error": "path_not_found"})
                 continue
             
+            # Dynamically skip the KB output directory (and legacy "knowledge_base")
+            _kb_dir_name = Path(self.config.knowledge_base_path).name
+            _skip_dirs = {_kb_dir_name, "knowledge_base", ".kts"}
             files = [
                 p for p in base.rglob("*")
                 if p.is_file()
                 and p.suffix.lower() in self.config.supported_extensions
-                and ".kts" not in p.parts  # Skip .kts/ index directory
+                and not _skip_dirs.intersection(p.parts)  # Skip KB index directories
             ]
             for file_path in files:
                 abs_path = str(file_path.resolve())
@@ -146,8 +150,8 @@ class CrawlerAgent(AgentBase):
                 # True Missing
                 # Grace Period Logic
                 retry_count = old_info.get("retry_count", 0) + 1
-                if retry_count > 3: # Delete after 3 missing scans
-                     changes.deleted_files.append(
+                if retry_count > missing_grace_scans:
+                    changes.deleted_files.append(
                         FileInfo(
                             path=missing_path,
                             filename=old_info.get("filename", ""),

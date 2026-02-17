@@ -2,12 +2,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
+.venv*/
 venv/
+*.egg-info/
 *.log
 
 # Node.js
 node_modules/
+package-lock.json
 npm-debug.log
 yarn-error.log
 
@@ -36,8 +38,13 @@ extension/webview-ui/build/
 *.swp
 *.swo
 
+# MCP Debug Tools
+.mcp-debug-tools/
+
 # Project Specific Output
 knowledge_base*/
+.kts/
+test_kb/
 audit_artifacts/*
 !audit_artifacts/.gitkeep
 data/*
@@ -48,14 +55,43 @@ search_results_*.json
 accuracy_scores_*.json
 evidence_ledger_*.json
 scripts/logs/
+scripts/eval_results/
 Incidents/logs/
+
+# Binary / Serialized Data
+*.sqlite3
+*.pickle
+*.pkl
+*.bin
 
 # Misc
 .DS_Store
 Thumbs.db
 *.zip
 *.tar.gz
+.pytest_cache/
 
+# Test and Sample Data Directories
 kts_synthetic_corpus_v2/
 kts_test_corpus/
+
+# Archive folders (historical documentation)
+**/archive/
+docs/archive/
+scripts/archive/
+
+# Sample/Demo Data Folders (for testing/demonstration only)
+Reference/
+Release_Notes/
+SOPs/
+Training/
+Troubleshooting/
+User_Guides/
+Configs/
+prompts/
+Architecture/
+Incidents/
+
+# VS Code workspace files
+*.code-workspace
 

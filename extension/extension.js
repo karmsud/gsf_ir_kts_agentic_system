@@ -18,6 +18,11 @@ const imageDescriptionComplete = require('./commands/image_description_complete'
 const { registerChatParticipant } = require('./chat/participant');
 const { initVenvManager, initBackendRunner, runCliJson } = require('./lib/kts_backend');
 
+// ---------------------------------------------------------------------------
+// Addon Registry — model extensions register here via registerAddon()
+// ---------------------------------------------------------------------------
+const _addonRegistry = {};
+
 function register(context, command, handler, shared) {
   const disposable = vscode.commands.registerCommand(command, async () => {
     try {
@@ -136,11 +141,42 @@ async function activate(context) {
   registerChatParticipant(vscode, context, shared);
 
   outputChannel.appendLine('[KTS] Extension activated.');
+  
+  // Return API for model extensions
+  return {
+    registerAddon,
+    getAddonRegistry,
+  };
 }
 
 function deactivate() {}
 
+// ---------------------------------------------------------------------------
+// registerAddon() — called by model extensions during their activate()
+// ---------------------------------------------------------------------------
+/**
+ * Register a model addon with the core extension.
+ * @param {{ type: string, name: string, modelPath: string, capabilities: string[] }} config
+ */
+function registerAddon(config) {
+  if (!config || !config.name) {
+    console.warn('[KTS] registerAddon called with invalid config', config);
+    return;
+  }
+  _addonRegistry[config.name] = config;
+  console.log(`[KTS] Addon registered: ${config.name} (${(config.capabilities || []).join(', ')})`);
+}
+
+/**
+ * Return a snapshot of all registered addons.
+ */
+function getAddonRegistry() {
+  return { ..._addonRegistry };
+}
+
 module.exports = {
   activate,
   deactivate,
+  registerAddon,
+  getAddonRegistry,
 };

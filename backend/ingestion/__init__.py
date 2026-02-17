@@ -7,6 +7,7 @@ from .image_extractor import extract_image_refs
 from .png_converter import convert_png
 from .config_converter import convert_yaml, convert_ini
 from .csv_converter import convert_csv
+from .ner_extractor import extract_entities_and_keyphrases, NERResult
 
 __all__ = [
     "convert_docx",
@@ -20,4 +21,6 @@ __all__ = [
     "convert_yaml",
     "convert_ini",
     "convert_csv",
+    "extract_entities_and_keyphrases",
+    "NERResult",
 ]
