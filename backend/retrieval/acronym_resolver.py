@@ -8,11 +8,30 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
 
-_DEFAULT_DICT_PATH = Path(__file__).resolve().parent.parent / "data" / "acronyms.json"
+def _resolve_acronym_path() -> Path:
+    """Return the best acronyms dictionary path, preferring the richer config/ version."""
+    # In PyInstaller bundle, config/ is at sys._MEIPASS/config/
+    if getattr(sys, 'frozen', False):
+        bundle = Path(sys._MEIPASS)
+        config_path = bundle / "config" / "acronyms.json"
+        if config_path.exists():
+            return config_path
+        return bundle / "backend" / "data" / "acronyms.json"
+
+    # Dev mode: prefer config/acronyms.json (152 entries) over backend/data/ (45 entries)
+    repo_root = Path(__file__).resolve().parent.parent.parent
+    config_path = repo_root / "config" / "acronyms.json"
+    if config_path.exists():
+        return config_path
+    return Path(__file__).resolve().parent.parent / "data" / "acronyms.json"
+
+
+_DEFAULT_DICT_PATH = _resolve_acronym_path()
 
 
 class AcronymResolver:

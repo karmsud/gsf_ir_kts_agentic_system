@@ -14,37 +14,10 @@ block_cipher = None
 base_path = os.path.abspath(SPECPATH)
 repo_root = os.path.dirname(base_path)  # Parent of packaging/
 
-# Collect all backend modules
+# Collect all backend modules dynamically (avoids stale/missing imports)
 backend_hidden_imports = [
-    'cli',
-    'cli.main',
-    'backend',
-    'backend.agents',
-    'backend.agents.crawler_agent',
-    'backend.agents.ingestion_agent',
-    'backend.agents.retrieval_agent',
-    'backend.agents.taxonomy_agent',
-    'backend.common',
-    'backend.common.doc_types',
-    'backend.common.models',
-    'backend.graph',
-    'backend.ingestion',
-    'backend.ingestion.base',
-    'backend.ingestion.markdown',
-    'backend.ingestion.docx_converter',
-    'backend.ingestion.pdf_converter',
-    'backend.ingestion.png_converter',
-    'backend.ingestion.csv_converter',
-    'backend.ingestion.config_converter',
-    'backend.vector',
-    'backend.vector.chunker',
-    'backend.vector.embedder',
-    'backend.vector.store',
-    'backend.retrieval',
-    'backend.retrieval.query_expander',
-    'backend.retrieval.cross_encoder',
-    'backend.retrieval.term_registry',
-    'backend.ingestion.ner_extractor',
+    *collect_submodules('backend'),
+    *collect_submodules('cli'),
     'config',
     'config.settings',
 ]
@@ -58,6 +31,7 @@ common_hidden_imports = [
     # Core functionality
     'click',          # CLI framework
     'tqdm',           # Progress bars
+    'tqdm.auto',      # tqdm auto-select
     'networkx',       # Graph operations
     
     # Vector database and embeddings — collect chromadb submodules

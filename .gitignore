@@ -18,6 +18,9 @@ dist/
 build/
 *.spec
 !packaging/*.spec
+packaging/models/
+packaging/build/
+packaging/dist/
 
 # Build Artifacts (Extension)
 extension/dist/

@@ -14,6 +14,8 @@ PyMuPDF>=1.20.0              # PDF  (import fitz)
 python-docx>=0.8.11          # DOCX (import docx)
 python-pptx>=0.6.21          # PPTX (import pptx)
 beautifulsoup4>=4.10.0       # HTML (import bs4)
+Pillow>=9.0.0                # Image processing (transitive dep)
+lxml>=4.9.0                  # XML parsing for Office docs (transitive dep)
 
 # ── Build & Packaging (dev only) ─────────────────────────────
 pyinstaller>=5.0

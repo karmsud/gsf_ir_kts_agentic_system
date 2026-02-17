@@ -114,7 +114,10 @@ try {
     Write-Host "  distpath → $DistDir" -ForegroundColor Gray
     Write-Host "  workpath → $(Join-Path $PackagingDir 'build')" -ForegroundColor Gray
 
-    pyinstaller --clean --noconfirm --distpath $DistDir kts_backend.spec 2>&1 | Write-Host
+    # Use cmd /c to prevent PowerShell from treating PyInstaller's stderr INFO 
+    # lines as terminating NativeCommandError exceptions.
+    $pyExe = (Get-Command python).Source
+    cmd /c "`"$pyExe`" -m PyInstaller --clean --noconfirm --distpath `"$DistDir`" kts_backend.spec 2>&1"
     
     if ($LASTEXITCODE -ne 0) {
         throw "PyInstaller build failed (exit code $LASTEXITCODE)"
