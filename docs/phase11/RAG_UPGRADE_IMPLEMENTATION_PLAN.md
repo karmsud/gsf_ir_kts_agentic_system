@@ -55,6 +55,7 @@ With `context.references`, they drag the selection into chat and ask. The select
 | **11.4** | Extended slash commands as structured modes | HIGH | MEDIUM | /define /extract /compare /audit |
 | **11.5** | Runtime model selection via `vscode.lm` | MEDIUM | MEDIUM | User chooses model per task |
 | **11.6** | Confirmation dialogs for destructive ops | LOW | LOW | /delete, /clear-index |
+| **11.7** | Interactive ingestion classification (HITL) | HIGH | MEDIUM | Copilot Chat asks user to confirm/correct doc_type during ingestion |
 
 ---
 
@@ -193,19 +194,95 @@ The retrieval pipeline is identical in all modes — only the final generation c
 
 ---
 
-## 9. Files Changed
+## 9. Increment 11.7 — Interactive Ingestion Classification (Human-in-the-Loop)
+
+### 9.1 The Problem
+
+The regime classifier uses heuristic signals (definitions sections, named parties, section numbering, etc.) to auto-classify documents. These signals are brittle — a troubleshooting guide with structured sections and party names like "the Servicer" can easily trigger enough signals to be misclassified as `GOVERNING_DOC_LEGAL`. Misclassification affects chunking strategy, retrieval ranking, and regime-specific prompt routing.
+
+### 9.2 The Solution: Ask the User via Copilot Chat
+
+When the regime classifier produces a **low-confidence or ambiguous result** (score in the MIXED range, or below a confidence threshold), the extension **pauses ingestion and asks the user** to confirm or correct the classification via Copilot Chat follow-up chips.
+
+### 9.3 User Experience Flow
+
+```
+[ User selects source folder → ingestion starts ]
+       ↓
+[ Backend classifies doc: regime_score = 52 (MIXED) ]
+       ↓
+[ Extension opens Copilot Chat panel with message: ]
+
+  "I'm ingesting 'HE1_Troubleshooting_Guide.docx' and I'm not confident
+   about its document type (auto-classified as MIXED, score 52/100).
+   
+   What kind of document is this?"
+
+   [Legal / Governing Doc]  [Troubleshooting Guide]
+   [Operational Procedure]  [Skip — let system decide]
+       ↓
+[ User clicks "Troubleshooting Guide" ]
+       ↓
+[ doc_type overridden → metadata updated → ingestion resumes ]
+```
+
+### 9.4 Technical Design
+
+**Extension side (participant.js / select_source.js):**
+- After each document's crawl+classify step, check if `regime_result.score` falls in the ambiguous range (35-65)
+- If ambiguous, use `response.followUp()` to present classification chips
+- Wait for user response before continuing to the next document
+- Pass confirmed `doc_type_override` to the ingest CLI call via `--doc-type` flag
+
+**Backend side (ingestion_agent.py):**
+- Accept optional `--doc-type` CLI flag that overrides auto-classification
+- If provided, skip regime classifier entirely and use user's choice
+- Store user override in manifest as `doc_type_source: "user"` vs `doc_type_source: "auto"`
+
+**Confidence thresholds:**
+
+| Score Range | Action |
+|-------------|--------|
+| ≥ 65 | Auto-classify silently (high confidence) |
+| 35–64 | Ask user via Copilot Chat (ambiguous) |
+| < 35 | Auto-classify as `GENERIC_GUIDE` silently |
+
+### 9.5 Bulk Ingestion Optimization
+
+For folders with many documents, asking per-document would be tedious. Options:
+- **Batch mode**: Show all ambiguous docs in one chat message with a table, let user classify them all at once
+- **Template mode**: "Apply same classification to all docs in this folder?" with a sticky choice
+- **First-doc learning**: Classify first ambiguous doc interactively, apply same type to remaining docs from same folder unless signals diverge significantly
+
+### 9.6 Files Changed
+
+| File | Change Type |
+|------|------------|
+| `extension/chat/participant.js` | Modified — add classification confirmation handler |
+| `extension/commands/select_source.js` | Modified — pause/resume ingestion on ambiguous classification |
+| `cli/main.py` | Modified — accept `--doc-type` override flag |
+| `backend/agents/ingestion_agent.py` | Modified — honour doc_type override |
+| `backend/ingestion/regime_classifier.py` | Modified — expose confidence level in result |
+
+---
+
+## 10. Files Changed (Full Phase)
 
 | File | Change Type | Phase |
 |------|------------|-------|
-| `extension/chat/participant.js` | Modified | 11.1, 11.2, 11.3, 11.4, 11.5 |
+| `extension/chat/participant.js` | Modified | 11.1, 11.2, 11.3, 11.4, 11.5, 11.7 |
+| `extension/commands/select_source.js` | Modified | 11.7 |
 | `extension/package.json` | Modified | 11.4, 11.5 (new commands, new setting) |
 | `backend/agents/retrieval_service.py` | Modified | 11.3 (SSE progress), 11.4 (mode routing) |
+| `backend/agents/ingestion_agent.py` | Modified | 11.7 (doc_type override) |
+| `backend/ingestion/regime_classifier.py` | Modified | 11.7 (confidence exposure) |
+| `cli/main.py` | Modified | 11.7 (--doc-type flag) |
 | `backend/retrieval/extraction_mode.py` | New | 11.4 |
 | `backend/retrieval/audit_mode.py` | New | 11.4 |
 
 ---
 
-## 10. Success Metrics
+## 11. Success Metrics
 
 | Metric | Baseline (Phase 10) | Target (Phase 11) |
 |--------|--------------------|--------------------|
@@ -214,3 +291,5 @@ The retrieval pipeline is identical in all modes — only the final generation c
 | /define command usage | N/A (does not exist) | Significant |
 | User-reported query retry rate | ~35% | <15% |
 | Model selection flexibility | None (hardcoded) | Full (3+ models) |
+| Doc-type classification accuracy | ~70% (heuristic) | >95% (with HITL corrections) |
+| User override rate (ambiguous docs) | N/A | Measured per corpus |

@@ -52,6 +52,13 @@
 │   + selectModel()               NEW 11.5                     │
 │   │ vscode.lm.selectChatModels() on each request              │
 │   │ Model choice from kts.generationModel setting             │
+│                                                               │
+│   + confirmClassification()     NEW 11.7                     │
+│   │ During ingestion, if regime confidence is ambiguous        │
+│   │ Pause and present follow-up chips via Copilot Chat:       │
+│   │   [Legal/Governing Doc] [Troubleshooting Guide]           │
+│   │   [Operational Procedure] [Other]                         │
+│   │ User selection overrides auto-classification               │
 ├──────────────────────────────────────────────────────────────┤
 │              ORCHESTRATION LAYER (backend)                    │
 │   backend/agents/retrieval_service.py  MODIFIED              │

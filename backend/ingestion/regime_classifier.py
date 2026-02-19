@@ -51,40 +51,47 @@ class RegimeClassifier:
 
     @staticmethod
     def _has_definitions_section(text: str) -> bool:
-        """Signal 1: document has a section titled 'Definitions' or similar.
-        
-        Enhanced to handle PDF extraction artifacts and financial document
-        variations like 'Certain Definitions', 'Defined Terms', etc.
+        """Signal 1: document contains capitalized defined terms laid out dictionary-style.
+
+        A document is only considered "legal" if it has multiple capitalised terms
+        explicitly defined in a glossary/dictionary pattern.  Simply having a
+        heading called "Definitions" is NOT enough — the actual dictionary
+        entries must be present.
+
+        We look for patterns like:
+            "Certificateholder" means ...
+            "Distribution Date" shall mean ...
+            "Servicer" has the meaning ...
+            "Aggregate Principal Balance" is defined as ...
+
+        Requires at least 5 such entries to fire.
         """
-        # Standard patterns
-        standard = re.search(
-            r"^#{0,4}\s*(?:ARTICLE|SECTION)?\s*[IVXLC0-9.]*\s*[-–—:.]?\s*DEFINITIONS?\s*$"
-            r"|^DEFINITIONS?\s*$"
-            r"|^\*{0,2}Definitions?\*{0,2}\s*$",
-            text,
-            re.IGNORECASE | re.MULTILINE,
-        )
-        if standard:
-            return True
-        
-        # Financial document variations (common in PSAs, prospectuses)
-        financial_defs = re.search(
-            r"\b(Certain\s+Definitions?|Defined\s+Terms?|Definitions?\s+and\s+Interpretation"
-            r"|Glossary\s+of\s+Terms?|As\s+used\s+herein|Capitalized\s+Terms?)\b",
-            text[:10000],  # Check first 10K chars for section headings
+        # Pattern: "Capitalized Term(s)" means/shall mean/has the meaning/is defined as
+        # Handles multi-word capitalized terms in quotes (straight or curly)
+        defined_term_pattern = re.compile(
+            r'["\u201c]'
+            r'[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*'  # Capitalized Term Words
+            r'["\u201d]'
+            r'\s+(?:means?|shall\s+mean|has\s+the\s+meaning|is\s+defined\s+as|refers?\s+to)',
             re.IGNORECASE,
         )
-        if financial_defs:
+        hits = len(defined_term_pattern.findall(text))
+        if hits >= 5:
             return True
-        
-        # Inline definition pattern density (common when extraction breaks section headers)
-        # Pattern: "Term" means something OR Term shall mean
-        inline_defs = len(re.findall(
-            r'"[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*"\s+(?:means?|shall\s+mean|has\s+the\s+meaning)',
-            text[:15000],
-            re.IGNORECASE
-        ))
-        return inline_defs >= 3
+
+        # Alternative: bold/unquoted capitalized terms followed by definition marker
+        # e.g., **Distribution Date** means ...
+        # e.g., Capitalized Term. means ... (period after term name)
+        alt_pattern = re.compile(
+            r'(?:^|\n)\s*(?:\*{1,2})?'
+            r'[A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+)*'
+            r'(?:\*{1,2})?'
+            r'[.:]?\s+(?:means?|shall\s+mean|has\s+the\s+meaning|is\s+defined\s+as)',
+            re.MULTILINE,
+        )
+        alt_hits = len(alt_pattern.findall(text))
+
+        return (hits + alt_hits) >= 5
 
     @staticmethod
     def _has_amendment_boilerplate(text: str) -> bool:
