@@ -25,7 +25,7 @@ class BackendRunner {
    * @param {number} timeoutMs - Timeout in milliseconds
    * @returns {Promise<{stdout: string, stderr: string, code: number}>}
    */
-  async runCli(args, env = {}, cwd = null, timeoutMs = 120000) {
+  async runCli(args, env = {}, cwd = null, timeoutMs = 3600000) {
     throw new Error('BackendRunner.runCli must be implemented by subclass');
   }
 
@@ -55,9 +55,10 @@ class BackendRunner {
 
   /**
    * Helper: Spawn a process and capture output
+   * Logs stderr in real-time (for progress messages) and stdout after completion
    */
   _spawn(command, args, options = {}) {
-    const { cwd, env, timeout = 120000 } = options;
+    const { cwd, env, timeout = 3600000 } = options; // 1 hour default
 
     return new Promise((resolve, reject) => {
       this.outputChannel?.appendLine(`[Runner] Executing: ${command} ${args.join(' ')}`);
@@ -83,7 +84,13 @@ class BackendRunner {
       });
 
       child.stderr.on('data', (chunk) => {
-        stderr += chunk.toString();
+        const text = chunk.toString();
+        stderr += text;
+        // Stream stderr to output channel for real-time progress visibility
+        const lines = text.split('\n').filter(l => l.trim());
+        lines.forEach(line => {
+          this.outputChannel?.appendLine(`[Backend] ${line}`);
+        });
       });
 
       child.on('error', (error) => {
@@ -103,6 +110,17 @@ class BackendRunner {
         }
 
         this.outputChannel?.appendLine(`[Runner] Exit code: ${code}`);
+        
+        // Log stdout (JSON result) - truncate if very large for readability
+        if (stdout.trim()) {
+          const maxLogLength = 5000;
+          if (stdout.length > maxLogLength) {
+            this.outputChannel?.appendLine(`[Runner] Output (truncated): ${stdout.slice(0, maxLogLength)}...`);
+          } else {
+            this.outputChannel?.appendLine(`[Runner] Output: ${stdout.trim()}`);
+          }
+        }
+        
         resolve({ stdout, stderr, code });
       });
     });
@@ -119,7 +137,7 @@ class VenvRunner extends BackendRunner {
     this.venvManager = venvManager;
   }
 
-  async runCli(args, env = {}, cwd = null, timeoutMs = 120000) {
+  async runCli(args, env = {}, cwd = null, timeoutMs = 3600000) {
     const paths = this.venvManager.getPaths();
     const pythonExe = paths.venvPython;
     const backendRoot = paths.backendRoot;
@@ -214,7 +232,7 @@ class ExeRunner extends BackendRunner {
     return exePath;
   }
 
-  async runCli(args, env = {}, cwd = null, timeoutMs = 120000) {
+  async runCli(args, env = {}, cwd = null, timeoutMs = 3600000) {
     if (!fs.existsSync(this.exePath)) {
       throw new Error(`Backend executable not found at: ${this.exePath}`);
     }

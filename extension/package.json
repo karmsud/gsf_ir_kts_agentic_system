@@ -2,7 +2,7 @@
   "name": "gsf-ir-kts-extension",
   "displayName": "GSF IR KTS",
   "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-  "version": "0.0.1",
+  "version": "0.0.13",
   "publisher": "karmsud",
   "repository": {
     "type": "git",
@@ -69,6 +69,30 @@
             "ERROR"
           ],
           "description": "Log verbosity level for KTS operations."
+        },
+        "kts.phase6Enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Phase 6 Hierarchical GraphRAG pipeline (dual vector stores, item extraction, iterative multi-hop retrieval)."
+        },
+        "kts.phase6MaxIterations": {
+          "type": "integer",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 10,
+          "description": "Maximum number of iterative retrieval hops in Phase 6 pipeline."
+        },
+        "kts.phase6VerboseLogging": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable verbose AI explainability logging for Phase 6 pipeline steps."
+        },
+        "kts.ingestionTimeoutMinutes": {
+          "type": "integer",
+          "default": 60,
+          "minimum": 5,
+          "maximum": 180,
+          "description": "Maximum time (minutes) allowed for document ingestion. Increase for very large documents (>50 MB). The actual timeout is computed adaptively from file size but will never exceed this limit."
         }
       }
     },
