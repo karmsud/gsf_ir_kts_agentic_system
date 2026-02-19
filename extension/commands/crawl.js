@@ -30,7 +30,7 @@ module.exports = async function crawl({ vscode, outputChannel, runCli } = {}) {
       kbWorkspacePath,
       sourcePath,
       args: ['crawl', '--paths', sourcePath],
-      timeoutMs: 180000,
+      timeoutMs: 3600000, // 1 hour
     });
 
     outputChannel.appendLine(JSON.stringify(result, null, 2));

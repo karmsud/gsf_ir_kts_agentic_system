@@ -2,7 +2,7 @@
   "name": "gsf-ir-kts-extension",
   "displayName": "GSF IR KTS",
   "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "publisher": "karmsud",
   "repository": {
     "type": "git",
