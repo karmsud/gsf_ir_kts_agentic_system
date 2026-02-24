@@ -2,7 +2,7 @@
   "name": "gsf-ir-kts-extension",
   "displayName": "GSF IR KTS",
   "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-  "version": "0.0.15",
+  "version": "0.0.6",
   "publisher": "karmsud",
   "repository": {
     "type": "git",
@@ -23,31 +23,47 @@
   ],
   "contributes": {
     "configuration": {
-      "title": "KTS Agentic System",
+      "title": "KTS Knowledge Assistant",
       "properties": {
-        "kts.sourcePath": {
+        "kts.sourceFolder": {
           "type": "string",
           "default": "",
-          "description": "Network or local folder containing raw knowledge base documents (source files to crawl)"
+          "order": 1,
+          "description": "Folder containing your documents (PSA, guides, manuals). Use 'KTS: Select Source Folder' to browse."
         },
-        "kts.kbWorkspacePath": {
+        "kts.logLevel": {
           "type": "string",
-          "default": "",
-          "description": "Local workspace for manifest/index/graph/vectors. Leave empty to use extension global storage."
-        },
-        "kts.pythonPath": {
-          "type": "string",
-          "default": "",
-          "description": "Optional path to Python executable. Leave empty for auto-detection (py -3 or python)."
-        },
-        "kts.backendChannel": {
-          "type": "string",
-          "default": "bundled",
+          "default": "normal",
           "enum": [
-            "bundled",
-            "workspace"
+            "normal",
+            "verbose"
           ],
-          "description": "Backend source: 'bundled' (self-contained) or 'workspace' (dev mode, open repo)."
+          "enumDescriptions": [
+            "Show document counts, retrieval hits, and confidence scores.",
+            "Full pipeline trace: graph hops, chunk scores, embedding calls, token counts."
+          ],
+          "order": 2,
+          "description": "Output panel logging detail."
+        },
+        "kts.model": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "gpt-4.1",
+            "gpt-4o",
+            "gpt-4o-mini",
+            "claude-sonnet-4"
+          ],
+          "enumDescriptions": [
+            "Use your active GitHub Copilot model (recommended)",
+            "OpenAI GPT-4.1 — strongest reasoning, 1M context",
+            "OpenAI GPT-4o — balanced quality and speed",
+            "OpenAI GPT-4o Mini — fast and lightweight",
+            "Anthropic Claude Sonnet 4 — strong analysis"
+          ],
+          "order": 3,
+          "description": "Language model for answer generation. 'auto' uses your active Copilot model."
         },
         "kts.backendMode": {
           "type": "string",
@@ -57,42 +73,44 @@
             "venv",
             "exe"
           ],
-          "description": "Backend execution mode: 'auto' (prefer exe if available, fallback to venv), 'venv' (force managed Python venv), or 'exe' (force PyInstaller executable)."
+          "order": 100,
+          "markdownDescription": "**[Developer]** Backend execution: 'auto' (prefer exe), 'venv' (live Python), 'exe' (compiled)."
         },
-        "kts.logLevel": {
+        "kts.backendChannel": {
           "type": "string",
-          "default": "INFO",
+          "default": "bundled",
           "enum": [
-            "DEBUG",
-            "INFO",
-            "WARNING",
-            "ERROR"
+            "bundled",
+            "workspace"
           ],
-          "description": "Log verbosity level for KTS operations."
+          "order": 101,
+          "markdownDescription": "**[Developer]** Backend source: 'bundled' (VSIX) or 'workspace' (git repo)."
         },
-        "kts.phase6Enabled": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable Phase 6 Hierarchical GraphRAG pipeline (dual vector stores, item extraction, iterative multi-hop retrieval)."
+        "kts.pythonPath": {
+          "type": "string",
+          "default": "",
+          "order": 102,
+          "markdownDescription": "**[Developer]** Override Python executable path."
         },
-        "kts.phase6MaxIterations": {
-          "type": "integer",
-          "default": 3,
-          "minimum": 1,
-          "maximum": 10,
-          "description": "Maximum number of iterative retrieval hops in Phase 6 pipeline."
-        },
-        "kts.phase6VerboseLogging": {
-          "type": "boolean",
-          "default": false,
-          "description": "Enable verbose AI explainability logging for Phase 6 pipeline steps."
+        "kts.kbWorkspacePath": {
+          "type": "string",
+          "default": "",
+          "order": 103,
+          "markdownDescription": "**[Developer]** Override knowledge base workspace path."
         },
         "kts.ingestionTimeoutMinutes": {
           "type": "integer",
           "default": 60,
           "minimum": 5,
           "maximum": 180,
-          "description": "Maximum time (minutes) allowed for document ingestion. Increase for very large documents (>50 MB). The actual timeout is computed adaptively from file size but will never exceed this limit."
+          "order": 104,
+          "markdownDescription": "**[Developer]** Max time (minutes) for document ingestion."
+        },
+        "kts.knowledgeSourceRoot": {
+          "type": "string",
+          "default": "",
+          "order": 4,
+          "description": "Root directory for scope discovery (auto-set when source folder is selected)."
         }
       }
     },
@@ -115,6 +133,30 @@
           {
             "name": "describe_images",
             "description": "Describe pending images using Copilot vision (fallback for auto-describe)"
+          },
+          {
+            "name": "define",
+            "description": "Look up a defined term and its closure chain"
+          },
+          {
+            "name": "extract",
+            "description": "Extract structured fields (parties, dates, amounts) from the current scope"
+          },
+          {
+            "name": "compare",
+            "description": "Compare a concept across multiple deals side-by-side"
+          },
+          {
+            "name": "audit",
+            "description": "Generate a topic-clustering audit with risk tags"
+          },
+          {
+            "name": "summary",
+            "description": "Generate a fixed 5-section deal summary"
+          },
+          {
+            "name": "scope",
+            "description": "List available knowledge scopes or target a specific scope"
           }
         ]
       }
@@ -175,6 +217,18 @@
       {
         "command": "kts.imageDescriptionComplete",
         "title": "KTS: Complete Image Descriptions"
+      },
+      {
+        "command": "kts.refreshScopes",
+        "title": "KTS: Refresh Knowledge Scopes"
+      },
+      {
+        "command": "kts.runGoldenTests",
+        "title": "KTS: Run Golden Answer Tests"
+      },
+      {
+        "command": "kts.runTSGoldenTests",
+        "title": "KTS: Run TS Guide Golden Tests"
       }
     ]
   }
