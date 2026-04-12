@@ -68,9 +68,10 @@ if ($Clean) {
         Remove-Item -Recurse -Force $DistDir
     }
     
-    if (Test-Path $BackendDest) {
+    $BinDir = Join-Path $ExtensionDir "bin"
+    if (Test-Path $BinDir) {
         Write-Host "Removing extension/bin/..." -ForegroundColor Gray
-        Remove-Item -Recurse -Force $BackendDest
+        Remove-Item -Recurse -Force $BinDir
     }
     
     $VsixFiles = Get-ChildItem -Path $ExtensionDir -Filter "*.vsix"
@@ -126,10 +127,11 @@ if (-not (Test-Path $BackendSource)) {
     throw "Backend not found: $BackendSource (run without -SkipBackend)"
 }
 
-# Remove old backend if exists
-if (Test-Path $BackendDest) {
+# Remove entire bin/ tree to avoid stale artifacts from prior builds with different path layouts
+$BinDir = Join-Path $ExtensionDir "bin"
+if (Test-Path $BinDir) {
     Write-Host "Removing old backend..." -ForegroundColor Gray
-    Remove-Item -Recurse -Force $BackendDest
+    Remove-Item -Recurse -Force $BinDir
 }
 
 # Copy new backend

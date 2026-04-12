@@ -47,6 +47,20 @@ def convert_pdf(path: str, images_dir: str | None = None) -> tuple[str, list[str
     for page in doc:
         parts.append(page.get_text("text"))
 
+    full_text = "\n".join(parts)
+
+    # Normalise common Unicode characters that PDF fonts embed differently
+    # from plain-text / .doc sources.  This ensures downstream regex patterns
+    # (e.g. definition extraction) work consistently.
+    full_text = full_text.replace("\u201c", '"')   # left double curly quote  → "
+    full_text = full_text.replace("\u201d", '"')   # right double curly quote → "
+    full_text = full_text.replace("\u2018", "'")   # left single curly quote  → '
+    full_text = full_text.replace("\u2019", "'")   # right single curly quote → '
+    full_text = full_text.replace("\u00a0", " ")   # non-breaking space       → space
+    full_text = full_text.replace("\u00ad", "")    # soft hyphen              → remove
+    full_text = full_text.replace("\u2011", "-")   # non-breaking hyphen      → -
+    full_text = full_text.replace("\ufeff", "")    # BOM / zero-width no-break
+
     # Extract embedded images when an output directory is provided
     image_paths: list[str] = []
     if images_dir:
@@ -55,4 +69,4 @@ def convert_pdf(path: str, images_dir: str | None = None) -> tuple[str, list[str
         image_paths = _extract_pdf_images(doc, out)
 
     doc.close()
-    return "\n".join(parts), image_paths
+    return full_text, image_paths

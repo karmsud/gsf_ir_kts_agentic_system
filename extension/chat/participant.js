@@ -2,27 +2,29 @@ const ktsTool = require('../copilot/kts_tool');
 const { autoDescribeImages } = require('../lib/image_describer');
 const { parseTwoLevelScope, parseCommandTokens, buildCliArgsFromTokens } = require('../lib/scope_discovery');
 const { runCritiqueLoop } = require('../lib/critique_client');
+const { runCRAG } = require('../lib/crag_client');
 // Phase 8.6: Multi-Query RAG Fusion
 const { expandQueryWithLLM } = require('../lib/query_expander');
+// VS Code Settings — replaces hardcoded RAG_CONFIG
+const { loadKtsSettings, settingsForMode, effectiveMultiQueryVariants, getBackendCliArgs } = require('../lib/kts_settings');
 
-// ── Internal RAG Configuration ─────────────────────────────────────
-// Tuned for GPT-4.1's 1M context window. Not exposed as user settings.
+// ── Non-tunable RAG constants (all user-tunable values moved to VS Code settings) ─
+// See: KTS — Critique Loop / CRAG / Retrieval Pool / Context Window settings.
 const RAG_CONFIG = {
-  maxContextChunks: 100,
-  multiQueryVariants: 2,
-  critiqueEnabled: true,
-  critiqueMaxRounds: 3,
-  graphRagMaxIterations: 10,
   TOKEN_RATIO: 4,
-  RESERVED_TOKENS: 5000,
+  graphRagMaxIterations: 10,
+  multiQueryVariants: 6,  // default; effectiveMultiQueryVariants() returns the VS Code setting
 };
+const RAG_INTERNAL = RAG_CONFIG;  // backward compat alias
 
 /**
- * Compute token budget from model's context window (80% utilization).
+ * Compute token budget from model's context window.
+ * @param {object} model
+ * @param {number} [utilization=0.8]  Fraction of context window to use (from kts.context.tokenBudgetUtilization)
  */
-function computeTokenBudget(model) {
+function computeTokenBudget(model, utilization) {
   const maxTokens = model.maxInputTokens || 128000;
-  return Math.floor(maxTokens * 0.8);
+  return Math.floor(maxTokens * (typeof utilization === 'number' ? utilization : 0.8));
 }
 
 /**
@@ -438,7 +440,7 @@ async function generateAnswer(vscode, model, stream, token, query, result, outpu
   const conversationHistory = options.conversationHistory || [];  // Recent turns for multi-turn context
   // Select prompt + context formatter based on chunk doc_type metadata
   const { prompt, mode } = selectPrompt(result);
-  const tokenBudget = computeTokenBudget(model);
+  const tokenBudget = computeTokenBudget(model, options.tokenBudgetUtilization);
   const maxChunks = computeMaxChunks(tokenBudget);
   const contextBlock = mode === 'legal'
     ? buildLegalContextBlock(result, maxChunks)
@@ -448,7 +450,7 @@ async function generateAnswer(vscode, model, stream, token, query, result, outpu
   // Phase 8.3: Token-aware context trimming
   const contextParts = contextBlock.split('\n\n').filter(Boolean);
   const contextBlocks = contextParts.map(part => ({ text: part }));
-  const trimmedBlocks = trimContextToTokenBudget(contextBlocks, tokenBudget);
+  const trimmedBlocks = trimContextToTokenBudget(contextBlocks, tokenBudget, options.reservedTokens);
   const trimmedContext = trimmedBlocks.map(b => b.text).join('\n\n');
 
   // Phase 14.2: Inject temporal context into prompt if available
@@ -741,14 +743,21 @@ function buildTraceBlock(result) {
   return `\n### Agent Reasoning\nRetrieval pipeline completed in ${iters} iteration(s), confidence: ${p6conf}.\n\n${stepsText}\n`;
 }
 
-function extractMaxResults(request, vscode) {
+function extractMaxResults(request, vscode, ktsSettings) {
   const command = request?.command;
-  
-  // Use RAG_CONFIG defaults; scale by half for normal, full for deep
-  const configured = RAG_CONFIG.maxContextChunks;
+
+  // Use VS Code setting (kts.retrieval.maxContextChunks) or sensible default
+  let configured = 100;
+  if (ktsSettings && typeof ktsSettings.maxContextChunks === 'number') {
+    configured = ktsSettings.maxContextChunks;
+  } else {
+    try {
+      configured = vscode.workspace.getConfiguration('kts').get('retrieval.maxContextChunks', 100);
+    } catch (_) { /* use default */ }
+  }
   const defaultMax = Math.floor(configured / 2);
   const deepMax = configured;
-  
+
   if (!command || typeof command !== 'string') {
     return { maxResults: defaultMax, deepMode: false };
   }
@@ -1500,7 +1509,10 @@ function registerChatParticipant(vscode, context, shared) {
         stream.progress('Searching knowledge base...');
       }
 
-      const { maxResults, deepMode } = extractMaxResults(request, vscode);
+      // Load VS Code settings (replaces hardcoded RAG_CONFIG)
+      const ktsSettings = loadKtsSettings(vscode);
+
+      const { maxResults, deepMode } = extractMaxResults(request, vscode, ktsSettings);
 
       // Phase 8.6: Multi-Query Expansion via LLM
       let extraQueries = [];
@@ -1508,7 +1520,7 @@ function registerChatParticipant(vscode, context, shared) {
         // Use unified model for multi-query expansion
         const expansionModel = await selectModel(vscode, null);
         if (expansionModel) {
-          const numVariants = RAG_CONFIG.multiQueryVariants;
+          const numVariants = effectiveMultiQueryVariants(ktsSettings, null);  // mode unknown pre-retrieval
             
           extraQueries = await expandQueryWithLLM(vscode, expansionModel, effectiveQuery, numVariants);
           if (extraQueries.length > 0 && shared.outputChannel) {
@@ -1543,6 +1555,8 @@ function registerChatParticipant(vscode, context, shared) {
         phase17DocFilter: docTypeFilter || undefined,
         phase17Scopes: phase17Scopes.length > 0 ? phase17Scopes.map(s => s.slug) : undefined,
         phase17ExtraCliArgs: phase17ExtraCliArgs.length > 0 ? phase17ExtraCliArgs : undefined,
+        // VS Code Settings: retrieval pool, HyDE, BM25, Phase 19 (mode unknown pre-retrieval — uses defaults)
+        backendSettingsArgs: getBackendCliArgs(ktsSettings, null),
       });
 
       // Phase 11.3: Stream post-retrieval progress
@@ -1565,10 +1579,16 @@ function registerChatParticipant(vscode, context, shared) {
           shared.outputChannel.appendLine(`[KTS] RAG generation using model: ${model.id || model.family || 'copilot'}`);
           const { mode } = selectPrompt(result);
           currentMode = mode;
-          // Determine if Critique will post-process (buffer mode)
-          const willPostProcess = RAG_CONFIG.critiqueEnabled;
-
-          const genResult = await generateAnswer(vscode, model, stream, token, effectiveQuery, result, shared.outputChannel, { bufferMode: willPostProcess, conversationHistory });
+          // Load mode-specific settings (legal vs non-legal)
+          const modeSettings = settingsForMode(ktsSettings, mode);
+          // Always stream immediately — user sees first tokens within seconds.
+          // Critique/CRAG post-process the collected text and append corrections below.
+          const genResult = await generateAnswer(vscode, model, stream, token, effectiveQuery, result, shared.outputChannel, {
+            bufferMode: false,
+            conversationHistory,
+            tokenBudgetUtilization: ktsSettings.tokenBudgetUtilization,
+            reservedTokens: ktsSettings.reservedTokens,
+          });
           if (genResult && typeof genResult === 'object' && genResult.text) {
             generated = genResult.text;
             currentMode = genResult.mode;
@@ -1583,16 +1603,19 @@ function registerChatParticipant(vscode, context, shared) {
           // Flow: Generate → Critique → if gaps → re-retrieve → re-synthesize → repeat (max 3 rounds)
           if (generated && typeof generated === 'string') {
             try {
-              if (RAG_CONFIG.critiqueEnabled) {
+              if (modeSettings.critiqueEnabled) {
                 const critiqueModel = await selectModel(vscode, null);
                 if (critiqueModel) {
-                  const critiqueQuestions = _extractCritiqueQuestions(result);
-                  const maxRounds = RAG_CONFIG.critiqueMaxRounds;
+                  const critiqueQuestions = _extractCritiqueQuestions(result)
+                    .slice(0, modeSettings.critiqueMaxQuestionsPerRound);
+                  const maxRounds = modeSettings.critiqueMaxRounds;
 
                   if (critiqueQuestions.length > 0) {
                     shared.outputChannel.appendLine(
                       `[KTS-CRITIQUE] Running unified critique-RAG loop: ${critiqueQuestions.length} questions, max ${maxRounds} rounds, model=${critiqueModel.id || 'unknown'}`
                     );
+                    // Show progress while critique runs (answer already visible to user)
+                    if (stream.progress) stream.progress('Reviewing answer for gaps...');
 
                     // Build retrieveFn: sub-retrieval via ktsTool for gap-filling
                     const retrieveFn = async (gapQuery, excludeIds) => {
@@ -1600,6 +1623,7 @@ function registerChatParticipant(vscode, context, shared) {
                         const subResult = await ktsTool(gapQuery, {
                           workspaceRoot: shared.workspaceRoot,
                           maxResults: 15,
+                          backendSettingsArgs: getBackendCliArgs(ktsSettings, currentMode),
                         });
                         let subSearch = subResult?.search_result;
                         if (subSearch && subSearch.search_result) subSearch = subSearch.search_result;
@@ -1625,13 +1649,22 @@ function registerChatParticipant(vscode, context, shared) {
                       result,
                       questions: critiqueQuestions,
                       maxRounds,
+                      restartOnGap: modeSettings.critiqueRestartOnGap,
+                      confidenceExit: modeSettings.critiqueConfidenceExit,
                       retrieveFn,
                       systemPrompt: critiqueSystemPrompt,
                     });
 
                     if (critiqueResult && critiqueResult.answer) {
+                      const answerBeforeCritique = generated;
                       generated = critiqueResult.answer;
                       result._critiqueTrace = critiqueResult.trace;
+                      // If critique revised the answer, stream the corrected version below a separator
+                      if (generated !== answerBeforeCritique) {
+                        const gaps = critiqueResult.trace?.gapsFound || 0;
+                        stream.markdown(`\n\n---\n*Coverage review complete — ${gaps} gap${gaps === 1 ? '' : 's'} addressed. Revised answer:*\n\n`);
+                        stream.markdown(generated);
+                      }
                       shared.outputChannel.appendLine(
                         `[KTS-CRITIQUE] Critique complete: status=${critiqueResult.trace?.status || 'done'}, ` +
                         `rounds=${critiqueResult.trace?.roundsExecuted || 0}, ` +
@@ -1652,10 +1685,87 @@ function registerChatParticipant(vscode, context, shared) {
           }
           // ── End Unified Critique-RAG Loop ─────────────────────────
 
-          // ── Stream final answer (after all post-processing) ──────
-          if (generated && typeof generated === 'string' && willPostProcess) {
-            stream.markdown(generated);
+          // ── Phase 19.1: CRAG — Corrective RAG Loop ───────────────
+          // Complements Critique: verifies factual correctness of each claim
+          if (generated && typeof generated === 'string' && modeSettings.cragEnabled) {
+            try {
+              const cragConfig = result?.search_result?.crag_config || result?.crag_config || {};
+              if (cragConfig.enabled !== false) {
+                const cragModel = await selectModel(vscode, null);
+                if (cragModel) {
+                  shared.outputChannel.appendLine('[KTS-CRAG] Running corrective RAG pipeline...');
+
+                  // Extract source chunks from result
+                  let cragSearch = result?.search_result;
+                  if (cragSearch && cragSearch.search_result) cragSearch = cragSearch.search_result;
+                  const cragChunks = (cragSearch && Array.isArray(cragSearch.context_chunks))
+                    ? cragSearch.context_chunks
+                    : [];
+
+                  // Build evidence retrieval function
+                  const cragRetrieveFn = async (claimQuery, excludeIds) => {
+                    try {
+                      const subResult = await ktsTool(claimQuery, {
+                        workspaceRoot: shared.workspaceRoot,
+                        maxResults: 10,
+                        backendSettingsArgs: getBackendCliArgs(ktsSettings, currentMode),
+                      });
+                      let subSearch = subResult?.search_result;
+                      if (subSearch && subSearch.search_result) subSearch = subSearch.search_result;
+                      const chunks = (subSearch && Array.isArray(subSearch.context_chunks))
+                        ? subSearch.context_chunks
+                          .map(c => ({ text: c.text || c.content || '', id: c.chunk_id || c.id || '', content: c.text || c.content || '' }))
+                        : [];
+                      return { chunks, chunkIds: chunks.map(c => c.id) };
+                    } catch { return { chunks: [], chunkIds: [] }; }
+                  };
+
+                  // Merge VS Code settings into crag config (settings take priority over backend payload)
+                  const mergedCragConfig = {
+                    ...cragConfig,
+                    max_claims: modeSettings.cragMaxClaims,
+                    evidence_top_k: modeSettings.cragEvidenceTopK,
+                    drop_contradicted: modeSettings.cragDropContradicted,
+                    flag_no_evidence: modeSettings.cragFlagNoEvidence,
+                  };
+                  // Optionally suppress backend re-retrieval to reduce cold spawns
+                  const effectiveCragRetrieveFn = modeSettings.cragAllowReRetrieval ? cragRetrieveFn : null;
+
+                  const cragResult = await runCRAG({
+                    model: cragModel,
+                    stream,
+                    token,
+                    answer: generated,
+                    sourceChunks: cragChunks,
+                    retrieveFn: effectiveCragRetrieveFn,
+                    config: mergedCragConfig,
+                  });
+
+                  if (cragResult && cragResult.answer) {
+                    generated = cragResult.answer;
+                    result._cragTrace = cragResult.trace;
+                    shared.outputChannel.appendLine(
+                      `[KTS-CRAG] CRAG complete: status=${cragResult.trace?.status || 'done'}, ` +
+                      `claims=${cragResult.trace?.totalClaims || 0}, ` +
+                      `supported=${cragResult.trace?.supported || 0}, ` +
+                      `contradicted=${cragResult.trace?.contradicted || 0}, ` +
+                      `noEvidence=${cragResult.trace?.noEvidence || 0}, ` +
+                      `corrected=${cragResult.trace?.correctionApplied || false}`
+                    );
+                  }
+                } else {
+                  shared.outputChannel.appendLine('[KTS-CRAG] No CRAG model available — skipping.');
+                }
+              }
+            } catch (cragErr) {
+              shared.outputChannel.appendLine(`[KTS-CRAG] CRAG pipeline failed: ${cragErr.message}`);
+              // Non-fatal — continue with current answer
+            }
           }
+          // ── End CRAG Loop ──────────────────────────────────────────
+
+          // NOTE: answer was already streamed above (bufferMode: false).
+          // Any critique/CRAG corrections were appended inline — nothing left to flush here.
         } else {
           shared.outputChannel.appendLine('[KTS] No LLM model available — falling back to raw chunks.');
         }
@@ -1803,10 +1913,11 @@ const RESERVED_TOKENS = 5000;      // reserved for system prompt + history + ans
  * @param {number} maxTokens - total token budget for the model
  * @returns {Array<{text: string}>} trimmed blocks (may include truncation indicator)
  */
-function trimContextToTokenBudget(blocks, maxTokens) {
+function trimContextToTokenBudget(blocks, maxTokens, reservedTokens) {
   if (!blocks || blocks.length === 0) return [];
 
-  const budget = maxTokens - RESERVED_TOKENS;
+  const reserved = typeof reservedTokens === 'number' ? reservedTokens : RESERVED_TOKENS;
+  const budget = maxTokens - reserved;
   if (budget <= 0) return [];
 
   let usedTokens = 0;
@@ -1874,6 +1985,7 @@ module.exports = {
   RESERVED_TOKENS,
   // Unified model & config exports
   RAG_CONFIG,
+  RAG_INTERNAL,
   selectModel,
   computeTokenBudget,
   computeMaxChunks,

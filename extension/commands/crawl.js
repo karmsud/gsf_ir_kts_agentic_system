@@ -7,7 +7,7 @@ const fs = require('fs');
  */
 module.exports = async function crawl({ vscode, outputChannel, runCli } = {}) {
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const kbWorkspacePath = config.get('kbWorkspacePath');
   const backendChannel = config.get('backendChannel') || 'bundled';
 

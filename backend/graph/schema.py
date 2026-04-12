@@ -7,9 +7,9 @@ malformed entries at upsert time.
 
 from __future__ import annotations
 
-SCHEMA_VERSION = "2.1"
+SCHEMA_VERSION = "2.2"
 
-# ── 13 Node Types (TD §4.1) ───────────────────────────────────────
+# ── 14 Node Types (TD §4.1 + Phase 6) ─────────────────────────────
 NODE_TYPES = {
     "DOCUMENT",
     "SECTION",
@@ -24,10 +24,13 @@ NODE_TYPES = {
     "ERROR_CODE",
     "CONCEPT",
     "TOPIC",
-}
+    # Phase 6 — granular items extracted from sections
+    "ITEM",    # definition-graph (lowercase convention matches definition_graph_builder)
+    "defined_term",}
 
-# ── 10 Edge Types (TD §4.2) ───────────────────────────────────────
+# ── Edge Types (TD §4.2 + Phase 6) ────────────────────────────────
 EDGE_TYPES = {
+    # Original 10 + USES
     "DEFINES",
     "DESCRIBES",
     "ADDRESSES",
@@ -38,8 +41,26 @@ EDGE_TYPES = {
     "AUTHORED_BY",
     "MAINTAINS",
     "HAS_CHILD",
-    # Legacy edge retained for backward-compat with ingestion metadata
     "USES",
+    # Phase 6 — hierarchical & typed edges
+    "CONTAINS",       # Document → Section
+    "NEXT",           # Section → Section (sequential)
+    "HAS_ITEM",       # Section → Item (generic)
+    "HAS_RULE",       # Section → Item (Obligation / Prohibition)
+    "HAS_DEFINITION", # Section → Item (Definition)
+    "HAS_RIGHT",      # Section → Item (Right)
+    "HAS_CONDITION",  # Section → Item (Condition)
+    "HAS_REQUIREMENT",# Section → Item (Requirement)
+    "HAS_PROCEDURE",  # Section → Item (Procedure)
+    "HAS_CONFIGURATION",  # Section → Item (Configuration)
+    "HAS_WARNING",    # Section → Item (Warning)
+    "HAS_THEOREM",    # Section → Item (Theorem)
+    "HAS_PROOF",      # Section → Item (Proof)
+    "HAS_LEMMA",      # Section → Item (Lemma)
+    "HAS_ALGORITHM",  # Section → Item (Algorithm)
+    "REFERENCES",     # Item → Item (cross-reference / dependency)
+    # NER enrichment edges (Layers 2–3)
+    "ASSIGNED_ROLE",  # ENTITY → defined_term ("X, as Trustee" pattern)
 }
 
 # ── Required properties by node type (TD §4.3) ────────────────────
@@ -57,6 +78,8 @@ REQUIRED_PROPERTIES: dict[str, set[str]] = {
     "ERROR_CODE": {"name"},
     "CONCEPT": {"name"},
     "TOPIC": {"name"},
+    # Phase 6
+    "ITEM": {"item_type", "document_id"},
 }
 
 

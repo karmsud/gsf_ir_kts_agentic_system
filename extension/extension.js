@@ -16,7 +16,9 @@ const freshnessAudit = require('./commands/freshness_audit');
 const imageDescription = require('./commands/image_description');
 const imageDescriptionComplete = require('./commands/image_description_complete');
 const { registerChatParticipant } = require('./chat/participant');
-const { initVenvManager, initBackendRunner, runCliJson } = require('./lib/kts_backend');
+const { registerABSParticipant } = require('./chat/absParticipant');
+const { initVenvManager, initBackendRunner, runCliJson, runAbsStreaming } = require('./lib/kts_backend');
+const { refreshScopes } = require('./lib/scope_discovery');
 
 // ---------------------------------------------------------------------------
 // Addon Registry — model extensions register here via registerAddon()
@@ -93,6 +95,16 @@ async function activate(context) {
   const venvManager = initVenvManager(context, outputChannel);
   const config = vscode.workspace.getConfiguration('kts');
 
+  // ── Backward-compat migration: sourcePath → sourceFolder ──
+  try {
+    const legacyPath = config.get('sourcePath');
+    const newPath = config.get('sourceFolder');
+    if (legacyPath && !newPath) {
+      await config.update('sourceFolder', legacyPath, vscode.ConfigurationTarget.Global);
+      outputChannel.appendLine(`[KTS] Migrated kts.sourcePath → kts.sourceFolder: ${legacyPath}`);
+    }
+  } catch (_) { /* non-fatal */ }
+
   // Bootstrap backend asynchronously (don't block activation)
   const backendChannel = config.get('backendChannel') || 'bundled';
   const backendMode = config.get('backendMode') || 'auto';
@@ -118,6 +130,8 @@ async function activate(context) {
     workspaceRoot,
     runner,
     runCli: runCliJson,
+    runCliJson,           // alias so both names work
+    runAbsStreaming,      // bidirectional streaming IPC for @abs LLM round-trips
   };
 
   // Register new commands
@@ -139,6 +153,181 @@ async function activate(context) {
   register(context, 'kts.imageDescriptionComplete', imageDescriptionComplete, shared);
 
   registerChatParticipant(vscode, context, shared);
+
+  // ── @abs chat participant (Phase 23) ─────────────────────────────────────
+  registerABSParticipant(vscode, context, shared);
+
+  // ── Golden Test Harness commands (dev-mode only) ───────────────
+  // The test runners live in ../tests/ which is excluded from the VSIX.
+  // Only register these commands when running from the workspace source.
+  const isDevMode = fs.existsSync(path.join(context.extensionPath, '..', 'tests', 'golden_answer_runner.js'));
+  if (isDevMode) {
+    const goldenTestCmd = vscode.commands.registerCommand('kts.runGoldenTests', async () => {
+      const goldenChannel = vscode.window.createOutputChannel('KTS Golden Tests');
+      goldenChannel.show();
+
+      try {
+        const { runGoldenTests } = require('../tests/golden_answer_runner');
+        const { scoreResults, saveScores, saveAsBaseline } = require('../tests/golden_answer_scorer');
+        const { selectModel } = require('./chat/participant');
+
+        const dialogResult = await vscode.window.showOpenDialog({
+          canSelectFiles: false,
+          canSelectFolders: true,
+          canSelectMany: false,
+          openLabel: 'Select KB folder for Golden Tests',
+          defaultUri: (() => {
+            const cur = vscode.workspace.getConfiguration('kts').get('sourceFolder');
+            return cur ? vscode.Uri.file(cur) : undefined;
+          })(),
+        });
+        if (!dialogResult || dialogResult.length === 0) {
+          goldenChannel.appendLine('Golden tests cancelled \u2014 no source folder selected.');
+          return;
+        }
+        const testSourcePath = dialogResult[0].fsPath;
+        goldenChannel.appendLine(`[KTS] Running tests against: ${testSourcePath}\n`);
+
+        goldenChannel.appendLine('Starting golden answer test suite...\n');
+        const results = await runGoldenTests(vscode, goldenChannel, { ...shared, testSourcePath });
+
+        goldenChannel.appendLine('\n=== SCORING ===\n');
+        const model = await selectModel(vscode, null);
+        if (!model) {
+          goldenChannel.appendLine('ERROR: No LLM model available for scoring.');
+          return;
+        }
+
+        const scores = await scoreResults(vscode, model, results, goldenChannel);
+        const scorePath = saveScores(scores, path.join(context.extensionPath, '..', 'tests'));
+        goldenChannel.appendLine(`\nScores saved to ${scorePath}`);
+
+        goldenChannel.appendLine(`\n=== SUMMARY ===`);
+        goldenChannel.appendLine(`Average: ${scores.average.toFixed(2)} / 5.00`);
+        for (const cat of scores.by_category) {
+          goldenChannel.appendLine(`  ${cat.name}: ${cat.average.toFixed(2)} (${cat.count} tests)`);
+        }
+        if (scores.regressions.length > 0) {
+          goldenChannel.appendLine(`\n\u26a0 REGRESSIONS: ${scores.regressions.length}`);
+          for (const r of scores.regressions) {
+            goldenChannel.appendLine(`  ${r.test_id}: ${r.dimension} ${r.baseline} \u2192 ${r.current} (\u0394${r.delta})`);
+          }
+        } else {
+          goldenChannel.appendLine('\n\u2713 No regressions detected.');
+        }
+
+        const choice = await vscode.window.showInformationMessage(
+          `Golden tests complete: ${scores.average.toFixed(2)}/5.00 avg. Save as baseline?`,
+          'Save Baseline', 'Skip'
+        );
+        if (choice === 'Save Baseline') {
+          const bp = saveAsBaseline(scores);
+          goldenChannel.appendLine(`Baseline saved to ${bp}`);
+        }
+      } catch (err) {
+        goldenChannel.appendLine(`\nFATAL: ${err.message}\n${err.stack}`);
+      }
+    });
+    context.subscriptions.push(goldenTestCmd);
+
+    const tsGoldenTestCmd = vscode.commands.registerCommand('kts.runTSGoldenTests', async () => {
+      const tsChannel = vscode.window.createOutputChannel('KTS TS Guide Golden Tests');
+      tsChannel.show();
+
+      try {
+        const { runTSGoldenTests } = require('../tests/golden_ts_guide_runner');
+        const { scoreResults, saveScores, saveAsBaseline } = require('../tests/golden_ts_guide_scorer');
+        const { selectModel } = require('./chat/participant');
+
+        const tsDialogResult = await vscode.window.showOpenDialog({
+          canSelectFiles: false,
+          canSelectFolders: true,
+          canSelectMany: false,
+          openLabel: 'Select KB folder for TS Guide Golden Tests',
+          defaultUri: (() => {
+            const cur = vscode.workspace.getConfiguration('kts').get('sourceFolder');
+            return cur ? vscode.Uri.file(cur) : undefined;
+          })(),
+        });
+        if (!tsDialogResult || tsDialogResult.length === 0) {
+          tsChannel.appendLine('TS Guide golden tests cancelled \u2014 no source folder selected.');
+          return;
+        }
+        const testSourcePath = tsDialogResult[0].fsPath;
+        tsChannel.appendLine(`[KTS] Running tests against: ${testSourcePath}\n`);
+
+        tsChannel.appendLine('Starting TS Guide golden answer test suite...\n');
+        const results = await runTSGoldenTests(vscode, tsChannel, { ...shared, testSourcePath });
+
+        tsChannel.appendLine('\n=== SCORING ===\n');
+        const model = await selectModel(vscode, null);
+        if (!model) {
+          tsChannel.appendLine('ERROR: No LLM model available for scoring.');
+          return;
+        }
+
+        const scores = await scoreResults(vscode, model, results, tsChannel);
+        const scorePath = saveScores(scores, path.join(context.extensionPath, '..', 'tests'));
+        tsChannel.appendLine(`\nScores saved to ${scorePath}`);
+
+        tsChannel.appendLine(`\n=== SUMMARY ===`);
+        tsChannel.appendLine(`Average: ${scores.average.toFixed(2)} / 5.00`);
+        for (const cat of scores.by_category) {
+          tsChannel.appendLine(`  ${cat.name}: ${cat.average.toFixed(2)} (${cat.count} tests)`);
+        }
+        if (scores.regressions.length > 0) {
+          tsChannel.appendLine(`\n\u26a0 REGRESSIONS: ${scores.regressions.length}`);
+          for (const r of scores.regressions) {
+            tsChannel.appendLine(`  ${r.test_id}: ${r.dimension} ${r.baseline} \u2192 ${r.current} (\u0394${r.delta})`);
+          }
+        } else {
+          tsChannel.appendLine('\n\u2713 No regressions detected.');
+        }
+
+        const choice = await vscode.window.showInformationMessage(
+          `TS Guide golden tests complete: ${scores.average.toFixed(2)}/5.00 avg. Save as baseline?`,
+          'Save Baseline', 'Skip'
+        );
+        if (choice === 'Save Baseline') {
+          const bp = saveAsBaseline(scores);
+          tsChannel.appendLine(`Baseline saved to ${bp}`);
+        }
+      } catch (err) {
+        tsChannel.appendLine(`\nFATAL: ${err.message}\n${err.stack}`);
+      }
+    });
+    context.subscriptions.push(tsGoldenTestCmd);
+    outputChannel.appendLine('[KTS] Dev mode detected \u2014 golden test commands registered.');
+  }
+
+  // Phase 12.2: Scope discovery on activation
+  // Note: participant stored on shared by registerChatParticipant() for dynamic command updates
+  // Phase 18: Pass base commands so dynamic scope commands merge with statics
+  const baseCommands = shared._baseCommands || [];
+  refreshScopes(shared._chatParticipant || null, baseCommands).then(scopes => {
+    // Phase 18: Cache discovered scopes so the participant can build knownSlugs
+    shared._discoveredScopes = scopes || [];
+    const indexed = (scopes || []).filter(s => s.indexed);
+    if (indexed.length > 0) {
+      const slugList = indexed.map(s => `/` + s.slug).join(', ');
+      outputChannel.appendLine(`[KTS] Discovered ${indexed.length} indexed scope(s): ${slugList}`);
+      outputChannel.appendLine(`[KTS] Tip: Use \`@kts /scope_slug your question\` to target a specific knowledge base.`);
+    }
+  }).catch(err => {
+    outputChannel.appendLine(`[KTS] Scope discovery skipped: ${err.message}`);
+  });
+
+  // Phase 18: Register kts.refreshScopes command (uses base commands for merge)
+  register(context, 'kts.refreshScopes', async () => {
+    try {
+      const scopes = await refreshScopes(shared._chatParticipant || null, shared._baseCommands || []);
+      shared._discoveredScopes = scopes || [];
+      const indexed = (scopes || []).filter(s => s.indexed).length;
+      vscode.window.showInformationMessage(`KTS: Discovered ${scopes.length} folder(s), ${indexed} indexed.`);
+    } catch (err) {
+      vscode.window.showErrorMessage(`KTS: Scope refresh failed — ${err.message}`);
+    }
+  }, shared);
 
   outputChannel.appendLine('[KTS] Extension activated.');
   
@@ -164,7 +353,7 @@ function registerAddon(config) {
     return;
   }
   _addonRegistry[config.name] = config;
-  console.log(`[KTS] Addon registered: ${config.name} (${(config.capabilities || []).join(', ')})`);
+  // Logged via outputChannel by the caller; avoid console.log in production
 }
 
 /**

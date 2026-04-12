@@ -13,7 +13,7 @@ from pathlib import Path
 # Add backend to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from backend.common.doc_types import normalize_doc_type, RELEASE_NOTE, SOP, TROUBLESHOOT, USER_GUIDE, UNKNOWN
+from backend.common.doc_types import normalize_doc_type, RELEASE_NOTE, SOP, TROUBLESHOOT, USER_GUIDE, UNKNOWN, GOVERNING_DOC
 
 
 def test_release_note_aliases():
@@ -112,6 +112,54 @@ def test_whitespace_handling():
     print("✅ Whitespace handling: PASS")
 
 
+def test_regime_classifier_outputs():
+    """Test that RegimeClassifier output strings map to correct canonical doc_types.
+    
+    RegimeClassifier.classify() returns one of: GOVERNING_DOC_LEGAL, MIXED, GENERIC_GUIDE.
+    These must map correctly so chunks get the right doc_type stored in ChromaDB,
+    which controls whether Legal Analyst or KTS Support mode is used.
+    """
+    # PSA / legal docs — must map to GOVERNING_DOC so Legal Analyst mode activates
+    assert normalize_doc_type("GOVERNING_DOC_LEGAL") == GOVERNING_DOC, \
+        "PSA/legal documents must use GOVERNING_DOC to trigger Legal Analyst mode"
+
+    # Ambiguous / tech docs — must NOT map to GOVERNING_DOC; avoids false legal mode
+    assert normalize_doc_type("MIXED") == UNKNOWN, \
+        "MIXED regime should not trigger Legal Analyst mode"
+    assert normalize_doc_type("GENERIC_GUIDE") == UNKNOWN, \
+        "GENERIC_GUIDE (troubleshooting, SOP, etc.) must not trigger Legal Analyst mode"
+    assert normalize_doc_type("GENERIC") == UNKNOWN, \
+        "GENERIC fallback must not trigger Legal Analyst mode"
+
+    # Verify the vote logic: GOVERNING_DOC triggers legal, all others don't
+    legal_types = [normalize_doc_type("GOVERNING_DOC_LEGAL")]
+    non_legal_types = [
+        normalize_doc_type("MIXED"),
+        normalize_doc_type("GENERIC_GUIDE"),
+        normalize_doc_type("GENERIC"),
+    ]
+    assert all(t == GOVERNING_DOC for t in legal_types)
+    assert all(t != GOVERNING_DOC for t in non_legal_types)
+    print("✅ Regime classifier output mappings: PASS")
+
+
+def test_retrieval_default_is_unknown():
+    """Verify that missing doc_type defaults to UNKNOWN, not GOVERNING_DOC.
+    
+    This was the key bug: retrieval_service.py was defaulting to GOVERNING_DOC
+    which made every document appear as a legal document in the UI.
+    UNKNOWN does not vote for legal mode in participant.js.
+    """
+    assert normalize_doc_type("UNKNOWN") == UNKNOWN
+    assert normalize_doc_type(None) == UNKNOWN
+    assert normalize_doc_type("") == UNKNOWN
+    # None of these should equal GOVERNING_DOC
+    assert normalize_doc_type(None) != GOVERNING_DOC
+    assert normalize_doc_type("") != GOVERNING_DOC
+    assert normalize_doc_type("UNKNOWN") != GOVERNING_DOC
+    print("✅ Retrieval default safety check: PASS")
+
+
 if __name__ == "__main__":
     print("=" * 60)
     print("DocType Normalization Unit Tests")
@@ -126,6 +174,8 @@ if __name__ == "__main__":
     test_unknown_types()
     test_identity_mappings()
     test_whitespace_handling()
+    test_regime_classifier_outputs()
+    test_retrieval_default_is_unknown()
     
     print("=" * 60)
     print("✅ ALL TESTS PASSED")

@@ -1,0 +1,885 @@
+{
+  "timestamp": "2026-02-22T05:42:16.804Z",
+  "scores": [
+    {
+      "test_id": "TS01",
+      "category": "diagnostics",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer explains what DFW is and how to run it, but omits installation instructions."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All facts about DFW match the guide's content."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "References the Computer Diagnostic Features section but not Chapter 1 explicitly."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A desktop support tech can follow the steps immediately."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No external knowledge or hallucinated content is present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.55
+    },
+    {
+      "test_id": "TS02",
+      "category": "diagnostics",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains what the Configuration Record utility does and when to use it."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All facts match the TS_GUIDE and describe the utility's functions correctly."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the 'Computer Diagnostic Features' section and aligns with Chapter 1 content."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A support tech would understand why and when to run Configuration Record from this answer."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No made-up features are present; all described functions are accurate."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS03",
+      "category": "diagnostics",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "Both access methods, Computer Setup and Diagnostics for Windows, are clearly described."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The answer accurately matches the guide's instructions for accessing DPS."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer references the correct section (Appendix C) of the guide."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The instructions are clear and allow the technician to choose either method."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No features or steps beyond what the guide states are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS04",
+      "category": "diagnostics",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer covers both protection and restoration methods as required."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The described methods match those in the HP Business Desktop Troubleshooting Guide."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "References TS_GUIDE.pdf but does not explicitly mention Chapter 1 section."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer clearly explains protection strategies and restoration steps."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No external restore procedures are mentioned; all content is grounded in the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.8
+    },
+    {
+      "test_id": "TS05",
+      "category": "diagnostics",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Mentions diagnostics, error codes, and self-help steps but omits documenting system setup and having the serial number ready."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Steps closely match the guide's recommendations and are specific to HP troubleshooting."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References Section 2 and aligns with the 'Before You Call' section of the guide."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a clear checklist for users to follow before contacting support."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All advice is grounded in the guide with no generic or extraneous support suggestions."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS06",
+      "category": "power_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers all main steps except checking expansion cards that might draw too much power."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Troubleshooting steps closely match the guide's Problem-Cause-Solution tables."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and relevant sections for power supply problems."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Steps are clear, sequential, and actionable for a technician."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No generic advice; all content is specific to the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS07",
+      "category": "power_problems",
+      "scores": {
+        "completeness": {
+          "score": 2,
+          "reason": "The answer mentions flash/beep patterns but does not distinguish between 2-flash and 4-flash meanings."
+        },
+        "accuracy": {
+          "score": 2,
+          "reason": "It vaguely lists possible causes without matching the exact flash/beep codes to their specific meanings."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "It references the POST Error Messages section, which is relevant, but does not cite the LED diagnostic codes section or Appendix A directly."
+        },
+        "usability": {
+          "score": 2,
+          "reason": "A technician cannot directly match observed patterns to diagnoses without the specific code meanings."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No incorrect LED codes or references to other HP models are present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 2.7
+    },
+    {
+      "test_id": "TS08",
+      "category": "power_problems",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "The answer includes the 4-second hold procedure but omits the standby caution."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "The procedure matches the guide but lacks the warning about standby mode."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "It references the correct section of the Troubleshooting Guide."
+        },
+        "usability": {
+          "score": 3,
+          "reason": "The procedure is clear but missing the risk warning for standby mode."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No generic or unrelated shutdown procedures are mentioned."
+        }
+      },
+      "critical_failures": [],
+      "overall": 3.9
+    },
+    {
+      "test_id": "TS09",
+      "category": "power_problems",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "The answer covers thermal causes well but omits power supply and environmental causes."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "Thermal causes and solutions match the guide, but power supply overload is missing."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and the correct section."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a clear, prioritized list of steps for the technician."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All causes and solutions are consistent with the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.2
+    },
+    {
+      "test_id": "TS10",
+      "category": "power_problems",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "Mentions both 115V and 230V settings and consequences of incorrect setting."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Voltage values and described risks match the guide."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the troubleshooting section and specific document location."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Clearly instructs the technician to check the voltage selector as a first step."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No extra information about country voltages beyond what is in the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS11",
+      "category": "hardware_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers cable checks, monitor power, video card, but omits explicit mention of video driver verification."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Steps closely match the guide's display troubleshooting section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and Solving Display Problems section."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a logical diagnostic flow from simple to complex steps."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All steps are documented in the guide; no extraneous fixes."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS12",
+      "category": "hardware_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers connector, physical cleaning, and basic troubleshooting but omits driver checks and wireless device steps."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Steps closely match the guide's keyboard/mouse troubleshooting section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and relevant section."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Useful for diagnosing wired devices but lacks wireless device guidance."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All steps are consistent with the guide; no extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.6
+    },
+    {
+      "test_id": "TS13",
+      "category": "hardware_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers seating, Device Manager, and Add Hardware Wizard but omits explicit mention of driver installation and compatibility checks."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Troubleshooting steps align with the guide's hardware installation section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References 'Solving Hardware Installation Problems' in the guide."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a clear, systematic approach for diagnosing hardware issues."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All advice is grounded in the guide with no extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS14",
+      "category": "hardware_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers seating, type matching, error codes, and diagnostics but omits specific POST error numbers (202, 213, 214, 201) and DFW diagnostics."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "Steps are generally correct but lack explicit mapping of POST error codes to memory issues as in the guide."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "References troubleshooting sections and POST error codes but does not specify the exact codes or DFW diagnostics."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Provides actionable steps but does not help correlate POST codes with specific memory issues."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No information beyond what is plausible from the guide; no hallucinated specs."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.1
+    },
+    {
+      "test_id": "TS15",
+      "category": "hardware_problems",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer covers cables, jumper settings, BIOS/Computer Setup detection, error-checking utilities, and DPS diagnostics."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All troubleshooting steps match the guide's recommendations for hard drive issues."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and specific sections like DPS Self-Test and Storage Options."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The steps are clear and systematic, allowing a technician to isolate the issue efficiently."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No advice is given beyond what is documented in the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS16",
+      "category": "network_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers physical connection, driver, and some TCP/IP settings but lacks explicit mention of pinging gateway and DNS checks."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Steps closely match the guide's network troubleshooting section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the Troubleshooting Guide and relevant sections."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a logical flow from hardware to software checks."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All advice is consistent with the guide and contains no extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS17",
+      "category": "network_problems",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers ISP, browser, hardware checks, but omits DNS and firewall troubleshooting."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Steps match the troubleshooting guide's Internet access section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the correct section and aligns with guide content."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides clear, actionable steps for diagnosing Internet issues."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No advice outside the guide; all steps are grounded."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "TS18",
+      "category": "network_problems",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "Covers cable, port, and adapter as possible causes."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Diagnostic steps match the troubleshooting guide."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References the correct section of the guide."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides clear, actionable steps for troubleshooting."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No incorrect LED specifications or extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS19",
+      "category": "post_errors",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains the error and provides multiple recommended actions."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The error description matches Appendix A and includes correct troubleshooting steps."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References Appendix A POST error messages and TS_GUIDE.pdf."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A technician is given clear steps to resolve error 101."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No unrelated POST codes or manufacturer information are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS20",
+      "category": "post_errors",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "All required codes (201, 202, 213, 214) are listed with descriptions."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Descriptions and codes match the content of Appendix A."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Appendix A and the POST error messages section are explicitly cited."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Technicians can easily identify codes and recommended actions."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No error codes outside of those documented in Appendix A are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS21",
+      "category": "post_errors",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer lists all flash/beep patterns and their meanings as expected."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Patterns and meanings match the Appendix A LED diagnostic table for HP Business Desktop."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References Appendix A and the front panel LED section explicitly."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A technician can easily match observed LED patterns to diagnoses using this answer."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No LED patterns from other HP models are included; all codes are relevant."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS22",
+      "category": "post_errors",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Explains the error, cause, and fix but omits details about boot order and saving settings."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Error description and resolution match the guide and Appendix A."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References Appendix A and the Hardware Reference Guide."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Provides actionable steps but lacks explicit instructions for saving settings."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No procedures from other BIOS vendors are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.6
+    },
+    {
+      "test_id": "TS23",
+      "category": "password_cmos",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer fully describes the jumper-based password reset procedure with all necessary steps."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The steps match the Appendix B password reset section closely."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer references the correct section and document for grounding."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A technician can perform the reset with the case open following these instructions."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No methods from other platforms are mentioned; only HP-specific procedures are described."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "TS24",
+      "category": "password_cmos",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "Only the hardware button method is described; Computer Setup method is mentioned but not explained."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The hardware button procedure matches Appendix B instructions accurately."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "References Section B and the Computer Setup (F10) Utility Guide as sources."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Provides clear steps for the hardware method but lacks guidance for the Computer Setup method."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All procedures are specific to HP Business Desktop and do not include unrelated hardware steps."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.35
+    },
+    {
+      "test_id": "TS25",
+      "category": "password_cmos",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer connects CMOS clearing to date/time loss and mentions POST errors, but does not specify error codes 162/163."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "POST error messages are referenced, but specific codes matching the guide are missing."
+        },
+        "grounding": {
+          "score": 3,
+          "reason": "References TS_GUIDE.pdf but does not cite Appendix A/B or specific error codes."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A technician would understand the side effects and next steps after CMOS clearing."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No BIOS behavior from other manufacturers is mentioned."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.05
+    },
+    {
+      "test_id": "TS26",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer identifies the beep pattern, root cause, and provides fix steps but omits explicit mention of minimal configuration testing."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Diagnosis of 4 beeps and LED pattern as power supply failure matches the guide."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "References relevant sections but does not explicitly mention Appendix A LED codes."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides clear, actionable steps for a technician to follow."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No extraneous or incorrect diagnostic codes are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.55
+    },
+    {
+      "test_id": "TS27",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains the causal link between the password jumper reset and error 162, and provides the fix."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The relationship between password reset and CMOS settings matches the troubleshooting guide."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "It references the POST Error Messages section but does not explicitly mention Appendix A or B."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer makes clear this is expected and gives clear next steps."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No unsupported BIOS behavior is described; all advice aligns with the guide."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.8
+    },
+    {
+      "test_id": "TS28",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Covers symptoms, LED diagnosis, physical inspection, and fixes but omits running DFW thermal diagnostics after remediation."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All steps match the guide's thermal and LED troubleshooting sections."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "References relevant guide sections but does not explicitly mention Appendix A for LED codes."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Provides a clear, step-by-step process that a technician can follow end-to-end."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No information beyond what is found in the guide is included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.55
+    },
+    {
+      "test_id": "TS29",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 2,
+          "reason": "The answer lists safety warnings but does not distinguish between WARNING and CAUTION or provide their definitions and specific examples."
+        },
+        "accuracy": {
+          "score": 2,
+          "reason": "The answer mentions relevant safety concerns but omits the explicit WARNING/CAUTION hierarchy and their exact meanings from the guide."
+        },
+        "grounding": {
+          "score": 3,
+          "reason": "References sections like Password Security and Safety & Comfort, but lacks mention of inline annotations and the distinction between warning types."
+        },
+        "usability": {
+          "score": 2,
+          "reason": "A support tech would not understand the severity hierarchy or when each warning applies due to missing definitions and examples."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No safety categories outside those defined in the guide are introduced."
+        }
+      },
+      "critical_failures": [
+        "Missing WARNING/CAUTION distinction and definitions"
+      ],
+      "overall": 2.5
+    },
+    {
+      "test_id": "TS30",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer covers both analog and digital audio output setup including manual and auto-sense modes."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The steps match the procedures described in Appendix D for configuring audio output."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer explicitly references Appendix D and the relevant section of the guide."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The instructions are clear and actionable for users to configure audio output."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All advice is consistent with the guide and does not introduce unsupported information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    }
+  ],
+  "average": 4.56,
+  "by_category": [
+    {
+      "name": "diagnostics",
+      "count": 5,
+      "average": 4.82
+    },
+    {
+      "name": "power_problems",
+      "count": 5,
+      "average": 4.11
+    },
+    {
+      "name": "hardware_problems",
+      "count": 5,
+      "average": 4.64
+    },
+    {
+      "name": "network_problems",
+      "count": 3,
+      "average": 4.833333333333333
+    },
+    {
+      "name": "post_errors",
+      "count": 4,
+      "average": 4.9
+    },
+    {
+      "name": "password_cmos",
+      "count": 3,
+      "average": 4.466666666666666
+    },
+    {
+      "name": "follow_ups",
+      "count": 5,
+      "average": 4.279999999999999
+    }
+  ]
+}

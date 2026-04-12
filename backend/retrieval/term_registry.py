@@ -186,6 +186,13 @@ class TermRegistry:
             if len(keys) < 2:
                 continue
 
+            # Adaptive min-doc-count: relax for small KBs (1–2 docs)
+            # so single-document ingestion can still promote synonyms.
+            all_doc_ids: Set[str] = set()
+            for k in keys:
+                all_doc_ids.update(self._registry[k].get("doc_ids", []))
+            effective_min_doc = 1 if len(all_doc_ids) <= 2 else LEARN_MIN_DOC_COUNT
+
             # Compute embeddings for terms that don't have one yet
             terms_needing_embed = [
                 k for k in keys if self._registry[k].get("embedding") is None
@@ -244,7 +251,7 @@ class TermRegistry:
 
                 if (
                     confidence >= LEARN_CONFIDENCE_THRESHOLD
-                    and avg_doc_count >= LEARN_MIN_DOC_COUNT
+                    and avg_doc_count >= effective_min_doc
                 ):
                     regime_learned[canonical_entry["term"]] = record
                     total_learned += 1

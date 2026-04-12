@@ -64,6 +64,7 @@ Every answer currently arrives with no signal about retrieval confidence. Users 
 | **13.2** | Proactive gap alerts | HIGH | LOW | Post-generation check. If N requested terms not found → explicit "not found" notice. |
 | **13.3** | Parent-child chunking | VERY HIGH | MEDIUM | Ingestion change. Requires re-ingestion of existing documents. |
 | **13.4** | HyDE (Hypothetical Document Embeddings) | HIGH | LOW | One LLM call pre-retrieval. No index change. Feature-flagged. |
+| **13.5** | Regime-aware retrieval routing | VERY HIGH | LOW | Branches pipeline by corpus regime. Legal → graph-first, Guide → vector-first. Feature-flagged. |
 
 ---
 
@@ -194,17 +195,103 @@ Feature-flagged: `enable_hyde: true`. Falls back to direct query embedding on LL
 
 ---
 
-## 7. Files Changed
+## 7. Increment 13.5 — Regime-Aware Retrieval Routing
+
+### 7.1 Problem Statement
+
+Today, all queries go through the same retrieval pipeline regardless of document type.
+The `HumanLikeRetriever` (graph-first) is optimal for legal documents where queries
+name exact defined terms, but suboptimal for guide/troubleshooting docs where queries
+describe symptoms in natural language.
+
+### 7.2 Solution — Dual-Strategy Router
+
+The `_phase6_retrieve()` method now detects the corpus regime and routes to the
+appropriate strategy:
+
+```
+GOVERNING_DOC_LEGAL → HumanLikeRetriever (graph-first)
+    ✓ Section discovery via graph keyword match (TOC navigation)
+    ✓ Section-scoped vector search (80x narrower)
+    ✓ Definition enrichment from graph
+    ✓ Optimal for: "What does X mean?", "obligations of Y"
+
+GENERIC_GUIDE → GuideRetriever (vector-first)
+    ✓ Global semantic similarity search
+    ✓ Graph BFS expansion on STEP/ERROR_CODE/TOOL edges
+    ✓ Error-code exact-match boost (+0.35)
+    ✓ Step-sequence ordering
+    ✓ Optimal for: "How to fix error Z", "steps for procedure W"
+
+MIXED → Query-intent heuristic
+    • governing_doc intent → graph-first
+    • troubleshooting / how-to / general → vector-first
+```
+
+### 7.3 New File: `backend/retrieval/guide_retriever.py`
+
+```python
+class GuideRetriever:
+    """Vector-first retrieval for guide/troubleshooting documents."""
+
+    def retrieve(self, query, max_results=10) -> GuideRetrievalResult:
+        # 1. Decompose compound queries
+        # 2. Vector search — items (top-30) + sections (top-10)
+        # 3. RRF fusion across sub-queries
+        # 4. Graph BFS expansion from top-5 seeds
+        #    edges: NEXT, CONTAINS, HAS_STEP, REFERENCES, HAS_RULE
+        # 5. Error-code exact-match boost
+        # 6. Cross-encoder rerank
+        # 7. Keyword-match rerank
+        # 8. Step-sequence ordering
+        # 9. Confidence derivation
+```
+
+### 7.4 Regime Resolution
+
+```python
+def _resolve_corpus_regime(self) -> str:
+    """Priority: config override > graph metadata > default MIXED."""
+    regime = config.corpus_regime_override  # manual override wins
+    if not regime:
+        regime = graph.graph['corpus_regime']  # set at ingestion time
+    return regime or 'MIXED'
+```
+
+### 7.5 Feature Flag
+
+```python
+# config/settings.py or environment
+regime_aware_retrieval = True   # Default ON
+# Set to False to disable regime routing and use graph-first for everything
+```
+
+### 7.6 GuideRetriever Configuration
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `guide_items_top_k` | 30 | Items to retrieve per sub-query |
+| `guide_sections_top_k` | 10 | Sections to retrieve per sub-query |
+| `guide_graph_expansion` | True | Enable graph BFS from seed hits |
+| `guide_bfs_depth` | 2 | Max BFS depth for graph expansion |
+| `guide_error_code_boost` | 0.35 | Additive boost for error-code matches |
+| `guide_step_ordering` | True | Re-order same-doc chunks by chunk_index |
+
+---
+
+## 8. Files Changed
 
 | File | Change Type | Increment |
 |------|------------|-----------|
-| `backend/agents/retrieval_service.py` | Modified | 13.1, 13.2 |
+| `backend/agents/retrieval_service.py` | Modified | 13.1, 13.2, **13.5** |
+| `backend/retrieval/guide_retriever.py` | **New** | **13.5** |
 | `backend/retrieval/confidence_scorer.py` | New | 13.1 |
 | `backend/retrieval/gap_detector.py` | New | 13.2 |
 | `backend/vector/legal_chunker.py` | Modified | 13.3 (parent-child strategy) |
 | `backend/vector/store.py` | Modified | 13.3 (parent store) |
 | `backend/retrieval/hyde.py` | New | 13.4 |
 | `extension/chat/participant.js` | Modified | 13.1 (display confidence tier) |
+| `tests/test_regime_routing.py` | **New** | **13.5** |
 
 ---
 

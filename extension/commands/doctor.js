@@ -33,7 +33,7 @@ module.exports = async function doctor({ vscode, outputChannel, context, runner 
   // 1. Configuration
   outputChannel.appendLine('\n--- Configuration ---');
   report.configuration = {
-    sourcePath: config.get('sourcePath') || '(not set)',
+    sourcePath: config.get('sourceFolder') || '(not set)',
     kbWorkspacePath: config.get('kbWorkspacePath') || '(derived from source path/.kts/)',
     pythonPath: config.get('pythonPath') || '(auto-detect)',
     backendChannel: config.get('backendChannel') || 'bundled',
@@ -105,7 +105,7 @@ module.exports = async function doctor({ vscode, outputChannel, context, runner 
 
   // 4. Knowledge Base Status
   outputChannel.appendLine('\n--- Knowledge Base ---');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const kbPath = config.get('kbWorkspacePath') || (sourcePath ? path.join(sourcePath, '.kts') : paths.kbWorkspace);
   const manifestPath = path.join(kbPath, 'manifest.json');
   

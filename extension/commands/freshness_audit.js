@@ -5,7 +5,7 @@ module.exports = async function freshnessAudit({ vscode, outputChannel, workspac
 
   // Resolve source path for .kts/ KB path derivation
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
 
   const scope = await vscode.window.showInputBox({
     prompt: 'Freshness scope (all, doc_type, or tool)',

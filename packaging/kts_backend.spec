@@ -20,6 +20,23 @@ backend_hidden_imports = [
     *collect_submodules('cli'),
     'config',
     'config.settings',
+    # Phase 6: Explicit imports for ItemExtractor framework + dual stores
+    'backend.extraction',
+    'backend.extraction.item_extractor_base',
+    'backend.extraction.legal_item_extractor',
+    'backend.extraction.technical_item_extractor',
+    'backend.extraction.research_item_extractor',
+    'backend.extraction.generic_item_extractor',
+    'backend.vector.dual_vector_store',
+    'backend.graph.enhanced_graph_builder',
+    'backend.graph.pagerank',
+    'backend.retrieval.hybrid_reranker',
+    'backend.retrieval.iterative_orchestrator',
+    'backend.common.config_phase6',
+    'backend.common.explainability',
+    # Phase 5 WS-1: Embedding provider abstraction
+    'backend.vector.embedding_provider',
+    'backend.vector.bge_onnx_provider',
 ]
 
 # Add common dependencies - ALL INCLUDED for single VSIX build
@@ -33,6 +50,9 @@ common_hidden_imports = [
     'tqdm',           # Progress bars
     'tqdm.auto',      # tqdm auto-select
     'networkx',       # Graph operations
+    'scipy',          # PageRank (networkx dependency)
+    'scipy.sparse',
+    'scipy.sparse.linalg',
     
     # Vector database and embeddings — collect chromadb submodules
     # Excludes: test, server, async, fastapi, grpc modules (not needed locally).
@@ -81,23 +101,18 @@ datas = [
     (os.path.join(repo_root, 'backend', 'data'), 'backend/data'),
 ]
 
-# Bundle ChromaDB embedding model for offline operation
-chroma_model_cached = os.path.join(base_path, 'models', 'chroma', 'all-MiniLM-L6-v2')
-if os.path.exists(chroma_model_cached) and os.listdir(chroma_model_cached):
-    # Mirror the structure ChromaDB expects at ~/.cache/chroma/onnx_models/
-    datas.append((chroma_model_cached, os.path.join('chroma_models', 'all-MiniLM-L6-v2')))
-    print(f"[BUILD] Bundling ChromaDB model from: {chroma_model_cached}")
+# NOTE: Legacy ChromaDB MiniLM-L6-v2 model removed in Phase 5 WS-1
+# Now using BGE ONNX INT8 (768-dim) exclusively - see below
+
+# Bundle Cross-Encoder ONNX model for high-precision reranking
+ce_model_cached = os.path.join(base_path, 'models', 'cross_encoder')
+if os.path.exists(ce_model_cached) and os.path.exists(os.path.join(ce_model_cached, 'model.onnx')):
+    datas.append((ce_model_cached, os.path.join('models', 'cross-encoder')))
+    print(f"[BUILD] Bundling Cross-Encoder ONNX model from: {ce_model_cached}")
 else:
-    # Fallback: Check user cache locations (ChromaDB default download path)
-    from pathlib import Path as _Path
-    user_cache = _Path.home() / '.cache' / 'chroma' / 'onnx_models' / 'all-MiniLM-L6-v2'
-    if user_cache.exists() and any(user_cache.iterdir()):
-        datas.append((str(user_cache), os.path.join('chroma_models', 'all-MiniLM-L6-v2')))
-        print(f"[BUILD] Bundling ChromaDB model from user cache: {user_cache}")
-    else:
-        print("[BUILD WARNING] ChromaDB model not found!")
-        print("[BUILD WARNING] Run: .\\scripts\\download_models.ps1")
-        print("[BUILD WARNING] System will require internet on first run.")
+    print("[BUILD WARNING] Cross-encoder model not found at packaging/models/cross_encoder/")
+    print("[BUILD WARNING] Cross-encoder reranking will be disabled at runtime.")
+    print("[BUILD WARNING] Run: python scripts/download_cross_encoder.py to download.")
 
 # Bundle spaCy model for offline NER
 spacy_model_cached = os.path.join(base_path, 'models', 'spacy', 'en_core_web_sm')
@@ -116,6 +131,18 @@ else:
         print("[BUILD WARNING] Run: python scripts/download_models.ps1")
         print("[BUILD WARNING] NER features will not work.")
 
+# Bundle BGE ONNX INT8 model for Phase 5 (REQUIRED - no fallback)
+# 768-dim embeddings with better semantic understanding
+bge_model_cached = os.path.join(base_path, 'models', 'bge')
+if os.path.exists(bge_model_cached) and os.path.exists(os.path.join(bge_model_cached, 'model.onnx')):
+    datas.append((bge_model_cached, os.path.join('models', 'bge-base-en-v1.5', 'onnx-int8')))
+    print(f"[BUILD] Bundling BGE ONNX INT8 model from: {bge_model_cached}")
+else:
+    print("[BUILD ERROR] BGE model not found at packaging/models/bge/")
+    print("[BUILD ERROR] This model is REQUIRED for the build.")
+    print("[BUILD ERROR] Run: .\\scripts\\download_bge_model.ps1")
+    raise FileNotFoundError("BGE ONNX INT8 model required. Run scripts/download_bge_model.ps1")
+
 
 a = Analysis(
     ['backend_cli_entry.py'],
@@ -129,7 +156,7 @@ a = Analysis(
     excludes=[
         # Exclude large unused packages to save space
         'matplotlib',
-        'scipy',
+        # 'scipy',  # DO NOT EXCLUDE - required by networkx PageRank
         'pytest',
         'IPython',
         'pandas',

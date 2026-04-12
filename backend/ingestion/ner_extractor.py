@@ -52,9 +52,18 @@ def _load_model(model_path: Optional[str] = None) -> object:
             else:
                 model_path = str(bundled_base)
             logger.info("Using bundled spaCy model from PyInstaller")
-    
+
+    # Priority 3: Try installed spaCy package (workspace / dev mode)
+    # This covers 'pip install en_core_web_sm' or direct package installs.
     if not model_path:
-        logger.debug("NER disabled — KTS_SPACY_MODEL_PATH not set and no bundled model found.")
+        try:
+            import spacy as _spacy_probe  # noqa
+            _nlp = _spacy_probe.load("en_core_web_sm")
+            logger.info("spaCy model loaded from installed package (en_core_web_sm)")
+            return _nlp
+        except Exception:
+            pass
+        logger.debug("NER disabled — no spaCy model found.")
         return None
 
     try:
@@ -104,11 +113,11 @@ class NERResult:
 # Extraction helpers
 # ---------------------------------------------------------------------------
 
-# Entity labels we care about (skip CARDINAL, ORDINAL, etc.)
-_USEFUL_LABELS = {
-    "ORG", "PERSON", "GPE", "MONEY", "DATE", "PERCENT",
-    "PRODUCT", "EVENT", "LAW", "NORP", "FAC", "WORK_OF_ART",
-}
+# All 18 spaCy entity labels — we accept everything the model produces.
+# Narrower filtering proved lossy for financial/legal docs where CARDINAL
+# (e.g. notional amounts), ORDINAL (e.g. "First priority"), TIME (e.g.
+# "25th day of each month") and LOC all carry meaningful deal structure.
+_ALL_LABELS: frozenset = frozenset()  # empty = accept all
 
 # Stop-phrase filter for noun chunks (too generic to be useful)
 _STOPCHUNK_WORDS = {
@@ -188,7 +197,7 @@ def extract_entities_and_keyphrases(
         logger.warning("spaCy processing failed: %s", exc)
         return NERResult()
 
-    # 1. Named entities
+    # 1. Named entities — all 18 spaCy types kept (no filter)
     entities = [
         ExtractedEntity(
             text=ent.text.strip(),
@@ -197,7 +206,7 @@ def extract_entities_and_keyphrases(
             end_char=ent.end_char,
         )
         for ent in doc.ents
-        if ent.label_ in _USEFUL_LABELS and len(ent.text.strip()) >= 2
+        if len(ent.text.strip()) >= 2
     ]
     entities = _dedupe_entities(entities)
 
@@ -216,3 +225,55 @@ def extract_entities_and_keyphrases(
 
     logger.info("NER extracted %d entities, %d keyphrases", len(entities), len(keyphrases))
     return NERResult(entities=entities, keyphrases=keyphrases)
+
+
+# ---------------------------------------------------------------------------
+# Entity Ruler helper for defined-term injection (Layer 4)
+# ---------------------------------------------------------------------------
+
+def create_term_entity_ruler(nlp, term_names: List[str]):
+    """Inject ``term_names`` as custom ``DEFINED_TERM`` patterns into *nlp*.
+
+    Returns a new nlp pipeline (or the same one with an entity_ruler added)
+    that will tag occurrences of each defined term as ``DEFINED_TERM``
+    entities.  The ruler runs BEFORE the statistical NER so the model's
+    own predictions co-exist with the custom patterns.
+
+    Parameters
+    ----------
+    nlp : spacy.Language
+        Loaded spaCy pipeline.
+    term_names : list of str
+        Canonical term names from TERM::* nodes.
+
+    Returns
+    -------
+    nlp : spacy.Language
+        The same pipeline, augmented with an entity_ruler.
+    """
+    try:
+        # Remove any existing ruler we added to avoid duplication
+        if nlp.has_pipe("kts_term_ruler"):
+            nlp.remove_pipe("kts_term_ruler")
+
+        ruler = nlp.add_pipe("entity_ruler", name="kts_term_ruler", before="ner")
+        patterns = [
+            {"label": "DEFINED_TERM", "pattern": name}
+            for name in term_names
+            if name and len(name) >= 3
+        ]
+        ruler.add_patterns(patterns)
+        logger.debug("Entity ruler added with %d defined-term patterns", len(patterns))
+    except Exception as exc:
+        logger.warning("Failed to add entity ruler: %s", exc)
+    return nlp
+
+
+def remove_term_entity_ruler(nlp):
+    """Remove the KTS term entity ruler if present (cleanup between calls)."""
+    try:
+        if nlp.has_pipe("kts_term_ruler"):
+            nlp.remove_pipe("kts_term_ruler")
+    except Exception:
+        pass
+    return nlp

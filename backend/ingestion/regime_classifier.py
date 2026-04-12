@@ -43,6 +43,11 @@ class RegimeResult:
     signals: dict[str, bool] = field(default_factory=dict)
     filename: str = ""
 
+    @property
+    def is_ambiguous(self) -> bool:
+        """True when the score falls in the HITL confirmation range (35-64)."""
+        return 35 <= self.score <= 64
+
 
 class RegimeClassifier:
     """Stateless document regime classifier."""

@@ -5,6 +5,7 @@ from pathlib import Path
 
 from backend.common.models import AgentResult
 from backend.vector import VectorStore
+from backend.vector.embedding_provider import get_embedding_provider
 from .base_agent import AgentBase
 
 
@@ -13,7 +14,11 @@ class VisionAgent(AgentBase):
 
     def __init__(self, config):
         super().__init__(config)
-        self.vector_store = VectorStore(config.chroma_persist_dir)
+        self._embedding_provider = get_embedding_provider(config)
+        self.vector_store = VectorStore(
+            config.chroma_persist_dir,
+            embedding_provider=self._embedding_provider
+        )
 
     def _manifest_path(self, doc_id: str) -> Path:
         return Path(self.config.knowledge_base_path) / "documents" / doc_id / "descriptions.json"

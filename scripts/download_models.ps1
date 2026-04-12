@@ -4,10 +4,14 @@
 
 .DESCRIPTION
     This script downloads:
-    1. ChromaDB embedding model (all-MiniLM-L6-v2 ONNX)
-    2. spaCy NER model (en_core_web_sm)
+    1. BGE ONNX INT8 embedding model (Phase 5 WS-1 - REQUIRED)
+    2. Cross-Encoder ONNX model for reranking (REQUIRED)
+    3. spaCy NER model (en_core_web_sm)
     
     Models are cached to packaging/models/ for PyInstaller bundling.
+    
+    NOTE: As of Phase 5, the legacy ChromaDB MiniLM-L6-v2 model is no longer used.
+    All embeddings now use the BGE ONNX INT8 model (768-dim).
 
 .PARAMETER Force
     Force re-download even if models exist
@@ -24,19 +28,21 @@ param(
 $ErrorActionPreference = "Stop"
 
 Write-Host "=" * 80 -ForegroundColor Cyan
-Write-Host "KTS Model Download Script" -ForegroundColor Cyan
+Write-Host "KTS Model Download Script (Phase 5 + Cross-Encoder)" -ForegroundColor Cyan
 Write-Host "=" * 80 -ForegroundColor Cyan
 Write-Host ""
 
 # Paths
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $ModelsDir = Join-Path $RepoRoot "packaging\models"
-$ChromaDir = Join-Path $ModelsDir "chroma"
+$BgeDir = Join-Path $ModelsDir "bge"
+$CeDir = Join-Path $ModelsDir "cross_encoder"
 $SpacyDir = Join-Path $ModelsDir "spacy"
 $VenvPath = Join-Path $RepoRoot ".venv_build"
 
 # Create directories
-New-Item -ItemType Directory -Force -Path $ChromaDir | Out-Null
+New-Item -ItemType Directory -Force -Path $BgeDir | Out-Null
+New-Item -ItemType Directory -Force -Path $CeDir | Out-Null
 New-Item -ItemType Directory -Force -Path $SpacyDir | Out-Null
 
 Write-Host "[1/3] Checking Python environment..." -ForegroundColor Yellow
@@ -57,105 +63,175 @@ $ActivateScript = Join-Path $VenvPath "Scripts\Activate.ps1"
 Write-Host "Python: $(python --version)" -ForegroundColor Green
 Write-Host ""
 
-Write-Host "[2/3] Downloading ChromaDB embedding model..." -ForegroundColor Yellow
+# ═══════════════════════════════════════════════════════════════════════════
+# BGE ONNX INT8 Model (REQUIRED)
+# ═══════════════════════════════════════════════════════════════════════════
 
-# Install chromadb and its embedding dependencies
-python -m pip install --quiet chromadb onnxruntime tokenizers tqdm httpx
+Write-Host "[2/3] Downloading BGE ONNX INT8 embedding model..." -ForegroundColor Yellow
 
-# Trigger ChromaDB to download the ONNX model, then copy to our packaging dir
-$TempScript = Join-Path $env:TEMP "download_chroma_model.py"
-@"
-import shutil
+$BgeModelFile = Join-Path $BgeDir "model.onnx"
+if ((Test-Path $BgeModelFile) -and -not $Force) {
+    Write-Host "BGE model already exists at: $BgeDir" -ForegroundColor Gray
+    Write-Host "Use -Force to re-download" -ForegroundColor Gray
+} else {
+    # Call the dedicated BGE download script
+    $BgeScript = Join-Path $PSScriptRoot "download_bge_model.ps1"
+    if (Test-Path $BgeScript) {
+        & $BgeScript -OutputDir $BgeDir
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to download BGE model"
+        }
+    } else {
+        throw "BGE download script not found at: $BgeScript"
+    }
+}
+
+Write-Host "✓ BGE ONNX INT8 model ready" -ForegroundColor Green
+Write-Host ""
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Cross-Encoder ONNX Model (REQUIRED)
+# ═══════════════════════════════════════════════════════════════════════════
+
+Write-Host "[3/4] Downloading Cross-Encoder ONNX model..." -ForegroundColor Yellow
+
+$CeModelFile = Join-Path $CeDir "model.onnx"
+if ((Test-Path $CeModelFile) -and -not $Force) {
+    Write-Host "Cross-encoder model already exists at: $CeDir" -ForegroundColor Gray
+    Write-Host "Use -Force to re-download" -ForegroundColor Gray
+} else {
+    Write-Host "Downloading cross-encoder/ms-marco-MiniLM-L-6-v2 from HuggingFace..." -ForegroundColor Green
+    python -c @"
+import os, shutil
 from pathlib import Path
-from chromadb.utils.embedding_functions import ONNXMiniLM_L6_V2
+from huggingface_hub import snapshot_download
 
-# Trigger model download (goes to ~/.cache/chroma/onnx_models/all-MiniLM-L6-v2/)
-print('Downloading ChromaDB ONNX model (all-MiniLM-L6-v2)...')
-ef = ONNXMiniLM_L6_V2()
+model_id = 'cross-encoder/ms-marco-MiniLM-L-6-v2'
+out = Path(r'$CeDir')
+out.mkdir(parents=True, exist_ok=True)
 
-# Verify it works
-test_embedding = ef(['test sentence'])
-print(f'  Embedding dimension: {len(test_embedding[0])}')
+cache_dir = snapshot_download(repo_id=model_id)
+print(f'Downloaded to: {cache_dir}')
 
-# Copy from user cache to packaging directory
-src = ONNXMiniLM_L6_V2.DOWNLOAD_PATH  # ~/.cache/chroma/onnx_models/all-MiniLM-L6-v2
-dst = Path(r'$ChromaDir') / 'all-MiniLM-L6-v2'
+# Copy tokenizer files
+for f in ['config.json', 'tokenizer.json', 'tokenizer_config.json', 'special_tokens_map.json', 'vocab.txt']:
+    src = os.path.join(cache_dir, f)
+    if os.path.exists(src):
+        shutil.copy2(src, out / f)
+        print(f'  Copied {f}')
 
-print(f'  Source: {src}')
-print(f'  Destination: {dst}')
-
-if dst.exists():
-    shutil.rmtree(dst)
-
-# Copy just the onnx/ subfolder (skip the .tar.gz archive)
-onnx_src = src / 'onnx'
-onnx_dst = dst / 'onnx'
-if onnx_src.exists():
-    shutil.copytree(onnx_src, onnx_dst)
-    total_size = sum(f.stat().st_size for f in onnx_dst.rglob('*') if f.is_file())
-    file_count = sum(1 for f in onnx_dst.rglob('*') if f.is_file())
-    print(f'  Copied: {file_count} files, {total_size / 1024 / 1024:.1f} MB')
+# Copy quantized ONNX model (avx2 for Windows x64)
+onnx_src = os.path.join(cache_dir, 'onnx', 'model_quint8_avx2.onnx')
+if os.path.exists(onnx_src):
+    shutil.copy2(onnx_src, out / 'model.onnx')
+    sz = os.path.getsize(str(out / 'model.onnx'))
+    print(f'  Copied model.onnx ({sz / 1024 / 1024:.1f} MB)')
 else:
-    raise FileNotFoundError(f'ONNX model folder not found at {onnx_src}')
-
-print('Done - ChromaDB model cached for bundling.')
-"@ | Out-File -FilePath $TempScript -Encoding UTF8
-
-python $TempScript
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to download ChromaDB model"
+    # Fallback to full model
+    onnx_src = os.path.join(cache_dir, 'onnx', 'model.onnx')
+    if os.path.exists(onnx_src):
+        shutil.copy2(onnx_src, out / 'model.onnx')
+        print('  Copied model.onnx (full, not quantized)')
+    else:
+        print('  ERROR: No ONNX model found!')
+        exit(1)
+"@
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to download cross-encoder model"
+    }
 }
-Remove-Item $TempScript
 
-Write-Host "✓ ChromaDB model cached" -ForegroundColor Green
+Write-Host "✓ Cross-encoder model ready" -ForegroundColor Green
 Write-Host ""
 
-Write-Host "[3/3] Downloading spaCy model (en_core_web_sm)..." -ForegroundColor Yellow
+# ═══════════════════════════════════════════════════════════════════════════
+# spaCy NER Model
+# ═══════════════════════════════════════════════════════════════════════════
 
-# Install spacy if not present
-python -m pip install --quiet "spacy>=3.7.0"
+Write-Host "[4/4] Downloading spaCy model (en_core_web_sm)..." -ForegroundColor Yellow
 
-# Download spaCy model
-python -m spacy download en_core_web_sm
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to download spaCy model"
+$SpacyModelPath = Join-Path $SpacyDir "en_core_web_sm"
+if ((Test-Path $SpacyModelPath) -and -not $Force) {
+    Write-Host "spaCy model already exists at: $SpacyModelPath" -ForegroundColor Gray
+    Write-Host "Use -Force to re-download" -ForegroundColor Gray
+} else {
+    # Install spacy if not present
+    python -m pip install --quiet "spacy>=3.7.0"
+
+    # Download spaCy model
+    python -m spacy download en_core_web_sm
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to download spaCy model"
+    }
+
+    # Find where spaCy installed the model
+    $InstalledPath = python -c "import en_core_web_sm; print(en_core_web_sm.__path__[0])"
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to locate spaCy model"
+    }
+
+    # Copy to our packaging directory
+    Write-Host "Copying spaCy model to packaging cache..." -ForegroundColor Green
+    if (Test-Path $SpacyModelPath) {
+        Remove-Item -Recurse -Force $SpacyModelPath
+    }
+    Copy-Item -Recurse -Force $InstalledPath $SpacyModelPath
 }
 
-# Find where spaCy installed the model
-$SpacyModelPath = python -c "import en_core_web_sm; print(en_core_web_sm.__path__[0])"
-if ($LASTEXITCODE -ne 0) {
-    throw "Failed to locate spaCy model"
-}
-
-# Copy to our packaging directory
-Write-Host "Copying spaCy model to packaging cache..." -ForegroundColor Green
-$DestPath = Join-Path $SpacyDir "en_core_web_sm"
-if (Test-Path $DestPath) {
-    Remove-Item -Recurse -Force $DestPath
-}
-Copy-Item -Recurse -Force $SpacyModelPath $DestPath
-
-Write-Host "✓ spaCy model cached" -ForegroundColor Green
+Write-Host "✓ spaCy model ready" -ForegroundColor Green
 Write-Host ""
 
-# Verify models exist
+# ═══════════════════════════════════════════════════════════════════════════
+# Summary
+# ═══════════════════════════════════════════════════════════════════════════
+
 Write-Host "=" * 80 -ForegroundColor Cyan
 Write-Host "Model Download Summary" -ForegroundColor Cyan
 Write-Host "=" * 80 -ForegroundColor Cyan
+Write-Host ""
 
-$ChromaModelFiles = Get-ChildItem -Recurse $ChromaDir | Measure-Object -Property Length -Sum
-$SpacyModelFiles = Get-ChildItem -Recurse $SpacyDir | Measure-Object -Property Length -Sum
-
-Write-Host "ChromaDB models: $ChromaDir" -ForegroundColor Green
-Write-Host "  Size: $([math]::Round($ChromaModelFiles.Sum / 1MB, 2)) MB" -ForegroundColor Gray
-Write-Host "  Files: $($ChromaModelFiles.Count)" -ForegroundColor Gray
+# BGE model stats
+$BgeModelFile = Join-Path $BgeDir "model.onnx"
+if (Test-Path $BgeModelFile) {
+    $BgeSize = (Get-Item $BgeModelFile).Length / 1MB
+    Write-Host "BGE ONNX INT8: $BgeDir" -ForegroundColor Green
+    Write-Host "  Model size: $([math]::Round($BgeSize, 1)) MB" -ForegroundColor Gray
+    Write-Host "  Dimensions: 768" -ForegroundColor Gray
+    Write-Host "  Status: READY" -ForegroundColor Green
+} else {
+    Write-Host "BGE ONNX INT8: NOT FOUND" -ForegroundColor Red
+    Write-Host "  Run: .\scripts\download_bge_model.ps1" -ForegroundColor Yellow
+}
 
 Write-Host ""
-Write-Host "spaCy models: $SpacyDir" -ForegroundColor Green
-Write-Host "  Size: $([math]::Round($SpacyModelFiles.Sum / 1MB, 2)) MB" -ForegroundColor Gray
-Write-Host "  Files: $($SpacyModelFiles.Count)" -ForegroundColor Gray
+
+# Cross-encoder model stats
+$CeModelFile = Join-Path $CeDir "model.onnx"
+if (Test-Path $CeModelFile) {
+    $CeSize = (Get-Item $CeModelFile).Length / 1MB
+    Write-Host "Cross-Encoder ONNX: $CeDir" -ForegroundColor Green
+    Write-Host "  Model: ms-marco-MiniLM-L-6-v2 (quantized INT8)" -ForegroundColor Gray
+    Write-Host "  Size: $([math]::Round($CeSize, 1)) MB" -ForegroundColor Gray
+    Write-Host "  Status: READY" -ForegroundColor Green
+} else {
+    Write-Host "Cross-Encoder ONNX: NOT FOUND" -ForegroundColor Red
+}
 
 Write-Host ""
-Write-Host "✓ All models downloaded and cached successfully!" -ForegroundColor Green
-Write-Host "  Ready for PyInstaller bundling." -ForegroundColor Gray
+
+# spaCy model stats
+$SpacyModelPath = Join-Path $SpacyDir "en_core_web_sm"
+if (Test-Path $SpacyModelPath) {
+    $SpacyFiles = Get-ChildItem -Recurse $SpacyModelPath | Measure-Object -Property Length -Sum
+    Write-Host "spaCy NER: $SpacyModelPath" -ForegroundColor Green
+    Write-Host "  Size: $([math]::Round($SpacyFiles.Sum / 1MB, 1)) MB" -ForegroundColor Gray
+    Write-Host "  Files: $($SpacyFiles.Count)" -ForegroundColor Gray
+    Write-Host "  Status: READY" -ForegroundColor Green
+} else {
+    Write-Host "spaCy NER: NOT FOUND" -ForegroundColor Red
+}
+
+Write-Host ""
+Write-Host "✓ Model download complete!" -ForegroundColor Green
+Write-Host "  Run: .\scripts\build_backend.ps1 to build the VSIX" -ForegroundColor Gray
 Write-Host ""

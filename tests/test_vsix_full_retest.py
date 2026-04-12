@@ -67,7 +67,7 @@ def clean_kts(folder: Path):
         shutil.rmtree(kts)
 
 
-def test_folder(name: str, folder: Path, queries: list[dict] | None = None):
+def _run_folder_test(name: str, folder: Path, queries: list[dict] | None = None):
     """Full test cycle for one source folder."""
     print(f"\n{'=' * 72}")
     print(f"TESTING: {name} ({folder})")
@@ -298,13 +298,13 @@ def main():
     all_results = {}
 
     # Test source_1 (PSA .doc file)
-    all_results["source_1"] = test_folder("source_1", FOLDERS["source_1"], PSA_QUERIES)
+    all_results["source_1"] = _run_folder_test("source_1", FOLDERS["source_1"], PSA_QUERIES)
 
     # Test source_2 (PSA .pdf file)
-    all_results["source_2"] = test_folder("source_2", FOLDERS["source_2"], PSA_QUERIES)
+    all_results["source_2"] = _run_folder_test("source_2", FOLDERS["source_2"], PSA_QUERIES)
 
     # Test Knowledge Base test (58 mixed files)
-    all_results["knowledge_base_test"] = test_folder("knowledge_base_test", FOLDERS["knowledge_base_test"], GOLDEN_QUERIES)
+    all_results["knowledge_base_test"] = _run_folder_test("knowledge_base_test", FOLDERS["knowledge_base_test"], GOLDEN_QUERIES)
 
     # SUMMARY
     print("\n" + "=" * 72)

@@ -23,6 +23,31 @@
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
+│                   REGIME-AWARE ROUTER (Phase 13.5)            │
+│   backend/agents/retrieval_service.py  _phase6_retrieve()    │
+│   • Resolve corpus_regime (GOVERNING_DOC_LEGAL / GENERIC_GUIDE / MIXED) │
+│   • LEGAL → Graph-first (HumanLikeRetriever)                 │
+│   • GUIDE → Vector-first (GuideRetriever)                     │
+│   • MIXED → Query-intent heuristic selects strategy           │
+│   • Feature-flagged: regime_aware_retrieval (default ON)      │
+├──────────────────────────────────────────────────────────────┤
+│                   GRAPH-FIRST STRATEGY (Legal)                │
+│   backend/retrieval/human_like_retriever.py  EXISTING        │
+│   • Graph keyword → section discovery (TOC lookup)            │
+│   • Section-scoped vector search (items within sections)      │
+│   • Definition enrichment from graph                          │
+│   • Cross-encoder rerank + keyword boost                      │
+│   Optimised for: defined terms, obligations, clause lookup    │
+├──────────────────────────────────────────────────────────────┤
+│                   VECTOR-FIRST STRATEGY (Guide) NEW 13.5      │
+│   backend/retrieval/guide_retriever.py       NEW             │
+│   • Global items + sections semantic search                   │
+│   • Graph BFS expansion (NEXT/STEP/ERROR_CODE edges)          │
+│   • Error-code exact-match boost (+0.35)                      │
+│   • Cross-encoder rerank + keyword boost                      │
+│   • Step-sequence ordering within same document               │
+│   Optimised for: symptom queries, error codes, procedures     │
+├──────────────────────────────────────────────────────────────┤
 │                   QUERY PROCESSING LAYER                      │
 │   backend/retrieval/hyde.py          NEW 13.4                │
 │   • Hypothetical paragraph generation                         │
@@ -54,6 +79,75 @@
 │   • Render confidence tier badge after every answer           │
 │   • Render gap alert blockquote if gaps non-empty             │
 └──────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2a. Regime-Aware Retrieval Router (Phase 13.5)
+
+### Why Different Strategies?
+
+Legal documents and troubleshooting guides have fundamentally different
+retrieval characteristics:
+
+| Dimension | Legal / Governing Doc | Guide / Troubleshooting |
+|---|---|---|
+| **Query pattern** | "What does X mean?", "What are Y's obligations?" | "How do I fix error Z?", "Step 3 does what?" |
+| **Key graph nodes** | DEFINED_TERM, OBLIGATION, CLAUSE, REFERENCES | ERROR_CODE, STEP, TOOL, PROCEDURE |
+| **Ideal first step** | Graph-first (exact term lookup wins) | Vector-first (fuzzy symptom match wins) |
+| **Best expansion** | Follow REFERENCES edges to related clauses | Follow NEXT/STEP edges to procedures |
+| **Rerank signal** | Defined term exact match + clause proximity | Error code exact match + step sequence |
+| **Context size** | Larger (full clause + definition) | Smaller (targeted step/procedure) |
+
+### Decision Flow
+
+```
+_phase6_retrieve(query)
+    │
+    ├─ _resolve_corpus_regime()
+    │   └─ config override > graph metadata > default "MIXED"
+    │
+    ├─ _should_use_guide_strategy(query, regime)
+    │   ├─ GOVERNING_DOC_LEGAL → False (always graph-first)
+    │   ├─ GENERIC_GUIDE       → True  (always vector-first)
+    │   └─ MIXED               → check _detect_query_intent()
+    │       ├─ governing_doc*  → False (graph-first)
+    │       └─ all others      → True  (vector-first)
+    │
+    ├─ use_guide=True  → _guide_retrieve()  → GuideRetriever
+    └─ use_guide=False → _human_like_retrieve() → HumanLikeRetriever
+```
+
+### GuideRetriever Pipeline (Vector-First)
+
+```
+Query
+  1. Decompose compound queries ("errors and timeouts" → 2 sub-queries)
+  2. Vector search: items (top-30) + sections (top-10), GLOBAL scope
+  3. RRF fusion if multiple sub-queries
+  4. Graph BFS expansion from top-5 seeds
+     └─ edges: NEXT, CONTAINS, REFERENCES, HAS_STEP, HAS_RULE,
+               HAS_DEFINITION, RELATES_TO
+  5. Error-code exact-match boost (+0.35 per matching code)
+  6. Cross-encoder rerank
+  7. Keyword-match rerank
+  8. Step-sequence ordering (chunks in same doc sorted by chunk_index)
+  9. Confidence derivation
+```
+
+### HumanLikeRetriever Pipeline (Graph-First) — Unchanged
+
+```
+Query
+  1. Self-query filter extraction (section numbers, item types)
+  2. Query decomposition
+  3. Graph keyword→section lookup (TOC navigation)
+  4. Section-scoped item search (80x narrower search space)
+  5. Fallback to global search if needed
+  6. Definition enrichment (inject graph definitions)
+  7. Cross-encoder rerank
+  8. Keyword-match rerank + doc drill-down
+  9. Confidence derivation
 ```
 
 ---

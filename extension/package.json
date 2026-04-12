@@ -2,7 +2,7 @@
   "name": "gsf-ir-kts-extension",
   "displayName": "GSF IR KTS",
   "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
-  "version": "0.0.6",
+  "version": "0.0.9",
   "publisher": "karmsud",
   "repository": {
     "type": "git",
@@ -22,98 +22,456 @@
     "onStartupFinished"
   ],
   "contributes": {
-    "configuration": {
-      "title": "KTS Knowledge Assistant",
-      "properties": {
-        "kts.sourceFolder": {
-          "type": "string",
-          "default": "",
-          "order": 1,
-          "description": "Folder containing your documents (PSA, guides, manuals). Use 'KTS: Select Source Folder' to browse."
-        },
-        "kts.logLevel": {
-          "type": "string",
-          "default": "normal",
-          "enum": [
-            "normal",
-            "verbose"
-          ],
-          "enumDescriptions": [
-            "Show document counts, retrieval hits, and confidence scores.",
-            "Full pipeline trace: graph hops, chunk scores, embedding calls, token counts."
-          ],
-          "order": 2,
-          "description": "Output panel logging detail."
-        },
-        "kts.model": {
-          "type": "string",
-          "default": "auto",
-          "enum": [
-            "auto",
-            "gpt-4.1",
-            "gpt-4o",
-            "gpt-4o-mini",
-            "claude-sonnet-4"
-          ],
-          "enumDescriptions": [
-            "Use your active GitHub Copilot model (recommended)",
-            "OpenAI GPT-4.1 — strongest reasoning, 1M context",
-            "OpenAI GPT-4o — balanced quality and speed",
-            "OpenAI GPT-4o Mini — fast and lightweight",
-            "Anthropic Claude Sonnet 4 — strong analysis"
-          ],
-          "order": 3,
-          "description": "Language model for answer generation. 'auto' uses your active Copilot model."
-        },
-        "kts.backendMode": {
-          "type": "string",
-          "default": "auto",
-          "enum": [
-            "auto",
-            "venv",
-            "exe"
-          ],
-          "order": 100,
-          "markdownDescription": "**[Developer]** Backend execution: 'auto' (prefer exe), 'venv' (live Python), 'exe' (compiled)."
-        },
-        "kts.backendChannel": {
-          "type": "string",
-          "default": "bundled",
-          "enum": [
-            "bundled",
-            "workspace"
-          ],
-          "order": 101,
-          "markdownDescription": "**[Developer]** Backend source: 'bundled' (VSIX) or 'workspace' (git repo)."
-        },
-        "kts.pythonPath": {
-          "type": "string",
-          "default": "",
-          "order": 102,
-          "markdownDescription": "**[Developer]** Override Python executable path."
-        },
-        "kts.kbWorkspacePath": {
-          "type": "string",
-          "default": "",
-          "order": 103,
-          "markdownDescription": "**[Developer]** Override knowledge base workspace path."
-        },
-        "kts.ingestionTimeoutMinutes": {
-          "type": "integer",
-          "default": 60,
-          "minimum": 5,
-          "maximum": 180,
-          "order": 104,
-          "markdownDescription": "**[Developer]** Max time (minutes) for document ingestion."
-        },
-        "kts.knowledgeSourceRoot": {
-          "type": "string",
-          "default": "",
-          "order": 4,
-          "description": "Root directory for scope discovery (auto-set when source folder is selected)."
+    "configuration": [
+      {
+        "title": "KTS — General",
+        "properties": {
+          "kts.sourceFolder": {
+            "type": "string",
+            "default": "",
+            "order": 1,
+            "description": "Folder containing your documents (PSA, guides, manuals). Use 'KTS: Select Source Folder' to browse."
+          },
+          "kts.logLevel": {
+            "type": "string",
+            "default": "normal",
+            "enum": [
+              "normal",
+              "verbose"
+            ],
+            "enumDescriptions": [
+              "Show document counts, retrieval hits, and confidence scores.",
+              "Full pipeline trace: graph hops, chunk scores, embedding calls, token counts."
+            ],
+            "order": 2,
+            "description": "Output panel logging detail."
+          },
+          "kts.model": {
+            "type": "string",
+            "default": "auto",
+            "enum": [
+              "auto",
+              "gpt-4.1",
+              "gpt-4o",
+              "gpt-4o-mini",
+              "claude-sonnet-4"
+            ],
+            "enumDescriptions": [
+              "Use your active GitHub Copilot model (recommended)",
+              "OpenAI GPT-4.1 — strongest reasoning, 1M context",
+              "OpenAI GPT-4o — balanced quality and speed",
+              "OpenAI GPT-4o Mini — fast and lightweight",
+              "Anthropic Claude Sonnet 4 — strong analysis"
+            ],
+            "order": 3,
+            "description": "Language model for answer generation. 'auto' uses your active Copilot model."
+          },
+          "kts.knowledgeSourceRoot": {
+            "type": "string",
+            "default": "",
+            "order": 4,
+            "description": "Root directory for scope discovery (auto-set when source folder is selected)."
+          },
+          "kts.backendMode": {
+            "type": "string",
+            "default": "auto",
+            "enum": [
+              "auto",
+              "venv",
+              "exe"
+            ],
+            "order": 100,
+            "markdownDescription": "**[Developer]** Backend execution: 'auto' (prefer exe), 'venv' (live Python), 'exe' (compiled)."
+          },
+          "kts.backendChannel": {
+            "type": "string",
+            "default": "bundled",
+            "enum": [
+              "bundled",
+              "workspace"
+            ],
+            "order": 101,
+            "markdownDescription": "**[Developer]** Backend source: 'bundled' (VSIX) or 'workspace' (git repo)."
+          },
+          "kts.pythonPath": {
+            "type": "string",
+            "default": "",
+            "order": 102,
+            "markdownDescription": "**[Developer]** Override Python executable path."
+          },
+          "kts.kbWorkspacePath": {
+            "type": "string",
+            "default": "",
+            "order": 103,
+            "markdownDescription": "**[Developer]** Override knowledge base workspace path."
+          },
+          "kts.ingestionTimeoutMinutes": {
+            "type": "integer",
+            "default": 60,
+            "minimum": 5,
+            "maximum": 180,
+            "order": 104,
+            "markdownDescription": "**[Developer]** Max time (minutes) for document ingestion."
+          }
+        }
+      },
+      {
+        "title": "KTS — Models",
+        "properties": {
+          "kts.models.critiqueModel": {
+            "type": "string",
+            "default": "auto",
+            "enum": [
+              "auto",
+              "gpt-4.1",
+              "gpt-4o",
+              "gpt-4o-mini",
+              "claude-sonnet-4"
+            ],
+            "enumDescriptions": [
+              "Use your active Copilot model (same as answer generation)",
+              "OpenAI GPT-4.1",
+              "OpenAI GPT-4o",
+              "OpenAI GPT-4o Mini — faster, cheaper for critique checks",
+              "Anthropic Claude Sonnet 4"
+            ],
+            "description": "Model used for the Critique loop (gap detection per round). Can be a lighter model than the generation model to save cost and time."
+          },
+          "kts.models.queryExpansionModel": {
+            "type": "string",
+            "default": "auto",
+            "enum": [
+              "auto",
+              "gpt-4.1",
+              "gpt-4o",
+              "gpt-4o-mini",
+              "claude-sonnet-4"
+            ],
+            "enumDescriptions": [
+              "Use your active Copilot model",
+              "OpenAI GPT-4.1",
+              "OpenAI GPT-4o",
+              "OpenAI GPT-4o Mini — good enough for query expansion",
+              "Anthropic Claude Sonnet 4"
+            ],
+            "description": "Model used for multi-query expansion (generating variant queries). A lighter model is usually sufficient here."
+          }
+        }
+      },
+      {
+        "title": "KTS — Query Expansion & HyDE",
+        "properties": {
+          "kts.rag.multiQuery.enabledForLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Legal docs] Generate LLM query variants before retrieval. Off by default — HyDE already handles vocabulary bridging for legal. Enable to improve recall at the cost of ~2s extra latency (1 LLM call)."
+          },
+          "kts.rag.multiQuery.enabledForNonLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Non-legal / guides] Generate LLM query variants before retrieval. Off by default for ≤5s latency target. Enable for troubleshooting queries with many synonyms, adds ~2s."
+          },
+          "kts.rag.multiQuery.variants": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 8,
+            "description": "Number of additional query variants to generate (1 = just original query, 2 = original + 1 variant). Higher values improve recall but add latency."
+          },
+          "kts.rag.hyde.enabledForLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Legal docs] HyDE: generate a hypothetical document, then embed it for retrieval. Off by default for ≤10s target (saves 1–3s LLM call inside backend). Enable for deep legal analysis where vocabulary gap between query and clause language is a concern."
+          },
+          "kts.rag.hyde.enabledForNonLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Non-legal / guides] HyDE: generates a hypothetical answer before retrieval. Less useful when vocabulary already matches (guides, manuals). Recommended OFF to save latency."
+          }
+        }
+      },
+      {
+        "title": "KTS — Retrieval Pool (Candidate Chunks)",
+        "properties": {
+          "kts.retrieval.legal.itemsTopK": {
+            "type": "integer",
+            "default": 20,
+            "minimum": 5,
+            "maximum": 200,
+            "description": "[Legal docs] Max clause/item nodes fetched from the knowledge graph per query. Default 20 targets ≤10s. Raise to 60 for maximum precision (adds ~0.5s)."
+          },
+          "kts.retrieval.legal.sectionsTopK": {
+            "type": "integer",
+            "default": 8,
+            "minimum": 2,
+            "maximum": 100,
+            "description": "[Legal docs] Max section chunks fetched from the vector store per query. Default 8 targets ≤10s; raise to 20 for maximum coverage."
+          },
+          "kts.retrieval.nonLegal.itemsTopK": {
+            "type": "integer",
+            "default": 12,
+            "minimum": 5,
+            "maximum": 200,
+            "description": "[Non-legal / guides] Max item nodes fetched from the knowledge graph per query. Default 12 targets ≤5s. Raise to 30 for broader coverage."
+          },
+          "kts.retrieval.nonLegal.sectionsTopK": {
+            "type": "integer",
+            "default": 5,
+            "minimum": 2,
+            "maximum": 100,
+            "description": "[Non-legal / guides] Max section chunks fetched from the vector store per query. Default 5 targets ≤5s."
+          },
+          "kts.retrieval.maxContextChunks": {
+            "type": "integer",
+            "default": 25,
+            "minimum": 10,
+            "maximum": 300,
+            "description": "Maximum chunks passed to the LLM context window. Capped by token budget. Higher = more context, higher cost per generation call."
+          }
+        }
+      },
+      {
+        "title": "KTS — Cross-Encoder Reranking",
+        "properties": {
+          "kts.retrieval.crossEncoder.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Run a cross-encoder model to rerank retrieved candidates before sending to LLM. Significantly improves precision. Small latency cost (~200ms). Recommended: always ON."
+          },
+          "kts.retrieval.crossEncoder.poolSizeLegal": {
+            "type": "integer",
+            "default": 20,
+            "minimum": 5,
+            "maximum": 200,
+            "description": "[Legal docs] How many candidates the cross-encoder scores. Default 20 matches itemsTopK for ≤10s target. Raise to 60 for maximum reranking precision."
+          },
+          "kts.retrieval.crossEncoder.poolSizeNonLegal": {
+            "type": "integer",
+            "default": 12,
+            "minimum": 5,
+            "maximum": 200,
+            "description": "[Non-legal / guides] Cross-encoder candidate pool size."
+          }
+        }
+      },
+      {
+        "title": "KTS — BM25 Hybrid Search",
+        "properties": {
+          "kts.retrieval.bm25.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Blend BM25 keyword search with vector (embedding) search using Reciprocal Rank Fusion. Dramatically improves recall for exact term matches (error codes, part numbers, defined terms). Recommended: always ON."
+          },
+          "kts.retrieval.bm25.weight": {
+            "type": "number",
+            "default": 0.4,
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Weight given to the BM25 lane in RRF fusion (vector weight = 1 − this). 0.4 means 40% keyword, 60% vector. Increase for exact-match heavy corpora."
+          },
+          "kts.retrieval.bm25.k1": {
+            "type": "number",
+            "default": 1.5,
+            "minimum": 0.5,
+            "maximum": 3,
+            "description": "BM25 term-frequency saturation. Higher = more weight on term frequency before saturation. Default 1.5 is standard for most corpora."
+          },
+          "kts.retrieval.bm25.b": {
+            "type": "number",
+            "default": 0.75,
+            "minimum": 0,
+            "maximum": 1,
+            "description": "BM25 document-length normalization. 0 = no normalization, 1 = full normalization. 0.75 is the standard default."
+          }
+        }
+      },
+      {
+        "title": "KTS — Critique Loop",
+        "properties": {
+          "kts.critique.enabledForLegal": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Legal docs] Run the directed-critique loop: after initial generation, the system checks pre-indexed questions one by one. Catches missed obligations, defined terms, and cross-references. High accuracy, multiple LLM calls."
+          },
+          "kts.critique.enabledForNonLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Non-legal / guides] Run the directed-critique loop. Off by default for ≤5s target — adds 1–3 LLM calls. Enable for complex guides where coverage gaps matter."
+          },
+          "kts.critique.maxRoundsLegal": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 10,
+            "description": "[Legal docs] Maximum critique-fix cycles. Default 1 for ≤10s target. Raise to 3 for high-stakes analysis (adds ~10–20s per extra round)."
+          },
+          "kts.critique.maxRoundsNonLegal": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "maximum": 5,
+            "description": "[Non-legal / guides] Maximum critique rounds. 1 round is usually enough for guides where gaps are rare. Increasing saves little accuracy but adds latency."
+          },
+          "kts.critique.restartOnGap": {
+            "type": "boolean",
+            "default": false,
+            "description": "After fixing a gap, restart critique from question 1 (ensures fixed answer is re-checked from scratch). Most expensive option — doubles critique time. Recommended OFF for non-legal. ON only for high-stakes legal analysis."
+          },
+          "kts.critique.confidenceExit": {
+            "type": "number",
+            "default": 0.9,
+            "minimum": 0.5,
+            "maximum": 1,
+            "description": "Stop the critique loop early when confidence score exceeds this threshold. 0.9 = exit when 90% confident all questions are answered. Lower to run more rounds; raise to exit sooner."
+          },
+          "kts.critique.maxQuestionsPerRound": {
+            "type": "integer",
+            "default": 3,
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Maximum critique questions evaluated per round. Default 3 for ≤10s legal target (each question = ~1 LLM call). Raise to 10–25 for comprehensive legal coverage at higher latency."
+          }
+        }
+      },
+      {
+        "title": "KTS — Corrective RAG (CRAG)",
+        "properties": {
+          "kts.crag.enabledForLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Legal docs] CRAG: verify each factual claim after generation. Off by default for ≤10s target (saves 5–20 LLM calls). Enable for high-stakes legal work where hallucination prevention is critical."
+          },
+          "kts.crag.enabledForNonLegal": {
+            "type": "boolean",
+            "default": false,
+            "description": "[Non-legal / guides] CRAG for guides. Off by default for ≤5s target. Enable when procedure accuracy is critical and you can tolerate 10–30s extra latency."
+          },
+          "kts.crag.maxClaims": {
+            "type": "integer",
+            "default": 5,
+            "minimum": 1,
+            "maximum": 50,
+            "description": "Maximum claims to verify when CRAG is enabled. Default 5 minimises latency. Raise to 15–20 for thorough legal claim coverage."
+          },
+          "kts.crag.evidenceTopK": {
+            "type": "integer",
+            "default": 5,
+            "minimum": 1,
+            "maximum": 20,
+            "description": "Number of evidence chunks retrieved to verify each claim. 5 is usually sufficient; increase for domains with scattered evidence."
+          },
+          "kts.crag.allowBackendReRetrieval": {
+            "type": "boolean",
+            "default": false,
+            "description": "When a claim lacks evidence in the initial chunks, re-query the backend. Off by default — each re-query = 1 cold process spawn (~1–2s). Enable only if claim coverage is more important than latency."
+          },
+          "kts.crag.dropContradicted": {
+            "type": "boolean",
+            "default": true,
+            "description": "Remove claims that are directly contradicted by source documents. Recommended ON to prevent false information from appearing in answers."
+          },
+          "kts.crag.flagNoEvidence": {
+            "type": "boolean",
+            "default": true,
+            "description": "Mark claims that have no supporting evidence (neither verified nor contradicted) so the user knows which parts are unsubstantiated."
+          }
+        }
+      },
+      {
+        "title": "KTS — Phase 19 / Non-Legal Triple Store",
+        "properties": {
+          "kts.phase19.tripleStoreEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Non-legal] Use three parallel vector stores (error-boundary, sentence-level, structure-aware) for non-legal documents. Each gives a different view of the same content — unified reranking picks the best. Higher accuracy, 3× storage."
+          },
+          "kts.phase19.errorBoundaryChunking": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Non-legal] Store 1: chunk at error code and procedure boundaries. Gives precise, self-contained error resolution chunks. Essential for troubleshooting guides."
+          },
+          "kts.phase19.sentenceLevelChunking": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Non-legal] Store 2: small sentence-level chunks (~200 chars). Best for pinpoint factual lookups. Lower recall but very high precision for exact fact retrieval."
+          },
+          "kts.phase19.structureAwareChunking": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Non-legal] Store 3: structure-aware chunks that respect headers and list boundaries (~1500 chars). Best for conceptual questions. Balances coverage and precision."
+          },
+          "kts.phase19.troubleshootingGraphEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "[Non-legal] Build a dedicated troubleshooting graph at ingest time (symptom → cause → resolution nodes). Enables graph-walk for multi-step diagnostic queries. Disable to reduce ingest time."
+          }
+        }
+      },
+      {
+        "title": "KTS — Chunking",
+        "properties": {
+          "kts.chunking.legalChunkSize": {
+            "type": "integer",
+            "default": 3000,
+            "minimum": 500,
+            "maximum": 12000,
+            "description": "[Legal docs] Target characters per chunk for legal/governing documents. Larger chunks preserve full clause context but cost more tokens per LLM call. 3000 chars ≈ 750 tokens."
+          },
+          "kts.chunking.legalChunkOverlap": {
+            "type": "integer",
+            "default": 500,
+            "minimum": 0,
+            "maximum": 2000,
+            "description": "[Legal docs] Character overlap between consecutive legal chunks. Prevents clause boundaries from being split across chunks."
+          },
+          "kts.chunking.nonLegalChunkSize": {
+            "type": "integer",
+            "default": 1000,
+            "minimum": 100,
+            "maximum": 5000,
+            "description": "[Non-legal / guides] Target characters per chunk for guides and manuals. Smaller chunks = more precise retrieval for procedural steps. 1000 chars ≈ 250 tokens."
+          },
+          "kts.chunking.nonLegalChunkOverlap": {
+            "type": "integer",
+            "default": 200,
+            "minimum": 0,
+            "maximum": 1000,
+            "description": "[Non-legal / guides] Character overlap between consecutive non-legal chunks."
+          },
+          "kts.chunking.cchEnabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Contextual Chunk Headers: prepend [DOC: | TYPE: | SECTION:] metadata to each chunk before embedding. Dramatically improves retrieval precision by giving the embedding model document context. Recommended: always ON."
+          }
+        }
+      },
+      {
+        "title": "KTS — Context Window (JS / LLM Side)",
+        "properties": {
+          "kts.context.maxChunksInPrompt": {
+            "type": "integer",
+            "default": 20,
+            "minimum": 10,
+            "maximum": 300,
+            "description": "Hard cap on chunks passed to the LLM prompt. Default 20 targets fastest generation (fewer input tokens). Raise to 40–60 for comprehensive multi-section legal answers at the cost of extra latency."
+          },
+          "kts.context.tokenBudgetUtilization": {
+            "type": "number",
+            "default": 0.8,
+            "minimum": 0.3,
+            "maximum": 0.95,
+            "description": "Fraction of the model's context window used for retrieved context (0.8 = 80%). The remaining 20% is reserved for the prompt, query, and response. Reduce if you get 'context too long' errors."
+          },
+          "kts.context.reservedTokens": {
+            "type": "integer",
+            "default": 5000,
+            "minimum": 1000,
+            "maximum": 20000,
+            "description": "Tokens unconditionally reserved for the system prompt, query text, follow-up questions, and response generation. Not available for retrieved context."
+          }
         }
       }
-    },
+    ],
     "chatParticipants": [
       {
         "id": "kts.assistant",
@@ -157,6 +515,32 @@
           {
             "name": "scope",
             "description": "List available knowledge scopes or target a specific scope"
+          }
+        ]
+      },
+      {
+        "id": "abs.assistant",
+        "name": "abs",
+        "fullName": "ABS Payment Model Generator",
+        "description": "Ingest deal documents, generate payment waterfall models, audit against governing docs, and answer deal questions.",
+        "iconPath": "media/abs-icon.svg",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "ingest",
+            "description": "Ingest deal documents (PDF) into the knowledge base"
+          },
+          {
+            "name": "generate",
+            "description": "Generate a payment waterfall model from ingested data"
+          },
+          {
+            "name": "audit",
+            "description": "Audit the generated model against governing documents"
+          },
+          {
+            "name": "status",
+            "description": "Show deal processing status"
           }
         ]
       }

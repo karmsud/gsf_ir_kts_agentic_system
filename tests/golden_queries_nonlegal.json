@@ -1,0 +1,424 @@
+{
+  "corpus_id": "kts_nonlegal_corpus_v1",
+  "created": "2026-03-01T12:00:00",
+  "description": "Golden queries targeting the Phase 19 non-legal pipeline: triple-store (error-boundary, sentence, structure), troubleshooting graph, CRAG verification.",
+  "split": {
+    "tune": 20,
+    "holdout": 5
+  },
+  "doc_type_priority_default": [
+    "TROUBLESHOOT",
+    "SOP",
+    "USER_GUIDE",
+    "TRAINING",
+    "RELEASE_NOTES",
+    "INCIDENT",
+    "REFERENCE",
+    "ARCHITECTURE",
+    "CONFIG"
+  ],
+  "queries": [
+    {
+      "query_id": "NL-Q01",
+      "query_text": "OpsFlow shows ERR-RUN-204. What does it mean and what's the fastest safe fix?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["ERR-RUN-204", "OOM"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "ERROR_CODE -> SYMPTOM -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Error-boundary chunker should capture the error block; graph should resolve ERR-RUN-204 -> OOM -> memory fix."
+    },
+    {
+      "query_id": "NL-Q02",
+      "query_text": "How do I troubleshoot ERR-AUTH-407 during SSO redirect behind a proxy?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["ERR-AUTH-407", "proxy"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "prefer_top_doc_type_when_applicable": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "ERROR_CODE -> SYMPTOM -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Proxy-related auth error. Graph should link ERR-AUTH-407 -> SSO failure -> proxy config fix."
+    },
+    {
+      "query_id": "NL-Q03",
+      "query_text": "What are the prerequisites for installing DataDesk on RHEL 9?",
+      "split": "tune",
+      "intent": "PROCEDURE",
+      "expected_doc_types": ["USER_GUIDE", "SOP", "CONFIG"],
+      "must_include_terms": ["RHEL", "DataDesk"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure", "sentence"],
+      "expected_graph_path": null,
+      "notes": "Structure chunker should capture the prerequisites heading block. No troubleshooting graph path expected."
+    },
+    {
+      "query_id": "NL-Q04",
+      "query_text": "DataDesk upload fails with ERR-UPL-021. What is the file size limit?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["ERR-UPL-021", "limit"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary"],
+      "expected_graph_path": "ERROR_CODE -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Tests error-boundary detection of upload-size error block."
+    },
+    {
+      "query_id": "NL-Q05",
+      "query_text": "Step-by-step guide to configure OpsFlow LDAP integration",
+      "split": "tune",
+      "intent": "PROCEDURE",
+      "expected_doc_types": ["SOP", "USER_GUIDE", "CONFIG"],
+      "must_include_terms": ["LDAP"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Structure chunker should return heading-nested procedural blocks."
+    },
+    {
+      "query_id": "NL-Q06",
+      "query_text": "User sees HTTP 502 Bad Gateway after deploying OpsFlow to Kubernetes. What should I check?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "SOP", "INCIDENT"],
+      "must_include_terms": ["502", "Kubernetes"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "ERROR_CODE -> SYMPTOM -> ROOT_CAUSE",
+      "notes": "Tests symptom pattern detection (user sees ...) plus error-code extraction."
+    },
+    {
+      "query_id": "NL-Q07",
+      "query_text": "What caused the OpsFlow memory leak during batch processing in v3.2?",
+      "split": "tune",
+      "intent": "ROOT_CAUSE",
+      "expected_doc_types": ["INCIDENT", "TROUBLESHOOT", "RELEASE_NOTES"],
+      "must_include_terms": ["memory", "batch"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["sentence", "error_boundary"],
+      "expected_graph_path": "SYMPTOM -> ROOT_CAUSE",
+      "notes": "Tests sentence-level retrieval for root-cause analysis content."
+    },
+    {
+      "query_id": "NL-Q08",
+      "query_text": "Is there a workaround for the DataDesk CSV export bug when column headers contain commas?",
+      "split": "tune",
+      "intent": "WORKAROUND",
+      "expected_doc_types": ["TROUBLESHOOT", "RELEASE_NOTES"],
+      "must_include_terms": ["CSV", "workaround"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["sentence", "error_boundary"],
+      "expected_graph_path": "SYMPTOM -> ROOT_CAUSE -> WORKAROUND",
+      "notes": "Tests workaround pattern detection and graph traversal to MITIGATED_BY edges."
+    },
+    {
+      "query_id": "NL-Q09",
+      "query_text": "What is the difference between OpsFlow Standard and Enterprise editions?",
+      "split": "tune",
+      "intent": "COMPARISON",
+      "expected_doc_types": ["USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["Standard", "Enterprise"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Tests structure-aware chunker for comparison/feature-table content."
+    },
+    {
+      "query_id": "NL-Q10",
+      "query_text": "OpsFlow scheduler keeps restarting runs with ERR-SCH-110. The pod logs show CrashLoopBackOff.",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "INCIDENT"],
+      "must_include_terms": ["ERR-SCH-110", "CrashLoopBackOff"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "ERROR_CODE -> SYMPTOM -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Compound error: both an error code and a Kubernetes symptom. Tests multi-entity graph resolution."
+    },
+    {
+      "query_id": "NL-Q11",
+      "query_text": "How do I enable TLS 1.3 for OpsFlow API endpoints?",
+      "split": "tune",
+      "intent": "PROCEDURE",
+      "expected_doc_types": ["SOP", "CONFIG", "USER_GUIDE"],
+      "must_include_terms": ["TLS"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Configuration procedure. Structure chunker should find the TLS config section."
+    },
+    {
+      "query_id": "NL-Q12",
+      "query_text": "What evidence should I capture when OpsFlow fails with a database connection timeout?",
+      "split": "tune",
+      "intent": "AUDIT",
+      "expected_doc_types": ["SOP", "TROUBLESHOOT"],
+      "must_include_terms": ["timeout", "database"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["sentence", "error_boundary"],
+      "expected_graph_path": "SYMPTOM -> ROOT_CAUSE",
+      "notes": "Tests sentence-level retrieval for evidence-gathering SOPs."
+    },
+    {
+      "query_id": "NL-Q13",
+      "query_text": "DataDesk dashboard shows stale data after cache invalidation. Component: report-engine.",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "INCIDENT"],
+      "must_include_terms": ["cache", "report-engine"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "COMPONENT -> SYMPTOM -> ROOT_CAUSE",
+      "notes": "Tests component pattern detection in troubleshooting builder."
+    },
+    {
+      "query_id": "NL-Q14",
+      "query_text": "List all known issues fixed in OpsFlow v3.4.1 release",
+      "split": "tune",
+      "intent": "CHANGELOG",
+      "expected_doc_types": ["RELEASE_NOTES"],
+      "must_include_terms": ["v3.4.1"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Tests structure-aware chunker on changelog / release-note headings."
+    },
+    {
+      "query_id": "NL-Q15",
+      "query_text": "ERR-NET-301 and ERR-NET-302 keep appearing together. Are they related?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT"],
+      "must_include_terms": ["ERR-NET-301", "ERR-NET-302"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary"],
+      "expected_graph_path": "ERROR_CODE -> RELATED_ERROR",
+      "notes": "Tests the troubleshooting graph's RELATED_ERROR co-occurrence edges."
+    },
+    {
+      "query_id": "NL-Q16",
+      "query_text": "What monitoring alerts should I configure for OpsFlow in production?",
+      "split": "tune",
+      "intent": "BEST_PRACTICE",
+      "expected_doc_types": ["SOP", "USER_GUIDE", "ARCHITECTURE"],
+      "must_include_terms": ["monitoring", "alert"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure", "sentence"],
+      "expected_graph_path": null,
+      "notes": "Best-practice query. Structure chunker should find monitoring/alerting sections."
+    },
+    {
+      "query_id": "NL-Q17",
+      "query_text": "The system shows 'Unable to connect to authentication service'. How do I restart the auth module?",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["authentication", "restart"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["sentence", "error_boundary"],
+      "expected_graph_path": "SYMPTOM -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Tests symptom extraction from quoted error message."
+    },
+    {
+      "query_id": "NL-Q18",
+      "query_text": "What are the hardware requirements for running DataDesk with 10,000 concurrent users?",
+      "split": "tune",
+      "intent": "SIZING",
+      "expected_doc_types": ["ARCHITECTURE", "USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["hardware", "concurrent"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Architecture / sizing query. Structure chunker should capture requirements tables."
+    },
+    {
+      "query_id": "NL-Q19",
+      "query_text": "OpsFlow pipeline hangs at 'Waiting for resource allocation' for over 30 minutes. Component: scheduler-service.",
+      "split": "tune",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "INCIDENT"],
+      "must_include_terms": ["resource allocation", "scheduler"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "COMPONENT -> SYMPTOM -> ROOT_CAUSE -> SOLUTION",
+      "notes": "Component + symptom compound query. Tests both component and symptom extraction."
+    },
+    {
+      "query_id": "NL-Q20",
+      "query_text": "How do I migrate DataDesk from PostgreSQL 13 to PostgreSQL 16?",
+      "split": "tune",
+      "intent": "PROCEDURE",
+      "expected_doc_types": ["SOP", "USER_GUIDE"],
+      "must_include_terms": ["PostgreSQL", "migrate"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Migration procedure. Structure chunker should capture migration-guide headings."
+    },
+    {
+      "query_id": "NL-Q21",
+      "query_text": "ERR-DB-500 keeps occurring after the nightly backup job completes. What is the root cause?",
+      "split": "holdout",
+      "intent": "ROOT_CAUSE",
+      "expected_doc_types": ["TROUBLESHOOT", "INCIDENT"],
+      "must_include_terms": ["ERR-DB-500", "backup"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary", "sentence"],
+      "expected_graph_path": "ERROR_CODE -> SYMPTOM -> ROOT_CAUSE",
+      "notes": "Holdout query — tests error-boundary + root-cause graph path."
+    },
+    {
+      "query_id": "NL-Q22",
+      "query_text": "Describe the recommended backup strategy for OpsFlow operational data.",
+      "split": "holdout",
+      "intent": "BEST_PRACTICE",
+      "expected_doc_types": ["SOP", "ARCHITECTURE"],
+      "must_include_terms": ["backup"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Holdout query — tests structure-aware retrieval for best-practice sections."
+    },
+    {
+      "query_id": "NL-Q23",
+      "query_text": "DataDesk reports ERR-RPT-044 when generating PDF exports with charts. Workaround?",
+      "split": "holdout",
+      "intent": "WORKAROUND",
+      "expected_doc_types": ["TROUBLESHOOT", "RELEASE_NOTES"],
+      "must_include_terms": ["ERR-RPT-044", "PDF"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["error_boundary"],
+      "expected_graph_path": "ERROR_CODE -> ROOT_CAUSE -> WORKAROUND",
+      "notes": "Holdout query — tests workaround traversal via MITIGATED_BY edge."
+    },
+    {
+      "query_id": "NL-Q24",
+      "query_text": "The OpsFlow UI freezes when loading dashboards with more than 50 widgets. Is this a known issue?",
+      "split": "holdout",
+      "intent": "TROUBLESHOOT",
+      "expected_doc_types": ["TROUBLESHOOT", "RELEASE_NOTES", "INCIDENT"],
+      "must_include_terms": ["dashboard", "widgets"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["sentence", "error_boundary"],
+      "expected_graph_path": "SYMPTOM -> ROOT_CAUSE",
+      "notes": "Holdout query — tests symptom extraction from performance description."
+    },
+    {
+      "query_id": "NL-Q25",
+      "query_text": "How do I set up high-availability failover for DataDesk's message queue component?",
+      "split": "holdout",
+      "intent": "PROCEDURE",
+      "expected_doc_types": ["ARCHITECTURE", "SOP", "CONFIG"],
+      "must_include_terms": ["high-availability", "message queue"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "expected_stores": ["structure"],
+      "expected_graph_path": null,
+      "notes": "Holdout query — tests structure-aware retrieval for HA config procedures."
+    }
+  ]
+}

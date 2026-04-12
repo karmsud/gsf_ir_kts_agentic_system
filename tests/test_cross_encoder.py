@@ -22,12 +22,12 @@ from backend.retrieval.cross_encoder import rerank, score_pairs
 
 @pytest.fixture(autouse=True)
 def _reset_singleton():
-    """Reset the lazy-loaded ONNX session/tokenizer between tests."""
-    ce_mod._session = None
-    ce_mod._tokenizer = None
+    """Reset the lazy-loaded model singleton between tests."""
+    ce_mod._model = None
+    ce_mod._model_type = ""
     yield
-    ce_mod._session = None
-    ce_mod._tokenizer = None
+    ce_mod._model = None
+    ce_mod._model_type = ""
 
 
 # ---------------------------------------------------------------------------
@@ -35,12 +35,18 @@ def _reset_singleton():
 # ---------------------------------------------------------------------------
 
 class TestGracefulDegradation:
+    """Tests where NO model (ONNX or sentence-transformers) is available."""
+
+    @pytest.fixture(autouse=True)
+    def _block_all_backends(self):
+        """Mock _load_model to always return (None, '') — simulates no model available."""
+        with patch.object(ce_mod, "_load_model", return_value=(None, "")):
+            yield
+
     def test_no_env_var_returns_empty_scores(self):
-        """score_pairs returns [] when KTS_CROSSENCODER_MODEL_PATH is not set."""
-        with patch.dict(os.environ, {}, clear=True):
-            os.environ.pop("KTS_CROSSENCODER_MODEL_PATH", None)
-            result = score_pairs("What is a trustee?", ["The trustee manages assets."])
-            assert result == []
+        """score_pairs returns [] when no model backend is available."""
+        result = score_pairs("What is a trustee?", ["The trustee manages assets."])
+        assert result == []
 
     def test_invalid_path_returns_empty_scores(self):
         result = score_pairs(
@@ -60,12 +66,10 @@ class TestGracefulDegradation:
             {"content": "doc1 text", "score": 0.9},
             {"content": "doc2 text", "score": 0.7},
         ]
-        with patch.dict(os.environ, {}, clear=True):
-            os.environ.pop("KTS_CROSSENCODER_MODEL_PATH", None)
-            result = rerank("test query", rows)
-            assert result == rows
-            # Should NOT have cross_encoder_score key
-            assert "cross_encoder_score" not in result[0]
+        result = rerank("test query", rows)
+        assert result == rows
+        # Should NOT have cross_encoder_score key
+        assert "cross_encoder_score" not in result[0]
 
     def test_rerank_empty_rows(self):
         result = rerank("query", [])
@@ -110,8 +114,8 @@ class TestWithMockedModel:
         # Mock session.run to return logits
         mock_session.run.return_value = [np.array([[3.2], [1.1], [-0.5]])]
 
-        ce_mod._session = mock_session
-        ce_mod._tokenizer = mock_tokenizer
+        ce_mod._model = (mock_session, mock_tokenizer)
+        ce_mod._model_type = "onnx"
 
         scores = score_pairs("test query", ["p1", "p2", "p3"])
         assert len(scores) == 3
@@ -131,8 +135,8 @@ class TestWithMockedModel:
 
         mock_session.run.return_value = [np.array([[2.0], [5.0]])]
 
-        ce_mod._session = mock_session
-        ce_mod._tokenizer = mock_tokenizer
+        ce_mod._model = (mock_session, mock_tokenizer)
+        ce_mod._model_type = "onnx"
 
         rows = [
             {"content": "low relevance passage", "doc_id": "d1"},
@@ -163,8 +167,8 @@ class TestWithMockedModel:
 
         mock_session.run.side_effect = mock_run
 
-        ce_mod._session = mock_session
-        ce_mod._tokenizer = mock_tokenizer
+        ce_mod._model = (mock_session, mock_tokenizer)
+        ce_mod._model_type = "onnx"
 
         # 20 passages → should process in 2 batches (16 + 4)
         passages = [f"passage {i}" for i in range(20)]
@@ -184,8 +188,8 @@ class TestWithMockedModel:
 
         mock_session.run.return_value = [np.array([[1.0]])]
 
-        ce_mod._session = mock_session
-        ce_mod._tokenizer = mock_tokenizer
+        ce_mod._model = (mock_session, mock_tokenizer)
+        ce_mod._model_type = "onnx"
 
         rows = [{"content": "text", "doc_id": "d1"}]
         result = rerank("query", rows, score_key="my_custom_score")

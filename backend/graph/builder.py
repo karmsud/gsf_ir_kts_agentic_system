@@ -76,12 +76,14 @@ class GraphBuilder:
             "path": doc.source_path,
             "doc_type": metadata.get("doc_type", "UNKNOWN"),
             "doc_regime": metadata.get("doc_regime", "UNKNOWN"),
+            "doc_name_prefix": metadata.get("doc_name_prefix", ""),
         }
         G.add_node(doc_node_id, **doc_attrs)
 
         # 2. Extract defined terms using full 4-strategy extractor (TD §5.4–§5.6)
         extractor = DefinedTermExtractor()
         defined_terms = extractor.extract(doc.extracted_text, filename=metadata.get("title", ""))
+        _dnp = metadata.get("doc_name_prefix", "")
         for dt in defined_terms:
             term_id = f"defterm:{dt.surface_form.lower().replace(' ', '_')}"
             G.add_node(
@@ -93,6 +95,7 @@ class GraphBuilder:
                 confidence=dt.confidence,
                 extraction_strategy=dt.extraction_strategy,
                 section_id=dt.source_section_id,
+                doc_name_prefix=_dnp,
             )
             self._ensure_edge(G, doc_node_id, term_id, "DEFINES")
 
@@ -113,6 +116,7 @@ class GraphBuilder:
                     confidence=0.95,
                     extraction_strategy="regex_means",
                     extract_source=line[:200],
+                    doc_name_prefix=_dnp,
                 )
                 self._ensure_edge(G, doc_node_id, term_id, "DEFINES")
 
@@ -144,6 +148,41 @@ class GraphBuilder:
             err_id = f"error:{error}"
             G.add_node(err_id, type="ERROR_CODE", name=error)
             self._ensure_edge(G, doc_node_id, err_id, "ADDRESSES")
+
+        # 4b. NER entities and keyphrases (if extracted by ingestion agent)
+        for ent in metadata.get("entities", []):
+            ent_text = (ent.get("text") or "").strip()
+            ent_label = (ent.get("label") or "UNKNOWN").upper()
+            if not ent_text:
+                continue
+            ent_id = f"entity:{ent_label.lower()}:{ent_text.lower().replace(' ', '_')}"
+            if not G.has_node(ent_id):
+                G.add_node(
+                    ent_id,
+                    type="ENTITY",
+                    entity_type=ent_label,
+                    surface_form=ent_text,
+                    mention_count=1,
+                    doc_name_prefix=_dnp,
+                )
+            else:
+                G.nodes[ent_id]["mention_count"] = G.nodes[ent_id].get("mention_count", 0) + 1
+            self._ensure_edge(G, doc_node_id, ent_id, "MENTIONS")
+
+        for kp in metadata.get("keyphrases", []):
+            kp_text = (kp.get("text") or "").strip()
+            kp_score = float(kp.get("score", 0.5))
+            if not kp_text:
+                continue
+            kp_id = f"keyphrase:{kp_text.lower().replace(' ', '_')}"
+            if not G.has_node(kp_id):
+                G.add_node(
+                    kp_id,
+                    type="KEYPHRASE",
+                    surface_form=kp_text,
+                    score=kp_score,
+                )
+            self._ensure_edge(G, doc_node_id, kp_id, "MENTIONS")
 
         # 4. Persist
         self.store.save(G)

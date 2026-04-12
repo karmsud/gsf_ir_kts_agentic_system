@@ -56,13 +56,15 @@ class TestRegimeClassifier:
         text = (
             "DEFINITIONS\n\n"
             "Service Level Agreement means the performance targets defined herein.\n\n"
-            "Section 3 - Procedures\n\n"
+            "Section 3.01 - Procedures\n\n"
             "Follow these steps to configure the system:\n"
             "1. Open the admin panel\n"
             "2. Navigate to Settings\n"
             "3. Update the configuration\n\n"
             "This document hereby amends the prior agreement dated January 1, 2025.\n"
             "This first amendment supersedes all prior understandings.\n"
+            "Notwithstanding any provision herein, the Servicer shall perform its duties.\n"
+            "Pursuant to Section 3.01, the Trustee shall hold the assets in trust.\n"
         )
         result = RegimeClassifier.classify(text, filename="ServiceAgreement_v2.docx")
         assert result.regime in {"MIXED", "GOVERNING_DOC_LEGAL"}

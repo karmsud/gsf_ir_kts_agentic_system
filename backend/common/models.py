@@ -99,6 +99,8 @@ class SearchResult:
     freshness: dict[str, int] = field(default_factory=dict)
     related_topics: list[str] = field(default_factory=list)
     escalation: EscalationReport | None = None
+    definitions_glossary: str = ""          # Shared glossary block (sent once to LLM)
+    entity_roles: list[dict] = field(default_factory=list)  # [{entity, term}, ...]
 
 
 @dataclass
@@ -145,3 +147,49 @@ class FreshnessReport:
     stale_documents: list[dict[str, str]] = field(default_factory=list)
     stale_images: list[dict[str, str]] = field(default_factory=list)
     recommendations: list[str] = field(default_factory=list)
+
+
+# ── Phase 9: Directed Critique RAG Models ─────────────────────────
+
+@dataclass
+class CritiqueQuestion:
+    """A single binary yes/no critique question with trigger keywords."""
+    id: str
+    question: str
+    trigger_keywords: list[str] = field(default_factory=list)
+    trigger_logic: str = "always"  # "always" | "any_in_source" | "all_in_source"
+    priority: int = 1
+
+
+@dataclass
+class SectionCritique:
+    """Critique questions specific to a document section."""
+    section_id: str
+    section_title: str
+    questions: list[CritiqueQuestion] = field(default_factory=list)
+    rubric: dict | None = None  # optional expected answer structure
+
+
+@dataclass
+class DocCritique:
+    """All critique questions for one document (generated at ingest time)."""
+    doc_id: str
+    doc_type: str
+    generated_at: str = ""
+    generator_model: str = "gpt-4.1"
+    doc_level_questions: list[CritiqueQuestion] = field(default_factory=list)
+    section_questions: list[SectionCritique] = field(default_factory=list)
+
+
+@dataclass
+class CritiqueResult:
+    """Result of the directed critique loop."""
+    answer: str
+    confidence: float = 0.0
+    rounds_executed: int = 0
+    questions_evaluated: int = 0
+    gaps_found: int = 0
+    gaps_fixed: int = 0
+    re_queries: list[str] = field(default_factory=list)
+    converged: bool = False
+    answer_history: list[tuple] = field(default_factory=list)

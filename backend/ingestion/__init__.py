@@ -9,6 +9,10 @@ from .png_converter import convert_png
 from .config_converter import convert_yaml, convert_ini
 from .csv_converter import convert_csv
 from .ner_extractor import extract_entities_and_keyphrases, NERResult
+from .onenote_converter import parse_onetoc2, parse_one_section
+from .onenote_chunker import chunk_onenote_page
+from .onenote_manifest import OneNoteManifest
+from .onenote_vision import describe_images_for_page
 
 __all__ = [
     "convert_doc",
@@ -25,4 +29,10 @@ __all__ = [
     "convert_csv",
     "extract_entities_and_keyphrases",
     "NERResult",
+    # Phase 19 — OneNote
+    "parse_onetoc2",
+    "parse_one_section",
+    "chunk_onenote_page",
+    "OneNoteManifest",
+    "describe_images_for_page",
 ]

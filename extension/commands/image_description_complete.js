@@ -4,7 +4,7 @@ const { openImageDescriptionPanel } = require('../panels/image_description');
 module.exports = async function imageDescriptionComplete({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const pending = await runCli({ workspaceRoot: root, sourcePath, args: ['describe', 'pending'] });
 
   const documents = Array.isArray(pending.documents) ? pending.documents : [];

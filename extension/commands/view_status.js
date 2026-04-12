@@ -6,7 +6,7 @@ module.exports = async function viewStatus({ vscode, outputChannel, workspaceRoo
 
   // Resolve source path for .kts/ KB path derivation
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
 
   const status = await runCli({ workspaceRoot: root, sourcePath, args: ['status'] });
 

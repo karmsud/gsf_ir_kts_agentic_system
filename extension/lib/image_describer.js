@@ -163,6 +163,7 @@ async function autoDescribeImages({ vscode, runCli, outputChannel, sourcePath, b
   // 3. Process each document's pending images
   for (const doc of documents) {
     const docId = doc.doc_id;
+    const scopeKts = doc.scope_kts || null;  // Phase 18-fix: per-scope .kts path
     const pendingImages = Array.isArray(doc.pending_images) ? doc.pending_images : [];
 
     if (!pendingImages.length) continue;
@@ -204,10 +205,15 @@ async function autoDescribeImages({ vscode, runCli, outputChannel, sourcePath, b
         const tempFile = path.join(tempDir, `desc_${docId}.json`);
         fs.writeFileSync(tempFile, JSON.stringify(descriptions, null, 2), 'utf-8');
 
+        const completeArgs = ['describe', 'complete', '--doc-id', docId, '--descriptions-file', tempFile];
+        if (scopeKts) {
+          completeArgs.push('--scope-kts', scopeKts);
+        }
+
         await runCli({
           backendChannel,
           sourcePath,
-          args: ['describe', 'complete', '--doc-id', docId, '--descriptions-file', tempFile],
+          args: completeArgs,
           timeoutMs: 30000,
         });
 

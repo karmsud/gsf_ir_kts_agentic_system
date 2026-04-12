@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,6 +26,56 @@ from backend.vector.embedding_provider import get_embedding_provider
 from .base_agent import AgentBase
 
 logger = logging.getLogger(__name__)
+
+# ── Phase 12.4: Collateral type heuristic from folder name ─────
+_COLLATERAL_PATTERNS = {
+    "heloc": "HELOC",
+    "subprime": "Subprime",
+    "alt.a": "Alt-A",
+    "alt_a": "Alt-A",
+    "prime": "Prime",
+    "auto": "Auto",
+    "credit.card": "Credit Card",
+    "student": "Student Loan",
+    "commercial": "Commercial",
+    "cmbs": "CMBS",
+    "rmbs": "RMBS",
+    "cdo": "CDO",
+    "clo": "CLO",
+}
+
+def _detect_collateral_types(folder_name: str) -> list:
+    """Best-effort collateral type extraction from folder name."""
+    name_lower = folder_name.lower()
+    return [label for pattern, label in _COLLATERAL_PATTERNS.items() if re.search(pattern, name_lower)]
+
+
+# ── Phase 12.1: Document name prefix extraction ───────────────
+_KNOWN_DOC_PREFIXES = {
+    "PSA", "PROSUPP", "PROSPECTUS", "TRUST", "INDENTURE", "MLPA",
+    "ASSIGN", "SERVICING", "GUARANTEE", "INSURANCE", "SWAP",
+    "OFFERING", "SUPPLEMENT", "POOLING", "CUSTODIAL",
+}
+
+def _extract_doc_name_prefix(stem: str) -> str:
+    """Extract document name prefix from filename stem.
+
+    Splits on ``_``, ``-``, or space and returns the first token
+    uppercased if it matches a known legal document prefix.
+    Falls back to the raw first token otherwise.
+
+    Examples::
+
+        _extract_doc_name_prefix("PSA_BearStearns_2006")  → "PSA"
+        _extract_doc_name_prefix("Trust Agreement 2007")  → "TRUST"
+        _extract_doc_name_prefix("quarterly_report")      → "QUARTERLY"
+    """
+    token = re.split(r"[_\-\s]+", stem.strip())[0].upper()
+    # Check against known prefixes (exact or startswith for partial matches)
+    for known in _KNOWN_DOC_PREFIXES:
+        if token.startswith(known) or known.startswith(token):
+            return known
+    return token
 
 
 class IngestionAgent(AgentBase):
@@ -93,12 +144,33 @@ class IngestionAgent(AgentBase):
 
             sections = []
             if raw_sections:
-                for i, sec in enumerate(raw_sections):
-                    sections.append({
-                        "section_number": sec.number or str(i + 1),
-                        "section_heading": sec.title or f"Section {i + 1}",
-                        "section_text": sec.content or "",
-                    })
+                for sec in raw_sections:
+                    if sec.children:
+                        # Article with sub-sections: split into per-section entries
+                        # so items get fine-grained section_numbers (e.g. "5.06" not "V")
+                        # 1) Article intro (text before first child)
+                        first_child_local_offset = sec.children[0].start_pos - sec.start_pos
+                        intro_text = sec.content[:max(0, first_child_local_offset)].strip()
+                        if intro_text and len(intro_text) >= 100:
+                            sections.append({
+                                "section_number": sec.number or str(len(sections) + 1),
+                                "section_heading": sec.title or f"Article {sec.number}",
+                                "section_text": intro_text,
+                            })
+                        # 2) Each child section
+                        for child in sec.children:
+                            sections.append({
+                                "section_number": child.number or sec.number,
+                                "section_heading": child.title or sec.title or "",
+                                "section_text": child.content or "",
+                            })
+                    else:
+                        # No sub-sections: use article as-is
+                        sections.append({
+                            "section_number": sec.number or str(len(sections) + 1),
+                            "section_heading": sec.title or f"Section {len(sections) + 1}",
+                            "section_text": sec.content or "",
+                        })
             else:
                 # No structured sections found — treat entire text as one section
                 sections = [{"section_number": "1", "section_heading": source_path.stem, "section_text": text}]
@@ -110,14 +182,145 @@ class IngestionAgent(AgentBase):
                 logger.info("[Phase6] Step 2/4 — Building hierarchical graph")
             graph_store = GraphStore(self.config.graph_path)
             builder = EnhancedGraphBuilder(graph_store)
+            concept_llm = getattr(self, '_concept_llm_callable', None)
             graph_stats = builder.build_hierarchical_graph(
                 document_id=doc_id,
                 doc_type=doc_type,
                 sections=sections,
                 doc_metadata={"title": source_path.stem, "path": str(source_path)},
+                doc_name_prefix=_extract_doc_name_prefix(source_path.stem),
+                llm_callable=concept_llm,
             )
             if verbose:
                 logger.info("[Phase6] Graph: %s", graph_stats)
+
+            # 2b. Build definition dependency graph + resolution trees + PageRank
+            #     Module 1: Extract defined terms from full text
+            #     Module 3: Scan definitions for cross-references → DEPENDS_ON edges
+            #     Module 4: Add DEPENDS_ON edges to the graph
+            #     Module 5: Pre-compute resolution trees (DFS with memoisation)
+            #     Module 6: Compute PageRank scores
+            try:
+                from backend.extraction.definition_extractor import extract_term_dictionary
+                from backend.graph.reference_scanner import build_reference_map, build_section_reference_map
+                from backend.graph.definition_graph_builder import build_definition_graph
+                from backend.graph.resolution_tree import precompute_all_resolution_trees
+                from backend.graph.pagerank import compute_pagerank
+
+                G = graph_store.load()
+
+                # Module 1: Extract defined terms → {term_name: definition_text}
+                # Uses the state-machine parser (handles "means," patterns, multi-paragraph defs)
+                term_dictionary = extract_term_dictionary(text)
+
+                if term_dictionary:
+                    if verbose:
+                        logger.info("[Phase6] Step 2b — %d defined terms extracted, building dependency graph", len(term_dictionary))
+
+                    # Module 3: Build reference map (term → set of referenced terms)
+                    reference_map = build_reference_map(term_dictionary)
+                    section_references = build_section_reference_map(term_dictionary)
+
+                    # Module 4: Add DEPENDS_ON edges + DAG validation + depth metrics
+                    G = build_definition_graph(G, term_dictionary, reference_map, section_references)
+
+                    # Module 5: Resolution trees are now computed at QUERY TIME
+                    # (no-op shim kept so this call is safe)
+                    precompute_all_resolution_trees(G)
+                    graph_stats["depends_on_edges"] = sum(
+                        1 for _, _, d in G.edges(data=True) if d.get("type") == "DEPENDS_ON"
+                    )
+                    # Count defined_term nodes for stats
+                    term_count = sum(
+                        1 for n in G.nodes
+                        if G.nodes[n].get("type") == "defined_term"
+                    )
+                    graph_stats["resolution_trees"] = term_count
+
+                    if verbose:
+                        logger.info(
+                            "[Phase6] %d defined terms, %d DEPENDS_ON edges (trees computed at query time)",
+                            term_count, graph_stats["depends_on_edges"],
+                        )
+                else:
+                    if verbose:
+                        logger.info("[Phase6] Step 2b — No defined terms found, skipping dependency graph")
+
+                # Module 6: PageRank (runs on full graph regardless of term count)
+                pr_scores = compute_pagerank(G, alpha=0.85)
+                for node_id, score in pr_scores.items():
+                    G.nodes[node_id]["pagerank"] = score
+                graph_stats["pagerank_computed"] = True
+
+                if verbose:
+                    top_pr = sorted(pr_scores.items(), key=lambda x: x[1], reverse=True)[:5]
+                    logger.info("[Phase6] PageRank computed for %d nodes. Top 5: %s",
+                                len(pr_scores),
+                                [(n, f"{s:.6f}") for n, s in top_pr])
+
+                # Persist enriched graph
+                graph_store.save(G)
+            except Exception as exc:
+                logger.warning("[Phase6] Step 2b (definition graph + PageRank) failed: %s", exc, exc_info=True)
+                # Non-fatal — the base hierarchical graph is already persisted
+
+            # 2c. NER graph enrichment (Layers 2–4)
+            #     Section-level entity extraction, TERM::* entity co-occurrence,
+            #     role assignment (ASSIGNED_ROLE edges), custom entity ruler.
+            if getattr(self.config, 'ner_enabled', False):
+                try:
+                    from backend.graph.ner_enricher import NERGraphEnricher
+                    G_ner = graph_store.load()
+                    ner_stats = NERGraphEnricher.enrich(
+                        G_ner,
+                        sections,
+                        spacy_model_path=getattr(self.config, 'spacy_model_path', None),
+                    )
+                    if ner_stats.get("ner_available"):
+                        graph_store.save(G_ner)
+                        if verbose:
+                            logger.info(
+                                "[Phase6] Step 2c — NER enrichment: %d entity nodes, "
+                                "%d section mentions, %d term mentions, %d role assignments",
+                                ner_stats["entity_nodes_created"] + ner_stats["entity_nodes_updated"],
+                                ner_stats["section_mentions_added"],
+                                ner_stats["term_mentions_added"],
+                                ner_stats["role_assignments_added"],
+                            )
+                    else:
+                        if verbose:
+                            logger.info("[Phase6] Step 2c — NER skipped (spaCy model unavailable)")
+                except Exception as exc:
+                    logger.warning("[Phase6] Step 2c (NER enrichment) failed: %s", exc, exc_info=True)
+                    # Non-fatal
+
+            # 2d. Phase 17: Graph partitioning — cross-doc edges + per-doc sub-graphs
+            if getattr(self.config, 'phase17_dual_graph_enabled', True):
+                try:
+                    from backend.graph.graph_partitioner import (
+                        partition_graph_by_document,
+                        add_cross_document_edges,
+                    )
+                    G_partition = graph_store.load()
+                    cross_edges = add_cross_document_edges(G_partition)
+                    graph_store.save(G_partition)
+
+                    graph_dir = str(Path(self.config.graph_path).parent)
+                    doc_graph_stats = partition_graph_by_document(
+                        G_partition,
+                        output_dir=graph_dir,
+                    )
+                    graph_stats["cross_doc_edges"] = cross_edges
+                    graph_stats["doc_graphs"] = doc_graph_stats
+                    if verbose:
+                        logger.info(
+                            "[Phase17] Deal graph: +%d cross-doc edges. Doc graphs: %s",
+                            cross_edges,
+                            doc_graph_stats,
+                        )
+                except Exception as exc:
+                    logger.warning("[Phase17] Graph partitioning failed: %s", exc, exc_info=True)
+                    # Non-fatal — deal-level graph still usable
 
             # 3. Extract items and populate dual vector store
             if verbose:
@@ -137,51 +340,95 @@ class IngestionAgent(AgentBase):
                 )
                 all_items.extend(items)
 
+            # Phase 8.0: CCH helpers for embedding enrichment
+            from backend.vector.legal_chunker import build_cch_header, _create_chunk_for_embedding
+            cch_enabled = getattr(self.config, 'enable_cch', True)
+
             # Upsert items to dual store
             if all_items:
                 item_dicts = []
                 for item in all_items:
+                    # Phase 8.4: Compute parent_section_id from section_index
+                    parent_sec_id = ""
+                    if item.section_index is not None:
+                        parent_sec_id = f"sec:{doc_id}:{item.section_index:04d}"
+
+                    # Phase 8.0: Build CCH-enriched text for embedding,
+                    # keep clean text in metadata["text"] for display
+                    item_meta = {
+                        "item_type": item.item_type,
+                        "document_id": item.document_id,
+                        "section_number": item.section_number,
+                        "section_heading": item.section_heading,
+                        "section_index": item.section_index,
+                        "item_index": item.item_index,
+                        "source_path": str(source_path),
+                        "doc_type": normalize_doc_type(doc_regime),
+                        "doc_name_prefix": _extract_doc_name_prefix(source_path.stem),
+                        "parent_section_id": parent_sec_id,
+                        "text": item.text,  # clean display text
+                    }
+
+                    embedding_text = _create_chunk_for_embedding(
+                        item.text,
+                        {
+                            "doc_name": source_path.stem,
+                            "doc_type": normalize_doc_type(doc_regime),
+                            "section_title": item.section_heading,
+                        },
+                        enable_cch=cch_enabled,
+                    )
+
                     item_dicts.append({
                         "id": item.id,
-                        "text": item.text,
-                        "metadata": {
-                            "item_type": item.item_type,
-                            "document_id": item.document_id,
-                            "section_number": item.section_number,
-                            "section_heading": item.section_heading,
-                            "section_index": item.section_index,
-                            "item_index": item.item_index,
-                            "source_path": str(source_path),
-                            "doc_type": normalize_doc_type(doc_regime),
-                        },
+                        "text": embedding_text,
+                        "metadata": item_meta,
                     })
                 dual_store.add_items(item_dicts)
                 if verbose:
-                    logger.info("[Phase6] Added %d items to dual vector store", len(item_dicts))
+                    logger.info("[Phase6] Added %d items to dual vector store (CCH=%s)", len(item_dicts), cch_enabled)
 
             # Upsert sections to dual store
             section_dicts = []
             for idx, sec in enumerate(sections):
+                sec_clean_text = sec["section_text"][:2000]
+                sec_embedding_text = _create_chunk_for_embedding(
+                    sec_clean_text,
+                    {
+                        "doc_name": source_path.stem,
+                        "doc_type": normalize_doc_type(doc_regime),
+                        "section_title": sec["section_heading"],
+                    },
+                    enable_cch=cch_enabled,
+                )
                 section_dicts.append({
                     "id": f"sec:{doc_id}:{idx:04d}",
-                    "text": sec["section_text"][:2000],  # truncate for embedding
+                    "text": sec_embedding_text,
                     "metadata": {
                         "section_number": sec["section_number"],
                         "section_heading": sec["section_heading"],
                         "document_id": doc_id,
                         "source_path": str(source_path),
                         "doc_type": normalize_doc_type(doc_regime),
+                        "doc_name_prefix": _extract_doc_name_prefix(source_path.stem),
+                        "text": sec_clean_text,  # clean display text
                     },
                 })
             dual_store.add_sections(section_dicts)
             if verbose:
                 logger.info("[Phase6] Added %d sections to dual vector store", len(section_dicts))
 
+            # Phase 8: Check if re-ingestion is needed (detect old items missing parent_section_id)
+            needs_reingest = self._needs_reingestion(dual_store, doc_id)
+            if needs_reingest and verbose:
+                logger.info("[Phase8] Detected items missing parent_section_id — re-ingestion recommended for %s", doc_id)
+
             # 4. Summary
             stats = {
                 "sections": len(sections),
                 "items": len(all_items),
                 "graph": graph_stats,
+                "needs_reingestion": needs_reingest,
             }
             if verbose:
                 logger.info("[Phase6] Step 4/4 — Complete: %s", stats)
@@ -190,6 +437,25 @@ class IngestionAgent(AgentBase):
         except Exception as exc:
             logger.error("[Phase6] Pipeline failed: %s", exc, exc_info=True)
             return None
+
+    # ── Phase 8: Re-ingestion detection ──────────────────────────
+    @staticmethod
+    def _needs_reingestion(dual_store, doc_id: str) -> bool:
+        """Check whether existing items for *doc_id* are missing Phase 8 metadata.
+
+        Returns ``True`` if any item lacks ``parent_section_id``, indicating the
+        document was ingested before Phase 8 and should be re-ingested for full
+        parent-child linking and CCH enrichment.
+        """
+        try:
+            chunks = dual_store.get_document_chunks(doc_id)
+            for chunk in chunks[:50]:  # sample up to 50 items
+                meta = chunk.get("metadata", {})
+                if not meta.get("parent_section_id"):
+                    return True
+        except Exception:
+            pass
+        return False
 
     def _convert(self, file_path: Path, images_dir: str | None = None) -> tuple[str, list[str]]:
         extension = file_path.suffix.lower()
@@ -229,6 +495,115 @@ class IngestionAgent(AgentBase):
             return convert_png(str(file_path))
 
         raise ValueError(f"Unsupported extension: {extension}")
+
+    # ------------------------------------------------------------------
+    # Phase 19: Non-legal triple-store + troubleshooting graph
+    # ------------------------------------------------------------------
+    def _run_nonlegal_pipeline(
+        self,
+        doc_id: str,
+        text: str,
+        source_path: Path,
+    ) -> dict | None:
+        """Run the Phase 19 non-legal ingestion pipeline.
+
+        - Chunks into 3 strategies via NonLegalTripleStore
+        - Builds troubleshooting graph via TroubleshootingGraphBuilder
+
+        This runs IN ADDITION to the Phase 6 pipeline (which still handles
+        DualVectorStore + EnhancedGraphBuilder for all regimes).  The
+        triple-store and troubleshooting graph are additive layers for
+        non-legal documents.
+        """
+        if not getattr(self.config, 'nonlegal_triple_store_enabled', False):
+            return None
+
+        try:
+            from backend.vector.nonlegal_triple_store import NonLegalTripleStore
+            from backend.graph.troubleshooting_builder import TroubleshootingGraphBuilder
+            from backend.graph.persistence import GraphStore
+            from backend.vector.legal_chunker import LegalChunker
+
+            verbose = getattr(self.config, 'phase6_verbose_logging', True)
+            if verbose:
+                logger.info("[Phase19] Starting non-legal pipeline for %s", source_path.name)
+
+            # 1. Triple-store ingestion
+            chroma_dir = getattr(self.config, 'phase6_chroma_dir', '.kts/vectors/phase6')
+            triple_store = NonLegalTripleStore(
+                chroma_dir,
+                embedding_provider=self._embedding_provider,
+            )
+            counts = triple_store.add_document(
+                doc_id=doc_id,
+                source_path=str(source_path),
+                text=text,
+                error_boundary=getattr(self.config, 'nonlegal_error_boundary_chunking', True),
+                sentence=getattr(self.config, 'nonlegal_sentence_level_chunking', True),
+                structure=getattr(self.config, 'nonlegal_structure_aware_chunking', True),
+            )
+            if verbose:
+                logger.info("[Phase19] Triple-store counts: %s", counts)
+
+            # 2. Troubleshooting graph
+            ts_graph_stats = {}
+            if getattr(self.config, 'troubleshooting_graph_enabled', False):
+                ts_graph_path = getattr(
+                    self.config, 'troubleshooting_graph_path', ''
+                )
+                if not ts_graph_path:
+                    kb_path = getattr(self.config, 'knowledge_base_path', '.kts')
+                    ts_graph_path = str(
+                        Path(kb_path) / "graph" / "troubleshooting_graph.json"
+                    )
+
+                ts_store = GraphStore(ts_graph_path)
+                ts_builder = TroubleshootingGraphBuilder(ts_store)
+
+                # Parse sections for graph building
+                chunker = LegalChunker(
+                    min_chunk_size=getattr(self.config, 'legal_min_chunk_size', 500),
+                    max_chunk_size=getattr(self.config, 'legal_max_chunk_size', 5000),
+                )
+                raw_sections = chunker.extract_sections(text)
+                sections = []
+                if raw_sections:
+                    for sec in raw_sections:
+                        sections.append({
+                            "section_number": sec.number or str(len(sections) + 1),
+                            "section_heading": sec.title or f"Section {len(sections) + 1}",
+                            "section_text": sec.content or "",
+                        })
+                else:
+                    sections = [{
+                        "section_number": "1",
+                        "section_heading": source_path.stem,
+                        "section_text": text,
+                    }]
+
+                ts_graph_stats = ts_builder.build_troubleshooting_graph(
+                    document_id=doc_id,
+                    source_path=str(source_path),
+                    sections=sections,
+                    doc_metadata={
+                        "title": source_path.stem,
+                        "path": str(source_path),
+                    },
+                )
+                if verbose:
+                    logger.info("[Phase19] Troubleshooting graph: %s", ts_graph_stats)
+
+            stats = {
+                "triple_store": counts,
+                "troubleshooting_graph": ts_graph_stats,
+            }
+            if verbose:
+                logger.info("[Phase19] Non-legal pipeline complete: %s", stats)
+            return stats
+
+        except Exception as exc:
+            logger.error("[Phase19] Non-legal pipeline failed: %s", exc, exc_info=True)
+            return None
 
     def execute(self, request: dict) -> AgentResult:
         import shutil
@@ -346,6 +721,7 @@ class IngestionAgent(AgentBase):
             "content_date": content_date,
             "doc_type": json_metadata.get("doc_type", "UNKNOWN"),
             "doc_regime": doc_regime,
+            "doc_name_prefix": _extract_doc_name_prefix(source_path.stem),
             "tags": [],
             "tools": json_metadata.get("tool_names", []),
             "topics": [],
@@ -448,6 +824,30 @@ class IngestionAgent(AgentBase):
                 min_chunk_size=getattr(self.config, 'legal_min_chunk_size', 500),
                 max_chunk_size=getattr(self.config, 'legal_max_chunk_size', 5000),
             )
+
+            # ── Phase 18: Chunk density guard ─────────────────────
+            # If legal chunking produces unreasonably few chunks relative
+            # to document size, the section parser likely failed to detect
+            # structure (common with OLE2 .doc conversions).  Fall back to
+            # character-based chunking in that case.
+            max_chunk = getattr(self.config, 'legal_max_chunk_size', 5000)
+            expected_min_chunks = max(3, len(text) // (max_chunk * 3))
+            if len(chunks) < expected_min_chunks:
+                logger.warning(
+                    "Legal chunking produced only %d chunks for %d chars "
+                    "(expected >= %d) — falling back to character-based chunking",
+                    len(chunks), len(text), expected_min_chunks,
+                )
+                effective_chunk_size = getattr(self.config, 'legal_chunk_size', 3000)
+                effective_chunk_overlap = getattr(self.config, 'legal_chunk_overlap', 500)
+                chunks = chunk_document(
+                    doc_id=doc_id,
+                    source_path=str(source_path),
+                    text=text,
+                    chunk_size=effective_chunk_size,
+                    chunk_overlap=effective_chunk_overlap,
+                )
+                use_legal_chunking = False  # update for logging below
         else:
             # Traditional character-based chunking
             # Regime-adaptive chunk sizing: legal docs use larger chunks even in fallback
@@ -500,15 +900,12 @@ class IngestionAgent(AgentBase):
                 if (i + 1) % 50 == 0:
                     _progress(f"NER progress: {i + 1}/{len(chunks)} chunks")
         
-        _progress(f"Step 5/6: Embedding and upserting {len(chunks)} chunks...")
-        self.vector_store.upsert_chunks(chunks)
-        _progress(f"Step 5/6: Upserted {len(chunks)} chunks to vector store")
+        # Legacy VectorStore upsert REMOVED — Phase 6 DualVectorStore
+        # is now the sole vector store.  The legacy store created chunks
+        # with doc_type="UNKNOWN" and no section metadata, polluting results.
+        _progress(f"Step 5/6: Skipping legacy vector store (Phase 6 is primary)...")
 
-        xlog.step("vector_upsert", f"Upserted {len(chunks)} chunks to vector store",
-                  detail={"chunk_count": len(chunks)},
-                  why="Index chunks for semantic similarity retrieval")
-
-        # ── Phase 6: Hierarchical GraphRAG Pipeline (ALWAYS RUN) ───
+        # ── Phase 6: Hierarchical GraphRAP Pipeline (ALWAYS RUN) ───
         # Phase 6 is now the primary architecture — no conditional needed
         _progress("Step 6/6: Building hierarchical graph + dual vector store...")
         phase6_stats = self._run_phase6_pipeline(
@@ -521,6 +918,67 @@ class IngestionAgent(AgentBase):
             xlog.step("phase6", "Hierarchical GraphRAG pipeline complete",
                       detail=phase6_stats,
                       why="Build item-level graph + dual vector store for multi-hop retrieval")
+
+        # ── Phase 19: Non-Legal Triple-Store + Troubleshooting Graph ──
+        # For non-legal documents (GENERIC_GUIDE or MIXED), run the
+        # additional triple-store chunking and troubleshooting graph in
+        # parallel with the existing Phase 6 DualVectorStore.
+        phase19_stats = None
+        if doc_regime in ("GENERIC_GUIDE", "MIXED"):
+            _progress("Phase 19: Building non-legal triple store + troubleshooting graph...")
+            phase19_stats = self._run_nonlegal_pipeline(
+                doc_id=doc_id,
+                text=text,
+                source_path=source_path,
+            )
+            if phase19_stats:
+                xlog.step("phase19", "Non-legal triple-store + troubleshooting graph complete",
+                          detail=phase19_stats,
+                          why="3 specialised vector stores + troubleshooting graph for non-legal docs")
+
+        # ── Phase 9.1: Critique Question Generation ────────────────
+        if getattr(self.config, 'critique_generation_enabled', True):
+            try:
+                from backend.agents.critique_question_generator import CritiqueQuestionGenerator
+                generator = CritiqueQuestionGenerator(self.config)
+                section_dicts = []
+                if phase6_stats and phase6_stats.get("sections", 0) > 0:
+                    # Build section dicts from Phase 6 parsed sections.
+                    # _run_phase6_pipeline() stores sections internally;
+                    # we reconstruct lightweight dicts from the text.
+                    try:
+                        from backend.vector.legal_chunker import LegalChunker
+                        _chunker = LegalChunker()
+                        _raw_secs = _chunker.extract_sections(text)
+                        for _i, _sec in enumerate(_raw_secs or []):
+                            section_dicts.append({
+                                "section_id": f"sec{_i:03d}",
+                                "title": getattr(_sec, 'title', None) or f"Section {_i}",
+                                "content": (getattr(_sec, 'content', None) or "")[:2000],
+                            })
+                    except Exception:
+                        # Fallback to synthetic section dicts
+                        section_dicts = [
+                            {"section_id": f"sec{i:03d}", "title": f"Section {i}"}
+                            for i in range(phase6_stats["sections"])
+                        ]
+
+                # Pass llm_callable if configured; None triggers default fallback.
+                # In headless / CLI mode the LLM callable is not available —
+                # defaults are used, which still provide useful critique coverage.
+                llm_callable = getattr(self, '_critique_llm_callable', None)
+                critique = generator.generate(
+                    doc_text=text,
+                    doc_type=normalize_doc_type(doc_regime),
+                    sections=section_dicts,
+                    doc_id=doc_id,
+                    doc_title=metadata.get("title", ""),
+                    llm_callable=llm_callable,
+                )
+                generator.save(critique, self.config.knowledge_base_path)
+                _progress(f"Phase 9.1: Saved critique questions for doc {doc_id}")
+            except Exception as exc:
+                logger.debug("[Phase9.1] Critique generation skipped: %s", exc)
 
         ingested = IngestedDocument(
             doc_id=doc_id,
@@ -544,6 +1002,34 @@ class IngestionAgent(AgentBase):
             "words": metadata["word_count"], "images": len(image_paths),
             "regime": doc_regime, "phase6": bool(phase6_stats),
         })
+
+        # ── Phase 12.4: Populate deal catalog if enabled ──────────
+        if getattr(self.config, 'deal_catalog_enabled', True):
+            try:
+                from backend.vector.deal_catalog import DealCatalog, CatalogEntry, slugify
+                parent_folder = source_path.parent
+                catalog_path = getattr(self.config, 'deal_catalog_path', '')
+                catalog = DealCatalog(db_path=catalog_path)
+                slug = slugify(parent_folder.name)
+                existing = catalog.get(parent_folder.name)
+                entry = CatalogEntry(
+                    folder_name=parent_folder.name,
+                    slug=slug,
+                    kts_path=str(parent_folder / ".kts"),
+                    doc_count=(existing.doc_count + 1) if existing else 1,
+                    doc_types=list(set((existing.doc_types if existing else []) + [metadata.get("doc_type", "UNKNOWN")])),
+                    issuers=existing.issuers if existing else [],
+                    years=existing.years if existing else [],
+                    collateral_types=list(set(
+                        (existing.collateral_types if existing else [])
+                        + _detect_collateral_types(parent_folder.name)
+                    )),
+                    key_parties=existing.key_parties if existing else [],
+                )
+                catalog.upsert(entry)
+                _progress(f"Phase 12.4: Updated deal catalog for '{parent_folder.name}' ({slug})")
+            except Exception as exc:
+                logger.debug("[Phase12.4] Deal catalog update skipped: %s", exc)
 
         return self.quality_check(
             AgentResult(

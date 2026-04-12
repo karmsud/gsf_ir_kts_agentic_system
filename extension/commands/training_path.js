@@ -3,7 +3,7 @@ const { runCliJson, getWorkspaceRoot } = require('../lib/kts_backend');
 module.exports = async function trainingPath({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const topic = await vscode.window.showInputBox({
     prompt: 'Training topic (e.g., onboarding, ToolX)',
     value: 'onboarding',

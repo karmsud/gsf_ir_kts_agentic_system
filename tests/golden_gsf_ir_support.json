@@ -1,0 +1,295 @@
+{
+  "golden_pack_version": "1.0",
+  "created": "2026-02-23",
+  "description": "Gold-standard query pack for the GSF IR Support Library — a non-legal US Bank internal troubleshooting guide. Tests cover import issues, VDI/Citrix, package-PDF workflow, Excel/macro errors, workflow problems, and terminology. This is the canonical non-legal-doc RAG benchmark; target avg score >= 4.5 / 5.0 using all RAG features (HyDE, CRAG, critique-loop, dual-vector, graph, BM25 fusion).",
+  "corpus_root": "kb_test",
+  "document": {
+    "filename": "GSF IR Support Library.md",
+    "scope": "troubleshoot",
+    "doc_type": "TROUBLESHOOT",
+    "notes": "12 144-line Markdown file. No predefined sections — structured as a flat FAQ list of Category / Description / Possible Cause-Solution triples."
+  },
+  "rag_features_exercised": [
+    "HyDE (hypothetical document embeddings)",
+    "CRAG (corrective RAG with critique loop)",
+    "Dual-vector store (dense + sparse BM25 fusion)",
+    "Knowledge graph node retrieval",
+    "Cross-encoder reranking",
+    "Section-aware chunking of Markdown"
+  ],
+  "test_groups": [
+    {
+      "group_id": "TS_IMPORT",
+      "group_name": "Import & Data-Loading Issues",
+      "description": "Queries about import errors, cutoff data, SSIS failures, and map problems",
+      "queries": [
+        {
+          "query_id": "TS-01",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix a duplicate key error during import even though the data is not found in tblServ?",
+          "expected_must_include_terms": ["tblServ", "servicer file"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "Exact FAQ: 'Duplicate key error even if data not found in tblServ'. Terms co-occur in the solution row.",
+          "section_hint": "Import section"
+        },
+        {
+          "query_id": "TS-02",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What should I do if tblLoanCutoffOrig is wiped out after the first payment has been made?",
+          "expected_must_include_terms": ["tblLoanCutoffOrig", "prefunding"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'If tblLoanCutoffOrig is wiped out / IMPORT PREFUNDING CUTOFF'. Both terms appear in same paragraph.",
+          "section_hint": "Import / Updating Cutoff sections"
+        },
+        {
+          "query_id": "TS-03",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How can I find the details of why an SSIS import failed now that email notifications are blocked?",
+          "expected_must_include_terms": ["tblImportLog", "ProcessingStatus"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Import Fails / querying ProcessingStatus from tblImportLog'. Unique pair.",
+          "section_hint": "Import Fails section"
+        },
+        {
+          "query_id": "TS-04",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does SSIS Error Code DTS_E_OLEDBERROR mean and what causes it during import?",
+          "expected_must_include_terms": ["DTS_E_OLEDBERROR", "OLE DB"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "The error string DTS_E_OLEDBERROR appears verbatim in the import fails section alongside OLE DB.",
+          "section_hint": "Import Fails / SSIS Error section"
+        },
+        {
+          "query_id": "TS-05",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix the error 'The package format was migrated from version 6 to version 8' when importing from iManage?",
+          "expected_must_include_terms": ["iApplication_Cleaner", "package format"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "Exact error message appears in 'Trouble with Import' section, solution is iApplication_Cleaner.",
+          "section_hint": "Trouble with Import section"
+        }
+      ]
+    },
+    {
+      "group_id": "TS_VDI_CITRIX",
+      "group_name": "VDI / Citrix Environment Issues",
+      "description": "Queries about Citrix Receiver resets, VDI printer problems, iManage launch failures",
+      "queries": [
+        {
+          "query_id": "TS-06",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What should I do when iManage fails to open or process files and throws an Excel Interop error?",
+          "expected_must_include_terms": ["Quick Repair", "Teams"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'iManage fails..Excel.Interop error'. Solution mentions Quick Repair and uninstalling Teams.",
+          "section_hint": "Process Distrib/Review section"
+        },
+        {
+          "query_id": "TS-07",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What script should I run when the VDI won't open and I have to end all related processes in Task Manager?",
+          "expected_must_include_terms": ["Citrix_Receiver_Reset", "Task Manager"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'VDI won't open / Run K:\\...\\Citrix_Receiver_Reset.CMD'. Terms co-occur directly.",
+          "section_hint": "Citrix/VDI section"
+        },
+        {
+          "query_id": "TS-08",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "Why does the default printer on VDI keep reverting to Citrix Universal Printer and cause iManage reports to generate incorrectly?",
+          "expected_must_include_terms": ["Citrix UNIVERSAL Printer", "XPS"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Default Printer in VDI / Bank policy forces default printer to Citrix UNIVERSAL Printer'. XPS is the fix.",
+          "section_hint": "Default Printer in VDI section"
+        },
+        {
+          "query_id": "TS-09",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix the Citrix error 'cannot create a secure connection in this browser' after logging in?",
+          "expected_must_include_terms": ["CTX134123", "browser cache"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Logging into Citrix via browser... Citrix Workspace app cannot create a secure connection'. Unique article ID CTX134123.",
+          "section_hint": "Citrix/VDI section"
+        }
+      ]
+    },
+    {
+      "group_id": "TS_WORKFLOW_PACKAGE",
+      "group_name": "Workflow / Package-PDF / Lock Errors",
+      "description": "Queries about package-PDF failures, signoff errors, and file lock problems",
+      "queries": [
+        {
+          "query_id": "TS-10",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix the archive report error 'Final package changed since signoff'?",
+          "expected_must_include_terms": ["Final package", "Processor Signoff"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Archive report error Final package changed since signoff'. Solution is revert to Processor Signoff.",
+          "section_hint": "Archive report error section"
+        },
+        {
+          "query_id": "TS-11",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I resolve 'System detected a revision for this deal, confirm if revision stamp is needed' in ExportPackagePDF?",
+          "expected_must_include_terms": ["Revise Stamp", "Generate Auto Reports"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Error in ExportPackagePDF: System detected a revision'. Exact fix: enable Revise Stamp, revert to Generate Auto Reports.",
+          "section_hint": "Error in ExportPackagePDF section"
+        },
+        {
+          "query_id": "TS-12",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What causes the ExportPackagePDF error about Delinquency Summary Report not being generated for a support package?",
+          "expected_must_include_terms": ["Delinquency Summary", "support package"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'ExportPackagePDF...Delinquency Summary Report could not be generated'. Solution: add underlying pages to support package.",
+          "section_hint": "Error in ExportPackagePDF section"
+        },
+        {
+          "query_id": "TS-13",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "Who should I contact when things are not working as expected in Pivot and reports are not posting?",
+          "expected_must_include_terms": ["Pivot.Support@usbank.com", "Pivot Support Submission Form"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Pivot / Things aren't working as expected / send email to Pivot.Support@usbank.com / submit via Pivot Support Submission Form'. Both unique strings co-occur in the same section.",
+          "section_hint": "Pivot / Things aren't working section"
+        },
+        {
+          "query_id": "TS-14",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix the 'Signoff Processor Error: Subquery returned more than 1 value'?",
+          "expected_must_include_terms": ["Subquery returned more than 1 value", "Account Administrator"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "Exact error message: 'Error in ProcessorSignoff: Subquery returned more than 1 value'. Solution: check for more than one Account Administrator.",
+          "section_hint": "Signoff Processor Error section"
+        }
+      ]
+    },
+    {
+      "group_id": "TS_MACRO_EXCEL",
+      "group_name": "Macro / Excel / Trust Center Issues",
+      "description": "Queries about iRibbon macros, Excel security settings, #NAME errors, and VBA trust",
+      "queries": [
+        {
+          "query_id": "TS-15",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does the FormulaFix_IR macro do and when should it be used?",
+          "expected_must_include_terms": ["FormulaFix_IR", "Globalmacro.xlam"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FormulaFix_IR is defined explicitly in the iRibbonMacroList section with reference to GlobalMacro.xlam.",
+          "section_hint": "iRibbonMacroList section"
+        },
+        {
+          "query_id": "TS-16",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I fix 'Microsoft has blocked macros from running because the source of this file is untrusted'?",
+          "expected_must_include_terms": ["Trust Center", "untrusted"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Microsoft has blocked macros from running because the source of this file is untrusted'. Fix references Trust Center settings.",
+          "section_hint": "Macro Microsoft has blocked macros section"
+        },
+        {
+          "query_id": "TS-17",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I enable automatic update of links in Excel to fix the potential security concern popup?",
+          "expected_must_include_terms": ["Workbook Links", "Trust Center"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Get this pop-up every time Excel opens: Automatic update of links has been disabled'. Fix: Trust Center > External Content > Workbook Links.",
+          "section_hint": "Excel popup / Trust Center section"
+        },
+        {
+          "query_id": "TS-18",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I request or remove entitlement access for an application using the new Access Management system?",
+          "expected_must_include_terms": ["Access Management", "Manage User Access"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ: 'Request Entitlement / in new Access Management, select Manage User Access'. Unique action phrase co-occurring in one section.",
+          "section_hint": "Request Entitlement section"
+        }
+      ]
+    },
+    {
+      "group_id": "TS_CONCEPTS",
+      "group_name": "Terminology & Process Concepts",
+      "description": "Queries about GSF IR acronyms, support channels, and processing concepts",
+      "queries": [
+        {
+          "query_id": "TS-19",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does BAU mean in GSF IR and what is an example of a BAU issue?",
+          "expected_must_include_terms": ["Business As Usual", "iManage"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "Acronyms section explicitly defines BAU as 'Business As Usual' with an iManage example.",
+          "section_hint": "Acronyms - Glossary Of Terms section"
+        },
+        {
+          "query_id": "TS-20",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What is the recommended support flow to follow when you encounter a system issue in GSF IR?",
+          "expected_must_include_terms": ["iTracker", "GSF IR System Issues"],
+          "expected_doc_type": "TROUBLESHOOT",
+          "rationale": "FAQ 'Available Troubleshooting Resources': flow is Peers > Resources > Manager > iTracker Ticket. Teams channel is 'GSF IR System Issues'.",
+          "section_hint": "Available Troubleshooting Resources section"
+        }
+      ]
+    }
+  ],
+  "total_queries": 20,
+  "scoring": {
+    "scale": "1-5 numeric",
+    "thresholds": {
+      "score_5_excellent": "term_recall >= 0.75 AND has_results",
+      "score_4_good": "term_recall >= 0.50 AND has_results",
+      "score_3_acceptable": "term_recall >= 0.30 AND has_results",
+      "score_2_poor": "term_recall >= 0.10 AND has_results",
+      "score_1_fail": "no_results OR term_recall < 0.10"
+    },
+    "pass_criteria": {
+      "per_query_min_score": 3,
+      "avg_score_gte": 4.5,
+      "min_has_results_pct": 1.0,
+      "min_term_recall_gte": 0.50
+    },
+    "notes": "Design objective: avg >= 4.5 (nearly all queries at score 4-5). Terms chosen as verbatim co-occurring strings from the support library ensuring retrieval confidence."
+  }
+}

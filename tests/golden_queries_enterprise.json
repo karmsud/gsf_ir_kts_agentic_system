@@ -1,0 +1,1516 @@
+{
+  "corpus_id": "enterprise_corpus",
+  "created": "2026-02-20T10:00:00",
+  "split": {
+    "tune": 85,
+    "holdout": 15
+  },
+  "doc_type_priority_default": [
+    "TROUBLESHOOT",
+    "SOP",
+    "USER_GUIDE",
+    "TRAINING",
+    "RELEASE_NOTE",
+    "REFERENCE",
+    "INCIDENT",
+    "ARCHITECTURE",
+    "CONFIG"
+  ],
+  "queries": [
+    {
+      "query_id": "ENT-Q001",
+      "query_text": "What is the response SLA for a P1 incident in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP", "TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["15 min"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["P1", "Critical", "15 minutes", "15 min"]
+      },
+      "notes": "OpsFlow_FAQ and ESP_Incident_Response_SOP both have this"
+    },
+    {
+      "query_id": "ENT-Q002",
+      "query_text": "How do I reset my OpsFlow password?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "TROUBLESHOOT"],
+      "must_include_terms": [],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "all_of_terms": ["SSO"],
+        "any_of_terms": ["Azure AD", "Azure Active Directory", "myaccount"]
+      },
+      "notes": "OpsFlow_FAQ has password reset info"
+    },
+    {
+      "query_id": "ENT-Q003",
+      "query_text": "What does OpsFlow error ERR-AUTH-401 mean?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["ERR-AUTH-401"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "OpsFlow_Troubleshooting and OpsFlow_FAQ"
+    },
+    {
+      "query_id": "ENT-Q004",
+      "query_text": "What is the maximum delegation period in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["30"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["delegation", "30-day", "30 day"]
+      },
+      "notes": "OpsFlow_FAQ: 30-day max, no sub-delegation"
+    },
+    {
+      "query_id": "ENT-Q005",
+      "query_text": "What is the maximum file attachment size per task in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": [],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "all_of_terms": ["attachment"],
+        "any_of_terms": ["25MB", "25 MB", "25 megabyte"]
+      },
+      "notes": "OpsFlow_FAQ: 25MB per file, 100MB per task"
+    },
+    {
+      "query_id": "ENT-Q006",
+      "query_text": "What are the different user roles available in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["Contributor", "Approver"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Viewer", "Workflow Admin", "System Admin"]
+      },
+      "notes": "OpsFlow_FAQ: Viewer, Contributor, Approver, Workflow Admin, System Admin"
+    },
+    {
+      "query_id": "ENT-Q007",
+      "query_text": "What is the API rate limit for OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["100"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["rate limit", "100 req", "requests per minute"]
+      },
+      "notes": "OpsFlow_FAQ: API rate limit 100 req/min"
+    },
+    {
+      "query_id": "ENT-Q008",
+      "query_text": "How many data sources does DataDesk support?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["23"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["data source", "23 data"]
+      },
+      "notes": "DataDesk_UserGuide: 23 data sources"
+    },
+    {
+      "query_id": "ENT-Q009",
+      "query_text": "What is the SQL Lab query timeout in DataDesk?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["300"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["timeout", "300", "5-minute", "5 minute"]
+      },
+      "notes": "DataDesk_UserGuide: 300s timeout"
+    },
+    {
+      "query_id": "ENT-Q010",
+      "query_text": "How many concurrent SQL queries can run simultaneously in DataDesk SQL Lab?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["3"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["concurrent", "3 concurrent", "simultaneous"]
+      },
+      "notes": "DataDesk_UserGuide: 3 concurrent queries"
+    },
+    {
+      "query_id": "ENT-Q011",
+      "query_text": "What are the three filter types available in DataDesk?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["dashboard-level", "cross-filtering"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["chart-level", "filter"]
+      },
+      "notes": "DataDesk_UserGuide: dashboard-level, chart-level, cross-filtering"
+    },
+    {
+      "query_id": "ENT-Q012",
+      "query_text": "How many scheduled reports can each user have in DataDesk?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["5"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["scheduled report", "5 per user"]
+      },
+      "notes": "DataDesk_UserGuide: max 5 scheduled reports per user"
+    },
+    {
+      "query_id": "ENT-Q013",
+      "query_text": "What is the DataDesk audit log retention period?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["2 year"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["audit", "retention", "2 year"]
+      },
+      "notes": "DataDesk_UserGuide: audit logging 2 year retention"
+    },
+    {
+      "query_id": "ENT-Q014",
+      "query_text": "How many secrets are stored in SecureVault?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "REFERENCE"],
+      "must_include_terms": ["14,200"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["14,200", "14200", "secrets"]
+      },
+      "notes": "SecureVault_UserGuide: 14,200 secrets"
+    },
+    {
+      "query_id": "ENT-Q015",
+      "query_text": "What encryption algorithm does SecureVault use?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "ARCHITECTURE"],
+      "must_include_terms": ["AES-256-GCM"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "SecureVault_UserGuide: AES-256-GCM"
+    },
+    {
+      "query_id": "ENT-Q016",
+      "query_text": "How many unseal keys are needed for SecureVault's Shamir threshold?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["3-of-5"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Shamir", "3-of-5", "unseal"]
+      },
+      "notes": "SecureVault_UserGuide: Shamir's 3-of-5 threshold"
+    },
+    {
+      "query_id": "ENT-Q017",
+      "query_text": "What are the authentication methods supported by SecureVault?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["Azure AD OIDC", "AppRole"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["TLS", "Kubernetes", "auth method"]
+      },
+      "notes": "SecureVault_UserGuide: Azure AD OIDC, AppRole, TLS Certs, K8s Auth"
+    },
+    {
+      "query_id": "ENT-Q018",
+      "query_text": "How often are database credentials rotated in SecureVault?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["30 days"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["rotation", "database", "30 day"]
+      },
+      "notes": "SecureVault_UserGuide: DB rotation 30 days"
+    },
+    {
+      "query_id": "ENT-Q019",
+      "query_text": "What is the emergency credential rotation phone number for SecureVault?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "SOP"],
+      "must_include_terms": ["9111"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["SOC", "extension", "9111", "emergency"]
+      },
+      "notes": "SecureVault_UserGuide: SOC extension 9111"
+    },
+    {
+      "query_id": "ENT-Q020",
+      "query_text": "How many active jobs does BatchBridge have in production?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["187"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["187", "active job"]
+      },
+      "notes": "BatchBridge_Training: 187 active jobs"
+    },
+    {
+      "query_id": "ENT-Q021",
+      "query_text": "What are the five job types supported by BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["SQL-to-SQL", "File-to-DB"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["DB-to-File", "API-to-DB", "Python"]
+      },
+      "notes": "BatchBridge_Training: 5 job types"
+    },
+    {
+      "query_id": "ENT-Q022",
+      "query_text": "What is the retry backoff sequence in BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "CONFIG"],
+      "must_include_terms": ["30s", "90s", "270s"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["exponential", "backoff", "retry"]
+      },
+      "notes": "BatchBridge_Training: 3 attempts, 30s/90s/270s"
+    },
+    {
+      "query_id": "ENT-Q023",
+      "query_text": "What does BatchBridge error code BB-ERR-003 mean?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "TROUBLESHOOT"],
+      "must_include_terms": ["BB-ERR-003"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "BatchBridge_Training: 10 error codes"
+    },
+    {
+      "query_id": "ENT-Q024",
+      "query_text": "What is the Dead Letter Queue in BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "CONFIG"],
+      "must_include_terms": ["Dead Letter Queue"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["DLQ", "dead letter", "failed records"]
+      },
+      "notes": "BatchBridge_Training + Config: DLQ"
+    },
+    {
+      "query_id": "ENT-Q025",
+      "query_text": "How many report templates does FinReport have?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["78"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["template", "78 template"]
+      },
+      "notes": "FinReport_UserGuide: 78 templates"
+    },
+    {
+      "query_id": "ENT-Q026",
+      "query_text": "What is the regulatory data retention period in FinReport?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["10 years"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["regulatory", "retention", "10 year"]
+      },
+      "notes": "FinReport_UserGuide: regulatory 10 years"
+    },
+    {
+      "query_id": "ENT-Q027",
+      "query_text": "How many validation rules does FinReport use?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["342"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["validation", "342"]
+      },
+      "notes": "FinReport_UserGuide: 342 validation rules"
+    },
+    {
+      "query_id": "ENT-Q028",
+      "query_text": "What template language does FinReport use for custom reports?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["JINJA2"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["JINJA", "template", "JINJA2"]
+      },
+      "notes": "FinReport_UserGuide: JINJA2 template syntax"
+    },
+    {
+      "query_id": "ENT-Q029",
+      "query_text": "What does FinReport error ERR-FR-001 indicate?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE", "TROUBLESHOOT"],
+      "must_include_terms": ["ERR-FR-001"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "FinReport_UserGuide: error codes"
+    },
+    {
+      "query_id": "ENT-Q030",
+      "query_text": "Where is the primary data center for the ESP platform located?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["Chicago"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["CHI-DC-01", "Chicago", "primary"]
+      },
+      "notes": "ESP_Architecture: Chicago primary, Dallas DR"
+    },
+    {
+      "query_id": "ENT-Q031",
+      "query_text": "How many CPU cores are in the primary data center?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["240"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["240", "cores", "Chicago"]
+      },
+      "notes": "ESP_Architecture: Chicago primary 240 cores"
+    },
+    {
+      "query_id": "ENT-Q032",
+      "query_text": "What Kubernetes version is used in the ESP platform?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["1.29"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Kubernetes", "K8s", "1.29"]
+      },
+      "notes": "ESP_Architecture: K8s 1.29"
+    },
+    {
+      "query_id": "ENT-Q033",
+      "query_text": "What is the size of the analytics database in the ESP platform?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["2.3"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["2.3 TB", "2.3TB", "analytics", "database"]
+      },
+      "notes": "ESP_Architecture: analytics 2.3 TB"
+    },
+    {
+      "query_id": "ENT-Q034",
+      "query_text": "How many PgBouncer connections are configured?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["400"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["PgBouncer", "400", "connection"]
+      },
+      "notes": "ESP_Architecture: PgBouncer 400 connections"
+    },
+    {
+      "query_id": "ENT-Q035",
+      "query_text": "What monitoring tools are used in the ESP platform?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["Prometheus", "Grafana"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["ELK", "Jaeger", "PagerDuty", "monitoring"]
+      },
+      "notes": "ESP_Architecture: Prometheus+Grafana, ELK, Jaeger, PagerDuty"
+    },
+    {
+      "query_id": "ENT-Q036",
+      "query_text": "What technology stack does OpsFlow use?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["React", "Node"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["PostgreSQL", "React", "Node"]
+      },
+      "notes": "ESP_Architecture: OpsFlow uses React+Node+PG"
+    },
+    {
+      "query_id": "ENT-Q037",
+      "query_text": "How do I troubleshoot ERR-WF-503 in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT"],
+      "must_include_terms": ["ERR-WF-503"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "OpsFlow_Troubleshooting: ERR-WF-503 with post-mortem"
+    },
+    {
+      "query_id": "ENT-Q038",
+      "query_text": "What causes OpsFlow error ERR-AUTH-403?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT"],
+      "must_include_terms": ["ERR-AUTH-403"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["permission", "role", "access"]
+      },
+      "notes": "OpsFlow_Troubleshooting: ERR-AUTH-403"
+    },
+    {
+      "query_id": "ENT-Q039",
+      "query_text": "What is the escalation path for OpsFlow support issues?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT", "SOP"],
+      "must_include_terms": ["L1"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["L2", "L3", "escalation"]
+      },
+      "notes": "OpsFlow_Troubleshooting: L1/L2/L3 escalation matrix"
+    },
+    {
+      "query_id": "ENT-Q040",
+      "query_text": "How do I fix slow search performance in OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT"],
+      "must_include_terms": ["search"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Elasticsearch", "reindex", "slow"]
+      },
+      "notes": "OpsFlow_Troubleshooting: slow search diagnostics"
+    },
+    {
+      "query_id": "ENT-Q041",
+      "query_text": "How do I fix OpsFlow ERR-DD-SYNC-001 Jira sync error?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT"],
+      "must_include_terms": ["ERR-DD-SYNC-001"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Jira", "sync"]
+      },
+      "notes": "OpsFlow_Troubleshooting: Jira sync error"
+    },
+    {
+      "query_id": "ENT-Q042",
+      "query_text": "What is the DataDesk API authentication method?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["OAuth2"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Azure AD", "OAuth2", "authentication"]
+      },
+      "notes": "DataDesk_API_Reference: Azure AD OAuth2"
+    },
+    {
+      "query_id": "ENT-Q043",
+      "query_text": "What is the API rate limit for DataDesk service accounts?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["1000"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["service account", "1,000", "1000", "rate limit"]
+      },
+      "notes": "DataDesk_API_Reference: Service Account 1000/min"
+    },
+    {
+      "query_id": "ENT-Q044",
+      "query_text": "What SDK client libraries are available for the DataDesk API?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["Python", "JavaScript"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["PowerShell", "SDK", "client library"]
+      },
+      "notes": "DataDesk_API_Reference: Python, JavaScript, PowerShell SDKs"
+    },
+    {
+      "query_id": "ENT-Q045",
+      "query_text": "What does DataDesk error ERR-DD-429 mean?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "TROUBLESHOOT", "USER_GUIDE"],
+      "must_include_terms": ["ERR-DD-429"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["rate limit", "429"]
+      },
+      "notes": "DataDesk_API_Reference and DataDesk_Best_Practices"
+    },
+    {
+      "query_id": "ENT-Q046",
+      "query_text": "Are DataDesk webhooks available?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["beta"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["webhook", "beta"]
+      },
+      "notes": "DataDesk_API_Reference: webhooks are in beta"
+    },
+    {
+      "query_id": "ENT-Q047",
+      "query_text": "What new features were added in ESP release v3.2 for OpsFlow?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["RELEASE_NOTE"],
+      "must_include_terms": ["bulk reassignment"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["delegation", "export", "v3.2"]
+      },
+      "notes": "ESP_Release_Notes_v3.2: bulk reassignment, delegation, export"
+    },
+    {
+      "query_id": "ENT-Q048",
+      "query_text": "How many tasks were affected by the SLA timer bug fix in v3.2?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["RELEASE_NOTE"],
+      "must_include_terms": ["47"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["SLA timer", "47", "affected"]
+      },
+      "notes": "ESP_Release_Notes_v3.2: 47 affected tasks"
+    },
+    {
+      "query_id": "ENT-Q049",
+      "query_text": "What security vulnerability was addressed in SEC-2026-001?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["RELEASE_NOTE"],
+      "must_include_terms": ["SEC-2026-001"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["token", "validation", "bypass"]
+      },
+      "notes": "ESP_Release_Notes_v3.2: token validation bypass"
+    },
+    {
+      "query_id": "ENT-Q050",
+      "query_text": "Was Parquet file support added in the v3.2 release?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["RELEASE_NOTE"],
+      "must_include_terms": ["Parquet"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Parquet", "BatchBridge", "file format"]
+      },
+      "notes": "ESP_Release_Notes_v3.2: BatchBridge Parquet support"
+    },
+    {
+      "query_id": "ENT-Q051",
+      "query_text": "What is the SQL injection vulnerability in SEC-2026-002?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["RELEASE_NOTE"],
+      "must_include_terms": ["SEC-2026-002"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["SQL injection", "saved query"]
+      },
+      "notes": "ESP_Release_Notes_v3.2: SQL injection in saved query names"
+    },
+    {
+      "query_id": "ENT-Q052",
+      "query_text": "What is the status of Jira story ESP-4203?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["ESP-4203"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["IN PROGRESS", "VS Code", "Extension", "60%"]
+      },
+      "notes": "ESP_Jira_Epic_Extract: ESP-4203 VS Code Extension, IN PROGRESS, 60%"
+    },
+    {
+      "query_id": "ENT-Q053",
+      "query_text": "How many story points is the Knowledge Graph story in the ESP epic?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["13"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["ESP-4204", "Knowledge Graph", "13"]
+      },
+      "notes": "ESP_Jira_Epic_Extract: ESP-4204 Knowledge Graph 13 points"
+    },
+    {
+      "query_id": "ENT-Q054",
+      "query_text": "What stories in the ESP epic are completed?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["DONE"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["ESP-4201", "ESP-4202", "ESP-4205", "Ingestion"]
+      },
+      "notes": "ESP_Jira_Epic_Extract: ESP-4201, 4202, 4205 are DONE"
+    },
+    {
+      "query_id": "ENT-Q055",
+      "query_text": "What is a Cross-Encoder in the ESP glossary?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["Cross-Encoder"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["rerank", "relevance", "Cross-Encoder"]
+      },
+      "notes": "ESP_Glossary: Cross-Encoder definition"
+    },
+    {
+      "query_id": "ENT-Q056",
+      "query_text": "What does RRF stand for?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["Reciprocal Rank Fusion"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "ESP_Glossary: RRF = Reciprocal Rank Fusion"
+    },
+    {
+      "query_id": "ENT-Q057",
+      "query_text": "What is the definition of RPO?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["Recovery Point Objective"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["RPO", "Recovery Point", "data loss"]
+      },
+      "notes": "ESP_Glossary: RPO definition"
+    },
+    {
+      "query_id": "ENT-Q058",
+      "query_text": "What does DLQ stand for in the ESP platform?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "TRAINING"],
+      "must_include_terms": ["Dead Letter Queue"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true
+      },
+      "notes": "ESP_Glossary: DLQ = Dead Letter Queue"
+    },
+    {
+      "query_id": "ENT-Q059",
+      "query_text": "What is PKI in the context of SecureVault?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["Public Key Infrastructure"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["PKI", "certificate"]
+      },
+      "notes": "ESP_Glossary: PKI definition"
+    },
+    {
+      "query_id": "ENT-Q060",
+      "query_text": "When is MFA mandatory for new employees?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["October 2025"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["MFA", "mandatory", "October"]
+      },
+      "notes": "ESP_Onboarding_Guide: MFA mandatory since October 2025"
+    },
+    {
+      "query_id": "ENT-Q061",
+      "query_text": "What VPN profiles are available for new employees?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["CORP-INTERNAL", "CORP-SPLIT"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["VPN", "GlobalProtect"]
+      },
+      "notes": "ESP_Onboarding_Guide: CORP-INTERNAL and CORP-SPLIT profiles"
+    },
+    {
+      "query_id": "ENT-Q062",
+      "query_text": "Which ESP tools automatically give Viewer role on first login?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["OpsFlow", "DataDesk"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Viewer", "first login", "auto-provisioning"]
+      },
+      "notes": "ESP_Onboarding_Guide: OpsFlow and DataDesk grant Viewer on first login"
+    },
+    {
+      "query_id": "ENT-Q063",
+      "query_text": "When are DataDesk office hours held?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING", "USER_GUIDE"],
+      "must_include_terms": ["Tuesday", "Thursday"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["office hours", "2-3 PM", "2 PM"]
+      },
+      "notes": "ESP_Onboarding_Guide: Tuesday and Thursday, 2-3 PM EST"
+    },
+    {
+      "query_id": "ENT-Q064",
+      "query_text": "How long should new employee onboarding take?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING"],
+      "must_include_terms": ["30"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["30-day", "onboarding", "milestone"]
+      },
+      "notes": "ESP_Onboarding_Guide: 30-day onboarding milestones"
+    },
+    {
+      "query_id": "ENT-Q065",
+      "query_text": "What is the PagerDuty acknowledgment window for P1 incidents?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["5 minutes"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["PagerDuty", "acknowledge", "5 minute"]
+      },
+      "notes": "ESP_Incident_Response_SOP: 5-minute acknowledgment window"
+    },
+    {
+      "query_id": "ENT-Q066",
+      "query_text": "What root cause analysis technique is used in ESP post-mortems?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["5 Whys"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["5 Whys", "post-mortem", "root cause"]
+      },
+      "notes": "ESP_Incident_Response_SOP: 5 Whys technique"
+    },
+    {
+      "query_id": "ENT-Q067",
+      "query_text": "How long does a SecureVault rollback take?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["2 minutes"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["SecureVault", "rollback", "2 minute"]
+      },
+      "notes": "ESP_Incident_Response_SOP: SecureVault ~2 minutes"
+    },
+    {
+      "query_id": "ENT-Q068",
+      "query_text": "What is the P1 resolution SLA for incidents?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["4 hours"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["P1", "resolution", "4 hour"]
+      },
+      "notes": "ESP_Incident_Response_SOP: P1 resolution SLA is 4 hours"
+    },
+    {
+      "query_id": "ENT-Q069",
+      "query_text": "When was the SecureVault seal event incident?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP", "INCIDENT"],
+      "must_include_terms": ["2025-04-18"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["seal", "2025-04-18"]
+      },
+      "notes": "ESP_Incident_Response_SOP: SecureVault Seal Event 2025-04-18"
+    },
+    {
+      "query_id": "ENT-Q070",
+      "query_text": "What is the on-call rotation schedule for SRE?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["Monday"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Monday 9 AM", "weekly rotation", "on-call"]
+      },
+      "notes": "ESP_Incident_Response_SOP: weekly, Monday 9 AM to Monday 9 AM"
+    },
+    {
+      "query_id": "ENT-Q071",
+      "query_text": "What is the default PgBouncer port in BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG"],
+      "must_include_terms": ["6432"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["6432", "PgBouncer", "port"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: db.port 6432"
+    },
+    {
+      "query_id": "ENT-Q072",
+      "query_text": "How many concurrent jobs can run in BatchBridge production?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG", "TRAINING"],
+      "must_include_terms": ["25"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["max_concurrent_jobs", "25", "production"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: scheduler.max_concurrent_jobs 25 in prod"
+    },
+    {
+      "query_id": "ENT-Q073",
+      "query_text": "What is the DLQ retention period in BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG"],
+      "must_include_terms": ["90"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["90 days", "retention", "DLQ"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: dlq.retention_days 90"
+    },
+    {
+      "query_id": "ENT-Q074",
+      "query_text": "What is the null threshold for data quality in BatchBridge?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG"],
+      "must_include_terms": ["0.05"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["null_threshold", "0.05", "5%"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: quality.null_threshold 0.05"
+    },
+    {
+      "query_id": "ENT-Q075",
+      "query_text": "Where are BatchBridge connection passwords stored?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG", "USER_GUIDE"],
+      "must_include_terms": ["SecureVault"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["SecureVault", "NEVER", "password"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: passwords stored in SecureVault"
+    },
+    {
+      "query_id": "ENT-Q076",
+      "query_text": "What caused the SecureVault replication lag incidents in December 2025?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["INCIDENT"],
+      "must_include_terms": ["rotation"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["quarterly", "credential rotation", "14,200", "replication"]
+      },
+      "notes": "SecureVault_Replication_RCA: quarterly rotation of 14,200 secrets"
+    },
+    {
+      "query_id": "ENT-Q077",
+      "query_text": "How many write operations caused the SecureVault replication lag?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["INCIDENT"],
+      "must_include_terms": ["38,400"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["38,400", "write operation"]
+      },
+      "notes": "SecureVault_Replication_RCA: ~38,400 write operations"
+    },
+    {
+      "query_id": "ENT-Q078",
+      "query_text": "What was the fix for the SecureVault replication lag issue?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["INCIDENT"],
+      "must_include_terms": ["200 secrets per minute"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["throttle", "200 secrets", "rate limit"]
+      },
+      "notes": "SecureVault_Replication_RCA: throttled to 200 secrets/minute"
+    },
+    {
+      "query_id": "ENT-Q079",
+      "query_text": "What is the expected replication lag for SecureVault Performance Replication?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["INCIDENT", "USER_GUIDE"],
+      "must_include_terms": ["5 seconds"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["replication lag", "5 second", "normal conditions"]
+      },
+      "notes": "SecureVault_Replication_RCA: expected < 5 seconds"
+    },
+    {
+      "query_id": "ENT-Q080",
+      "query_text": "What bandwidth upgrade is planned for SecureVault inter-datacenter link?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["INCIDENT"],
+      "must_include_terms": ["10 Gbps"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["1 Gbps", "10 Gbps", "upgrade"]
+      },
+      "notes": "SecureVault_Replication_RCA: upgrade from 1 Gbps to 10 Gbps"
+    },
+    {
+      "query_id": "ENT-Q081",
+      "query_text": "What is the recommended maximum number of charts on a DataDesk dashboard?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["12"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["12", "chart", "dashboard"]
+      },
+      "notes": "DataDesk_Best_Practices: max 12 charts per dashboard"
+    },
+    {
+      "query_id": "ENT-Q082",
+      "query_text": "What is the target dashboard load time in DataDesk?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["3 seconds"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["3 second", "load time", "target"]
+      },
+      "notes": "DataDesk_Best_Practices: target < 3 seconds"
+    },
+    {
+      "query_id": "ENT-Q083",
+      "query_text": "What color code should be used for success status in DataDesk dashboards?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE"],
+      "must_include_terms": ["#2ecc71"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["green", "#2ecc71", "success"]
+      },
+      "notes": "DataDesk_Best_Practices: Green #2ecc71 for success"
+    },
+    {
+      "query_id": "ENT-Q084",
+      "query_text": "What causes ERR-DD-504 timeout errors in DataDesk?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TROUBLESHOOT", "REFERENCE"],
+      "must_include_terms": ["ERR-DD-504"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["timeout", "300", "date filter"]
+      },
+      "notes": "DataDesk_Best_Practices: ERR-DD-504 timeout causes"
+    },
+    {
+      "query_id": "ENT-Q085",
+      "query_text": "What Row-Level Security rules does DataDesk enforce on support tickets?",
+      "split": "tune",
+      "intent": "QUESTION",
+      "expected_doc_types": ["REFERENCE", "USER_GUIDE"],
+      "must_include_terms": ["department"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["RLS", "Row-Level Security", "department"]
+      },
+      "notes": "DataDesk_Best_Practices: RLS filters by department"
+    },
+    {
+      "query_id": "ENT-Q086",
+      "query_text": "What is the OpsFlow data retention policy for tasks?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["7 years"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["retention", "7 year", "tasks"]
+      },
+      "notes": "OpsFlow_FAQ: 7 years for tasks, 3 years for attachments"
+    },
+    {
+      "query_id": "ENT-Q087",
+      "query_text": "How many bulk actions can you perform at once in OpsFlow?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["50"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["bulk", "50", "limit"]
+      },
+      "notes": "OpsFlow_FAQ: 50 task limit for bulk actions"
+    },
+    {
+      "query_id": "ENT-Q088",
+      "query_text": "How many datasets are in the DataDesk data catalog?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["147"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["147", "catalog", "dataset"]
+      },
+      "notes": "DataDesk_UserGuide: 147 datasets"
+    },
+    {
+      "query_id": "ENT-Q089",
+      "query_text": "What is the SLA uptime guarantee for SecureVault?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["99.99%"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["99.99", "SLA", "uptime"]
+      },
+      "notes": "SecureVault_UserGuide: 99.99% SLA"
+    },
+    {
+      "query_id": "ENT-Q090",
+      "query_text": "How many daily secret retrievals does SecureVault handle?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["85,000"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["85,000", "daily", "retrieval"]
+      },
+      "notes": "SecureVault_UserGuide: 85,000 daily retrievals"
+    },
+    {
+      "query_id": "ENT-Q091",
+      "query_text": "How many source systems does BatchBridge ingest from?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["TRAINING"],
+      "must_include_terms": ["12"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["12 source", "source system"]
+      },
+      "notes": "BatchBridge_Training: 12 source systems"
+    },
+    {
+      "query_id": "ENT-Q092",
+      "query_text": "How many deal portfolios does FinReport manage?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["USER_GUIDE"],
+      "must_include_terms": ["84"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["84", "portfolio", "deal"]
+      },
+      "notes": "FinReport_UserGuide: 84 deal portfolios"
+    },
+    {
+      "query_id": "ENT-Q093",
+      "query_text": "What is the DR site location for the ESP platform?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["Dallas"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["DAL-DC-02", "Dallas", "DR"]
+      },
+      "notes": "ESP_Architecture: Dallas DR"
+    },
+    {
+      "query_id": "ENT-Q094",
+      "query_text": "What Istio version is deployed in the ESP Kubernetes cluster?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["1.20"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Istio", "1.20"]
+      },
+      "notes": "ESP_Architecture: Istio 1.20"
+    },
+    {
+      "query_id": "ENT-Q095",
+      "query_text": "What is the after-hours protocol for P2 incidents?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP"],
+      "must_include_terms": ["acknowledge"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["assess", "business hours", "data loss"]
+      },
+      "notes": "ESP_Incident_Response_SOP: P2 after-hours - acknowledge and assess"
+    },
+    {
+      "query_id": "ENT-Q096",
+      "query_text": "What was the root cause of the FinReport Wrong Data incident?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["SOP", "INCIDENT"],
+      "must_include_terms": ["Daylight Saving"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["DST", "Daylight Saving", "FinReport"]
+      },
+      "notes": "ESP_Incident_Response_SOP: DST offset caused 1-hour data gap"
+    },
+    {
+      "query_id": "ENT-Q097",
+      "query_text": "What is the maximum worker memory limit in BatchBridge production?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG"],
+      "must_include_terms": ["8192"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["8192", "memory_limit", "worker"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: worker.memory_limit 8192"
+    },
+    {
+      "query_id": "ENT-Q098",
+      "query_text": "What is the trace sampling rate in BatchBridge production?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["CONFIG"],
+      "must_include_terms": ["0.01"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["0.01", "1%", "sampling"]
+      },
+      "notes": "BatchBridge_Configuration_Reference: trace_sampling_rate 0.01 in prod"
+    },
+    {
+      "query_id": "ENT-Q099",
+      "query_text": "How many Kubernetes nodes are in the ESP cluster?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["12"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["12 node", "Kubernetes", "K8s"]
+      },
+      "notes": "ESP_Architecture: 12 nodes"
+    },
+    {
+      "query_id": "ENT-Q100",
+      "query_text": "What technology does FinReport use for its backend?",
+      "split": "holdout",
+      "intent": "QUESTION",
+      "expected_doc_types": ["ARCHITECTURE"],
+      "must_include_terms": ["Java Spring Boot"],
+      "must_not_include_terms": [],
+      "expected_evidence_rules": {
+        "requires_citation": true,
+        "must_include_terms_in_at_least_one_cited_chunk": true,
+        "any_of_terms": ["Java", "Spring Boot", "JINJA2"]
+      },
+      "notes": "ESP_Architecture: FinReport uses Java Spring Boot + JINJA2"
+    }
+  ]
+}

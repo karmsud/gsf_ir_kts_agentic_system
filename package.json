@@ -1,0 +1,27 @@
+{
+  "name": "gsf_ir_kts_agentic_system",
+  "version": "1.0.0",
+  "description": "**Enterprise-grade document intelligence system with agentic capabilities**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karmsud/gsf_ir_kts_agentic_system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karmsud/gsf_ir_kts_agentic_system/issues"
+  },
+  "homepage": "https://github.com/karmsud/gsf_ir_kts_agentic_system#readme",
+  "dependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}

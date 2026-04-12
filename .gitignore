@@ -1,19 +1,27 @@
-# Python
+# =============================================================================
+# .gitignore — GSF IR KTS Agentic System
+# =============================================================================
+
+# ── Python ──────────────────────────────────────────────────────────────────
 __pycache__/
 *.py[cod]
 *$py.class
-.venv*/
-venv/
 *.egg-info/
 *.log
+*.pyo
 
-# Node.js
+# ── Python Virtual Environments ─────────────────────────────────────────────
+.venv*/
+venv/
+env/
+.env/
+
+# ── Node.js ─────────────────────────────────────────────────────────────────
 node_modules/
-package-lock.json
 npm-debug.log
 yarn-error.log
 
-# Build Artifacts (Root)
+# ── Build Artifacts (Root) ──────────────────────────────────────────────────
 dist/
 build/
 *.spec
@@ -22,7 +30,7 @@ packaging/models/
 packaging/build/
 packaging/dist/
 
-# Build Artifacts (Extension)
+# ── Build Artifacts (Extension) ─────────────────────────────────────────────
 extension/dist/
 extension/bin/
 extension/backend_bundle/
@@ -34,20 +42,24 @@ extension/out/
 extension/server/
 extension/webview-ui/build/
 
-# IDE
+# ── IDE & Editor ────────────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.code-workspace
 *.swp
 *.swo
+*~
 
-# MCP Debug Tools
+# ── MCP Debug Tools ─────────────────────────────────────────────────────────
 .mcp-debug-tools/
 
-# Project Specific Output
+# ── Generated Knowledge Bases & Workspace Data ─────────────────────────────
 knowledge_base*/
 .kts/
+**/.kts/
 test_kb/
+
+# ── Project-Specific Output ─────────────────────────────────────────────────
 audit_artifacts/*
 !audit_artifacts/.gitkeep
 data/*
@@ -61,29 +73,47 @@ scripts/logs/
 scripts/eval_results/
 Incidents/logs/
 
-# Binary / Serialized Data
+# ── Binary / Serialized Data ────────────────────────────────────────────────
 *.sqlite3
 *.pickle
 *.pkl
 *.bin
+*.onnx
 
-# Misc
-.DS_Store
-Thumbs.db
-*.zip
-*.tar.gz
-.pytest_cache/
+# ── Test Runtime & Temporary Directories ────────────────────────────────────
+kts_test_runtime_*/
+MagicMock/
+temp_crossencoder/
+test_deal/
+test/
 
-# Test and Sample Data Directories
+# ── Test Output (generated results, not source) ────────────────────────────
+tests/golden_answer_results/
+tests/golden_results/
+tests/golden_ts_guide_results/
+tests/pytest_out.txt
+tests/test_inv_output.txt
+tests/ensemble_20.txt
+tests/enterprise_test_results.json
+
+# ── Ad-hoc Developer Scratch Files (top-level) ─────────────────────────────
+/_*.py
+/_*.txt
+
+# ── Test & Debug Utilities (not part of test suite) ─────────────────────────
+tests/_*.py
+tests/_*.txt
+
+# ── Test and Sample Data Directories ────────────────────────────────────────
 kts_synthetic_corpus_v2/
 kts_test_corpus/
 
-# Archive folders (historical documentation)
+# ── Archive Folders (historical documentation) ──────────────────────────────
 **/archive/
 docs/archive/
 scripts/archive/
 
-# Sample/Demo Data Folders (for testing/demonstration only)
+# ── Sample/Demo Data Folders ────────────────────────────────────────────────
 Reference/
 Release_Notes/
 SOPs/
@@ -95,6 +125,21 @@ prompts/
 Architecture/
 Incidents/
 
-# VS Code workspace files
-*.code-workspace
+# ── Legacy Folders (removed from project) ───────────────────────────────────
+networkX_graph/
+source_1/
+source_2/
+
+# ── OS Files ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Archives ────────────────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+
+# ── Pytest ──────────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
 

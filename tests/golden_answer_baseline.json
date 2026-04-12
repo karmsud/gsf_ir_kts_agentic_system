@@ -1,0 +1,880 @@
+{
+  "timestamp": "2026-02-22T01:04:06.336Z",
+  "scores": [
+    {
+      "test_id": "G01",
+      "category": "defined_terms",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer includes the date, Business Day fallback, and commencement month."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All facts match the PSA definition without any invented information."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites Article I inline, which is appropriate for grounding."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer is clear and immediately useful to a finance professional."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No external knowledge or hallucinated content is present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G02",
+      "category": "defined_terms",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Defines Certificateholder but does not resolve Person."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Matches PSA text and includes Book-Entry Certificates detail."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Cites the definitions article and specific agreement."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Clearly states who qualifies as a Certificateholder."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No extraneous information or general knowledge included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "G03",
+      "category": "defined_terms",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains the initial balance, reductions by principal distributions and Realized Losses, and notes per-class calculation."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Reduction factors and calculation match the PSA definition, including references to principal distributions and Realized Losses."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the relevant PSA sections and quotes definitions directly."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "A finance professional can clearly understand how CPB changes over time from the explanation."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No generic ABS terminology is used beyond what is stated in the PSA."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G04",
+      "category": "defined_terms",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer includes Certificate Principal Balance, Accrual Period, Pass-Through Rate, and shortfall deductions."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All components match the PSA formula and definitions for Current Interest."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the relevant section and document with inline references."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer provides all necessary elements for calculating expected interest."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No invented rates or formulas are present; all terms are PSA-defined."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G05",
+      "category": "defined_terms",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer traces definitions at least two levels deep, covering all required nested terms."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Each definition matches the PSA text and is quoted directly from Article I — DEFINITIONS."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Multiple section references are provided for each term, ensuring clear grounding in the PSA."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "The causal chain is clear, but the answer could be more concise for easier reading."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No external knowledge is introduced; all content is strictly from the PSA."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.85
+    },
+    {
+      "test_id": "G06",
+      "category": "waterfall",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer lists the full sequential order with all relevant class names and describes the process before and after the Stepdown Date."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The order matches the PSA and clearly distinguishes principal distribution from interest waterfall."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "The answer cites Article V but does not specify Section 5.04 or 5.05 directly."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The reader can determine the priority of any class based on the detailed sequential description."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is specific to the cited PSA and does not include generic waterfall knowledge."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.8
+    },
+    {
+      "test_id": "G07",
+      "category": "waterfall",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer covers Class A and Class M certificates but omits explicit mention of residual certificates."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The priority order and class details match the PSA's described distribution sequence."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the specific section and document source for its information."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "The priority order is clear for a finance professional, but lack of residual class detail reduces clarity."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "The answer is strictly based on the cited PSA and does not include generic or extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.6
+    },
+    {
+      "test_id": "G08",
+      "category": "waterfall",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains the absorption order and details what happens when subordination is exhausted."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Loss allocation order matches the PSA and describes the waterfall correctly."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the relevant loss allocation section from the PSA."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The explanation is clear and enables the reader to understand the loss absorption waterfall."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "The answer is specific to the cited PSA and contains no generic or extraneous information."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G09",
+      "category": "waterfall",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "Lists fees and principal/interest priorities but omits explicit transfer to Distribution Account and certificate waterfall."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "Order matches PSA for Liquidated Loan proceeds but does not address general collections or Available Funds distinctions."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Cites specific PSA sections and excerpts directly."
+        },
+        "usability": {
+          "score": 3,
+          "reason": "Reader can trace fund flow for Liquidated Loans but not for all Collection Account funds or distributions."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No invented account names or priorities; all details are grounded in cited PSA text."
+        }
+      },
+      "critical_failures": [],
+      "overall": 3.9
+    },
+    {
+      "test_id": "G10",
+      "category": "waterfall",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "States sequential priority and mentions exceptions but does not elaborate on simultaneous pay-down conditions."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Correctly describes the PSA waterfall mechanics and principal distribution order."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Cites Article V and provides a direct quote from the PSA document."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Clearly determines that Class I-A-1 is paid before Class I-A-2."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "Answer is specific to the cited PSA and avoids generic statements."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "G11",
+      "category": "reporting",
+      "scores": {
+        "completeness": {
+          "score": 2,
+          "reason": "The answer does not list at least 5 required items and only references external regulation."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "It accurately states compliance with Item 1121(a) but lacks specific PSA-required items."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "It cites a relevant section and source but not Section 5.06 or equivalent directly."
+        },
+        "usability": {
+          "score": 2,
+          "reason": "The reader cannot know what to expect in each monthly report without consulting external sources."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No hallucinated items are present; only referenced regulatory requirements."
+        }
+      },
+      "critical_failures": [],
+      "overall": 3.3
+    },
+    {
+      "test_id": "G12",
+      "category": "reporting",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer identifies both the Trustee and the timing relative to the Distribution Date."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The timing and responsible parties match PSA Section 5.06 requirements."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Section 5.06 is explicitly cited as the source."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer clearly states the deadline and responsible party for delivery."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No invented deadlines or parties are present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G13",
+      "category": "reporting",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explains the initial balance, reduction mechanics, and inclusion of Realized Losses and recoveries."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The reduction formula matches the PSA Section 1.01 definition precisely."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites Article I — DEFINITIONS and references relevant PSA sections."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The explanation clearly shows how Certificate Principal Balance changes over time."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No generic ABS terminology is used beyond what is stated in the PSA."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G14",
+      "category": "reporting",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer lists more than two distinct report types required by the PSA."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "Most report types match PSA requirements, but delinquency and REO status reports are not explicitly mentioned."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites Article III and specific sections of the PSA."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer clearly distinguishes Master Servicer reports from investor statements."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All reports listed are required by the PSA and no extraneous reports are included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.7
+    },
+    {
+      "test_id": "G15",
+      "category": "reporting",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer clearly states that forms are specified in the Exhibits section and lists several relevant exhibits."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Exhibit references match the PSA and are supported by quoted text."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Specific exhibits and quoted statements from the PSA are provided."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The reader is directed to exact exhibit numbers and knows where to find the templates."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All exhibit numbers and descriptions are plausible and grounded in the cited PSA."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G16",
+      "category": "key_dates",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer states the exact Closing Date as required."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The date matches the PSA and expected answer content."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites Article I — DEFINITIONS from the PSA."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The date is provided directly and clearly for user reference."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No invented dates or extraneous information are present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G17",
+      "category": "key_dates",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "States the date and explains its role in principal balance calculations, but does not explicitly mention pool composition or loan inclusion."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Date and significance match the PSA and are correctly described."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Cites Article I — DEFINITIONS, which includes Section 1.01."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Reader understands the importance for principal balances and transaction thresholds, but pool composition is implied rather than stated."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is directly grounded in the PSA without generalizations."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.6
+    },
+    {
+      "test_id": "G18",
+      "category": "key_dates",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer clearly states the timing relative to the Distribution Date for both Book-Entry and other Certificates."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The definition matches the PSA language and specifies the correct timing."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "The answer references the PSA and Article V but does not explicitly cite Section 1.01."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer enables the reader to determine the cut-off for ownership for distributions."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "The answer avoids generic conventions and is specific to the PSA document."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.8
+    },
+    {
+      "test_id": "G19",
+      "category": "key_dates",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer specifies the 10% threshold and identifies who can exercise the option."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Threshold and exercising parties match the cited PSA section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites Article X and the Definitions section of the PSA."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer clearly explains when and who can exercise the cleanup call."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is directly grounded in the cited PSA, with no generic or extraneous content."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G20",
+      "category": "key_dates",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "Defines period boundaries and mentions day count convention for most certificates but omits convention for Class CE."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Period definition matches the PSA and distinguishes between certificate classes."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Cites Article I — DEFINITIONS from the PSA as source."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "Reader can calculate interest for most certificates but lacks day count for Class CE."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No generic conventions or unsupported claims are present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.6
+    },
+    {
+      "test_id": "G21",
+      "category": "parties",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "Only three parties are listed, missing the Derivative Administrator."
+        },
+        "accuracy": {
+          "score": 4,
+          "reason": "Legal names and roles are mostly correct, but the Depositor's name is slightly off."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "Cites the Preliminary Statement and Article XI, but lacks direct quotes or section references."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "Each party's role is clearly identified for the reader."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No parties are listed that are not in the PSA."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4
+    },
+    {
+      "test_id": "G22",
+      "category": "parties",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer lists more than three key obligations, including collection, reporting, and account management."
+        },
+        "accuracy": {
+          "score": 3,
+          "reason": "Obligations are generally correct but cite Article VII instead of the required Articles III-IV."
+        },
+        "grounding": {
+          "score": 2,
+          "reason": "Grounding is weak as the answer references Article VII, not III-IV as specified in the rubric."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The responsibilities are clearly explained and understandable for the reader."
+        },
+        "no_hallucination": {
+          "score": 4,
+          "reason": "Most obligations are specific to the PSA, but some generic servicing language is present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 3.7
+    },
+    {
+      "test_id": "G23",
+      "category": "parties",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer lists multiple specific termination conditions, covering more than two."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Conditions match the PSA's Events of Default, including bankruptcy and breach."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the relevant article and section of the PSA."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The reader is clearly informed about what triggers servicer termination."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is specific to the cited PSA and not generic."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G24",
+      "category": "parties",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer lists key responsibilities but does not explicitly mention the fiduciary role or use the term 'fiduciary'."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The duties and limitations are accurately described and matched to PSA provisions."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Relevant articles and sections of the PSA are cited throughout the answer."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The scope of the Trustee's role is clear and understandable for the reader."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All content is directly tied to the PSA and avoids generic trust law knowledge."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.75
+    },
+    {
+      "test_id": "G25",
+      "category": "parties",
+      "scores": {
+        "completeness": {
+          "score": 4,
+          "reason": "The answer names the Depositor and describes the conveyance but omits the exact entity name from the expected answer."
+        },
+        "accuracy": {
+          "score": 3,
+          "reason": "The entity name is incorrect; it should be Bear Stearns Asset Backed Securities, Inc., not Bear Stearns Asset Backed Securities I LLC."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer cites the Preliminary Statement and Definitions, which are appropriate sections."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The reader can understand the Depositor's function and contribution clearly."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "The answer sticks to the PSA and does not add general knowledge."
+        }
+      },
+      "critical_failures": [
+        "Incorrect Depositor entity name"
+      ],
+      "overall": 4.15
+    },
+    {
+      "test_id": "G26",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "The answer repeats prior content and adds some new details about operational deadlines but does not elaborate on the definition of Business Day or adjustment mechanics for non-Business Days."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "All facts presented match the PSA and are correctly cited."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Relevant sections of the PSA are cited for each point."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "The answer builds on the prior response and offers additional context, but could be more concise and focused on the specifics requested."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No external or fabricated information is included."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.35
+    },
+    {
+      "test_id": "G27",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 3,
+          "reason": "The answer details sequential interest payments but omits explicit mention of subordination and credit enhancement."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "It accurately describes the waterfall for M class interest payments per the cited PSA section."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "The answer grounds its explanation in the PSA's distribution section with a specific citation."
+        },
+        "usability": {
+          "score": 4,
+          "reason": "A reader can understand the payment order for M classes but may miss their subordination role."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is directly supported by the cited PSA and contains no generic or extraneous claims."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.35
+    },
+    {
+      "test_id": "G28",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer explicitly compares and contrasts both principal and interest waterfalls."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The distinctions match the PSA mechanics, including sequential principal and pro rata/sequential interest."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Relevant PSA section (Article V) is cited for both principal and interest distributions."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The summary and bullet points make the distinction clear and easy to understand."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is specific to the PSA and does not rely on generic waterfall knowledge."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G29",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer fully explains the consequences of non-performance, including Event of Default, termination, and successor appointment."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "Consequences described match the PSA's Events of Default provisions and cite specific actions and remedies."
+        },
+        "grounding": {
+          "score": 5,
+          "reason": "Relevant articles of the PSA are cited throughout the answer, supporting the claims made."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The answer is clear and structured, making the remedies and process easy to understand for the reader."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "All information is specific to the PSA and does not include generic or extraneous servicing default knowledge."
+        }
+      },
+      "critical_failures": [],
+      "overall": 5
+    },
+    {
+      "test_id": "G30",
+      "category": "follow_ups",
+      "scores": {
+        "completeness": {
+          "score": 5,
+          "reason": "The answer provides the exact execution date of the PSA."
+        },
+        "accuracy": {
+          "score": 5,
+          "reason": "The date matches the expected answer and is consistent with the PSA."
+        },
+        "grounding": {
+          "score": 4,
+          "reason": "The answer cites the notary acknowledgment but does not reference the Preamble or definitions directly."
+        },
+        "usability": {
+          "score": 5,
+          "reason": "The date is clearly stated and easy for the reader to find."
+        },
+        "no_hallucination": {
+          "score": 5,
+          "reason": "No invented dates or information are present."
+        }
+      },
+      "critical_failures": [],
+      "overall": 4.8
+    }
+  ],
+  "average": 4.66,
+  "by_category": [
+    {
+      "name": "defined_terms",
+      "count": 5,
+      "average": 4.92
+    },
+    {
+      "name": "waterfall",
+      "count": 5,
+      "average": 4.609999999999999
+    },
+    {
+      "name": "reporting",
+      "count": 5,
+      "average": 4.6
+    },
+    {
+      "name": "key_dates",
+      "count": 5,
+      "average": 4.8
+    },
+    {
+      "name": "parties",
+      "count": 5,
+      "average": 4.32
+    },
+    {
+      "name": "follow_ups",
+      "count": 5,
+      "average": 4.7
+    }
+  ]
+}

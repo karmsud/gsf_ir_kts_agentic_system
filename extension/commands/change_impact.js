@@ -3,7 +3,7 @@ const { runCliJson, getWorkspaceRoot } = require('../lib/kts_backend');
 module.exports = async function changeImpact({ vscode, outputChannel, workspaceRoot, runCli = runCliJson } = {}) {
   const root = getWorkspaceRoot(workspaceRoot);
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const entity = await vscode.window.showInputBox({
     prompt: 'Entity to analyze impact (e.g., ToolX)',
     value: 'ToolX',

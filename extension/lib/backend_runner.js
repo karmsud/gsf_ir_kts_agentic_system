@@ -304,6 +304,89 @@ class ExeRunner extends BackendRunner {
 }
 
 /**
+ * WorkspaceRunner - Development mode: runs Python directly from workspace source
+ * Uses the workspace .venv_build (or system Python) and project root as cwd,
+ * so `python -m cli.main` executes the live workspace code — not a frozen exe.
+ */
+class WorkspaceRunner extends BackendRunner {
+  constructor(outputChannel) {
+    super(outputChannel);
+    // Workspace root = two levels up from extension/lib/
+    this.workspaceRoot = path.resolve(__dirname, '..', '..');
+    this.pythonExe = this._findWorkspacePython();
+  }
+
+  _findWorkspacePython() {
+    // Prefer .venv_build (the build/dev venv created in the project)
+    const venvCandidates = ['.venv_build', '.venv', 'venv'];
+    for (const name of venvCandidates) {
+      const winPath = path.join(this.workspaceRoot, name, 'Scripts', 'python.exe');
+      if (fs.existsSync(winPath)) return winPath;
+      const unixPath = path.join(this.workspaceRoot, name, 'bin', 'python');
+      if (fs.existsSync(unixPath)) return unixPath;
+    }
+    // Fallback to system python
+    return process.platform === 'win32' ? 'python' : 'python3';
+  }
+
+  async runCli(args, env = {}, cwd = null, timeoutMs = 3600000) {
+    const finalCwd = cwd || this.workspaceRoot;
+    const pythonArgs = ['-m', 'cli.main', ...args];
+
+    this.outputChannel?.appendLine(`[WorkspaceRunner] python=${this.pythonExe}  cwd=${finalCwd}`);
+
+    const result = await this._spawn(this.pythonExe, pythonArgs, {
+      cwd: finalCwd,
+      env,
+      timeout: timeoutMs,
+    });
+
+    if (result.code !== 0) {
+      const message = result.stderr.trim() || `Command failed with exit code ${result.code}`;
+      throw new Error(message);
+    }
+
+    return result;
+  }
+
+  async getVersion() {
+    try {
+      const result = await this.runCli(['--version'], {}, null, 10000);
+      return result.stdout.trim() || 'workspace-dev';
+    } catch (e) {
+      return 'workspace-dev';
+    }
+  }
+
+  async healthCheck() {
+    try {
+      const mainPy = path.join(this.workspaceRoot, 'cli', 'main.py');
+      if (!fs.existsSync(mainPy)) return false;
+
+      const result = await this._spawn(this.pythonExe, ['-c', 'import cli, backend'], {
+        cwd: this.workspaceRoot,
+        timeout: 10000,
+      });
+      return result.code === 0;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async getDiagnostics() {
+    return {
+      mode: 'workspace',
+      pythonPath: this.pythonExe,
+      backendPath: this.workspaceRoot,
+      pythonExists: fs.existsSync(this.pythonExe),
+      backendExists: fs.existsSync(path.join(this.workspaceRoot, 'cli', 'main.py')),
+      version: await this.getVersion(),
+      healthy: await this.healthCheck(),
+    };
+  }
+}
+
+/**
  * BackendRunnerFactory - Creates the appropriate runner based on configuration
  */
 class BackendRunnerFactory {
@@ -317,10 +400,11 @@ class BackendRunnerFactory {
    * @returns {Promise<BackendRunner>}
    */
   static async create(backendMode, backendChannel, context, venvManager, outputChannel) {
-    // Workspace channel always uses venv
+    // Workspace channel → use WorkspaceRunner (runs live source code)
     if (backendChannel === 'workspace') {
-      outputChannel.appendLine('[RunnerFactory] Using VenvRunner (workspace mode)');
-      return new VenvRunner(venvManager, outputChannel);
+      const wsRunner = new WorkspaceRunner(outputChannel);
+      outputChannel.appendLine(`[RunnerFactory] Using WorkspaceRunner (workspace mode) python=${wsRunner.pythonExe} cwd=${wsRunner.workspaceRoot}`);
+      return wsRunner;
     }
 
     // Handle bundled channel modes
@@ -365,5 +449,6 @@ module.exports = {
   BackendRunner,
   VenvRunner,
   ExeRunner,
+  WorkspaceRunner,
   BackendRunnerFactory,
 };

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { enrichVocabulary } = require('../lib/concept_client');
 
 const INGEST_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour — ingestion is a one-time operation, never compromise on completeness
 
@@ -9,7 +10,7 @@ const INGEST_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour — ingestion is a one-time 
  */
 module.exports = async function ingest({ vscode, outputChannel, runCli } = {}) {
   const config = vscode.workspace.getConfiguration('kts');
-  const sourcePath = config.get('sourcePath');
+  const sourcePath = config.get('sourceFolder');
   const kbWorkspacePath = config.get('kbWorkspacePath');
   const backendChannel = config.get('backendChannel') || 'bundled';
   if (!sourcePath) {
@@ -46,6 +47,29 @@ module.exports = async function ingest({ vscode, outputChannel, runCli } = {}) {
         || (Array.isArray(result.ingested) ? result.ingested.length : 0)
         || result.ingested_count
         || 0;
+
+      // ── Phase 10: Concept Vocabulary LLM Enrichment ────────────
+      // After ingestion, enrich the graph's concept keywords with
+      // Copilot LLM-generated synonyms for defined terms.  This runs
+      // as a post-processing step: extract terms → LLM → apply.
+      // If no model is available, deterministic keywords still apply.
+      progress.report({ message: 'Enriching concept vocabulary via LLM...' });
+      try {
+        const cliOptions = { backendChannel, kbWorkspacePath, sourcePath };
+        const enrichResult = await enrichVocabulary(runCli, cliOptions, outputChannel);
+        if (enrichResult.success) {
+          outputChannel.appendLine(
+            `[KTS Ingest] Concept vocabulary enriched: ` +
+            `${enrichResult.termsProcessed} terms, ${enrichResult.synonymsGenerated} synonym sets`
+          );
+        }
+      } catch (enrichErr) {
+        // Non-fatal — deterministic keywords are already in the graph
+        outputChannel.appendLine(
+          `[KTS Ingest] Concept vocabulary LLM enrichment skipped: ${enrichErr.message}`
+        );
+      }
+
       vscode.window.showInformationMessage(`KTS Ingest complete: ${ingestedCount} document(s) ingested.`);
 
       return result;

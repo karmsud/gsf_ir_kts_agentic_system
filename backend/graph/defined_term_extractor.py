@@ -46,11 +46,11 @@ class DefinedTermExtractor:
     def _strategy1_means_pattern(self, text: str) -> list[DefinedTerm]:
         results: list[DefinedTerm] = []
         patterns = [
-            # "Term" means …
-            (r'["\u201c]([^"\u201d]{2,80})["\u201d]\s+(means|shall mean|is defined as|has the meaning)\s+(.{10,300}?)(?:\.|$)',
+            # "Term" means …  (allow optional comma/colon after keyword, e.g. "means, with respect to")
+            (r'["\u201c]([^"\u201d]{2,80})["\u201d]\s+(means|shall mean|is defined as|has the meaning)[,:]?\s+(.{10,600}?)(?:\.|$)',
              re.IGNORECASE | re.MULTILINE),
             # Term is defined as …
-            (r'\b([A-Z][A-Za-z0-9 _-]{1,60})\s+(means|is defined as)\s+(.{10,300}?)(?:\.|$)',
+            (r'\b([A-Z][A-Za-z0-9 _-]{1,60})\s+(means|is defined as)[,:]?\s+(.{10,600}?)(?:\.|$)',
              re.IGNORECASE),
         ]
         for pattern, flags in patterns:

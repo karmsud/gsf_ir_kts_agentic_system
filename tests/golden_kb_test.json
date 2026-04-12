@@ -1,0 +1,335 @@
+{
+  "golden_pack_version": "2.0",
+  "created": "2026-02-22",
+  "description": "Golden query pack for kb_test corpus. Tests deal-scope, doc-scope, cross-deal, and mode operations against Bear Stearns 2006-HE1 and 2006-HE2 PSA documents.",
+  "corpus_root": "kb_test",
+  "scopes": {
+    "bear_stearns_2006_he1": {
+      "folder": "Bear_Stearns_2006_HE1",
+      "documents": ["PSA_Bear_Stearns_2006_HE1.pdf"],
+      "doc_types": ["PSA"]
+    },
+    "bear_stearns_2006_he2": {
+      "folder": "Bear_Stearns_2006_HE2",
+      "documents": ["PSA_Bear_Stearns_2006_HE2.doc", "Prosupp_Bear_Stearns_2006_HE2.doc"],
+      "doc_types": ["PSA", "PROSUPP"]
+    },
+    "troubleshoot": {
+      "folder": "troubleshoot",
+      "documents": ["TS_GUIDE.pdf"],
+      "doc_types": ["TROUBLESHOOT"]
+    }
+  },
+  "test_groups": [
+    {
+      "group_id": "DEAL_SCOPE",
+      "group_name": "Deal-Scope Queries (single deal, no doc filter)",
+      "description": "Basic retrieval scoped to a single deal folder",
+      "queries": [
+        {
+          "query_id": "DS-01",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Certificateholder mean?",
+          "expected_must_include_terms": ["Certificateholder", "Certificate Register"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A01"
+        },
+        {
+          "query_id": "DS-02",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What is the definition of Master Servicer in the PSA?",
+          "expected_must_include_terms": ["Master Servicer"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A02"
+        },
+        {
+          "query_id": "DS-03",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Distribution Date mean?",
+          "expected_must_include_terms": ["Distribution Date", "25th"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A04"
+        },
+        {
+          "query_id": "DS-04",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Realized Loss mean?",
+          "expected_must_include_terms": ["Realized Loss"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A07"
+        },
+        {
+          "query_id": "DS-05",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "Define Certificate Principal Balance.",
+          "expected_must_include_terms": ["Certificate Principal Balance"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A08"
+        },
+        {
+          "query_id": "DS-06",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Event of Default mean?",
+          "expected_must_include_terms": ["Event of Default"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A17"
+        },
+        {
+          "query_id": "DS-07",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What is a Business Day per the PSA?",
+          "expected_must_include_terms": ["Business Day"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A14"
+        },
+        {
+          "query_id": "DS-08",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What is the payment waterfall for Group I interest distributions?",
+          "expected_must_include_terms": ["Group I", "interest"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "C01"
+        },
+        {
+          "query_id": "DS-09",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Certificateholder mean?",
+          "expected_must_include_terms": ["Certificateholder"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A01"
+        },
+        {
+          "query_id": "DS-10",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Distribution Date mean?",
+          "expected_must_include_terms": ["Distribution Date"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A04"
+        }
+      ]
+    },
+    {
+      "group_id": "DOC_SCOPE",
+      "group_name": "Document-Scope Queries (deal + doc_filter)",
+      "description": "Retrieval filtered to a specific document type within a deal",
+      "queries": [
+        {
+          "query_id": "DOC-01",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": "PSA",
+          "mode": "search",
+          "query": "What does Certificateholder mean?",
+          "expected_must_include_terms": ["Certificateholder"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A01"
+        },
+        {
+          "query_id": "DOC-02",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": "PSA",
+          "mode": "search",
+          "query": "What does Distribution Date mean?",
+          "expected_must_include_terms": ["Distribution Date"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A04"
+        },
+        {
+          "query_id": "DOC-03",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": "PSA",
+          "mode": "search",
+          "query": "Define Trustee under this agreement.",
+          "expected_must_include_terms": ["Trustee"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A03"
+        },
+        {
+          "query_id": "DOC-04",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": "PSA",
+          "mode": "search",
+          "query": "What does Event of Default mean?",
+          "expected_must_include_terms": ["Event of Default"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A17"
+        },
+        {
+          "query_id": "DOC-05",
+          "scope": "bear_stearns_2006_he2",
+          "doc_filter": "PROSUPP",
+          "mode": "search",
+          "query": "What are the Mortgage Loan characteristics for this series?",
+          "expected_must_include_terms": ["Mortgage Loan"],
+          "expected_doc_type": "PROSUPP",
+          "golden_ref": null
+        }
+      ]
+    },
+    {
+      "group_id": "CROSS_DEAL",
+      "group_name": "Cross-Deal / Multi-Scope Queries",
+      "description": "Queries spanning both HE1 and HE2 deals via diff/aggregate modes",
+      "queries": [
+        {
+          "query_id": "XD-01",
+          "scope": null,
+          "scopes": ["bear_stearns_2006_he1", "bear_stearns_2006_he2"],
+          "doc_filter": null,
+          "mode": "diff",
+          "query": "Compare the definition of Distribution Date",
+          "expected_must_include_terms": ["Distribution Date"],
+          "expected_doc_type": null,
+          "golden_ref": null
+        },
+        {
+          "query_id": "XD-02",
+          "scope": null,
+          "scopes": ["bear_stearns_2006_he1", "bear_stearns_2006_he2"],
+          "doc_filter": null,
+          "mode": "diff",
+          "query": "Compare Event of Default provisions",
+          "expected_must_include_terms": ["Event of Default"],
+          "expected_doc_type": null,
+          "golden_ref": null
+        },
+        {
+          "query_id": "XD-03",
+          "scope": null,
+          "scopes": ["bear_stearns_2006_he1", "bear_stearns_2006_he2"],
+          "doc_filter": null,
+          "mode": "aggregate",
+          "query": "What does Certificateholder mean across all deals?",
+          "expected_must_include_terms": ["Certificateholder"],
+          "expected_doc_type": null,
+          "golden_ref": null
+        },
+        {
+          "query_id": "XD-04",
+          "scope": null,
+          "scopes": ["bear_stearns_2006_he1", "bear_stearns_2006_he2"],
+          "doc_filter": "PSA",
+          "mode": "diff",
+          "query": "Compare Trustee definitions in PSA documents",
+          "expected_must_include_terms": ["Trustee"],
+          "expected_doc_type": null,
+          "golden_ref": null
+        },
+        {
+          "query_id": "XD-05",
+          "scope": null,
+          "scopes": ["bear_stearns_2006_he1", "bear_stearns_2006_he2"],
+          "doc_filter": null,
+          "mode": "aggregate",
+          "query": "What is the Master Servicer's role across all deals?",
+          "expected_must_include_terms": ["Master Servicer"],
+          "expected_doc_type": null,
+          "golden_ref": null
+        }
+      ]
+    },
+    {
+      "group_id": "NEGATIVE",
+      "group_name": "Negative Controls / Cross-Scope Isolation",
+      "description": "Ensure scoping actually isolates — troubleshoot scope should not return PSA content and vice versa",
+      "queries": [
+        {
+          "query_id": "NEG-01",
+          "scope": "troubleshoot",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Certificateholder mean?",
+          "expected_must_include_terms": [],
+          "expected_doc_type": null,
+          "expect_empty_or_low_relevance": true,
+          "golden_ref": null,
+          "rationale": "Troubleshoot scope has no PSA content — should not return Certificateholder"
+        },
+        {
+          "query_id": "NEG-02",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": "PROSUPP",
+          "mode": "search",
+          "query": "What are the Mortgage Loan characteristics?",
+          "expected_must_include_terms": [],
+          "expected_doc_type": null,
+          "expect_empty_or_low_relevance": true,
+          "golden_ref": null,
+          "rationale": "HE1 only has a PSA — PROSUPP filter should return nothing"
+        },
+        {
+          "query_id": "NEG-03",
+          "scope": "bear_stearns_2006_he1",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "How do I troubleshoot error codes?",
+          "expected_must_include_terms": [],
+          "expected_doc_type": null,
+          "expect_empty_or_low_relevance": true,
+          "golden_ref": null,
+          "rationale": "PSA deal scope should not return troubleshoot guide content"
+        }
+      ]
+    },
+    {
+      "group_id": "WILDCARD",
+      "group_name": "Wildcard + List Mode",
+      "description": "Wildcard scope patterns and /list mode",
+      "queries": [
+        {
+          "query_id": "WC-01",
+          "scope": "bear_stearns*",
+          "doc_filter": null,
+          "mode": "search",
+          "query": "What does Distribution Date mean?",
+          "expected_must_include_terms": ["Distribution Date"],
+          "expected_doc_type": "PSA",
+          "golden_ref": "A04",
+          "rationale": "Wildcard should fan out across both HE1 and HE2"
+        },
+        {
+          "query_id": "WC-02",
+          "scope": null,
+          "scopes": [],
+          "doc_filter": null,
+          "mode": "list",
+          "query": "list all deals",
+          "expected_must_include_terms": [],
+          "expected_doc_type": null,
+          "expect_deals_count_gte": 2,
+          "golden_ref": null,
+          "rationale": "/list mode should return at least bear_stearns_2006_he1 and bear_stearns_2006_he2"
+        }
+      ]
+    }
+  ],
+  "total_queries": 25,
+  "scoring": {
+    "term_hit_threshold": 0.5,
+    "pass_criteria": {
+      "deal_scope_recall_gte": 0.70,
+      "doc_scope_recall_gte": 0.60,
+      "cross_deal_has_output": true,
+      "negative_controls_no_false_positives": true
+    }
+  }
+}

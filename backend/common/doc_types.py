@@ -141,6 +141,14 @@ ALIASES: Final[dict[str, str]] = {
     "UNKNOWN": UNKNOWN,  # Identity
     "UNCLASSIFIED": UNKNOWN,
     "OTHER": UNKNOWN,
+
+    # Regime classifier output strings → canonical doc_type
+    # RegimeClassifier.classify() produces these; must map so normalize_doc_type() works.
+    "GOVERNING_DOC_LEGAL": GOVERNING_DOC,   # High-confidence legal/governing document
+    "MIXED": UNKNOWN,                        # Ambiguous — treat as non-legal to avoid
+                                             # false legal-mode on tech manuals scored 35-59
+    "GENERIC_GUIDE": UNKNOWN,               # Clearly non-legal (troubleshooting, SOP, etc.)
+    "GENERIC": UNKNOWN,                     # Fallback used when regime is UNKNOWN
 }
 
 

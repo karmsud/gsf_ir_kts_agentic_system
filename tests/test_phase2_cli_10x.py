@@ -8,8 +8,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _run(args: list[str]) -> dict:
-    result = subprocess.run([sys.executable, "-m", "cli.main", *args], cwd=ROOT, capture_output=True, text=True, check=False)
+def _run(args: list[str], timeout: int = 60) -> dict:
+    result = subprocess.run(
+        [sys.executable, "-m", "cli.main", *args],
+        cwd=ROOT, capture_output=True, text=True, check=False,
+        timeout=timeout,
+    )
     assert result.returncode == 0, result.stderr
     return json.loads(result.stdout.strip()) if result.stdout.strip() else {}
 
