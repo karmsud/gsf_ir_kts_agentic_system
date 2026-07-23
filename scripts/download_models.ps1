@@ -159,8 +159,14 @@ if ((Test-Path $SpacyModelPath) -and -not $Force) {
     Write-Host "spaCy model already exists at: $SpacyModelPath" -ForegroundColor Gray
     Write-Host "Use -Force to re-download" -ForegroundColor Gray
 } else {
-    # Install spacy if not present
-    python -m pip install --quiet "spacy>=3.7.0"
+    # Install spacy if not present (force-reinstall click since spacy's CLI
+    # dependency can be left missing/broken by resolver backtracking after
+    # other packages like optimum/transformers pin conflicting versions)
+    python -m pip install --quiet "spacy>=3.7.0" "click>=8.0.0"
+    python -c "import click" 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        python -m pip install --quiet --force-reinstall "click>=8.0.0"
+    }
 
     # Download spaCy model
     python -m spacy download en_core_web_sm
