@@ -331,7 +331,7 @@ if ($HasGhCli) {
     Write-Host ""
     
     if (-not $Force) {
-        $Response = Read-Host "Create GitHub release with 'gh' CLI? (Y/n)"
+        $Response = Read-Host "Create or update GitHub release with 'gh' CLI? (Y/n)"
         if ($Response -eq "n" -or $Response -eq "N") {
             $HasGhCli = $false
         }
