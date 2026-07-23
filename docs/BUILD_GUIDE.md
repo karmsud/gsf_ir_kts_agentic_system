@@ -487,61 +487,13 @@ If approaching 500MB limit:
 
 ## CI/CD Integration
 
-### GitHub Actions Example
+### GitHub Actions Workflow
 
-```yaml
-# .github/workflows/build-release.yml
-name: Build and Release VSIX
-
-on:
-  push:
-    tags:
-      - 'v*'
-
-jobs:
-  build:
-    runs-on: windows-latest
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Python 3.13
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13.5'
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      
-      - name: Install vsce
-        run: npm install -g @vscode/vsce
-      
-      - name: Extract version from tag
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-        shell: bash
-      
-      - name: Build VSIX
-        run: .\scripts\build_vsix.ps1 -Version "${{ steps.get_version.outputs.VERSION }}"
-        shell: powershell
-      
-      - name: Test VSIX
-        run: .\scripts\test_vsix.ps1
-        shell: powershell
-      
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            dist/kts-agentic-system-*.vsix
-            dist/kts-agentic-system-*.sha256
-          generate_release_notes: true
-          draft: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+The repository includes [.github/workflows/release.yml](../.github/workflows/release.yml), which:
+- triggers on `v*` tags and manual dispatch
+- builds the VSIX with `scripts/build_vsix.ps1`
+- publishes the release with `scripts/release.ps1 -NoTag`
+- uploads the VSIX, SHA256 checksum, and the optional model bundle ZIP as release assets
 
 ### Automated Release (Recommended)
 
@@ -558,10 +510,11 @@ Uses the `release.ps1` script to automate the entire process:
 **What `release.ps1` does:**
 1. Validates VSIX exists in `dist/`
 2. Generates SHA256 checksum
-3. Verifies git status
-4. Creates and pushes git tag (`v0.0.1`)
-5. Creates GitHub release with auto-generated notes
-6. Uploads VSIX and checksum as release assets
+3. Packages a separate model bundle ZIP when packaged models are present
+4. Verifies git status
+5. Creates and pushes git tag (`v0.0.1`) unless `-NoTag` is used
+6. Creates GitHub release with auto-generated notes
+7. Uploads VSIX, checksum, and model bundle assets as applicable
 
 **Requirements:**
 - **GitHub CLI**: `winget install GitHub.cli` or <https://cli.github.com/>
@@ -590,6 +543,8 @@ If GitHub CLI is not available:
    - Upload assets from `dist/`:
      - `kts-agentic-system-0.0.1.vsix`
      - `kts-agentic-system-0.0.1.sha256`
+         - `kts-agentic-system-0.0.1-models.zip` (when models are bundled)
+         - `kts-agentic-system-0.0.1-models.sha256` (when models are bundled)
    - Add release notes (see `dist/release-notes-0.0.1.md`)
    - Click "Publish release"
 

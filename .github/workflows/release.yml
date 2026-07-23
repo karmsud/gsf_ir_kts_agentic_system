@@ -1,0 +1,90 @@
+name: Build and Publish Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to release when not running from a tag
+        required: false
+        default: ""
+      draft:
+        description: Create a draft release
+        required: false
+        type: boolean
+        default: false
+      prerelease:
+        description: Mark the release as a prerelease
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.5"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install VSCE
+        shell: pwsh
+        run: npm install -g @vscode/vsce
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" && "${GITHUB_REF_NAME}" == v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+          elif [[ -n "${{ github.event.inputs.version }}" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION=$(node -e "console.log(require('./extension/package.json').version)")
+          fi
+
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Build VSIX
+        shell: pwsh
+        run: .\scripts\build_vsix.ps1 -Version "${{ steps.version.outputs.version }}" -Clean -Test
+
+      - name: Create GitHub release and upload assets
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $args = @(
+            "-Version", "${{ steps.version.outputs.version }}",
+            "-Force"
+          )
+
+          if ("${{ github.event_name }}" -eq "push") {
+            $args += "-NoTag"
+          }
+
+          if ("${{ github.event.inputs.draft }}" -eq "true") {
+            $args += "-Draft"
+          }
+
+          if ("${{ github.event.inputs.prerelease }}" -eq "true") {
+            $args += "-Prerelease"
+          }
+
+          & .\scripts\release.ps1 @args

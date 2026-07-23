@@ -3,12 +3,14 @@
     Automated GitHub release script for KTS VSIX
 
 .DESCRIPTION
-    Prepares and publishes a GitHub release with the built VSIX:
+    Prepares and publishes a GitHub release with the built VSIX and
+    optional packaged model bundle:
     1. Validates VSIX exists in dist/
-    2. Creates Git tag with version
-    3. Generates checksums (SHA256)
-    4. Creates GitHub release (manual or gh CLI)
-    5. Uploads VSIX as release asset
+    2. Generates checksums (SHA256)
+    3. Packages a model bundle ZIP when packaged models are present
+    4. Creates Git tag with version unless -NoTag is used
+    5. Creates GitHub release (manual or gh CLI)
+    6. Uploads VSIX, checksums, and model bundle assets
     
     Requires GitHub CLI (gh) installed for automated upload.
     Falls back to manual instructions if gh not available.
@@ -28,6 +30,9 @@
 .PARAMETER Force
     Skip confirmation prompts
 
+.PARAMETER NoTag
+    Skip local tag creation and push. Used by the GitHub Actions release workflow.
+
 .EXAMPLE
     .\scripts\release.ps1 -Version "0.0.1"
     .\scripts\release.ps1 -Version "0.1.0" -Draft
@@ -41,7 +46,8 @@ param(
     [switch]$Draft,
     [switch]$Prerelease,
     [string]$Notes,
-    [switch]$Force
+    [switch]$Force,
+    [switch]$NoTag
 )
 
 $ErrorActionPreference = "Stop"
@@ -58,6 +64,21 @@ $RepoRoot = Split-Path -Parent $PSScriptRoot
 $DistDir = Join-Path $RepoRoot "dist"
 $VsixPattern = "kts-agentic-system-$Version.vsix"
 $VsixPath = Join-Path $DistDir $VsixPattern
+$ModelSourceDir = $null
+foreach ($Candidate in @(
+    (Join-Path $RepoRoot "extension/models"),
+    (Join-Path $RepoRoot "packaging/models")
+)) {
+    if (Test-Path $Candidate) {
+        $ModelSourceDir = $Candidate
+        break
+    }
+}
+
+$ModelBundlePath = Join-Path $DistDir "kts-agentic-system-$Version-models.zip"
+$ModelChecksumFile = Join-Path $DistDir "kts-agentic-system-$Version-models.sha256"
+$HasModelBundle = $false
+$ModelBundleSizeMB = $null
 
 # Step 1: Validate VSIX exists
 Write-Host "[STEP 1] Validate VSIX" -ForegroundColor Cyan
@@ -104,8 +125,40 @@ Write-Host "✓ SHA256: $Sha256Hash" -ForegroundColor Green
 Write-Host "  Saved to: $ChecksumFile" -ForegroundColor Gray
 Write-Host ""
 
-# Step 3: Verify git status
-Write-Host "[STEP 3] Verify Git Status" -ForegroundColor Cyan
+# Step 3: Package model bundle
+Write-Host "[STEP 3] Package Model Bundle" -ForegroundColor Cyan
+Write-Host "-" * 80 -ForegroundColor Gray
+
+if ($ModelSourceDir) {
+    if (Test-Path $ModelBundlePath) {
+        Remove-Item $ModelBundlePath -Force
+    }
+
+    $ModelEntries = Get-ChildItem -Path $ModelSourceDir -Force
+    if ($ModelEntries) {
+        Compress-Archive -Path (Join-Path $ModelSourceDir "*") -DestinationPath $ModelBundlePath -Force
+        $ModelBundleHash = (Get-FileHash -Path $ModelBundlePath -Algorithm SHA256).Hash
+        "$ModelBundleHash  $(Split-Path -Leaf $ModelBundlePath)" | Set-Content $ModelChecksumFile -Encoding UTF8
+
+        $ModelBundleSizeMB = [math]::Round((Get-Item $ModelBundlePath).Length / 1MB, 2)
+        $HasModelBundle = $true
+
+        Write-Host "✓ Model bundle found: $ModelSourceDir" -ForegroundColor Green
+        Write-Host "  Size: $ModelBundleSizeMB MB" -ForegroundColor Gray
+        Write-Host "  ZIP:  $ModelBundlePath" -ForegroundColor Gray
+        Write-Host "  SHA256: $ModelBundleHash" -ForegroundColor Gray
+    } else {
+        Write-Host "⚠ Model source folder exists but is empty: $ModelSourceDir" -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "⚠ No packaged model source found in extension/models or packaging/models" -ForegroundColor Yellow
+    Write-Host "  The release will include the VSIX only." -ForegroundColor Gray
+}
+
+Write-Host ""
+
+# Step 4: Verify git status
+Write-Host "[STEP 4] Verify Git Status" -ForegroundColor Cyan
 Write-Host "-" * 80 -ForegroundColor Gray
 
 # Check if in git repo
@@ -132,66 +185,71 @@ if ($GitStatus) {
     }
 }
 
-# Check if tag already exists
-$TagName = "v$Version"
-$TagExists = git tag -l $TagName
-
-if ($TagExists) {
-    Write-Host "⚠ Tag '$TagName' already exists" -ForegroundColor Yellow
-    
-    if (-not $Force) {
-        $Response = Read-Host "Delete and recreate tag? (y/N)"
-        if ($Response -ne "y" -and $Response -ne "Y") {
-            Write-Host "✗ Release cancelled" -ForegroundColor Red
-            exit 1
-        }
-        
-        # Delete local tag
-        git tag -d $TagName
-        
-        # Delete remote tag if exists
-        try {
-            git push origin --delete $TagName 2>$null
-        } catch {
-            # Remote tag might not exist
-        }
-    }
-}
-
 Write-Host "✓ Git status verified" -ForegroundColor Green
 Write-Host ""
 
-# Step 4: Create Git tag
-Write-Host "[STEP 4] Create Git Tag" -ForegroundColor Cyan
-Write-Host "-" * 80 -ForegroundColor Gray
+$TagName = "v$Version"
 
-$TagMessage = "Release v$Version - KTS Agentic System"
-git tag -a $TagName -m $TagMessage
+if (-not $NoTag) {
+    # Step 5: Create Git tag
+    Write-Host "[STEP 5] Create Git Tag" -ForegroundColor Cyan
+    Write-Host "-" * 80 -ForegroundColor Gray
 
-Write-Host "✓ Created tag: $TagName" -ForegroundColor Green
-Write-Host "  Message: $TagMessage" -ForegroundColor Gray
-Write-Host ""
+    $TagExists = git tag -l $TagName
 
-# Step 5: Push tag to GitHub
-Write-Host "[STEP 5] Push Tag to GitHub" -ForegroundColor Cyan
-Write-Host "-" * 80 -ForegroundColor Gray
+    if ($TagExists) {
+        Write-Host "⚠ Tag '$TagName' already exists" -ForegroundColor Yellow
 
-if (-not $Force) {
-    $Response = Read-Host "Push tag '$TagName' to GitHub? (Y/n)"
-    if ($Response -eq "n" -or $Response -eq "N") {
-        Write-Host "✗ Skipping push (delete tag with: git tag -d $TagName)" -ForegroundColor Yellow
-        exit 0
+        if (-not $Force) {
+            $Response = Read-Host "Delete and recreate tag? (y/N)"
+            if ($Response -ne "y" -and $Response -ne "Y") {
+                Write-Host "✗ Release cancelled" -ForegroundColor Red
+                exit 1
+            }
+
+            # Delete local tag
+            git tag -d $TagName
+
+            # Delete remote tag if exists
+            try {
+                git push origin --delete $TagName 2>$null
+            } catch {
+                # Remote tag might not exist
+            }
+        }
     }
+
+    $TagMessage = "Release v$Version - KTS Agentic System"
+    git tag -a $TagName -m $TagMessage
+
+    Write-Host "✓ Created tag: $TagName" -ForegroundColor Green
+    Write-Host "  Message: $TagMessage" -ForegroundColor Gray
+    Write-Host ""
+
+    # Step 6: Push tag to GitHub
+    Write-Host "[STEP 6] Push Tag to GitHub" -ForegroundColor Cyan
+    Write-Host "-" * 80 -ForegroundColor Gray
+
+    if (-not $Force) {
+        $Response = Read-Host "Push tag '$TagName' to GitHub? (Y/n)"
+        if ($Response -eq "n" -or $Response -eq "N") {
+            Write-Host "✗ Skipping push (delete tag with: git tag -d $TagName)" -ForegroundColor Yellow
+            exit 0
+        }
+    }
+
+    Write-Host "Pushing tag to origin..." -ForegroundColor Green
+    git push origin $TagName
+
+    Write-Host "✓ Tag pushed to GitHub" -ForegroundColor Green
+    Write-Host ""
+} else {
+    Write-Host "[STEP 5] Skipping Git Tag creation (--NoTag)" -ForegroundColor Yellow
+    Write-Host ""
 }
 
-Write-Host "Pushing tag to origin..." -ForegroundColor Green
-git push origin $TagName
-
-Write-Host "✓ Tag pushed to GitHub" -ForegroundColor Green
-Write-Host ""
-
-# Step 6: Generate release notes
-Write-Host "[STEP 6] Generate Release Notes" -ForegroundColor Cyan
+# Step 7: Generate release notes
+Write-Host "[STEP 7] Generate Release Notes" -ForegroundColor Cyan
 Write-Host "-" * 80 -ForegroundColor Gray
 
 if (-not $Notes) {
@@ -200,6 +258,12 @@ if (-not $Notes) {
 ## KTS Agentic System v$Version
 
 **Single Self-Contained VSIX** (~350MB)
+
+### 📦 Release Assets
+- **VSIX** - `kts-agentic-system-$Version.vsix`
+- **Checksum** - `kts-agentic-system-$Version.sha256`
+- **Model bundle** - `kts-agentic-system-$Version-models.zip` (when models are available locally)
+- **Model checksum** - `kts-agentic-system-$Version-models.sha256`
 
 ### 📦 What's Included
 - **Complete VS Code Extension** - Full UI, commands, chat interface
@@ -255,8 +319,8 @@ Write-Host ""
 Write-Host $Notes -ForegroundColor Gray
 Write-Host ""
 
-# Step 7: Create GitHub Release
-Write-Host "[STEP 7] Create GitHub Release" -ForegroundColor Cyan
+# Step 8: Create GitHub Release
+Write-Host "[STEP 8] Create GitHub Release" -ForegroundColor Cyan
 Write-Host "-" * 80 -ForegroundColor Gray
 
 # Check if GitHub CLI is installed
@@ -281,7 +345,15 @@ if ($HasGhCli) {
     $GhArgs = @(
         "release", "create", $TagName,
         $VsixPath,
-        $ChecksumFile,
+        $ChecksumFile
+    )
+
+    if ($HasModelBundle) {
+        $GhArgs += $ModelBundlePath
+        $GhArgs += $ModelChecksumFile
+    }
+
+    $GhArgs += @(
         "--title", "KTS Agentic System v$Version",
         "--notes", $Notes
     )
@@ -342,6 +414,10 @@ if ($HasGhCli) {
     Write-Host "3. Upload release assets:" -ForegroundColor White
     Write-Host "   - $VsixPath" -ForegroundColor Gray
     Write-Host "   - $ChecksumFile" -ForegroundColor Gray
+    if ($HasModelBundle) {
+        Write-Host "   - $ModelBundlePath" -ForegroundColor Gray
+        Write-Host "   - $ModelChecksumFile" -ForegroundColor Gray
+    }
     Write-Host ""
     Write-Host "4. Publish release" -ForegroundColor White
     Write-Host ""
@@ -379,8 +455,17 @@ if ($HasGhCli) {
     Write-Host "  3. Ask users to test before wider announcement" -ForegroundColor White
 } else {
     Write-Host "  1. Complete manual release creation on GitHub" -ForegroundColor White
-    Write-Host "  2. Upload VSIX and checksum files" -ForegroundColor White
+    Write-Host "  2. Upload VSIX, checksums, and the model bundle if present" -ForegroundColor White
     Write-Host "  3. Test download and installation" -ForegroundColor White
+}
+Write-Host ""
+
+Write-Host "Assets prepared:" -ForegroundColor Cyan
+Write-Host "  - $VsixPath" -ForegroundColor White
+Write-Host "  - $ChecksumFile" -ForegroundColor White
+if ($HasModelBundle) {
+    Write-Host "  - $ModelBundlePath" -ForegroundColor White
+    Write-Host "  - $ModelChecksumFile" -ForegroundColor White
 }
 Write-Host ""
 
