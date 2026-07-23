@@ -101,6 +101,10 @@ if ((Test-Path $CeModelFile) -and -not $Force) {
     Write-Host "Use -Force to re-download" -ForegroundColor Gray
 } else {
     Write-Host "Downloading cross-encoder/ms-marco-MiniLM-L-6-v2 from HuggingFace..." -ForegroundColor Green
+    python -m pip install --quiet huggingface_hub
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to install huggingface_hub"
+    }
     python -c @"
 import os, shutil
 from pathlib import Path

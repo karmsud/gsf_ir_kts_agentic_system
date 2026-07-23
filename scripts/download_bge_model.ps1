@@ -33,12 +33,29 @@ Write-Host ""
 # Check Python dependencies
 Write-Host "Checking dependencies..." -ForegroundColor Yellow
 $deps = @("optimum", "onnx", "onnxruntime", "transformers", "tokenizers")
+$missingDeps = @()
 foreach ($dep in $deps) {
-    $result = python -c "import $dep" 2>&1
+    python -c "import $dep" 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "Missing dependency: $dep" -ForegroundColor Red
-        Write-Host "Install with: pip install optimum[onnxruntime] onnx onnxruntime transformers tokenizers" -ForegroundColor Yellow
+        $missingDeps += $dep
+    }
+}
+
+if ($missingDeps.Count -gt 0) {
+    Write-Host "Missing dependencies: $($missingDeps -join ', ')" -ForegroundColor Yellow
+    Write-Host "Installing: optimum[onnxruntime] onnx onnxruntime transformers tokenizers" -ForegroundColor Green
+    python -m pip install --quiet "optimum[onnxruntime]" onnx onnxruntime transformers tokenizers
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Failed to install model conversion dependencies" -ForegroundColor Red
         exit 1
+    }
+
+    foreach ($dep in $deps) {
+        python -c "import $dep" 2>&1 | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Dependency still missing after install: $dep" -ForegroundColor Red
+            exit 1
+        }
     }
 }
 Write-Host "All dependencies OK" -ForegroundColor Green
