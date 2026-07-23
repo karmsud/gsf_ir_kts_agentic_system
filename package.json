@@ -1,7 +1,7 @@
 {
   "name": "gsf_ir_kts_agentic_system",
   "version": "1.0.0",
-  "description": "**Enterprise-grade document intelligence system with agentic capabilities**",
+  "description": "Local document intelligence and ABS payment-waterfall modeling for VS Code",
   "main": "index.js",
   "directories": {
     "doc": "docs",

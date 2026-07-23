@@ -1,72 +1,66 @@
-# KTS Backend CLI Reference
+# CLI Reference
 
-This documents the commands available in the `kts-backend` executable (or `cli/main.py`).
-
-**Base Command**: `kts-backend` (or `python -m cli.main` if running source)
-**Global Flags**: `--help`, `--version`
-
-## 1. Crawl (`crawl`)
-Scans source paths and updates the internal manifest (`.kts/manifest.json`). Does NOT modify the source documents.
+Use the source CLI from an activated project virtual environment:
 
 ```bash
-kts-backend crawl --paths "C:/Docs" [--dry-run] [--force]
+python -m cli.main --help
+python -m cli.main abs --help
 ```
-- `--paths`: Specify one or more paths to scan. If omitted, uses configured defaults.
-- `--dry-run`: Evaluate changes without updating the manifest.
-- `--force`: Force update even if file hash matches.
 
-## 2. Ingest (`ingest`)
-Converts, extracts images, chunks, and indexes documents found in the manifest (or specified paths).
+The extension normally invokes these interfaces for you. The CLI is useful for development, automation, and narrow backend diagnostics.
+
+## KTS Commands
+
+### Crawl
+
+Scans source paths and updates the manifest.
 
 ```bash
-kts-backend ingest --paths "C:/Docs"
+python -m cli.main crawl --paths /path/to/documents
+python -m cli.main crawl --paths /path/to/documents --dry-run
 ```
-- `--paths`: Explicitly ingest specific files/folders. If omitted, ingests all "pending" files from manifest (files without `doc_id`).
-- **Features**: 
-  - Extracts embedded images (SHA-256 deduplicated) to `.kts/documents/<doc_id>/images/`.
-  - Updates knowledge graph and vector store.
-  - Skips `.kts` internal folder automatically.
 
-## 3. Search (`search`)
-Retrieves documents relevant to a query.
+Options: `--paths` can be repeated; `--dry-run` reports changes without persisting them; `--force` requests a complete scan.
+
+### Ingest
+
+Converts, classifies, chunks, and indexes files. When a supplied root contains direct subfolders, ingestion can create per-folder knowledge scopes.
 
 ```bash
-kts-backend search "How do I reset my password?"
+python -m cli.main ingest --paths /path/to/documents
+python -m cli.main ingest --paths /path/to/document.pdf --doc-type GOVERNING_DOC
 ```
-- Returns JSON with `results` array containing `doc_id`, `score`, `chunk_text`, `source_path`.
-- Uses hybrid retrieval (embedding similarity + keyword matching).
 
-## 4. Status (`status`)
-Reports overall system health and statistics.
+Options: `--paths` can be repeated, `--doc-type` overrides automatic classification, and `--force` is retained for forward-compatible automation.
+
+### Other KTS Operations
+
+Run `python -m cli.main --help` for the complete command set supported by the current checkout. The extension also exposes user-oriented equivalents through the Command Palette, where it handles workspace paths and structured output.
+
+## ABS Commands
+
+ABS commands are grouped under `abs`:
 
 ```bash
-kts-backend status
+python -m cli.main abs ingest --help
+python -m cli.main abs generate --help
+python -m cli.main abs audit --help
+python -m cli.main abs qa --help
+python -m cli.main abs status --help
 ```
-- **Output**: JSON containing:
-  - `total_documents`: Count of indexed documents.
-  - `total_chunks`: Count of vector chunks.
-  - `total_images_pending`: Number of extracted images needing description.
-  - `last_crawl`: Timestamp.
 
-## 5. Describe Images (`describe`)
-Manages the image description workflow.
+Typical source-mode workflow:
 
-### Pending
-Lists images extracted but not yet described by AI.
 ```bash
-kts-backend describe pending
+python -m cli.main abs ingest --deal-id example_deal --source-dir ./deals/example_deal
+python -m cli.main abs generate --deal-id example_deal
+python -m cli.main abs audit --deal-id example_deal
+python -m cli.main abs qa --deal-id example_deal -q "What is the payment waterfall?"
+python -m cli.main abs status
 ```
-- Returns JSON list of image paths and associated doc_ids.
 
-### Complete
-Submit an AI-generated description for a specific image.
-```bash
-kts-backend describe complete --image-path "..." --description "..."
-```
-- Updates `descriptions.json` and adds description to vector store for retrieval.
+Use each command's `--help` output for exact flags. Those options evolve with the orchestration models, while the webview and `@abs` participant remain the preferred interactive interfaces.
 
-## 6. Evaluate (`eval`)
-Run internal quality suites (dev use only).
-```bash
-kts-backend eval suite
-```
+## Output and Errors
+
+Commands return structured output where the extension expects JSON. Progress and diagnostic details may be written to standard error. Preserve standard output when scripting commands, and inspect the `KTS` or `ABS Waterfall` output channels when invoking the same operation through VS Code.

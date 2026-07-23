@@ -1,7 +1,7 @@
 {
   "name": "gsf-ir-kts-extension",
-  "displayName": "GSF IR KTS",
-  "description": "KTS VS Code extension - Self-contained knowledge system with integrated backend",
+  "displayName": "KTS + ABS Waterfall",
+  "description": "Local knowledge intelligence and structured-finance waterfall modeling for VS Code",
   "version": "0.0.9",
   "publisher": "karmsud",
   "repository": {
