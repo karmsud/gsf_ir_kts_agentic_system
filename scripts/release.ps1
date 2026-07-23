@@ -319,8 +319,8 @@ Write-Host ""
 Write-Host $Notes -ForegroundColor Gray
 Write-Host ""
 
-# Step 8: Create GitHub Release
-Write-Host "[STEP 8] Create GitHub Release" -ForegroundColor Cyan
+# Step 8: Create or Update GitHub Release
+Write-Host "[STEP 8] Create or Update GitHub Release" -ForegroundColor Cyan
 Write-Host "-" * 80 -ForegroundColor Gray
 
 # Check if GitHub CLI is installed
@@ -339,8 +339,19 @@ if ($HasGhCli) {
 }
 
 if ($HasGhCli) {
-    # Create release with gh CLI
-    Write-Host "Creating release with GitHub CLI..." -ForegroundColor Green
+    # Create or update release with gh CLI
+    $ReleaseExists = $false
+
+    & gh release view $TagName *> $null
+    if ($LASTEXITCODE -eq 0) {
+        $ReleaseExists = $true
+    }
+
+    if ($ReleaseExists) {
+        Write-Host "Existing release detected; uploading assets with GitHub CLI..." -ForegroundColor Green
+    } else {
+        Write-Host "Creating release with GitHub CLI..." -ForegroundColor Green
+    }
     
     $GhArgs = @(
         "release", "create", $TagName,
@@ -369,12 +380,31 @@ if ($HasGhCli) {
     }
     
     Write-Host ""
-    
+
+    if ($ReleaseExists) {
+        $GhArgs = @(
+            "release", "upload", $TagName,
+            $VsixPath,
+            $ChecksumFile
+        )
+
+        if ($HasModelBundle) {
+            $GhArgs += $ModelBundlePath
+            $GhArgs += $ModelChecksumFile
+        }
+
+        $GhArgs += "--clobber"
+    }
+
     & gh @GhArgs
-    
+
     if ($LASTEXITCODE -eq 0) {
         Write-Host ""
-        Write-Host "✓ GitHub release created!" -ForegroundColor Green
+        if ($ReleaseExists) {
+            Write-Host "✓ GitHub release assets updated!" -ForegroundColor Green
+        } else {
+            Write-Host "✓ GitHub release created!" -ForegroundColor Green
+        }
         Write-Host ""
         Write-Host "View release:" -ForegroundColor Cyan
         
@@ -386,9 +416,9 @@ if ($HasGhCli) {
         Write-Host "  $RepoUrl/releases/tag/$TagName" -ForegroundColor White
         Write-Host ""
     } else {
-        Write-Host "✗ GitHub CLI release creation failed" -ForegroundColor Red
+        Write-Host "✗ GitHub CLI release operation failed" -ForegroundColor Red
         Write-Host ""
-        Write-Host "Try manual release creation (see instructions below)" -ForegroundColor Yellow
+        Write-Host "Try manual release creation or asset upload (see instructions below)" -ForegroundColor Yellow
         $HasGhCli = $false
     }
     
