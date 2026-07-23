@@ -37,6 +37,23 @@ backend_hidden_imports = [
     # Phase 5 WS-1: Embedding provider abstraction
     'backend.vector.embedding_provider',
     'backend.vector.bge_onnx_provider',
+    # ABS Waterfall platform: store + services + IPC entry point
+    'backend.abs.serve',
+    'backend.abs.store',
+    'backend.abs.store.schema',
+    'backend.abs.store.deal_store',
+    'backend.abs.services',
+    'backend.abs.services.dispatcher',
+    'backend.abs.services.ipc_server',
+    'backend.abs.services.deal_service',
+    'backend.abs.services.ingestion_service',
+    'backend.abs.services.definition_service',
+    'backend.abs.services.sep_service',
+    'backend.abs.services.governing_doc_service',
+    'backend.abs.services.qa_service',
+    'backend.abs.services.model_service',
+    'backend.abs.services.reporting_service',
+    'backend.abs.services.pdf_render',
 ]
 
 # Add common dependencies - ALL INCLUDED for single VSIX build

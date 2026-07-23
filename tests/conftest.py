@@ -18,6 +18,43 @@ collect_ignore = [str(Path(__file__).parent / "test_gold_standards_validation.py
 
 
 # ---------------------------------------------------------------------------
+# Async event-loop isolation
+# ---------------------------------------------------------------------------
+
+@pytest.fixture(autouse=True)
+def _isolate_asyncio_loop():
+    """Give every test a fresh, valid asyncio event loop.
+
+    Under Python 3.9, ``asyncio.run()`` leaves the thread's loop unset *and*
+    flags ``_set_called=True``, which makes a subsequent
+    ``asyncio.get_event_loop()`` raise ``RuntimeError: There is no current event
+    loop`` instead of auto-creating one. Some suites use ``asyncio.run()`` and
+    others use ``get_event_loop().run_until_complete()``; resetting a fresh loop
+    per test keeps both styles working together regardless of execution order.
+    """
+    import asyncio
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        yield
+    finally:
+        # Close every loop tied to this test (the one we created plus any the
+        # test swapped in) so we never leak event loops across the suite.
+        try:
+            current = asyncio.get_event_loop_policy()._local._loop
+        except Exception:  # pragma: no cover - defensive
+            current = None
+        for lp in {loop, current}:
+            if lp is not None:
+                try:
+                    if not lp.is_closed():
+                        lp.close()
+                except Exception:  # pragma: no cover - defensive cleanup
+                    pass
+
+
+# ---------------------------------------------------------------------------
 # pytest CLI option: --fast
 # ---------------------------------------------------------------------------
 

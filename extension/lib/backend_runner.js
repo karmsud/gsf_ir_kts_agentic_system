@@ -225,11 +225,35 @@ class ExeRunner extends BackendRunner {
     this.exePath = this._resolveExePath();
   }
 
+  _platformCandidates() {
+    return Array.from(new Set([
+      `${process.platform}-${process.arch}`,
+      process.platform === 'darwin' ? `macos-${process.arch}` : null,
+      process.platform === 'win32' ? `win-${process.arch}` : null,
+      'darwin-arm64',
+      'darwin-x64',
+      'macos-arm64',
+      'macos-x64',
+      'win32-x64',
+      'win-x64',
+      'linux-x64',
+    ].filter(Boolean)));
+  }
+
   _resolveExePath() {
-    // Look for exe in extension directory
     const extensionPath = this.context.extensionPath;
-    const exePath = path.join(extensionPath, 'bin', 'win-x64', 'kts-backend', 'kts-backend.exe');
-    return exePath;
+    const exeExt = process.platform === 'win32' ? '.exe' : '';
+    for (const platformId of this._platformCandidates()) {
+      for (const base of ['kts-backend', 'abs-backend']) {
+        const candidate = path.join(extensionPath, 'bin', platformId, base, `${base}${exeExt}`);
+        if (fs.existsSync(candidate)) {
+          return candidate;
+        }
+      }
+    }
+
+    // Return the canonical expected path for clearer diagnostics when missing.
+    return path.join(extensionPath, 'bin', `${process.platform}-${process.arch}`, 'kts-backend', `kts-backend${exeExt}`);
   }
 
   async runCli(args, env = {}, cwd = null, timeoutMs = 3600000) {
@@ -435,6 +459,7 @@ class BackendRunnerFactory {
         return exeRunner;
       }
 
+      outputChannel.appendLine(`[RunnerFactory] Exe backend unavailable at ${exeRunner.exePath}`);
       outputChannel.appendLine('[RunnerFactory] Using VenvRunner (auto: exe not available, falling back to venv)');
       return new VenvRunner(venvManager, outputChannel);
     }

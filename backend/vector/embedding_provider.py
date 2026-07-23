@@ -150,8 +150,10 @@ def _resolve_bge_model_path(config_path: Optional[str] = None) -> Optional[Path]
 
     # 4. Development mode
     dev_paths = [
+        Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'bge' / 'bge-base-en-v1.5' / 'onnx-int8',
         Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'bge' / 'bge-base-en-v1.5-onnx-int8',
         Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'bge',
+        Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'bge' / 'bge-base-en-v1.5' / 'onnx',
         Path(__file__).parent.parent.parent / 'assets' / 'models' / 'bge-base-en-v1.5' / 'onnx-int8',
     ]
     for p in dev_paths:

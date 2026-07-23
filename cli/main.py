@@ -1084,5 +1084,21 @@ from cli.abs import abs_group  # noqa: E402
 
 cli.add_command(abs_group, "abs")
 
+
+# ─── ABS IPC serve command ────────────────────────────────────────────────────
+@cli.command("abs-serve")
+@click.option("--deals-root", required=True, help="Root folder containing deal sub-directories.")
+def abs_serve_cmd(deals_root: str) -> None:
+    """ABS Waterfall backend IPC server (JSON-lines stdio).
+
+    Launched by the VS Code extension as a long-running child process.
+    Reads JSON-line requests from stdin, writes JSON-line responses to stdout.
+    All diagnostic/log output goes to stderr.
+    """
+    from backend.abs.serve import main  # noqa: PLC0415
+
+    raise SystemExit(main(["--deals-root", deals_root]))
+
+
 if __name__ == "__main__":
     cli()

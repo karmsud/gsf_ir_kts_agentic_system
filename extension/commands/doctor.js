@@ -57,8 +57,9 @@ module.exports = async function doctor({ vscode, outputChannel, context, runner 
   outputChannel.appendLine('\n--- Backend Status ---');
   const paths = venvManager.getPaths();
   
-  // Check for exe
-  const exePath = path.join(context.extensionPath, 'bin', 'win-x64', 'kts-backend', 'kts-backend.exe');
+  // Check for bundled executable backend on the current platform
+  const { ExeRunner } = require('../lib/backend_runner');
+  const exePath = new ExeRunner(context, outputChannel).exePath;
   const exeExists = fs.existsSync(exePath);
   
   report.backend = {
@@ -171,7 +172,7 @@ module.exports = async function doctor({ vscode, outputChannel, context, runner 
   }
   
   if (report.configuration.backendMode === 'exe' && !hasExe) {
-    issues.push('Backend mode set to "exe" but kts-backend.exe not found');
+    issues.push('Backend mode set to "exe" but bundled backend executable not found for this platform');
   }
   
   if (report.configuration.backendMode === 'venv' && !hasVenv) {

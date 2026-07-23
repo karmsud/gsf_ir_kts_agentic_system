@@ -84,10 +84,10 @@ class DealManifest:
     amendment_history: list[dict] = field(default_factory=list)
     portfolio_comparison: dict = field(default_factory=dict)
     created_at: str = field(
-        default_factory=lambda: datetime.datetime.now(datetime.UTC).isoformat()
+        default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat()
     )
     updated_at: str = field(
-        default_factory=lambda: datetime.datetime.now(datetime.UTC).isoformat()
+        default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat()
     )
 
     @classmethod
@@ -121,7 +121,7 @@ class DealManifest:
 
     def save(self, deal_path: Path) -> None:
         """Save manifest to deal_manifest.json."""
-        self.updated_at = datetime.datetime.now(datetime.UTC).isoformat()
+        self.updated_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
         manifest_path = deal_path / "deal_manifest.json"
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -204,7 +204,7 @@ class DealManifest:
             "version_label": version_label,
             "description": description,
             "sections_changed": sections_changed,
-            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         })
 
     def __repr__(self) -> str:

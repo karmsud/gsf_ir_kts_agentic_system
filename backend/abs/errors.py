@@ -381,7 +381,7 @@ class StructuredErrorLogger:
     def log_error(self, error: BaseWaterfallError, stack_trace: str = "") -> None:
         """Log an error as structured JSON."""
         entry = error.to_dict()
-        entry["timestamp"] = datetime.datetime.now(datetime.UTC).isoformat()
+        entry["timestamp"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
         entry["level"] = "ERROR"
         entry["stack_trace"] = stack_trace or traceback.format_exc()
         with open(self.log_path, "a", encoding="utf-8") as f:
@@ -396,7 +396,7 @@ class StructuredErrorLogger:
     ) -> None:
         """Log a warning as structured JSON."""
         entry = {
-            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "level": "WARNING",
             "error_type": "Warning",
             "agent": agent,

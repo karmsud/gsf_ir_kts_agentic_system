@@ -6,6 +6,7 @@ PyYAML>=6.0
 networkx>=3.0.0              # Graph Analysis
 scipy>=1.11.0                # PageRank (networkx dependency)
 pandas>=2.0.0                # ABS cashflow data handling (Phase 22+)
+openpyxl>=3.1.0              # Excel review bridge (Agent #6)
 
 # ── Retrieval & Vector Store ─────────────────────────────────
 chromadb>=0.4.0              # Local Vector DB + Embeddings

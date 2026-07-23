@@ -23,5 +23,15 @@ else:
 # Import and invoke the CLI module (Click-based)
 from cli.main import cli
 
+
+def _main():
+    # ABS Waterfall IPC server mode (used by the VS Code WebView app):
+    #   abs-backend abs-serve --deals-root <path>
+    if len(sys.argv) > 1 and sys.argv[1] == 'abs-serve':
+        from backend.abs.serve import main as abs_serve_main
+        return abs_serve_main(sys.argv[2:])
+    return cli()
+
+
 if __name__ == '__main__':
-    sys.exit(cli())
+    sys.exit(_main())

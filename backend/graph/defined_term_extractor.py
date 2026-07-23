@@ -43,15 +43,21 @@ class DefinedTermExtractor:
         return self._deduplicate(terms)
 
     # ── Strategy 1: "X" means … (confidence 0.95) ────────────────
+    # Continuation helper: stop at blank lines or lines that look like the
+    # start of a new definition entry (CapitalisedTerm:).
+    _S1_CONT = r'(?:\n(?![ \t]*$)(?!["\u201c]?[A-Z][A-Za-z0-9 /\'\-]{1,60}["\u201d]?[ \t]*:)[^\n]+){0,8}'
+
     def _strategy1_means_pattern(self, text: str) -> list[DefinedTerm]:
         results: list[DefinedTerm] = []
         patterns = [
-            # "Term" means …  (allow optional comma/colon after keyword, e.g. "means, with respect to")
-            (r'["\u201c]([^"\u201d]{2,80})["\u201d]\s+(means|shall mean|is defined as|has the meaning)[,:]?\s+(.{10,600}?)(?:\.|$)',
+            # "Term" means …  — capture rest-of-line + up to 8 continuation lines
+            (r'["\u201c]([^"\u201d]{2,80})["\u201d]\s+(means|shall mean|is defined as|has the meaning)[,:]?\s+'
+             r'([^\n]+' + self._S1_CONT + r')',
              re.IGNORECASE | re.MULTILINE),
-            # Term is defined as …
-            (r'\b([A-Z][A-Za-z0-9 _-]{1,60})\s+(means|is defined as)[,:]?\s+(.{10,600}?)(?:\.|$)',
-             re.IGNORECASE),
+            # Term is defined as … (capitalised phrase, same multi-line capture)
+            (r'\b([A-Z][A-Za-z0-9 _-]{1,60})\s+(means|is defined as)[,:]?\s+'
+             r'([^\n]+' + self._S1_CONT + r')',
+             re.MULTILINE),
         ]
         for pattern, flags in patterns:
             for m in re.finditer(pattern, text, flags):
@@ -68,35 +74,44 @@ class DefinedTermExtractor:
         return results
 
     # ── Strategy 2: Definitions section entries (confidence 0.90) ─
+    # Continuation helper: captures non-indented lines, stops at blank lines
+    # or lines that look like the start of a new entry (CapitalisedTerm:).
+    _S2_CONT = r'(?:\n(?![ \t]*$)(?!["\u201c]?[A-Z][A-Za-z0-9 /\'\-]{2,79}["\u201d]?[ \t]*:)[^\n]+){0,15}'
+
     def _strategy2_definitions_section(self, text: str) -> list[DefinedTerm]:
         results: list[DefinedTerm] = []
-        # Find a definitions section
+        # Find a definitions section heading.
+        # Use [ \t]* (not \s*) so the pattern cannot span multiple lines.
         section_match = re.search(
-            r'(?m)^#{0,4}\s*(?:ARTICLE|SECTION)?\s*[IVXLC0-9.]*\s*DEFINITIONS?\s*$',
+            r'(?m)^[ \t]*(?:(?:ARTICLE|SECTION)[ \t]+[IVXLC0-9]+[ \t]*)?DEFINITIONS?[ \t]*$',
             text,
             re.IGNORECASE,
         )
         if not section_match:
             return results
 
-        # Grab text after the heading until the next top-level section
+        # Grab text after the heading until the next top-level ARTICLE section.
+        # Using only "ARTICLE" (not "SECTION") avoids matching subsection headers
+        # like "Section 1.01" which appear inside the definitions article itself.
         start = section_match.end()
         next_section = re.search(
-            r'(?m)^#{0,4}\s*(?:ARTICLE|SECTION)\s+[IVXLC0-9]+[.\s]',
+            r'(?m)^[ \t]*ARTICLE[ \t]+[IVXLC0-9]+[.\s]',
             text[start:],
             re.IGNORECASE,
         )
-        end = start + next_section.start() if next_section else min(start + 10000, len(text))
+        end = start + next_section.start() if next_section else len(text)
         section_text = text[start:end]
 
-        # Extract terms that appear at the start of paragraphs/lines with a definition
+        # Extract terms: capitalised name at line start, colon/dot separator,
+        # definition runs to end-of-line + any non-blank, non-new-entry continuation.
         for m in re.finditer(
-            r'(?m)^\s*["\u201c]?([A-Z][A-Za-z0-9 /\'-]{1,80})["\u201d]?\s*[:.\u2014\u2013\-]+\s*(.{10,500})',
+            r'(?m)^[ \t]*["\u201c]?([A-Z][A-Za-z0-9 /\'\-]{1,80})["\u201d]?[ \t]*[:.][ \t]*'
+            r'([^\n]+' + self._S2_CONT + r')',
             section_text,
         ):
             term = m.group(1).strip().strip('""\u201c\u201d')
-            definition = m.group(2).strip()
-            if len(term) < 2:
+            definition = re.sub(r'\s+', ' ', m.group(2)).strip()
+            if len(term) < 2 or len(definition) < 10:
                 continue
             results.append(DefinedTerm(
                 surface_form=term,

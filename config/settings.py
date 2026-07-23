@@ -351,6 +351,22 @@ class KTSConfig:
     abs_multi_query_count: int = 6                    # 22 — Query variant count
     abs_hyde_enabled: bool = True                     # 22 — HyDE generation
 
+    # ── Hybrid Retrieval Engine (Graph + Vector + BM25) ───────────────
+    # Three-signal RRF fusion exclusively for financial & legal documents.
+    hybrid_engine_enabled: bool = True            # Master toggle for new unified engine
+    hybrid_vector_weight: float = 1.0             # RRF weight for dense vector signal
+    hybrid_bm25_weight: float = 1.0               # RRF weight for BM25 sparse signal
+    hybrid_graph_weight: float = 0.6              # RRF weight for graph-expansion signal
+    hybrid_rrf_k: int = 60                        # RRF constant k (default 60)
+    hybrid_graph_bfs_depth: int = 2               # BFS depth for graph entity expansion
+
+    # ── Financial & Legal Domain Restriction ──────────────────────────
+    # When True, off-domain documents are penalised at retrieval time.
+    # The system is designed exclusively for financial and legal documents.
+    financial_legal_domain_only: bool = True      # Enable domain-specific scoring
+    domain_off_penalty: float = 0.4               # Score multiplier for off-domain docs
+    domain_section_boost_enabled: bool = True     # Boost waterfall/definition sections
+
 def _read_json(path: Path) -> dict:
     if not path.exists():
         return {}

@@ -60,6 +60,7 @@ def _resolve_cross_encoder_path(explicit_path: Optional[str] = None) -> Optional
 
     # 4. Development mode fallback
     dev_paths = [
+        Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'cross-encoder',
         Path(__file__).parent.parent.parent / 'packaging' / 'models' / 'cross_encoder',
         Path(__file__).parent.parent.parent / 'assets' / 'models' / 'cross-encoder',
     ]

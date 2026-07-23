@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import networkx as nx
 
@@ -45,6 +45,12 @@ from backend.retrieval.comparison_mode import ComparisonMode
 from backend.retrieval.contradiction_detector import ContradictionDetector
 from backend.retrieval.anomaly_scorer import AnomalyScorer
 from backend.retrieval.baseline_corpus import BaselineCorpus
+
+# ── Hybrid Retrieval Engine (Graph + Vector + BM25) ──────────────
+from backend.retrieval.hybrid_retrieval_engine import (
+    HybridRetrievalEngine,
+    create_hybrid_engine,
+)
 
 from .base_agent import AgentBase
 
@@ -183,6 +189,23 @@ class RetrievalService(AgentBase):
             if getattr(config, 'anomaly_detection_enabled', True)
             else None
         )
+
+        # ── Hybrid Retrieval Engine (Graph + Vector + BM25) ───────
+        # Unified three-signal engine for financial & legal documents.
+        # Replaces the ad-hoc BM25 gating in human_like_retriever.
+        self._hybrid_engine: Optional[HybridRetrievalEngine] = None
+        if getattr(config, 'hybrid_engine_enabled', True):
+            try:
+                self._hybrid_engine = create_hybrid_engine(
+                    config,
+                    self.vector_store,
+                    self.graph_store,
+                )
+                logger.info("[HybridEngine] Initialized (vector+BM25+graph)")
+            except Exception as _exc:
+                logger.warning("[HybridEngine] Init failed, falling back: %s", _exc)
+                self._hybrid_engine = None
+        # end __init__
 
     def _get_scope_router(self) -> ScopeRouter:
         """Lazily initialize and return the scope router (Phase 12.4).
@@ -1815,6 +1838,89 @@ class RetrievalService(AgentBase):
             "strategy": "vector_first_guide_phase19",
         }
 
+    # ── Hybrid Retrieval Engine (public API) ───────────────────────────
+
+    def hybrid_search(
+        self,
+        query: str,
+        *,
+        top_k: int = 10,
+        scope: Optional[str] = None,
+        doc_type_filter: Optional[str] = None,
+        include_graph: bool = True,
+    ) -> List[Dict[str, Any]]:
+        """
+        Three-signal hybrid search: dense vector + BM25 sparse + graph expansion.
+
+        This is the primary retrieval entry-point for financial and legal
+        documents.  It fuses all three signals via Reciprocal Rank Fusion,
+        applies financial/legal domain boosts, and optionally re-ranks with
+        a cross-encoder.
+
+        Falls back to plain vector search if the hybrid engine is unavailable.
+
+        Parameters
+        ----------
+        query : str
+            Natural-language query (financial/legal domain).
+        top_k : int
+            Number of results to return.
+        scope : str | None
+            Deal scope identifier (e.g. ``"bear_stearns_2006_he1"``).
+        doc_type_filter : str | None
+            Optional filter to a single document type.
+        include_graph : bool
+            Whether to use graph-expansion as the third retrieval signal.
+
+        Returns
+        -------
+        List[Dict]
+            Ranked list of result dicts with keys:
+            chunk_id, content, score, rrf_score, vector_rank, bm25_rank,
+            graph_rank, metadata, retrieval_signals.
+        """
+        if self._hybrid_engine is not None:
+            try:
+                return self._hybrid_engine.retrieve(
+                    query,
+                    top_k=top_k,
+                    scope=scope,
+                    doc_type_filter=doc_type_filter,
+                    include_graph=include_graph,
+                )
+            except Exception as exc:
+                logger.warning("[HybridEngine] retrieve() failed, using fallback: %s", exc)
+
+        # Fallback: plain vector search
+        try:
+            raw = self.vector_store.search(
+                query, top_k=top_k, doc_type_filter=doc_type_filter, scope=scope
+            )
+            return raw or []
+        except Exception as exc:
+            logger.error("[HybridEngine] Fallback vector search also failed: %s", exc)
+            return []
+
+    def rebuild_bm25_index(self) -> bool:
+        """Rebuild the BM25 index from current vector store contents.
+
+        Call this after a fresh ingestion batch to keep BM25 in sync.
+
+        Returns True if successful, False otherwise.
+        """
+        if self._hybrid_engine is None:
+            return False
+        try:
+            # Pull all chunks from the vector store for BM25 indexing
+            def _get_chunks():
+                raw = self.vector_store.search("", top_k=50_000)
+                return raw or []
+
+            return self._hybrid_engine.load_or_build_bm25_index(_get_chunks)
+        except Exception as exc:
+            logger.warning("[HybridEngine] BM25 rebuild failed: %s", exc)
+            return False
+
     def execute(self, request: dict) -> AgentResult:
         query = request["query"]
         max_results = int(request.get("max_results", 5))
@@ -2425,7 +2531,7 @@ class RetrievalService(AgentBase):
                     doc_id=row["doc_id"],
                     doc_name=Path(source_path).name,
                     source_path=source_path,
-                    uri=f"file:///{source_path.replace('\\\\', '/')}",
+                    uri="file:///" + source_path.replace("\\\\", "/"),
                     version=1,
                     section=None,
                     page=None,

@@ -221,7 +221,7 @@ class IngestionPipelineAgent(AgentBase):
             content_hash=content_hash,
             ingestion_status=IngestionStatus.COMPLETE,
             is_payment_source=is_payment_source,
-            ingested_at=datetime.datetime.now(datetime.UTC).isoformat(),
+            ingested_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
         )
         manifest.add_document(doc_key, entry)
 

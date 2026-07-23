@@ -1,22 +1,43 @@
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
-const crawlIngest = require('./commands/crawl_ingest');
-const crawl = require('./commands/crawl');
-const ingest = require('./commands/ingest');
-const status = require('./commands/status');
-const search = require('./commands/search');
-const selectSource = require('./commands/select_source');
-const doctor = require('./commands/doctor');
-const openLogs = require('./commands/open_logs');
-const viewStatus = require('./commands/view_status');
-const trainingPath = require('./commands/training_path');
-const changeImpact = require('./commands/change_impact');
-const freshnessAudit = require('./commands/freshness_audit');
-const imageDescription = require('./commands/image_description');
-const imageDescriptionComplete = require('./commands/image_description_complete');
-const { registerChatParticipant } = require('./chat/participant');
-const { registerABSParticipant } = require('./chat/absParticipant');
+
+function unavailableCommand(modulePath) {
+  return async (shared) => {
+    const msg = `[KTS] Command module unavailable: ${modulePath}`;
+    if (shared?.outputChannel) {
+      shared.outputChannel.appendLine(msg);
+      shared.outputChannel.show(true);
+    }
+    vscode.window.showErrorMessage(`KTS command unavailable: ${modulePath}. Check the KTS output channel.`);
+  };
+}
+
+function safeRequire(modulePath, fallback) {
+  try {
+    return require(modulePath);
+  } catch (error) {
+    console.error(`[KTS] Failed to load ${modulePath}: ${error.message}`);
+    return fallback;
+  }
+}
+
+const crawlIngest = safeRequire('./commands/crawl_ingest', unavailableCommand('./commands/crawl_ingest'));
+const crawl = safeRequire('./commands/crawl', unavailableCommand('./commands/crawl'));
+const ingest = safeRequire('./commands/ingest', unavailableCommand('./commands/ingest'));
+const status = safeRequire('./commands/status', unavailableCommand('./commands/status'));
+const search = safeRequire('./commands/search', unavailableCommand('./commands/search'));
+const selectSource = safeRequire('./commands/select_source', unavailableCommand('./commands/select_source'));
+const doctor = safeRequire('./commands/doctor', unavailableCommand('./commands/doctor'));
+const openLogs = safeRequire('./commands/open_logs', unavailableCommand('./commands/open_logs'));
+const viewStatus = safeRequire('./commands/view_status', unavailableCommand('./commands/view_status'));
+const trainingPath = safeRequire('./commands/training_path', unavailableCommand('./commands/training_path'));
+const changeImpact = safeRequire('./commands/change_impact', unavailableCommand('./commands/change_impact'));
+const freshnessAudit = safeRequire('./commands/freshness_audit', unavailableCommand('./commands/freshness_audit'));
+const imageDescription = safeRequire('./commands/image_description', unavailableCommand('./commands/image_description'));
+const imageDescriptionComplete = safeRequire('./commands/image_description_complete', unavailableCommand('./commands/image_description_complete'));
+const { registerChatParticipant } = safeRequire('./chat/participant', { registerChatParticipant: () => {} });
+const { registerABSParticipant } = safeRequire('./chat/absParticipant', { registerABSParticipant: () => {} });
 const { initVenvManager, initBackendRunner, runCliJson, runAbsStreaming } = require('./lib/kts_backend');
 const { refreshScopes } = require('./lib/scope_discovery');
 
@@ -38,19 +59,43 @@ function register(context, command, handler, shared) {
   context.subscriptions.push(disposable);
 }
 
+function resolveBundledExePath(extensionPath) {
+  const platforms = Array.from(new Set([
+    `${process.platform}-${process.arch}`,
+    process.platform === 'darwin' ? `macos-${process.arch}` : null,
+    process.platform === 'win32' ? `win-${process.arch}` : null,
+    'darwin-arm64',
+    'darwin-x64',
+    'macos-arm64',
+    'macos-x64',
+    'win32-x64',
+    'win-x64',
+    'linux-x64',
+  ].filter(Boolean)));
+  const exeExt = process.platform === 'win32' ? '.exe' : '';
+
+  for (const p of platforms) {
+    for (const base of ['kts-backend', 'abs-backend']) {
+      const candidate = path.join(extensionPath, 'bin', p, base, `${base}${exeExt}`);
+      if (fs.existsSync(candidate)) return candidate;
+    }
+  }
+  return null;
+}
+
 async function bootstrapBackend(context, backendMode, backendChannel, venvManager, config, outputChannel) {
   outputChannel.appendLine(`[KTS] Checking backend status (mode: ${backendMode}, channel: ${backendChannel})...`);
   
   // If exe mode or auto mode, check if exe exists
   if (backendMode === 'exe' || backendMode === 'auto') {
-    const exePath = path.join(context.extensionPath, 'bin', 'win-x64', 'kts-backend', 'kts-backend.exe');
-    if (fs.existsSync(exePath)) {
-      outputChannel.appendLine('[KTS] Executable backend found. Skipping venv bootstrap.');
+    const exePath = resolveBundledExePath(context.extensionPath);
+    if (exePath) {
+      outputChannel.appendLine(`[KTS] Executable backend found at ${exePath}. Skipping venv bootstrap.`);
       return;
     }
     
     if (backendMode === 'exe') {
-      outputChannel.appendLine('[KTS] WARNING: exe mode requested but kts-backend.exe not found. Falling back to venv.');
+      outputChannel.appendLine('[KTS] WARNING: exe mode requested but bundled backend executable was not found. Falling back to venv.');
     }
   }
   
@@ -90,6 +135,24 @@ async function activate(context) {
   context.subscriptions.push(outputChannel);
 
   outputChannel.appendLine('[KTS] Activating extension...');
+
+  // Register ABS WebView command first so it is always available, even if
+  // optional chat/backend initialization later hits an error.
+  let openAbsApp = null;
+  try {
+    ({ openAbsApp } = require('./panels/abs_app'));
+  } catch (error) {
+    outputChannel.appendLine(`[ABS] Failed to load panel module: ${error.message}`);
+  }
+  context.subscriptions.push(
+    vscode.commands.registerCommand('abs.open', () => {
+      if (!openAbsApp) {
+        vscode.window.showErrorMessage('ABS Waterfall UI failed to load. Open the KTS output channel for details.');
+        return;
+      }
+      return openAbsApp(context);
+    }),
+  );
 
   // Initialize venv manager
   const venvManager = initVenvManager(context, outputChannel);
@@ -152,10 +215,18 @@ async function activate(context) {
   register(context, 'kts.imageDescription', imageDescription, shared);
   register(context, 'kts.imageDescriptionComplete', imageDescriptionComplete, shared);
 
-  registerChatParticipant(vscode, context, shared);
+  try {
+    registerChatParticipant(vscode, context, shared);
+  } catch (error) {
+    outputChannel.appendLine(`[KTS] Warning: chat participant registration failed: ${error.message}`);
+  }
 
   // ── @abs chat participant (Phase 23) ─────────────────────────────────────
-  registerABSParticipant(vscode, context, shared);
+  try {
+    registerABSParticipant(vscode, context, shared);
+  } catch (error) {
+    outputChannel.appendLine(`[ABS] Warning: @abs participant registration failed: ${error.message}`);
+  }
 
   // ── Golden Test Harness commands (dev-mode only) ───────────────
   // The test runners live in ../tests/ which is excluded from the VSIX.

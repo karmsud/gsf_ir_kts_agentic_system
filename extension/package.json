@@ -547,6 +547,11 @@
     ],
     "commands": [
       {
+        "command": "abs.open",
+        "title": "Open",
+        "category": "ABS Waterfall"
+      },
+      {
         "command": "kts.selectSource",
         "title": "KTS: Select Source Folder"
       },

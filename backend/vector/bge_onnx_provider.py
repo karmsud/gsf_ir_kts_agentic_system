@@ -78,23 +78,31 @@ class BgeOnnxInt8Provider(EmbeddingProvider):
     def model_hash(self) -> str:
         return self._hash
 
-    def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        """Embed a batch of document chunks without query prefix."""
+    def embed_documents(self, texts: List[str], on_progress=None) -> List[List[float]]:
+        """Embed a batch of document chunks without query prefix.
+
+        Args:
+            texts: Texts to embed.
+            on_progress: Optional callable(done: int, total: int) called after
+                each batch completes.  When provided the stderr fallback is
+                suppressed so the caller owns progress reporting.
+        """
         if not texts:
             return []
-        
+
         import sys
         total = len(texts)
-        num_batches = (total + self.BATCH_SIZE - 1) // self.BATCH_SIZE
-        show_progress = total > 100  # only log for large batches
-        
+        show_stderr = on_progress is None and total > 100  # fallback for non-IPC callers
+
         all_vecs = []
         for i in range(0, total, self.BATCH_SIZE):
             batch = texts[i : i + self.BATCH_SIZE]
             vecs = self._infer(batch)
             all_vecs.extend(vecs)
-            if show_progress and ((i // self.BATCH_SIZE + 1) % 10 == 0 or i + self.BATCH_SIZE >= total):
-                done = min(i + self.BATCH_SIZE, total)
+            done = min(i + self.BATCH_SIZE, total)
+            if on_progress is not None:
+                on_progress(done, total)
+            elif show_stderr and ((i // self.BATCH_SIZE + 1) % 10 == 0 or done >= total):
                 print(f"[Embedding] {done}/{total} chunks embedded ({done*100//total}%)", file=sys.stderr, flush=True)
         return all_vecs
 

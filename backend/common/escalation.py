@@ -68,7 +68,7 @@ class ABSEscalationReport:
             "root_blocker": self.root_blocker,
             "impact": self.impact,
             "recommended_action": self.recommended_action,
-            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         }
 
 
@@ -100,7 +100,7 @@ class ABSEscalationHandler:
     def save(self, report: ABSEscalationReport, deal_path: Path) -> Path:
         esc_dir = deal_path / "logs" / "escalations"
         esc_dir.mkdir(parents=True, exist_ok=True)
-        timestamp = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
         filename = f"escalation_{report.agent}_{timestamp}.json"
         filepath = esc_dir / filename
         with open(filepath, "w", encoding="utf-8") as f:

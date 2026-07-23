@@ -24,6 +24,7 @@ yarn-error.log
 # ── Build Artifacts (Root) ──────────────────────────────────────────────────
 dist/
 build/
+.tools/
 *.spec
 !packaging/*.spec
 packaging/models/
@@ -33,6 +34,7 @@ packaging/dist/
 # ── Build Artifacts (Extension) ─────────────────────────────────────────────
 extension/dist/
 extension/bin/
+extension/models/
 extension/backend_bundle/
 extension/out/
 *.vsix
@@ -57,7 +59,11 @@ extension/webview-ui/build/
 knowledge_base*/
 .kts/
 **/.kts/
+.kts_test_e2e_real/
 test_kb/
+BS006HE1/
+kb_test/
+Product Capabilities/
 
 # ── Project-Specific Output ─────────────────────────────────────────────────
 audit_artifacts/*
@@ -75,6 +81,9 @@ Incidents/logs/
 
 # ── Binary / Serialized Data ────────────────────────────────────────────────
 *.sqlite3
+*.db
+*.db-shm
+*.db-wal
 *.pickle
 *.pkl
 *.bin
@@ -107,6 +116,7 @@ tests/_*.txt
 # ── Test and Sample Data Directories ────────────────────────────────────────
 kts_synthetic_corpus_v2/
 kts_test_corpus/
+onenote_test_corpus/
 
 # ── Archive Folders (historical documentation) ──────────────────────────────
 **/archive/

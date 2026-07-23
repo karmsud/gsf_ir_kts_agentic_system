@@ -289,7 +289,7 @@ class DocumentQualityAgent(AgentBase):
     ) -> None:
         report_dir = self.deal_scope.resolve("reports")
         report_dir.mkdir(parents=True, exist_ok=True)
-        ts = datetime.datetime.now(datetime.UTC).strftime("%Y%m%d_%H%M%S")
+        ts = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%d_%H%M%S")
         report_path = report_dir / f"document_quality_{ts}.json"
         report_path.write_text(
             json.dumps({"documents": assessments, "summary": summary}, indent=2, default=str),

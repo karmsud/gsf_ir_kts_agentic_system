@@ -57,7 +57,7 @@ class AgentOutput:
     confidence: ConfidenceScore
     artifacts_produced: list[str] = field(default_factory=list)
     timestamp: str = field(
-        default_factory=lambda: datetime.datetime.now(datetime.UTC).isoformat()
+        default_factory=lambda: datetime.datetime.now(datetime.timezone.utc).isoformat()
     )
 
 
@@ -351,7 +351,7 @@ VALIDATION:
             return
         state_path = self.deal_scope.resolve(f"logs/{self.agent_name}_state.json")
         state_path.parent.mkdir(parents=True, exist_ok=True)
-        self._state["last_updated"] = datetime.datetime.now(datetime.UTC).isoformat()
+        self._state["last_updated"] = datetime.datetime.now(datetime.timezone.utc).isoformat()
         with open(state_path, "w", encoding="utf-8") as f:
             json.dump(self._state, f, indent=2, ensure_ascii=False, default=str)
 

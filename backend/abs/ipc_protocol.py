@@ -12,7 +12,7 @@ Message flow:
 
 from __future__ import annotations
 
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 try:
     from typing import TypedDict  # Python 3.8+
@@ -104,11 +104,11 @@ class ErrorMessage(TypedDict):
 # ─── Union type (informational) ──────────────────────────────────────────────
 
 # All possible message types sent from backend to extension.
-BackendMessage = (
-    ProgressMessage
-    | LLMRequest
-    | StreamMessage
-    | CodeMessage
-    | ResultMessage
-    | ErrorMessage
-)
+BackendMessage = Union[
+    ProgressMessage,
+    LLMRequest,
+    StreamMessage,
+    CodeMessage,
+    ResultMessage,
+    ErrorMessage,
+]
